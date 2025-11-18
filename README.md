@@ -1,7 +1,5 @@
 # Mindwise DBT
 
-A React Native app.
-
 ## Table of Contents
 
 * [Overview](#overview)
