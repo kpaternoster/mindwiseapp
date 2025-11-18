@@ -1,0 +1,42 @@
+{
+    "todayCheckIn": {
+        "title": "Today's Check-In",
+        "description": "Complete your daily diary card and track emotions, urges, and skills",
+        "duration": "10 - 15 min",
+        "status": "Due"
+    },
+    "recentCheckIns": [
+        {
+            "id": "yesterday",
+            "date": "Yesterday",
+            "mood": 7,
+            "anxiety": 4,
+            "status": "Complete"
+        },
+        {
+            "id": "2-days",
+            "date": "2 days ago",
+            "mood": 7,
+            "anxiety": 4,
+            "status": "Complete"
+        },
+        {
+            "id": "3-days",
+            "date": "3 days ago",
+            "mood": 7,
+            "anxiety": 4,
+            "status": "Complete"
+        }
+    ],
+    "weeklyReview": {
+        "title": "Weekly Review",
+        "description": "Identify your primary treatment goals and areas of focus",
+        "duration": "15- 20 min"
+    },
+    "progressTracking": {
+        "title": "Progress Tracking",
+        "description": "Make a commitment to your DBT journey and healing process",
+        "duration": "5 min"
+    }
+}
+

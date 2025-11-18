@@ -1,0 +1,223 @@
+{
+  "learningPreferences": {
+    "preferredLearningStyle": {
+      "id": "learning_style",
+      "label": "Preferred Learning Style",
+      "value": "Visual",
+      "options": [
+        { "value": "visual", "label": "Visual" },
+        { "value": "audio", "label": "Audio" },
+        { "value": "reading", "label": "Reading" },
+        { "value": "hands_on", "label": "Hands-on" }
+      ]
+    },
+    "englishFluency": {
+      "id": "english_fluency",
+      "label": "English Fluency",
+      "value": "Fluent",
+      "options": [
+        { "value": "native", "label": "Native" },
+        { "value": "fluent", "label": "Fluent" },
+        { "value": "intermediate", "label": "Intermediate" },
+        { "value": "beginner", "label": "Beginner" }
+      ]
+    }
+  },
+  "visualPreferences": {
+    "contrastLevel": {
+      "id": "contrast_level",
+      "label": "Contrast Level",
+      "value": "Medium Contrast (Orange/Cream/Brown)",
+      "options": [
+        { "value": "medium", "label": "Medium Contrast (Orange/Cream/Brown)" },
+        { "value": "high", "label": "High Contrast (Brown/Cream/White)" }
+      ]
+    },
+    "fontSize": {
+      "id": "font_size",
+      "label": "Font Size",
+      "value": "Medium",
+      "options": [
+        { "value": "small", "label": "Small" },
+        { "value": "medium", "label": "Medium" },
+        { "value": "large", "label": "Large" }
+      ]
+    }
+  },
+  "culturalPreferences": {
+    "collectivist": {
+      "id": "collectivist",
+      "label": "Collectivist",
+      "question": "Do you prioritize group harmony and respect for authority?",
+      "value": true
+    },
+    "emotional": {
+      "id": "emotional",
+      "label": "Emotional",
+      "question": "Do you tend to express your feelings openly?",
+      "value": true
+    },
+    "impatient": {
+      "id": "impatient",
+      "label": "Impatient",
+      "question": "Do you tend to seek immediate solutions?",
+      "value": true
+    }
+  },
+  "notificationPreferences": {
+    "frequency": {
+      "id": "notification_frequency",
+      "label": "Notification Frequency",
+      "value": "When Essential",
+      "options": [
+        { "value": "frequent", "label": "Frequent" },
+        { "value": "essential", "label": "When Essential" },
+        { "value": "never", "label": "Never" }
+      ]
+    },
+    "deliveryMethod": {
+      "id": "delivery_method",
+      "question": "How would you like to receive notifications?",
+      "value": "in_app",
+      "options": [
+        { "value": "in_app", "label": "In-app notifications" },
+        { "value": "phone", "label": "Phone notifications" },
+        { "value": "whatsapp", "label": "WhatsApp notifications" },
+        { "value": "email", "label": "Email notifications" }
+      ]
+    },
+    "categories": [
+      {
+        "id": "daily_reminders",
+        "label": "Daily Reminders",
+        "description": "Check-in prompts and daily activities",
+        "enabled": true
+      },
+      {
+        "id": "progress_celebrations",
+        "label": "Progress Celebrations",
+        "description": "Achievements and milestone notifications",
+        "enabled": false
+      },
+      {
+        "id": "safety_reminders",
+        "label": "Safety Reminders",
+        "description": "Safety plan and crisis support reminders",
+        "enabled": true,
+        "locked": true,
+        "note": "Safety reminders cannot be disabled for your wellbeing"
+      },
+      {
+        "id": "skill_suggestions",
+        "label": "Skill Suggestions",
+        "description": "Personalized skill recommendations based on your mood",
+        "enabled": false
+      },
+      {
+        "id": "encouragement_messages",
+        "label": "Encouragement Messages",
+        "description": "Supportive messages during your healing journey",
+        "enabled": false
+      },
+      {
+        "id": "weekly_progress",
+        "label": "Weekly Progress",
+        "description": "Weekly summaries of your achievements and growth",
+        "enabled": false
+      }
+    ],
+    "quietHours": {
+      "id": "quiet_hours",
+      "label": "Enable Quiet Hours",
+      "description": "No notifications during rest time (10 PM - 8 AM)",
+      "enabled": false,
+      "note": "Quiet hours are enabled by default to respect your rest time"
+    }
+  },
+  "rewardsPreferences": {
+    "showHolidayOrnaments": {
+      "id": "holiday_ornaments",
+      "label": "Show Holiday Tree Ornaments",
+      "description": "Display special ornaments on your tree during holidays",
+      "enabled": true
+    },
+    "holidays": {
+      "question": "Which holidays would you like to celebrate?",
+      "options": [
+        {
+          "id": "secular",
+          "label": "Secular Holidays",
+          "description": "New Year, Earth Day",
+          "selected": true
+        },
+        {
+          "id": "christian",
+          "label": "Christian Holidays",
+          "description": "Christmas, Easter",
+          "selected": false
+        },
+        {
+          "id": "jewish",
+          "label": "Jewish Holidays",
+          "description": "Hanukkah, Passover",
+          "selected": false
+        },
+        {
+          "id": "islamic",
+          "label": "Islamic Holidays",
+          "description": "Eid al-Fitr, Eid al-Adha",
+          "selected": true
+        },
+        {
+          "id": "hindu",
+          "label": "Hindu Holidays",
+          "description": "Diwali, Holi",
+          "selected": false
+        },
+        {
+          "id": "buddhist",
+          "label": "Buddhist Holidays",
+          "description": "Vesak, Buddha Day",
+          "selected": false
+        },
+        {
+          "id": "sikh",
+          "label": "Sikh Holidays",
+          "description": "Vaisakhi, Guru Nanak's Birthday",
+          "selected": true
+        },
+        {
+          "id": "bahai",
+          "label": "Bahá'í Holidays",
+          "description": "Ridván, Birth of Bahá'u'lláh",
+          "selected": false
+        },
+        {
+          "id": "indigenous",
+          "label": "Indigenous Celebrations",
+          "description": "Solstices, Harvest",
+          "selected": true
+        },
+        {
+          "id": "east_asian",
+          "label": "East Asian Holidays",
+          "description": "Lunar New Year, Mid-Autumn",
+          "selected": false
+        },
+        {
+          "id": "african",
+          "label": "African Traditional",
+          "description": "Kwanzaa, Cultural Celebrations",
+          "selected": true
+        },
+        {
+          "id": "personal",
+          "label": "Personal Milestones",
+          "description": "Recovery Anniversaries, Family Traditions",
+          "selected": true
+        }
+      ]
+    }
+  }
+}
+

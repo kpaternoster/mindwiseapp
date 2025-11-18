@@ -1,0 +1,33 @@
+{
+    "steps": [
+        {
+            "id": 1,
+            "title": "DBT Overview",
+            "description": "Learn what DBT is and how it can help you on your healing journey",
+            "duration": "10 min",
+            "completed": false
+        },
+        {
+            "id": 2,
+            "title": "Treatment Target Assessment",
+            "description": "Identify your primary treatment goals and areas of focus",
+            "duration": "15 min",
+            "completed": false
+        },
+        {
+            "id": 3,
+            "title": "Building Commitment",
+            "description": "Make a commitment to your DBT journey and healing process",
+            "duration": "10 min",
+            "completed": false
+        },
+        {
+            "id": 4,
+            "title": "Your Treatment Plan",
+            "description": "Get your personalized DBT roadmap based on your assessment",
+            "duration": "5 min",
+            "completed": false
+        }
+    ]
+}
+

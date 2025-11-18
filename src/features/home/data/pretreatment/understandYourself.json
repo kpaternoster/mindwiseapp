@@ -1,0 +1,40 @@
+{
+    "characteristics": [
+        {
+            "id": 1,
+            "title": "Emotional Rollercoaster",
+            "description": "Do you feel things way more intensely than others? Does it take forever to calm down after you get upset?"
+        },
+        {
+            "id": 2,
+            "title": "Impulsive Actions",
+            "description": "Do you struggle with impulsive behavior when feeling strong emotions? Turn to risky behaviors to cope?"
+        },
+        {
+            "id": 3,
+            "title": "Negative Thoughts",
+            "description": "Are you stuck in extreme thinking patterns, like thinking no one will like you or you'll never succeed?"
+        },
+        {
+            "id": 4,
+            "title": "Self-Hate",
+            "description": "Are you your own worst critic? Do you assume you're unlovable or feel like a burden on others?"
+        },
+        {
+            "id": 5,
+            "title": "Distorted Thinking",
+            "description": "Do you think in black-and-white ways? Imagine people talking about you behind your back?"
+        },
+        {
+            "id": 6,
+            "title": "Relationship Struggles",
+            "description": "Are your relationships chaotic? Terrified of people leaving you? Go from loving to hating quickly?"
+        },
+        {
+            "id": 7,
+            "title": "Lost and Empty",
+            "description": "Do you feel disconnected? Unsure who you are? Take on others' emotions? Sometimes feel unreal?"
+        }
+    ]
+}
+

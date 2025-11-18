@@ -1,0 +1,25 @@
+{
+    "statements": [
+        {
+            "id": "participate",
+            "text": "I agree to do my best to participate fully in this DBT program."
+        },
+        {
+            "id": "stop-behavior",
+            "text": "I agree to try to stop my target behavior for the duration of this program."
+        },
+        {
+            "id": "honesty",
+            "text": "I agree to be honest about my feelings, thoughts, and behaviors."
+        },
+        {
+            "id": "practice",
+            "text": "I agree to practice DBT skills regularly, even when it's hard."
+        },
+        {
+            "id": "meaningful-life",
+            "text": "I agree to work towards creating a life that I experience as meaningful."
+        }
+    ]
+}
+

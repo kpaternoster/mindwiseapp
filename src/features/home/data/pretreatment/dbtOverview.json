@@ -1,0 +1,30 @@
+{
+    "sections": [
+        {
+            "id": 1,
+            "title": "Understand Yourself",
+            "description": "Learn about your unique patterns, triggers, and strengths"
+        },
+        {
+            "id": 2,
+            "title": "Understand Emotions",
+            "description": "Discover how emotions work and their role in your life"
+        },
+        {
+            "id": 3,
+            "title": "About DBT",
+            "description": "What is Dialectical Behavior Therapy and how it helps"
+        },
+        {
+            "id": 4,
+            "title": "DBT Skills",
+            "description": "Overview of the four core skill modules in DBT"
+        },
+        {
+            "id": 5,
+            "title": "DBT Journey",
+            "description": "Your path through DBT treatment and what to expect"
+        }
+    ]
+}
+

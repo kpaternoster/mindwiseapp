@@ -1,0 +1,172 @@
+{
+  "securitySettings": {
+    "appLock": {
+      "id": "app_lock",
+      "label": "App Lock",
+      "description": "Require PIN or biometric authentication to open app",
+      "enabled": true
+    },
+    "automaticLogout": {
+      "id": "automatic_logout",
+      "label": "Automatic Logout",
+      "description": "After 30 minutes of inactivity",
+      "enabled": true
+    },
+    "logoutTime": {
+      "id": "logout_time",
+      "label": "Logout Time",
+      "value": "30 minutes",
+      "options": [
+        { "value": "5", "label": "5 minutes" },
+        { "value": "15", "label": "15 minutes" },
+        { "value": "30", "label": "30 minutes" },
+        { "value": "60", "label": "1 hour" },
+        { "value": "120", "label": "2 hours" }
+      ]
+    }
+  },
+  "dataPrivacyControls": [
+    {
+      "id": "exercise_data",
+      "label": "Exercise Data Sharing",
+      "description": "Share exercise completion data for research",
+      "enabled": false
+    },
+    {
+      "id": "daily_checkin",
+      "label": "Daily Check-In Sharing",
+      "description": "Share mood tracking and distress levels",
+      "enabled": false
+    },
+    {
+      "id": "progress_analytics",
+      "label": "Progress Analytics",
+      "description": "Share progress and achievement data",
+      "enabled": false
+    },
+    {
+      "id": "location_tracking",
+      "label": "Location Tracking",
+      "description": "For crisis location services",
+      "enabled": false
+    },
+    {
+      "id": "usage_analytics",
+      "label": "Usage Analytics",
+      "description": "Help improve the app experience",
+      "enabled": false
+    },
+    {
+      "id": "crash_reporting",
+      "label": "Crash Reporting",
+      "description": "Automatically report app crashes",
+      "enabled": false
+    }
+  ],
+  "dataRetention": {
+    "retentionPeriod": {
+      "id": "retention_period",
+      "label": "Data Retention Period",
+      "value": "1 year",
+      "description": "Data older than this period will be automatically deleted",
+      "options": [
+        { "value": "6m", "label": "6 months" },
+        { "value": "1y", "label": "1 year" },
+        { "value": "2y", "label": "2 years" },
+        { "value": "5y", "label": "5 years" }
+      ]
+    },
+    "autoDelete": {
+      "id": "auto_delete",
+      "label": "Auto-Delete Inactive Data",
+      "description": "Delete data after 90 days of inactivity",
+      "enabled": false
+    }
+  },
+  "privacyPolicy": {
+    "title": "Privacy Policy",
+    "subtitle": "Our commitment to protecting your privacy",
+    "buttonText": "View Privacy Policy",
+    "sections": [
+      {
+        "id": "section_1",
+        "title": "1. Information We Collect",
+        "content": "We collect information you provide directly to us, including:",
+        "items": [
+          "Personal information (name, email, phone number)",
+          "Health information (mood tracking, diary entries, crisis plans)",
+          "Usage data (exercises completed, progress tracking)",
+          "Emergency contact information",
+          "Biometric data (fingerprints, facial recognition) for authentication only"
+        ]
+      },
+      {
+        "id": "section_2",
+        "title": "2. How We Use Your Information",
+        "content": "Your information is used for:",
+        "items": [
+          "Providing personalized DBT therapy support",
+          "Tracking your progress and achievements",
+          "Emergency contact notifications when needed",
+          "Improving our services (with your consent)",
+          "Secure authentication (biometric data never leaves your device)"
+        ]
+      },
+      {
+        "id": "section_3",
+        "title": "3. Information Sharing",
+        "content": "We do not sell or share your personal health information. We may share information only:",
+        "items": [
+          "With your explicit consent",
+          "In emergency situations to protect your safety",
+          "As required by law",
+          "With service providers under strict confidentiality agreements"
+        ]
+      },
+      {
+        "id": "section_4",
+        "title": "4. Data Security",
+        "content": "We implement industry-standard security measures:",
+        "items": [
+          "End-to-end encryption for sensitive data",
+          "Secure data storage with regular backups",
+          "Regular security audits and updates",
+          "Limited access on a need-to-know basis",
+          "Biometric data stored locally on device only"
+        ]
+      },
+      {
+        "id": "section_5",
+        "title": "5. Your Rights",
+        "content": "You have the right to:",
+        "items": [
+          "Access your personal information",
+          "Correct inaccurate information",
+          "Delete your account and data",
+          "Export your data",
+          "Opt out of data sharing",
+          "Control specific data sharing preferences",
+          "Set custom data retention periods"
+        ]
+      },
+      {
+        "id": "section_6",
+        "title": "6. HIPAA Compliance",
+        "content": "As a mental health application, we are committed to HIPAA compliance and protecting your Protected Health Information (PHI) according to federal regulations.",
+        "items": []
+      },
+      {
+        "id": "section_7",
+        "title": "7. Contact Us",
+        "content": "For privacy concerns or questions, contact our Privacy Officer at: \nprivacy@mindwise-dbt.com",
+        "items": []
+      }
+    ]
+    ,
+    "securityNote": {
+      "title": "Your Data is Secure",
+      "description": "All information is encrypted and stored securely."
+    }
+  }
+}
+

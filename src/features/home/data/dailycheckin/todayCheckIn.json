@@ -1,0 +1,136 @@
+{
+    "emotions": [
+        {
+            "id": "joy",
+            "label": "Joy"
+        },
+        {
+            "id": "love",
+            "label": "Love"
+        },
+        {
+            "id": "anger",
+            "label": "Anger"
+        },
+        {
+            "id": "sadness",
+            "label": "Sadness"
+        },
+        {
+            "id": "shame",
+            "label": "Shame"
+        },
+        {
+            "id": "disgust",
+            "label": "Disgust"
+        },
+        {
+            "id": "fear",
+            "label": "Fear"
+        },
+        {
+            "id": "guilt",
+            "label": "Guilt"
+        },
+        {
+            "id": "envy",
+            "label": "Envy"
+        },
+        {
+            "id": "jealousy",
+            "label": "Jealousy"
+        }
+    ],
+    "urges": [
+        {
+            "id": "selfHarm",
+            "label": "Self Harm"
+        },
+        {
+            "id": "suicide",
+            "label": "Suicide"
+        },
+        {
+            "id": "substances",
+            "label": "Substances"
+        },
+        {
+            "id": "impulsiveActions",
+            "label": "Impulsive Actions"
+        },
+        {
+            "id": "isolate",
+            "label": "Isolate"
+        },
+        {
+            "id": "bingeEating",
+            "label": "Binge Eating"
+        },
+        {
+            "id": "restrictFood",
+            "label": "Restrict Food"
+        },
+        {
+            "id": "shopCompulsively",
+            "label": "Shop Compulsively"
+        },
+        {
+            "id": "sexualActingOut",
+            "label": "Sexual Acting Out"
+        },
+        {
+            "id": "workExcessively",
+            "label": "Work Excessively"
+        },
+        {
+            "id": "avoidResponsibilities",
+            "label": "Avoid Responsibilities"
+        },
+        {
+            "id": "lieDeceive",
+            "label": "Lie/Deceive"
+        }
+    ],
+    "dbtSkills": [
+        "Emotions Wheel",
+        "SUDS",
+        "STUNWAVE",
+        "Check the Facts",
+        "Self-Care (PLEASE)",
+        "Loving Kindness",
+        "Dialectical Thinking",
+        "Validating Others",
+        "Wise Mind",
+        "Here & Now",
+        "Willing Hands",
+        "Middle Path",
+        "DEAR MAN",
+        "FAST",
+        "GIVE",
+        "Interpersonal Goals",
+        "THINK",
+        "TIPP",
+        "STOP",
+        "Self-Soothing",
+        "IMPROVE",
+        "Radical Acceptance",
+        "Different Action",
+        "Half-Smiling",
+        "Problem Solving",
+        "How You See Yourself",
+        "Talking to Yourself",
+        "Validating Yourself"
+    ],
+    "helpAreas": [
+        "Calm intense emotions",
+        "Reduce self-destructive urges",
+        "Manage daily stress",
+        "Improve relationships",
+        "Increase positive emotions",
+        "Tolerate painful situations",
+        "Build self-worth",
+        "Regulate sleep/eating",
+        "Reduce anxiety/worry",
+        "Set boundaries"
+    ]
+}

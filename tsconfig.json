@@ -1,0 +1,52 @@
+{
+  "extends": "@react-native/typescript-config",
+  "include": [
+    "**/*.ts",
+    "**/*.tsx",
+    "./src/nativewind-env.d.ts",
+    "nativewind-env.d.ts"
+  ],
+  "exclude": [
+    "**/node_modules",
+    "**/Pods"
+  ],
+  "compilerOptions": {
+    "baseUrl": ".",
+    "resolveJsonModule": true,
+    "paths": {
+      "@app/*": [
+        "./src/app/*"
+      ],
+      "@features/*": [
+        "./src/features/*"
+      ],
+      "@components/*": [
+        "./src/components/*"
+      ],
+      "@design/*": [
+        "./src/design/*"
+      ],
+      "@lib/*": [
+        "./src/lib/*"
+      ],
+      "@store/*": [
+        "./src/store/*"
+      ],
+      "@config/*": [
+        "./src/config/*"
+      ],
+      "@services/*": [
+        "./src/services/*"
+      ],
+      "@types/*": [
+        "./src/types/*"
+      ],
+      "@hooks/*": [
+        "./src/hooks/*"
+      ],
+      "@assets/*": [
+        "./src/assets/*"
+      ]
+    }
+  }
+}

@@ -1,0 +1,78 @@
+{
+  "filterOptions": [
+    { "id": "all", "label": "All" },
+    { "id": "plans", "label": "Plans" },
+    { "id": "app_modules", "label": "App Modules" },
+    { "id": "skill_categories", "label": "Skill Categories" },
+    { "id": "individual_skills", "label": "Individual Skills" },
+    { "id": "skill_exercises", "label": "Skill Exercises" },
+    { "id": "dashboard", "label": "Dashboard" }
+  ],
+  "favorites": {
+    "plans": [
+      {
+        "id": "plan_1",
+        "title": "Use Skills: Action Plan",
+        "type": "plan"
+      },
+      {
+        "id": "plan_2",
+        "title": "Crisis Support: Crisis Safety Plan",
+        "type": "plan"
+      },
+      {
+        "id": "plan_3",
+        "title": "Daily Check-In: Daily Plan",
+        "type": "plan"
+      },
+      {
+        "id": "plan_4",
+        "title": "Pretreatment: Treatment Plan",
+        "type": "plan"
+      }
+    ],
+    "app_modules": [
+      {
+        "id": "module_1",
+        "title": "App Tutorial",
+        "type": "app_module"
+      },
+      {
+        "id": "module_2",
+        "title": "Contacts & Sharing",
+        "type": "app_module"
+      },
+      {
+        "id": "module_3",
+        "title": "Crisis Support",
+        "type": "app_module"
+      },
+      {
+        "id": "module_4",
+        "title": "Daily Check-In",
+        "type": "app_module"
+      },
+      {
+        "id": "module_5",
+        "title": "Grace",
+        "type": "app_module"
+      },
+      {
+        "id": "module_6",
+        "title": "Learn Skills",
+        "type": "app_module"
+      },
+      {
+        "id": "module_7",
+        "title": "My Progress",
+        "type": "app_module"
+      },
+      {
+        "id": "module_8",
+        "title": "Use Skills",
+        "type": "app_module"
+      }
+    ]
+  }
+}
+

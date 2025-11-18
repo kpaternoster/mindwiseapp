@@ -1,0 +1,41 @@
+{
+  "accountOptions": [
+    {
+      "id": "favorites",
+      "label": "My Favorites",
+      "icon": "heart",
+      "route": "Favorites"
+    },
+    {
+      "id": "contacts",
+      "label": "Contacts & Sharing",
+      "icon": "users",
+      "route": "Contacts"
+    },
+    {
+      "id": "privacy",
+      "label": "Privacy & Security",
+      "icon": "shield",
+      "route": "Privacy"
+    },
+    {
+      "id": "settings",
+      "label": "Settings",
+      "icon": "settings",
+      "route": "Settings"
+    },
+    {
+      "id": "help",
+      "label": "Help & Support",
+      "icon": "info",
+      "route": "Help"
+    },
+    {
+      "id": "logout",
+      "label": "Logout",
+      "icon": "logout",
+      "route": "Logout"
+    }
+  ]
+}
+

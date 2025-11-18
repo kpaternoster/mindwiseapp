@@ -1,0 +1,105 @@
+{
+    "skillModules": [
+        {
+            "number": 1,
+            "title": "Mindfulness",
+            "subtitle": "The Foundation",
+            "readTime": "8 min read",
+            "description": "The foundation of all DBT skills - learning to observe, describe, and participate in the present moment",
+            "skills": [
+                "Observe",
+                "Describe",
+                "Participate",
+                "Non-Judgmentally",
+                "One-mindfully",
+                "Effectively"
+            ]
+        },
+        {
+            "number": 2,
+            "title": "Distress Tolerance",
+            "subtitle": "Crisis Survival",
+            "readTime": "",
+            "description": "Crisis survival skills and reality acceptance techniques for when you can't change the situation",
+            
+            "skills": [
+                "TIPP",
+                "PLEASE",
+                 "Distract with ACCEPTS",
+                 "Self-Soothe",
+                 "IMPROVE",
+                 "Radical Acceptance",
+                 "Turning the Mind",
+                 "Willingness"
+            ]
+        },
+        {
+            "number": 3,
+            "title": "Emotion Regulation",
+            "subtitle": "Managing Feelings",
+            "readTime": "",
+            "description": "Understanding emotions and learning to change or cope with them effectively",
+            "skills": [
+                "Understanding Emotions",
+                "Check the Facts",
+                "Opposite Action",
+                "PLEASE",
+                "Mastery Activities",
+                "Cope Ahead",
+                "Problem Solving"
+            ]
+        },
+        {
+            "number": 4,
+            "title": "Interpersonal Effectiveness",
+            "subtitle": "Relationships",
+            "readTime": "",
+            "description": "Getting what you want from others while maintaining relationships and self-respect",
+            "skills": [
+                "DEAR MAN",
+                "GIVE",
+                "FAST",
+                "Relationship Mindfulness",
+                "Ending Relationships"
+            ]
+        },
+        {
+            "number": 5,
+            "title": "Walking the Middle Path",
+            "subtitle": "Balance",
+            "readTime": "",
+            "description": "Balancing acceptance and change, thinking dialectically to avoid extremes",
+            "skills": [
+                "Dialectical Thinking",
+                "Validation",
+                "Behavior Change",
+                "Cognitive Challenges"
+            ]
+        },
+        {
+            "number": 6,
+            "title": "Reality Acceptance Skills",
+            "subtitle": "Advanced Acceptance",
+            "readTime": "",
+            "description": "Advanced skills for accepting life as it is while working toward change",
+            "skills": [
+                "Radical Acceptance",
+                "Turning the Mind",
+                "Willingness vs. Willfulness",
+                "Half-Smiling",
+                "Willing Hands"
+            ]
+        }
+    ],
+    "learningApproaches": [
+        {
+            "title": "Progressive Learning",
+            "description": "Skills are taught progressively through practice, repetition, and real-world application. You'll start with basic techniques and build toward more complex skills as you develop mastery."
+        },
+        {
+            "title": "Integrated Approach",
+            "description": "Each skill module builds on the others, creating a comprehensive toolkit that addresses different aspects of emotional and interpersonal challenges."
+        }
+    ]
+}
+

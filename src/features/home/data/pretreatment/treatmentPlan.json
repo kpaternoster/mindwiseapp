@@ -1,0 +1,62 @@
+{
+    "clinicalInfo": {
+        "title": "Important Clinical Information",
+        "description": "This treatment plan uses evidence-based DBT skills from validated clinical sources. It is personalized based on your selections but is not a substitute for professional therapy. Please work with your therapist to adapt this plan to your specific needs and circumstances."
+    },
+    "treatmentTargets": [
+        {
+            "id": "30-days",
+            "title": "Next 30 Days",
+            "subtitle": "Immediate Focus & Crisis Skills",
+            "goals": [
+                "Establish safety and build commitment to DBT",
+                "Learn foundational crisis survival skills",
+                "Develop basic emotional awareness"
+            ],
+            "priorities": [
+                
+            ],
+            "skills": [
+               
+            ]
+        },
+        {
+            "id": "60-days",
+            "title": "Next 60 Days",
+            "subtitle": "Building Skills & Regulation",
+            "goals": [
+                "Develop emotional regulation skills",
+                "Reduce therapy-interfering behaviors",
+                "Improve interpersonal effectiveness"
+            ],
+            "priorities": [
+                
+            ],
+            "skills": [
+               
+            ]
+        },
+        {
+            "id": "180-days",
+            "title": "Next 180 Days",
+            "subtitle": "Advanced Growth & Life Building",
+            "goals": [
+                "Build meaningful relationships",
+                "Develop self-respect and self-compassion",
+                "Create a life worth living"
+            ],
+            "priorities": [
+                
+            ],
+            "skills": [
+                
+            ]
+        }
+    ],
+    "readyToBegin": {
+        "title": "Ready to Begin Your Journey?",
+        "intro": "Your personalized treatment plan is ready! This plan is designed specifically for your goals and challenges.",
+        "support": "Remember: healing isn't linear, and every small step forward matters. You don't have to be perfect - you just have to keep trying. If you have questions about any part of this plan or need support along the way, Grace is here to help explain things or adjust recommendations to better fit your needs."
+    }
+}
+

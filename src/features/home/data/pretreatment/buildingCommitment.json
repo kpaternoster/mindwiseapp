@@ -1,0 +1,45 @@
+{
+    "concerns": [
+        {
+            "id": "no-point",
+            "title": "I don't see the point",
+            "response": "I understand this might feel overwhelming or unclear right now. Yes, we get it. It seems like a lot, and we ask for a lot from you on your DBT journey. One thing that also sometimes helps is for you to write a letter from your 'future self' to your 'present self' describing how you made the journey happen towards a rewarding and satisfying life worth living. Would you like to do this?"
+        },
+        {
+            "id": "lose-interest",
+            "title": "I might lose interest",
+            "response": "That's a completely understandable worry - many people feel this way at the start. That's a common concern. Would it help to know that we've built variety and personalization to keep you engaged? Each skill takes only 2-3 minutes to understand, and you can choose how you want to learn. We also provide support for each step with our chat avatar. We can also set milestone rewards and track your progress visually. It can help to do an exercise to write a letter from your future self to your current self. Would you like to try this?"
+        },
+        {
+            "id": "no-time",
+            "title": "I might not have the time",
+            "response": "Time constraints are one of the biggest challenges people face, and your concern is very valid. The app is designed to work with busy schedules. Even 10-15 minutes, 3 times a week, can make a difference. Would you like to explore how to fit this into your schedule? Sometimes writing a letter from your future self can help clarify your priorities and motivation. Would you like to try this exercise?"
+        },
+        {
+            "id": "cant-stop",
+            "title": "I can't stop my target behaviors for that long",
+            "response": "Thank you for being so honest - that takes courage and shows real self-awareness. That's a very honest response. Remember, this is about progress, not perfection. What if I told you you could find a more peaceful and happy life if you committed to stopping your target behaviors? Would you stop your target behavior for a year? 6 months? 3 months? 1 month? Would you be willing to commit to trying for some time to reduce these behaviors while learning new skills? Writing a letter from your future self might help you envision what that peaceful life could look like. Would you like to try this?"
+        },
+        {
+            "id": "dont-like-app",
+            "title": "I don't like the app",
+            "response": "I hear you, and it's important that you feel comfortable with the tools you're using for your healing journey. What aspects concern you? We can explore different ways to use the features that work best for you. Sometimes it helps to imagine how your future self might view these tools after experiencing their benefits. Would you like to write a letter from your future self about this?"
+        },
+        {
+            "id": "have-therapist",
+            "title": "I already have a therapist",
+            "response": "That's wonderful - having therapeutic support is so valuable for your journey. That's great! This app can complement your current therapy. Would you like to learn how to integrate both? Your future self might have insights about how these different supports worked together. Would you like to explore this through writing a letter from your future self?"
+        },
+        {
+            "id": "in-dbt-program",
+            "title": "I am already in a DBT program",
+            "response": "It's great that you're already engaged in DBT work - that shows real commitment to your growth. Excellent! This app can provide additional support. Should we discuss how to avoid overlap and maximize benefits? Your future self might have perspective on how different DBT resources supported your journey. Would you like to write a letter from your future self about this?"
+        },
+        {
+            "id": "life-constraints",
+            "title": "I have life constraints",
+            "response": "Life constraints are real and can feel overwhelming - I want to acknowledge how challenging that must be. Let's explore your specific constraints and see how we can adapt the program to work for you. Sometimes our future self has wisdom about working within our limitations. Would you like to write a letter from your future self about navigating these constraints?"
+        }
+    ]
+}
+

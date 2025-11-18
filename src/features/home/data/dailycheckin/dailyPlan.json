@@ -1,0 +1,63 @@
+{
+    "immediately": [
+        {
+            "id": "problem-solving",
+            "skill": "Problem Solving",
+            "description": "to help with getting started with DBT practice and your personal goals. Even on calmer days, building these skills helps."
+        },
+        {
+            "id": "wise-mind",
+            "skill": "Wise Mind",
+            "description": "to help with getting started with DBT practice and your personal goals. Even on calmer days, building these skills helps."
+        },
+        {
+            "id": "tipp",
+            "skill": "TIPP",
+            "description": "to help with managing high distress. Even on calmer days, building these skills helps."
+        }
+    ],
+    "today": [
+        {
+            "id": "stop",
+            "skill": "STOP",
+            "description": "to help with managing high distress. Building skills on calm days creates resilience."
+        },
+        {
+            "id": "radical-acceptance",
+            "skill": "Radical Acceptance",
+            "description": "to help with managing high distress. Building skills on calm days creates resilience."
+        },
+        {
+            "id": "self-soothing",
+            "skill": "Self-Soothing",
+            "description": "to help with managing high distress. Building skills on calm days creates resilience."
+        },
+        {
+            "id": "reflection",
+            "text": "Take 5 minutes this evening to reflect on your day. What went well? What was challenging?"
+        }
+    ],
+    "thisWeek": [
+        {
+            "id": "explore-problem-solving",
+            "text": "This week, consider exploring Problem Solving when you feel ready. No pressure - healing happens at your own pace."
+        },
+        {
+            "id": "self-care",
+            "text": "Continue taking care of yourself with whatever self-care feels right for you."
+        },
+        {
+            "id": "small-step",
+            "text": "When you're ready, consider starting with one small DBT skill practice. Every journey begins with a single step."
+        },
+        {
+            "id": "mindfulness",
+            "text": "Focus on daily moments of mindfulness and self-compassion. You deserve the same kindness you'd show a good friend."
+        },
+        {
+            "id": "chat-grace",
+            "text": "Remember, this plan is created just for you based on what you shared today. If anything feels unclear or overwhelming, chat with Grace anytime - she's here to help explain or adjust these suggestions to better fit your needs."
+        }
+    ]
+}
+

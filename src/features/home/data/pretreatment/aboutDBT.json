@@ -1,0 +1,75 @@
+{
+    "coreSkills": [
+        {
+            "title": "Understanding and Managing Emotions",
+            "description": "Listening to your internal weather report!"
+        },
+        {
+            "title": "Building Emotional Regulation",
+            "description": "Learning to manage those big feelings"
+        },
+        {
+            "title": "Building Self-Love",
+            "description": "Being kind to yourself"
+        },
+        {
+            "title": "Being Mindful",
+            "description": "Hitting the pause button on chaos and observing without judgment"
+        },
+        {
+            "title": "Building Distress Tolerance",
+            "description": "Not freaking out when things get tough"
+        }
+    ],
+    "coreAssumptions": [
+        {
+            "sectionTitle": "Understanding and Managing Emotions",
+            "assumptions": [
+                {
+                    "title": "People are doing the best they can",
+                    "description": "Everyone is trying their hardest with the resources and skills they have at the moment."
+                },
+                {
+                    "title": "People want to improve",
+                    "description": "Individuals seeking DBT are motivated to change and build a better life."
+                },
+                {
+                    "title": "People need to do better, try harder, and be more motivated",
+                    "description": "While acknowledging best efforts, change requires continuous effort and increased motivation."
+                }
+            ]
+        },
+                {
+            "sectionTitle": "Responsibility & Change",
+            "assumptions": [
+                {
+                    "title": "You may not have caused all problems, but you solve them",
+                    "description": "Personal responsibility for finding solutions, regardless of problem origins."
+                },
+                {
+                    "title": "Dysregulated lives are not easily bearable",
+                    "description": "Acknowledges the real suffering experienced by individuals with these challenges."
+                },
+                {
+                    "title": "Learn new behaviors in all contexts",
+                    "description": "Effective change involves applying new skills across various situations."
+                }
+            ]
+        },
+        
+        {
+            "sectionTitle": "DBT Philosophy",
+            "assumptions": [
+                {
+                    "title": "All behaviors are caused",
+                    "description": "Behaviors arise from complex factors – DBT seeks to understand those causes."
+                },
+                {
+                    "title": "People cannot fail in DBT",
+                    "description": "DBT focuses on learning and progress, not success or failure."
+                }
+            ]
+        }
+    ]
+}
+

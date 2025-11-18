@@ -1,0 +1,188 @@
+{
+    "lifeSituation": {
+        "housing": [
+            {
+                "value": "stable",
+                "label": "Stable permanent housing"
+            },
+            {
+                "value": "temporary",
+                "label": "Housing that may be temporary"
+            },
+            {
+                "value": "unstable",
+                "label": "Unstable or uncertain housing"
+            },
+            {
+                "value": "homeless",
+                "label": "Currently homeless or in shelter"
+            }
+        ],
+        "work": [
+            {
+                "value": "stable",
+                "label": "Stable employment or income"
+            },
+            {
+                "value": "irregular",
+                "label": "Irregular or uncertain work"
+            },
+            {
+                "value": "unemployed",
+                "label": "Currently unemployed"
+            },
+            {
+                "value": "student",
+                "label": "Student"
+            },
+            {
+                "value": "retired",
+                "label": "Retired"
+            },
+            {
+                "value": "disability",
+                "label": "Disability benefits"
+            }
+        ],
+        "food": [
+            {
+                "value": "enough",
+                "label": "Always have enough food"
+            },
+            {
+                "value": "worry",
+                "label": "Sometimes worry about food"
+            },
+            {
+                "value": "not_enough",
+                "label": "Often don't have enough food"
+            },
+            {
+                "value": "hungry",
+                "label": "Frequently go hungry"
+            }
+        ],
+        "healthcare": [
+            {
+                "value": "regular",
+                "label": "Regular access when needed"
+            },
+            {
+                "value": "limited",
+                "label": "Limited or difficult access"
+            },
+            {
+                "value": "emergency",
+                "label": "Emergency services only"
+            },
+            {
+                "value": "no_access",
+                "label": "Little to no access"
+            }
+        ]
+    },
+    "safetyBehaviors": [
+        {
+            "value": "self_harm",
+            "label": "Stop hurting myself on purpose (cutting, burning etc)."
+        },
+        {
+            "value": "death_wish",
+            "label": "Stop wishing I were dead or could go to sleep and not wake up."
+        },
+        {
+            "value": "suicide_plans",
+            "label": "Stop planning how to engage in suicide."
+        },
+        {
+            "value": "suicide_prep",
+            "label": "Stop making specific plans and preparations to engage in suicide."
+        },
+        {
+            "value": "suicide_attempts",
+            "label": "Stop making attempts to end my life."
+        }
+    ],
+    "emotionalExperiences": [
+        {
+            "value": "sad_depressed",
+            "label": "Feel less sad and depressed"
+        },
+        {
+            "value": "anxious_on_edge",
+            "label": "Feel less anxious or on edge"
+        },
+        {
+            "value": "angry_irritable",
+            "label": "Feel less angry or irritable"
+        },
+        {
+            "value": "panic_fear",
+            "label": "Reduce panic or intense fear"
+        },
+        {
+            "value": "emptiness_confusion",
+            "label": "Reduce emptiness or confusion"
+        }
+    ],
+    "behavioralGoals": [
+        {
+            "value": "stop_substances_for_emotions",
+            "label": "Stop using substances for emotions"
+        },
+        {
+            "value": "stop_bingeing_or_restricting_food",
+            "label": "Stop bingeing or restricting food"
+        },
+        {
+            "value": "stop_ruminating_overthinking",
+            "label": "Stop ruminating or overthinking obsessively"
+        },
+        {
+            "value": "stop_risky_behaviors",
+            "label": "Stop engaging in risky behaviors"
+        },
+        {
+            "value": "stop_avoiding_responsibilities",
+            "label": "Stop avoiding responsibilities or important tasks"
+        },
+        {
+            "value": "stop_excessive_sleeping_resting",
+            "label": "Stop sleeping or resting excessively"
+        },
+        {
+            "value": "stop_distractions_avoid_feelings",
+            "label": "Stop using distractions (TV, social media, gaming) to avoid feelings"
+        },
+        {
+            "value": "stop_food_for_comfort",
+            "label": "Stop using food for comfort when distressed"
+        },
+        {
+            "value": "stop_impulsive_spending",
+            "label": "Stop shopping or spending money impulsively"
+        },
+        {
+            "value": "stop_excessive_working_busy",
+            "label": "Stop working excessively or staying extremely busy to avoid feelings"
+        },
+        {
+            "value": "stop_compulsive_cleaning",
+            "label": "Stop cleaning or organizing compulsively when anxious"
+        }
+    ],
+    "relationshipGoals": [
+    { "value": "improve_relationships", "label": "Improve relationships with others" },
+    { "value": "increase_self_respect", "label": "Increase self-respect and esteem" },
+    { "value": "reduce_self_isolation", "label": "Reduce self-isolation" },
+    { "value": "stop_lashing_out", "label": "Stop lashing out at others or getting into arguments" },
+    { "value": "stop_self_criticism", "label": "Stop criticizing or blaming myself harshly" },
+    { "value": "stop_seeking_revenge", "label": "Stop seeking revenge or trying to 'get back' at people" },
+    { "value": "stop_seeking_reassurance", "label": "Stop seeking reassurance repeatedly from others" }
+  ],
+  "traumaRelatedGoals": [
+    { "value": "reduce_unwanted_memories", "label": "Reduce unwanted memories" },
+    { "value": "feel_less_on_guard", "label": "Feel less on-guard or startled" },
+    { "value": "reduce_nightmares_improve_sleep", "label": "Reduce nightmares, improve sleep" }
+  ]
+}

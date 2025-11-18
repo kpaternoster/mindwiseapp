@@ -1,0 +1,52 @@
+{
+  "learningPreferences": {
+    "title": "Learning Preferences",
+    "subtitle": "How you prefer to learn and engage with content.",
+    "preferredLearningStyle": {
+      "id": "learning_style",
+      "label": "Preferred Learning Style",
+      "value": "Visual",
+      "options": [
+        "Visual",
+        "Audio",
+        "Reading",
+        "Hands-on"
+      ]
+    },
+    "englishFluency": {
+      "id": "english_fluency",
+      "label": "English Fluency",
+      "value": "Fluent",
+      "options": [
+        "Native",
+        "Fluent",
+        "Intermediate",
+        "Beginner"
+      ]
+    }
+  },
+  "visualPreferences": {
+    "title": "Visual Preferences",
+    "subtitle": "Customize the app's appearance.",
+    "contrastLevel": {
+      "id": "contrast_level",
+      "label": "Contrast Level",
+      "value": "Medium Contrast (Orange/Cream/Brown)",
+      "options": [
+        "Medium Contrast (Orange/Cream/Brown)",
+        "High Contrast (Brown/Cream/White)"
+      ]
+    },
+    "fontSize": {
+      "id": "font_size",
+      "label": "Font Size",
+      "value": "Medium",
+      "options": [
+        "Small",
+        "Medium",
+        "Large"
+      ]
+    }
+  }
+}
+

@@ -1,0 +1,57 @@
+{
+    "stages": [
+        {
+            "id": 0,
+            "label": "Pre",
+            "title": "Pre-treatment",
+            "keyPhrase": "Building commitment and understanding DBT",
+            "description": "Where you are now - learning about DBT and preparing for the journey ahead"
+        },
+        {
+            "id": 1,
+            "label": "1",
+            "title": "Stage 1: Behavioral Control",
+            "keyPhrase": "Safety and stability first",
+            "description": "Focus on life-threatening behaviors, therapy-interfering behaviors, and quality of life issues"
+        },
+        {
+            "id": 2,
+            "label": "2",
+            "title": "Stage 2: Emotional Experiencing",
+            "keyPhrase": "Processing and healing",
+            "description": "Processing trauma and developing emotional resilience"
+        },
+        {
+            "id": 3,
+            "label": "3",
+            "title": "Stage 3: Building Your Life",
+            "keyPhrase": "Creating meaning and purpose",
+            "description": "Achieving individual goals and creating meaning in your life"
+        }
+    ],
+    "therapyExperience": [
+        {
+            "title": "Collaborative Partnership",
+            "description": "Your therapist works with you as a partner, helping you learn and practice skills while addressing your individual challenges"
+        },
+        {
+            "title": "Practical Focus",
+            "description": "Sessions focus on skill-building, problem-solving current issues, and applying DBT techniques to your daily life."
+        }
+    ],
+    "timeInvestment": [
+        {
+            "title": "Weekly Commitment",
+            "description": "Individual therapy sessions plus skills group (if applicable). Expect 2-4 hours per week including homework and practice."
+        },
+        {
+            "title": "Daily Practice",
+            "description": "10-30 minutes of skill practice, diary cards, and mindfulness exercises."
+        },
+        {
+            "title": "Duration",
+            "description": "Most people benefit from 6 months to 2 years of DBT, depending on individual needs and goals."
+        }
+    ]
+}
+

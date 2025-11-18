@@ -1,0 +1,73 @@
+{
+  "graceGreeting": {
+    "title": "Grace is here to help",
+    "description": "Grace is trained on the needs of DBT users, and refined by humans.",
+    "initialMessage": "Hello! I'm Grace, your DBT companion. How can I support you today?"
+  },
+  "quickActions": [
+    {
+      "id": "help_using_app",
+      "label": "Help using this app",
+      "followUpMessage": "I can help you navigate MindwiseDBT! What specifically would you like help with?",
+      "followUpOptions": [
+        {
+          "id": "understanding_section",
+          "label": "Understanding a section of the app (e.g. use skills)"
+        },
+        {
+          "id": "navigate_sections",
+          "label": "How to navigate between different sections"
+        },
+        {
+          "id": "progress_tracking",
+          "label": "Understanding my progress and tracking"
+        }
+      ]
+    },
+    {
+      "id": "help_understanding_skill",
+      "label": "Help understanding or using a skill"
+    },
+    {
+      "id": "support_negative_emotions",
+      "label": "Support managing my negative emotions"
+    },
+    {
+      "id": "support_thoughts_urges",
+      "label": "Support managing my thoughts and urges"
+    },
+    {
+      "id": "support_risky_behaviors",
+      "label": "Support managing my risky or unproductive behaviors"
+    },
+    {
+      "id": "support_difficult_event",
+      "label": "Support with a difficult event or situation"
+    },
+    {
+      "id": "urge_risky_action",
+      "label": "An urge or plan to do something risky"
+    }
+  ],
+  "additionalResources": [
+    {
+      "id": "app_tutorial",
+      "title": "App Tutorial",
+      "description": "Learn how to use MindwiseDBT effectively",
+      "route": "AppTutorial"
+    },
+    {
+      "id": "faq",
+      "title": "Frequently Asked Questions",
+      "description": "Find answers to common questions",
+      "route": "FAQ"
+    },
+    {
+      "id": "sitemap",
+      "title": "View Complete Sitemap",
+      "description": "Navigate to any section of MindwiseDBT",
+      "route": "Sitemap"
+    }
+  ]
+}
+

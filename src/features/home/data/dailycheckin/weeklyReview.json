@@ -1,0 +1,29 @@
+{
+    "weeklyReview": {
+        "title": "Weekly Review",
+        "description": "Review your week, track progress, and reflect on your journey",
+        "duration": "15-20 min"
+    },
+    "sampleData": {
+        "weeklySUDS": [
+            { "day": "Mon", "level": 7 },
+            { "day": "Tue", "level": 5 },
+            { "day": "Wed", "level": 8 },
+            { "day": "Thu", "level": 6 },
+            { "day": "Fri", "level": 9 },
+            { "day": "Sat", "level": 3 },
+            { "day": "Sun", "level": 7 }
+        ],
+        "topEmotions": [
+            { "name": "Anxiety", "value": 9 },
+            { "name": "Sadness", "value": 8 },
+            { "name": "Joy", "value": 7 }
+        ],
+        "topUrges": [
+            { "name": "Isolate", "value": 9 },
+            { "name": "Impulsive Actions", "value": 8 }
+        ],
+        "mostPracticedSkills": ["Wisemind", "TIPP", "Self-Soothing"]
+    }
+}
+

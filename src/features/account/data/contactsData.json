@@ -1,0 +1,62 @@
+{
+  "primaryTherapist": {
+    "id": "therapist_1",
+    "name": "Dr. Sarah Mitchell",
+    "role": "Primary Therapist",
+    "email": "s.mitchell@therapygroup.com",
+    "phone": "(555) 123-4567",
+    "category": "provider"
+  },
+  "emergencyContacts": [
+    {
+      "id": "emergency_1",
+      "name": "Mom (Linda Johnson)",
+      "role": "Mother",
+      "email": "linda.j@email.com",
+      "phone": "(555) 234-5678",
+      "category": "emergency"
+    }
+  ],
+  "sharingPermissions": [
+    {
+      "id": "exercise_data",
+      "label": "Exercise Data",
+      "enabled": true
+    },
+    {
+      "id": "daily_checkin",
+      "label": "Daily Check-In Sharing",
+      "enabled": true
+    },
+    {
+      "id": "progress_analytics",
+      "label": "Progress Analytics",
+      "enabled": true
+    },
+    {
+      "id": "crisis_plans",
+      "label": "Crisis Plans",
+      "enabled": true
+    },
+    {
+      "id": "mood_data",
+      "label": "Mood Data",
+      "enabled": true
+    },
+    {
+      "id": "two_way_messaging",
+      "label": "Two-Way Messaging",
+      "enabled": true
+    }
+  ],
+  "categoryOptions": [
+    { "value": "primary_therapist", "label": "Primary Therapist" },
+    { "value": "health_providers", "label": "Health Providers" },
+    { "value": "family", "label": "Family" },
+    { "value": "friends", "label": "Friends" },
+    { "value": "caregivers", "label": "Caregivers" },
+    { "value": "emergency_contacts", "label": "Emergency Contacts" }
+  ]
+  
+}
+
