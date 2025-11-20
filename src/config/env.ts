@@ -15,8 +15,11 @@ export const API_ENDPOINTS = {
   CHANGE_FORGOTTEN_PASSWORD: `${BASE_API_URL}/change-forgotten-password`,
   PROFILE: `${BASE_API_URL}/profile`,
   CONTACTS: `${BASE_API_URL}/contacts`,
+  EMERGENCY_CONTACT: `${BASE_API_URL}/emergency-contact`,
   PROGRESS: `${BASE_API_URL}/progress`,
+  LETTER_FROM_FUTURE_SELF: `${BASE_API_URL}/letter-from-future-self`,
   NOTIFICATIONS: `${BASE_API_URL}/notifications`,
   NOTIFICATION_SETTINGS: `${BASE_API_URL}/notification-settings`,
   NOTIFICATION_TOKEN: `${BASE_API_URL}/notification-token`,
+  SHARING_PERMISSIONS: `${BASE_API_URL}/sharing-permissions`,
 } as const;

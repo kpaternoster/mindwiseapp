@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Pressable, Modal, ScrollView, StyleSheet } from 'react-native';
+import { View, Text, TextInput, Pressable, Modal, ScrollView, StyleSheet, KeyboardAvoidingView, Platform } from 'react-native';
 import { colors } from '@design/color';
 import { t } from '@design/typography';
 import { DownIcon } from '@components/Utils';
@@ -71,7 +71,11 @@ export const AddContactModal: React.FC<AddContactModalProps> = ({
             animationType="slide"
             onRequestClose={handleClose}
         >
-            <View style={styles.modalOverlay}>
+            <KeyboardAvoidingView
+                style={styles.modalOverlay}
+                behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+                keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 0}
+            >
                 <View style={styles.modalContent}>
                     {/* Drag Handle */}
                     <View className="items-center py-1">
@@ -86,6 +90,7 @@ export const AddContactModal: React.FC<AddContactModalProps> = ({
                     <ScrollView
                         showsVerticalScrollIndicator={false}
                         keyboardShouldPersistTaps="handled"
+                        contentContainerStyle={{ paddingBottom: 16 }}
                     >
                         <View className="px-6">
 
@@ -108,6 +113,7 @@ export const AddContactModal: React.FC<AddContactModalProps> = ({
                                     ]}
                                     className="rounded-full px-4 py-4 border border-gray-200"
                                     autoCapitalize="words"
+                                    returnKeyType="next"
                                 />
                             </View>
 
@@ -130,6 +136,7 @@ export const AddContactModal: React.FC<AddContactModalProps> = ({
                                     ]}
                                     className="rounded-full px-4 py-4 border border-gray-200"
                                     keyboardType="phone-pad"
+                                    returnKeyType="next"
                                 />
                             </View>
 
@@ -154,6 +161,7 @@ export const AddContactModal: React.FC<AddContactModalProps> = ({
                                     keyboardType="email-address"
                                     autoCapitalize="none"
                                     autoCorrect={false}
+                                    returnKeyType="next"
                                 />
                             </View>
 
@@ -176,6 +184,7 @@ export const AddContactModal: React.FC<AddContactModalProps> = ({
                                     ]}
                                     className="rounded-full px-4 py-4 border border-gray-200"
                                     autoCapitalize="words"
+                                    returnKeyType="done"
                                 />
                             </View>
 
@@ -265,7 +274,7 @@ export const AddContactModal: React.FC<AddContactModalProps> = ({
                         </Pressable>
                     </View>
                 </View>
-            </View>
+            </KeyboardAvoidingView>
         </Modal>
     );
 };

@@ -1,50 +1,32 @@
 {
-  "primaryTherapist": {
-    "id": "therapist_1",
-    "name": "Dr. Sarah Mitchell",
-    "role": "Primary Therapist",
-    "email": "s.mitchell@therapygroup.com",
-    "phone": "(555) 123-4567",
-    "category": "provider"
-  },
-  "emergencyContacts": [
-    {
-      "id": "emergency_1",
-      "name": "Mom (Linda Johnson)",
-      "role": "Mother",
-      "email": "linda.j@email.com",
-      "phone": "(555) 234-5678",
-      "category": "emergency"
-    }
-  ],
   "sharingPermissions": [
     {
-      "id": "exercise_data",
+      "id": "exerciseData",
       "label": "Exercise Data",
       "enabled": true
     },
     {
-      "id": "daily_checkin",
+      "id": "dailyCheckin",
       "label": "Daily Check-In Sharing",
       "enabled": true
     },
     {
-      "id": "progress_analytics",
+      "id": "progressAnalytics",
       "label": "Progress Analytics",
       "enabled": true
     },
     {
-      "id": "crisis_plans",
+      "id": "crisisPlans",
       "label": "Crisis Plans",
       "enabled": true
     },
     {
-      "id": "mood_data",
+      "id": "moodData",
       "label": "Mood Data",
       "enabled": true
     },
     {
-      "id": "two_way_messaging",
+      "id": "twoWayMessaging",
       "label": "Two-Way Messaging",
       "enabled": true
     }
