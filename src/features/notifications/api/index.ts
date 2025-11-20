@@ -1,7 +1,5 @@
-// API functions for notifications
-
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { API_ENDPOINTS, ENV } from '@config/env';
+import { getAuthToken } from '@hooks/AuthContext';
 
 export type NotificationType = 'reward' | 'password_changed' | 'new_login';
 
@@ -29,18 +27,6 @@ interface NotificationAPIResponse {
     read: boolean;
 }
 
-/**
- * Helper function to get auth token from AsyncStorage
- */
-const getAuthToken = async (): Promise<string | null> => {
-    try {
-        const token = await AsyncStorage.getItem('auth_token');
-        return token;
-    } catch (error) {
-        console.error('Error retrieving auth token:', error);
-        return null;
-    }
-};
 
 /**
  * Helper function to convert Unix timestamp to relative time format (e.g., "1 hour ago")
