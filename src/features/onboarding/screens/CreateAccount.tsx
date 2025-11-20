@@ -78,7 +78,7 @@ export default function CreateAccountScreen() {
                 <RoundedInputTW
                     value={pw}
                     onChangeText={setPw}
-                    placeholder="Create password"
+                    placeholder="Enter password"
                     secureTextEntry={true}
                     autoCapitalize="none"
                     autoComplete="password"
