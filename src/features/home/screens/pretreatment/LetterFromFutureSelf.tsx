@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
     View,
     Text,
@@ -9,18 +9,22 @@ import {
     NativeScrollEvent,
     StatusBar,
     Pressable,
+    ActivityIndicator,
+    Alert,
+    KeyboardAvoidingView,
+    Platform,
 } from 'react-native';
 import { colors } from '@design/color';
 import { t } from '@design/typography';
 import { ContentCard, ProgressHeader, PageHeader, HighlightBox } from '../../components';
 import { handleScrollProgress } from '../../utils/scrollHelper';
 import { useDissolveNavigation } from '@hooks/useDissolveNavigation';
+import { fetchLetterFromFutureSelf, updateLetterFromFutureSelf } from '../../api';
 
 
 export default function LetterFromFutureSelfScreen() {
     const [currentStep, setCurrentStep] = useState(1);
     const { dissolveTo } = useDissolveNavigation();
-
 
     // Form state
     const [openingMessage, setOpeningMessage] = useState('');
@@ -29,41 +33,109 @@ export default function LetterFromFutureSelfScreen() {
     const [selfTreatmentReflection, setSelfTreatmentReflection] = useState('');
     const [closingMessage, setClosingMessage] = useState('');
 
+    // Loading and error states
+    const [loading, setLoading] = useState(true);
+    const [submitting, setSubmitting] = useState(false);
+    const [error, setError] = useState<string | null>(null);
+
+    // Load letter data on mount
+    useEffect(() => {
+        const loadLetterData = async () => {
+            try {
+                setLoading(true);
+                setError(null);
+                const data = await fetchLetterFromFutureSelf();
+                
+                // Map API response to form fields
+                setOpeningMessage(data.openingMessage || '');
+                setEmotionsReflection(data.emotionHandling || '');
+                setRelationshipsReflection(data.relationshipChanges || '');
+                setSelfTreatmentReflection(data.selfTreatment || '');
+            } catch (err) {
+                console.error('Error loading letter data:', err);
+                setError('Failed to load letter data. You can still create a new letter.');
+                // Don't show alert on initial load failure - user can still fill the form
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        loadLetterData();
+    }, []);
+
     const handleScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
         handleScrollProgress(event, 3, setCurrentStep);
     };
 
-    const onSubmit = () => {
-        // TODO: Implement submit logic
+    const onSubmit = async () => {
+        try {
+            setSubmitting(true);
+            setError(null);
 
-        dissolveTo('BuildingCommitment');
+            // Prepare data for API (map form fields to API fields)
+            const letterData = {
+                openingMessage: openingMessage,
+                emotionHandling: emotionsReflection,
+                relationshipChanges: relationshipsReflection,
+                selfTreatment: selfTreatmentReflection,
+            };
+
+            await updateLetterFromFutureSelf(letterData);
+            
+            // Success - navigate to next screen
+            dissolveTo('BuildingCommitment');
+        } catch (err) {
+            console.error('Error submitting letter:', err);
+            setError('Failed to save letter. Please try again.');
+            Alert.alert(
+                'Error',
+                'Failed to save your letter. Please check your connection and try again.',
+                [{ text: 'OK' }]
+            );
+        } finally {
+            setSubmitting(false);
+        }
     };
 
 
     return (
-        <View className="flex-1 bg-white pt-9" style={{ backgroundColor: colors.white }}>
-            <StatusBar barStyle="dark-content" backgroundColor={colors.white} />
+        <KeyboardAvoidingView
+            style={{ flex: 1, backgroundColor: colors.white }}
+            behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+            keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 0}
+        >
+            <View className="flex-1 bg-white pt-9" style={{ backgroundColor: colors.white }}>
+                <StatusBar barStyle="dark-content" backgroundColor={colors.white} />
 
-            {/* Header */}
-            <PageHeader title="Letter From Future Self" />
+                {/* Header */}
+                <PageHeader title="Letter From Future Self" />
 
-            {/* Progress Header */}
-            <View className="px-6 pt-4">
-                <ProgressHeader
-                    title="Progress"
-                    currentStep={currentStep}
-                    totalSteps={3}
-                />
-            </View>
+                {/* Progress Header */}
+                <View className="px-6 pt-4">
+                    <ProgressHeader
+                        title="Progress"
+                        currentStep={currentStep}
+                        totalSteps={3}
+                    />
+                </View>
 
-            {/* Main Content */}
-            <ScrollView
-                className="flex-1 px-6 mb-10"
-                showsVerticalScrollIndicator={false}
-                contentContainerStyle={styles.scrollContent}
-                onScroll={handleScroll}
-                scrollEventThrottle={16}
-            >
+                {/* Main Content */}
+                {loading ? (
+                    <View className="flex-1 justify-center items-center">
+                        <ActivityIndicator size="large" color={colors.button_orange} />
+                        <Text style={[t.textRegular, { color: colors.text_secondary, marginTop: 16 }]}>
+                            Loading your letter...
+                        </Text>
+                    </View>
+                ) : (
+                <ScrollView
+                    className="flex-1 px-6 mb-10"
+                    showsVerticalScrollIndicator={false}
+                    contentContainerStyle={styles.scrollContent}
+                    onScroll={handleScroll}
+                    scrollEventThrottle={16}
+                    keyboardShouldPersistTaps="handled"
+                >
                 <Text style={[t.title24SemiBold, { color: colors.Text_Primary }]} className="mb-4">
                     Write Your Letter
                 </Text>
@@ -154,7 +226,7 @@ export default function LetterFromFutureSelfScreen() {
                     In how I treat myself...
                 </Text>
                 <TextInput
-                    className="p-4 rounded-xl mb-80"
+                    className="p-4 rounded-xl mb-10"
                     style={[
                         t.textRegular,
                         {
@@ -175,28 +247,44 @@ export default function LetterFromFutureSelfScreen() {
 
 
             </ScrollView>
+            )}
             {/** Action Buttons */}
             <View className="px-6 mb-10">
                 <Pressable
                     className="rounded-full py-4 px-6 flex-row justify-center items-center"
-                    style={{ backgroundColor: colors.button_orange }}
-                    onPress={() => onSubmit()}
+                    style={{ 
+                        backgroundColor: submitting ? colors.gray_300 : colors.button_orange,
+                        opacity: submitting ? 0.6 : 1,
+                    }}
+                    onPress={onSubmit}
+                    disabled={submitting || loading}
                 >
-                    <Text
-                        style={[t.title16SemiBold, { color: colors.white }]}
-                        className="flex-1 text-center"
-                    >
-                        Submit
-                    </Text>
+                    {submitting ? (
+                        <ActivityIndicator size="small" color={colors.white} />
+                    ) : (
+                        <Text
+                            style={[t.title16SemiBold, { color: colors.white }]}
+                            className="flex-1 text-center"
+                        >
+                            Submit
+                        </Text>
+                    )}
                 </Pressable>
+                {error && !loading && (
+                    <Text style={[t.textRegular, { color: colors.red_light, marginTop: 8, textAlign: 'center' }]}>
+                        {error}
+                    </Text>
+                )}
             </View>
 
-        </View>
+            </View>
+        </KeyboardAvoidingView>
     );
 }
 
 const styles = StyleSheet.create({
     scrollContent: {
         paddingBottom: 20,
+        flexGrow: 1,
     },
 });
