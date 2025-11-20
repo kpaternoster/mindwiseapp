@@ -65,6 +65,20 @@ export default function InfiniteDateSelector({
     const extendStateRef = useRef({ forward: false, backward: false });
     const isInitializedRef = useRef(false);
     const pendingBackwardScrollRef = useRef<number | null>(null);
+    const containerWidthRef = useRef<number>(0);
+
+    const scrollToCenterIndex = useCallback((index: number = INITIAL_DAYS_BEFORE) => {
+        if (!dateListRef.current) return;
+        
+        // Use scrollToIndex with viewPosition to center the item
+        dateListRef.current.scrollToIndex({
+            index,
+            animated: false,
+            viewPosition: 0.5, // 0.5 means center (0 = top/left, 1 = bottom/right)
+            viewOffset: 0
+        });
+        lastOffsetRef.current = index * ITEM_TOTAL_WIDTH;
+    }, []);
 
     const resetWindow = useCallback(
         (targetDate: Date) => {
@@ -76,24 +90,20 @@ export default function InfiniteDateSelector({
             extendStateRef.current.backward = false;
             extendStateRef.current.forward = false;
 
-            // Use multiple attempts to ensure scroll happens
+            // Scroll to center with multiple attempts to ensure it works
             const scrollToCenter = () => {
-                const targetOffset = INITIAL_DAYS_BEFORE * ITEM_TOTAL_WIDTH;
-                dateListRef.current?.scrollToOffset({
-                    offset: targetOffset,
-                    animated: false
-                });
-                lastOffsetRef.current = targetOffset;
+                scrollToCenterIndex(INITIAL_DAYS_BEFORE);
             };
 
-            // Try immediately
+            // Try immediately and with delays to ensure list is ready
             requestAnimationFrame(() => {
                 scrollToCenter();
-                // Also try after a short delay to ensure list is ready
-                setTimeout(scrollToCenter, 100);
+                setTimeout(scrollToCenter, 50);
+                setTimeout(scrollToCenter, 150);
+                setTimeout(scrollToCenter, 300);
             });
         },
-        []
+        [scrollToCenterIndex]
     );
 
     useEffect(() => {
@@ -205,21 +215,31 @@ export default function InfiniteDateSelector({
             // Ensure we scroll to center on initial render
             if (!isInitializedRef.current && contentWidth > 0) {
                 isInitializedRef.current = true;
-                const targetOffset = INITIAL_DAYS_BEFORE * ITEM_TOTAL_WIDTH;
+                // Use scrollToIndex to center the selected item
                 requestAnimationFrame(() => {
-                    dateListRef.current?.scrollToOffset({
-                        offset: targetOffset,
-                        animated: false
-                    });
-                    lastOffsetRef.current = targetOffset;
+                    scrollToCenterIndex(INITIAL_DAYS_BEFORE);
+                    // Retry with delays to ensure it works
+                    setTimeout(() => scrollToCenterIndex(INITIAL_DAYS_BEFORE), 50);
+                    setTimeout(() => scrollToCenterIndex(INITIAL_DAYS_BEFORE), 150);
                 });
             }
         },
-        []
+        [scrollToCenterIndex]
     );
 
+    const handleLayout = useCallback((event: any) => {
+        const { width } = event.nativeEvent.layout;
+        containerWidthRef.current = width;
+        // If we have the width and haven't initialized, try to center
+        if (!isInitializedRef.current && width > 0) {
+            requestAnimationFrame(() => {
+                scrollToCenterIndex(INITIAL_DAYS_BEFORE);
+            });
+        }
+    }, [scrollToCenterIndex]);
+
     return (
-        <View className="mb-4">
+        <View className="mb-4" onLayout={handleLayout}>
             <VirtualizedList
                 ref={dateListRef}
                 horizontal
@@ -241,8 +261,11 @@ export default function InfiniteDateSelector({
                 scrollEventThrottle={16}
                 onContentSizeChange={handleContentSizeChange}
                 onScrollToIndexFailed={({ index }) => {
+                    // If scrollToIndex fails, try with viewPosition after a delay
                     requestAnimationFrame(() => {
-                        dateListRef.current?.scrollToIndex({ index, animated: false });
+                        setTimeout(() => {
+                            scrollToCenterIndex(index);
+                        }, 100);
                     });
                 }}
             />
