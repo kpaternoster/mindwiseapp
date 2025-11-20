@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState } from 'react';
 import {
     View,
     Text,
@@ -8,11 +8,9 @@ import {
     StyleSheet,
     Modal,
     StatusBar,
+    KeyboardAvoidingView,
+    Platform,
 } from 'react-native';
-import { useReanimatedKeyboardAnimation } from 'react-native-keyboard-controller';
-import Animated, { useAnimatedStyle } from 'react-native-reanimated';
-import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { HomeStackParams } from '@app/navigation/types';
 import { colors } from '@design/color';
 import { t } from '@design/typography';
 import { ArrowRightIcon, UpIcon, NoteBookIcon, WarningFillIcon, DownIcon, BackIcon, CircleWarningIcon } from '@components/Utils';
@@ -22,19 +20,9 @@ import { RadioGroup } from '../../components/RadioGroup';
 import treatmentData from '../../data/pretreatment/treatmentAssessment.json';
 import { useDissolveNavigation } from '@hooks/useDissolveNavigation';
 
-type NavigationProp = NativeStackNavigationProp<HomeStackParams>;
 
 function TreatmentAssessmentContent() {
     const { dissolveTo } = useDissolveNavigation();
-    const { height: keyboardHeight } = useReanimatedKeyboardAnimation();
-    const scrollViewRef = useRef<ScrollView>(null);
-    const otherGoalsLayoutRef = useRef<{ y: number; height: number } | null>(null);
-
-    // Animated style that adjusts margin bottom based on keyboard height
-    const animatedStyle = useAnimatedStyle(() => ({
-        // ensure non-negative just in case
-        paddingBottom: Math.max(keyboardHeight.value, 0),
-    }));
 
     // State management
     const [distressLevel, setDistressLevel] = useState(5);
@@ -86,12 +74,6 @@ function TreatmentAssessmentContent() {
         setShowNoGoalsModal(false);
     };
 
-    const toggleCategory = (id: string) => {
-        setExpandedCategories((prev) => ({
-            ...prev,
-            [id]: !prev[id],
-        }));
-    };
 
     const toggleSection = (section: keyof typeof expandedSections) => {
         setExpandedSections((prev) => ({
@@ -108,46 +90,25 @@ function TreatmentAssessmentContent() {
         );
     };
 
-    const handleOtherGoalsLayout = (event: any) => {
-        const { y, height } = event.nativeEvent.layout;
-        otherGoalsLayoutRef.current = { y, height };
-    };
-
-    const handleOtherGoalsFocus = () => {
-        if (!expandedSections.other) {
-            toggleSection('other');
-        }
-
-        requestAnimationFrame(() => {
-            setTimeout(() => {
-                if (otherGoalsLayoutRef.current) {
-                    const targetY = Math.max(0, otherGoalsLayoutRef.current.y - 80);
-                    scrollViewRef.current?.scrollTo({ y: targetY, animated: true });
-                } else {
-                    scrollViewRef.current?.scrollToEnd({ animated: true });
-                }
-            }, 250);
-        });
-    };
-
     return (
-        <Animated.View
-            className="flex-1 bg-white pt-9"
-            style={[{ backgroundColor: colors.white, flex: 1 }, animatedStyle]}
+        <KeyboardAvoidingView
+            style={{ flex: 1, backgroundColor: colors.white }}
+            behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+            keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 0}
         >
-            <StatusBar barStyle="dark-content" backgroundColor={colors.white} />
+            <View className="flex-1 bg-white pt-9" style={{ backgroundColor: colors.white, flex: 1 }}>
+                <StatusBar barStyle="dark-content" backgroundColor={colors.white} />
 
-            {/* Header */}
-            <PageHeader title="Treatment Assessment" />
+                {/* Header */}
+                <PageHeader title="Treatment Assessment" />
 
-            {/* Main Content */}
-            <ScrollView
-                ref={scrollViewRef}
-                className="flex-1 px-6 mb-10"
-                showsVerticalScrollIndicator={false}
-                contentContainerStyle={[styles.scrollContent, { paddingBottom: 24 }]}
-                keyboardShouldPersistTaps="handled"
-            >
+                {/* Main Content */}
+                <ScrollView
+                    className="flex-1 px-6 mb-10"
+                    showsVerticalScrollIndicator={false}
+                    contentContainerStyle={[styles.scrollContent, { paddingBottom: 24 }]}
+                    keyboardShouldPersistTaps="handled"
+                >
                 {/* Introduction Card */}
                 <View
                     className="p-4 rounded-xl mb-4"
@@ -510,7 +471,7 @@ function TreatmentAssessmentContent() {
                                 </Text>
                             </Pressable>
 
-                            <View onLayout={handleOtherGoalsLayout}>
+                            <View>
                                 <TextInput
                                     className="p-3 rounded-lg mt-2"
                                     style={[
@@ -528,7 +489,6 @@ function TreatmentAssessmentContent() {
                                     multiline
                                     value={otherGoalsText}
                                     onChangeText={setOtherGoalsText}
-                                    onFocus={handleOtherGoalsFocus}
                                 />
                             </View>
                         </View>
@@ -640,7 +600,8 @@ function TreatmentAssessmentContent() {
                     </View>
                 </View>
             </Modal>
-        </Animated.View>
+            </View>
+        </KeyboardAvoidingView>
     );
 }
 
@@ -651,6 +612,7 @@ export default function TreatmentAssessmentScreen() {
 const styles = StyleSheet.create({
     scrollContent: {
         paddingBottom: 20,
+        flexGrow: 1,
     },
     divider: {
         height: 1,

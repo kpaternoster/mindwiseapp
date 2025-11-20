@@ -7,6 +7,8 @@ import {
     Pressable,
     StyleSheet,
     StatusBar,
+    KeyboardAvoidingView,
+    Platform,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
@@ -88,18 +90,24 @@ export default function StrengthsResourcesScreen() {
     };
 
     return (
-        <View className="flex-1 bg-white pt-9" style={{ backgroundColor: colors.white }}>
-            <StatusBar barStyle="dark-content" backgroundColor={colors.white} />
-            
-            {/* Header */}
-            <PageHeader title="Strengths & Resources" />
+        <KeyboardAvoidingView
+            style={{ flex: 1, backgroundColor: colors.white }}
+            behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+            keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 0}
+        >
+            <View className="flex-1 bg-white pt-9" style={{ backgroundColor: colors.white }}>
+                <StatusBar barStyle="dark-content" backgroundColor={colors.white} />
+                
+                {/* Header */}
+                <PageHeader title="Strengths & Resources" />
 
-            {/* Main Content */}
-            <ScrollView
-                className="flex-1 px-6 mb-10"
-                showsVerticalScrollIndicator={false}
-                contentContainerStyle={styles.scrollContent}
-            >
+                {/* Main Content */}
+                <ScrollView
+                    className="flex-1 px-6 mb-10"
+                    showsVerticalScrollIndicator={false}
+                    contentContainerStyle={styles.scrollContent}
+                    keyboardShouldPersistTaps="handled"
+                >
                 {/* Introduction Card */}
                 <View
                     className="p-4 rounded-xl mb-4"
@@ -268,7 +276,7 @@ export default function StrengthsResourcesScreen() {
 
                 {/* Additional Notes */}
                 <View
-                    className="rounded-xl mb-32 mb-4 border border-gray-200"
+                    className="rounded-xl mb-10 border border-gray-200"
                 >
                     <Pressable
                         className={`flex-col p-4 rounded-t-xl ${expandedSections.notes ? '' : 'rounded-b-xl'}`}
@@ -345,13 +353,15 @@ export default function StrengthsResourcesScreen() {
                     </Pressable>
                 </View>
             </ScrollView>
-        </View>
+            </View>
+        </KeyboardAvoidingView>
     );
 }
 
 const styles = StyleSheet.create({
     scrollContent: {
         paddingBottom: 20,
+        flexGrow: 1,
     },
 });
 
