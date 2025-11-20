@@ -1,5 +1,3 @@
-import { green } from "react-native-reanimated/lib/typescript/Colors";
-
 export const colors = {
     Text_Primary: '#573926', // Text Primary
     text_primary:'#985B33', // text-primary
