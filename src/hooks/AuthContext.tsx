@@ -81,3 +81,17 @@ export const useAuth = () => {
     if (!ctx) throw new Error("useAuth must be used within <AuthProvider>");
     return ctx;
 };
+
+
+/**
+ * Helper function to get auth token from AsyncStorage
+ */
+export const getAuthToken = async (): Promise<string | null> => {
+    try {
+        const token = await AsyncStorage.getItem('auth_token');
+        return token;
+    } catch (error) {
+        console.error('Error retrieving auth token:', error);
+        return null;
+    }
+};
