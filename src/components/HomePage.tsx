@@ -1,8 +1,10 @@
 import React from "react";
 import {
     View,
-    StatusBar
+    StatusBar,
+    Platform
 } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 // import { FloatingChatButton } from "./ChatButton";
 import { BottomNav } from "./BottomNav";
 
@@ -17,9 +19,15 @@ export const HomePage: React.FC<Props> = ({
     children,
     active = "home",
 }) => {
+    const insets = useSafeAreaInsets();
+    
     return (
-        <View className="flex-1 bg-white pt-9">
-            <StatusBar barStyle="dark-content" backgroundColor="white" />
+        <View className="flex-1 bg-white" style={{ paddingTop: insets.top }}>
+            <StatusBar 
+                barStyle="dark-content" 
+                backgroundColor="white"
+                translucent={Platform.OS === 'android'}
+            />
             {children}
             {/* <FloatingChatButton /> */}
             <BottomNav active={active} />

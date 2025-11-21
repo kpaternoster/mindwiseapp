@@ -3,6 +3,7 @@ import {
     Animated,
     Dimensions,
     Image,
+    Platform,
     Pressable,
     ScrollView,
     StyleSheet,
@@ -11,6 +12,7 @@ import {
     StatusBar,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useDissolveNavigation } from '@hooks/useDissolveNavigation';
 import { useFocusEffect } from '@react-navigation/native';
 import { colors } from '@design/color';
@@ -59,6 +61,7 @@ export default function WelcomeScreen() {
     const scrollX = useRef(new Animated.Value(0)).current;
     const scrollRef = useRef<ScrollView>(null);
     const [scrollKey, setScrollKey] = useState(0);
+    const insets = useSafeAreaInsets();
 
     // Reset scroll position when screen comes into focus
     useFocusEffect(
@@ -97,8 +100,12 @@ export default function WelcomeScreen() {
             colors={[colors.background_screen_orange_200, colors.background_screen_orange_200, colors.background_screen_white, colors.background_screen_white]}
             style={styles.flex}
         >
-            <StatusBar barStyle="dark-content" backgroundColor={colors.background_screen_orange_200} />
-            <Animated.View style={[styles.flex, { opacity }]}>
+            <StatusBar 
+                barStyle="dark-content" 
+                backgroundColor={colors.background_screen_orange_200}
+                translucent={Platform.OS === 'android'}
+            />
+            <Animated.View style={[styles.flex, { opacity, paddingTop: insets.top }]}>
                 <Animated.ScrollView
                     key={scrollKey}
                     ref={scrollRef}

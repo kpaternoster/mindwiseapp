@@ -1,5 +1,6 @@
 import 'react-native-reanimated';
 import { NavigationContainer } from '@react-navigation/native';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 import RootNavigator from './navigation';
 import React, { useEffect } from 'react';
 import { View } from 'react-native';
@@ -15,15 +16,17 @@ function App() {
   }, []);
 
   return (
-    <KeyboardProvider>
-      <View className='flex-1'>
-        <AuthProvider>
-          <NavigationContainer>
-            <RootNavigator />
-          </NavigationContainer>
-        </AuthProvider>
-      </View>
-    </KeyboardProvider>
+    <SafeAreaProvider>
+      <KeyboardProvider>
+        <View className='flex-1'>
+          <AuthProvider>
+            <NavigationContainer>
+              <RootNavigator />
+            </NavigationContainer>
+          </AuthProvider>
+        </View>
+      </KeyboardProvider>
+    </SafeAreaProvider>
   );
 }
 

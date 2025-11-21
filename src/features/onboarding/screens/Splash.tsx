@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from 'react';
-import { Text, Animated, StyleSheet, Image, StatusBar } from 'react-native';
+import { Text, Animated, StyleSheet, Image, StatusBar, Platform } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useDissolveNavigation } from '@hooks/useDissolveNavigation';
 import { colors } from '@design/color';
 import { t } from '@design/typography';
@@ -12,6 +13,7 @@ const AnimatedLinearGradient = Animated.createAnimatedComponent(LinearGradient);
 export default function SplashScreen() {
   const { opacity, dissolveReplace } = useDissolveNavigation();
   const hasNavigatedRef = useRef(false);
+  const insets = useSafeAreaInsets();
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -26,8 +28,12 @@ export default function SplashScreen() {
 
   return (
     <AnimatedLinearGradient colors={[colors.background_screen_white, colors.background_screen_orange]} style={styles.fill}>
-      <StatusBar barStyle="dark-content" backgroundColor={colors.background_screen_white} />
-      <Animated.View style={[styles.fill, { opacity }]} className="items-center justify-center px-6">
+      <StatusBar 
+        barStyle="dark-content" 
+        backgroundColor={colors.background_screen_white}
+        translucent={Platform.OS === 'android'}
+      />
+      <Animated.View style={[styles.fill, { opacity, paddingTop: insets.top }]} className="items-center justify-center px-6">
         <Image
           source={images.leaf}
           style={styles.image} />
