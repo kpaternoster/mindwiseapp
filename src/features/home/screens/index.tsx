@@ -296,7 +296,7 @@ const Home = () => {
                         </View>
                     </Pressable>
 
-                    <Pressable style={styles.moduleCard} onPress={() => dissolveTo('Help')}>
+                    <Pressable style={styles.moduleCard} onPress={() => dissolveTo('Account')}>
                         <View style={styles.moduleIconContainer}>
                             <UserIcon size={20} color={colors.orange_500} />
                         </View>
