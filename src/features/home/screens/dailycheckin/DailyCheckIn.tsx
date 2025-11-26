@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
     View,
     Text,
@@ -18,18 +18,49 @@ import { images } from '@design/image';
 import { useNavigation } from '@react-navigation/native';
 import { HomePage } from '@components/HomePage';
 import InfiniteDateSelector from '@features/home/components/InfiniteDateSelector';
+import { fetchTodayStatus } from '../../api';
+import { formatDateToISO, capitalizeFirstLetter } from '../../utils';
 
 type NavigationProp = NativeStackNavigationProp<HomeStackParams>;
+
 
 export default function DailyCheckInScreen() {
     const navigation = useNavigation<NavigationProp>();
     const [selectedDate, setSelectedDate] = useState(new Date()); // Current date
     const [currentStreak, setCurrentStreak] = useState(12);
-    const [weeklyCount, setWeeklyCount] = useState({ completed: 5, total: 7 });
+    const [todayStatus, setTodayStatus] = useState('Pending');
+    const [weeklyCount, setWeeklyCount] = useState(5);
     const [totalEntries, setTotalEntries] = useState(45);
+    const [isLoading, setIsLoading] = useState(false);
+
+    /**
+     * Fetch today's status for the selected date
+     */
+    const loadTodayStatus = async (date: Date) => {
+        try {
+            setIsLoading(true);
+            const dateString = formatDateToISO(date);
+            const statusData = await fetchTodayStatus(dateString);
+            // console.log('statusData', statusData);
+            // Update state with fetched data
+            setCurrentStreak(statusData.streak);
+            setTodayStatus(capitalizeFirstLetter(statusData.todayStatus));
+            setWeeklyCount(statusData.thisWeek);
+            setTotalEntries(statusData.totalEntries);
+        } catch (error) {
+            console.error('Error loading today status:', error);
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
+    useEffect(() => {
+        loadTodayStatus(selectedDate);
+    }, []);
 
     const handleDateSelect = (date: Date) => {
         setSelectedDate(date);
+        loadTodayStatus(date);
     };
 
     return (
@@ -78,7 +109,7 @@ export default function DailyCheckInScreen() {
                                 Today's Status
                             </Text>
                             <Text style={[t.textMedium, { color: colors.text_secondary }]} className='mt-3'>
-                                Pending
+                                {todayStatus}
                             </Text>
                         </View>
 
@@ -101,7 +132,7 @@ export default function DailyCheckInScreen() {
                             style={{ backgroundColor: colors.white }}
                         >
                             <Text style={[t.title20SemiBold, { color: colors.text_secondary }]} className="text-center">
-                                <Text style={[t.title20SemiBold, { color: colors.Text_Primary }]}>{weeklyCount.completed}</Text> / <Text style={[t.title20SemiBold, { color: colors.text_secondary }]}>{weeklyCount.total}</Text>
+                                <Text style={[t.title20SemiBold, { color: colors.Text_Primary }]}>{weeklyCount}</Text> / <Text style={[t.title20SemiBold, { color: colors.text_secondary }]}>7</Text>
                             </Text>
                             <Text style={[t.textRegular, { color: colors.text_secondary }]} className="text-center mt-1">
                                 This week

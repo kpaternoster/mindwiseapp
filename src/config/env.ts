@@ -22,4 +22,6 @@ export const API_ENDPOINTS = {
   NOTIFICATION_SETTINGS: `${BASE_API_URL}/notification-settings`,
   NOTIFICATION_TOKEN: `${BASE_API_URL}/notification-token`,
   SHARING_PERMISSIONS: `${BASE_API_URL}/sharing-permissions`,
+  DIARY: `${BASE_API_URL}/diary`,
+  TODAY_STATUS: `${BASE_API_URL}/today-status`,
 } as const;

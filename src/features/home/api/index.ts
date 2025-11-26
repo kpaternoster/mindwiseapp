@@ -318,3 +318,194 @@ export const updateLetterFromFutureSelf = async (
     }
 };
 
+/**
+ * Diary API types and functions
+ */
+export interface DiaryEntry {
+    distress: number;
+    safety: number;
+    emotions: {
+        [key: string]: number;
+    };
+    urges: {
+        [key: string]: number;
+    };
+    skillsUsed: string[];
+    needHelpWith: string[];
+    notes: string;
+}
+
+export interface DiaryEntryRequest {
+    distress: number;
+    safety: number;
+    emotions: {
+        [key: string]: number;
+    };
+    urges: {
+        [key: string]: number;
+    };
+    skillsUsed: string[];
+    needHelpWith: string[];
+    notes: string;
+}
+
+/**
+ * Fetch diary entry for a specific date
+ * @param date - ISO date format (YYYY-MM-DD)
+ */
+export const fetchDiaryEntry = async (date: string): Promise<DiaryEntry> => {
+    try {
+        const token = await getAuthToken();
+        
+        if (!token) {
+            throw new Error('No authentication token found');
+        }
+        
+        // Validate date format (YYYY-MM-DD)
+        if (!/^\d{4}-\d{2}-\d{2}$/.test(date)) {
+            throw new Error('Date must be in ISO format (YYYY-MM-DD)');
+        }
+        
+        const response = await fetch(`${API_ENDPOINTS.DIARY}/${date}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`,
+            },
+        });
+
+        if (!response.ok) {
+            throw new Error(`Failed to fetch diary entry: ${response.statusText}`);
+        }
+
+        const data: DiaryEntry = await response.json();
+        return data;
+    } catch (error) {
+        console.error('Error fetching diary entry:', error);
+        throw error;
+    }
+};
+
+/**
+ * Update or create diary entry for a specific date
+ * @param date - ISO date format (YYYY-MM-DD)
+ * @param entryData - Diary entry data
+ */
+export const updateDiaryEntry = async (
+    date: string,
+    entryData: DiaryEntryRequest
+): Promise<DiaryEntry> => {
+    try {
+        const token = await getAuthToken();
+        
+        if (!token) {
+            throw new Error('No authentication token found');
+        }
+        
+        // Validate date format (YYYY-MM-DD)
+        if (!/^\d{4}-\d{2}-\d{2}$/.test(date)) {
+            throw new Error('Date must be in ISO format (YYYY-MM-DD)');
+        }
+        
+        const response = await fetch(`${API_ENDPOINTS.DIARY}/${date}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`,
+            },
+            body: JSON.stringify(entryData),
+        });
+
+        if (!response.ok) {
+            throw new Error(`Failed to update diary entry: ${response.statusText}`);
+        }
+
+        const data: DiaryEntry = await response.json();
+        return data;
+    } catch (error) {
+        console.error('Error updating diary entry:', error);
+        throw error;
+    }
+};
+
+/**
+ * Delete diary entry for a specific date
+ * @param date - ISO date format (YYYY-MM-DD)
+ */
+export const deleteDiaryEntry = async (date: string): Promise<void> => {
+    try {
+        const token = await getAuthToken();
+        
+        if (!token) {
+            throw new Error('No authentication token found');
+        }
+        
+        // Validate date format (YYYY-MM-DD)
+        if (!/^\d{4}-\d{2}-\d{2}$/.test(date)) {
+            throw new Error('Date must be in ISO format (YYYY-MM-DD)');
+        }
+        
+        const response = await fetch(`${API_ENDPOINTS.DIARY}/${date}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`,
+            },
+        });
+
+        if (!response.ok) {
+            throw new Error(`Failed to delete diary entry: ${response.statusText}`);
+        }
+    } catch (error) {
+        console.error('Error deleting diary entry:', error);
+        throw error;
+    }
+};
+
+/**
+ * Today Status API types and functions
+ */
+export interface TodayStatus {
+    todayStatus: string;
+    streak: number;
+    thisWeek: number;
+    totalEntries: number;
+}
+
+/**
+ * Fetch today's status for a specific date
+ * @param date - ISO date format (YYYY-MM-DD)
+ */
+export const fetchTodayStatus = async (date: string): Promise<TodayStatus> => {
+    try {
+        const token = await getAuthToken();
+        
+        if (!token) {
+            throw new Error('No authentication token found');
+        }
+        
+        // Validate date format (YYYY-MM-DD)
+        if (!/^\d{4}-\d{2}-\d{2}$/.test(date)) {
+            throw new Error('Date must be in ISO format (YYYY-MM-DD)');
+        }
+        
+        const response = await fetch(`${API_ENDPOINTS.TODAY_STATUS}/${date}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`,
+            },
+        });
+
+        if (!response.ok) {
+            throw new Error(`Failed to fetch today status: ${response.statusText}`);
+        }
+
+        const data: TodayStatus = await response.json();
+        return data;
+    } catch (error) {
+        console.error('Error fetching today status:', error);
+        throw error;
+    }
+};
+

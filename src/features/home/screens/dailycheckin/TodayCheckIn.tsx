@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import {
     View,
     Text,
@@ -17,9 +17,10 @@ import { colors } from '@design/color';
 import { t } from '@design/typography';
 import { ArrowRightIcon, CalendarBlankIcon, CheckIcon, CloseIcon, DownIcon } from '@components/Utils';
 import { PageHeader, RatingSlider } from '../../components';
-import { getCurrentDate, formatDate } from '../../utils/dateHelper';
+import { getCurrentDate, formatDate, formatDateToISO } from '../../utils/dateHelper';
 import todayCheckInData from '../../data/dailycheckin/todayCheckIn.json';
 import dailyPlanData from '../../data/dailycheckin/dailyPlan.json';
+import { fetchDiaryEntry, updateDiaryEntry, DiaryEntryRequest } from '@features/home/api';
 
 type NavigationProp = NativeStackNavigationProp<HomeStackParams>;
 
@@ -31,32 +32,61 @@ interface UrgeRatings {
     [key: string]: number;
 }
 
+const buildInitialEmotionRatings = (): EmotionRatings => {
+    const initial: EmotionRatings = {};
+    todayCheckInData.emotions.forEach((emotion) => {
+        initial[emotion.id] = 0;
+    });
+    return initial;
+};
+
+const buildInitialUrgeRatings = (): UrgeRatings => {
+    const initial: UrgeRatings = {};
+    todayCheckInData.urges.forEach((urge) => {
+        initial[urge.id] = 0 ;
+    });
+    return initial;
+};
+
+const normalizeUrgeKey = (key: string) => {
+    if (key === 'lieOrDeceive') {
+        return 'lieDeceive';
+    }
+    return key;
+};
+
+const mergeRatings = (
+    defaults: Record<string, number>,
+    apiRatings?: Record<string, number>,
+    keyNormalizer: (key: string) => string = (key) => key
+) => {
+    const merged = { ...defaults };
+    if (apiRatings) {
+        Object.entries(apiRatings).forEach(([key, value]) => {
+            const normalizedKey = keyNormalizer(key);
+            if (normalizedKey in merged) {
+                merged[normalizedKey] = value;
+            }
+        });
+    }
+    return merged;
+};
+
 export default function TodayCheckInScreen() {
     const navigation = useNavigation<NavigationProp>();
+    const scrollViewRef = useRef<ScrollView | null>(null);
     const [activeTab, setActiveTab] = useState<'check-in' | 'daily-plan'>('check-in');
     const [date, setDate] = useState(getCurrentDate());
     const [selectedDate, setSelectedDate] = useState(new Date());
     const [showDatePicker, setShowDatePicker] = useState(false);
-    const [distressLevel, setDistressLevel] = useState(5);
-    const [safetyRating, setSafetyRating] = useState(5);
+    const [distressLevel, setDistressLevel] = useState(0);
+    const [safetyRating, setSafetyRating] = useState(0);
     
-    // Initialize all emotions to 5 (only runs once)
-    const [emotionRatings, setEmotionRatings] = useState<EmotionRatings>(() => {
-        const initial: EmotionRatings = {};
-        todayCheckInData.emotions.forEach((emotion) => {
-            initial[emotion.id] = 5;
-        });
-        return initial;
-    });
+    // Initialize all emotions to 0 (only runs once)
+    const [emotionRatings, setEmotionRatings] = useState<EmotionRatings>(() => buildInitialEmotionRatings());
     
-    // Initialize all urges to 5 (only runs once)
-    const [urgeRatings, setUrgeRatings] = useState<UrgeRatings>(() => {
-        const initial: UrgeRatings = {};
-        todayCheckInData.urges.forEach((urge) => {
-            initial[urge.id] = 5;
-        });
-        return initial;
-    });
+    // Initialize all urges to 0 (only runs once)
+    const [urgeRatings, setUrgeRatings] = useState<UrgeRatings>(() => buildInitialUrgeRatings());
     
     const [selectedSkills, setSelectedSkills] = useState<string[]>([]);
     const [showSkillsDropdown, setShowSkillsDropdown] = useState(false);
@@ -70,6 +100,7 @@ export default function TodayCheckInScreen() {
             [emotionId]: value,
         }));
     };
+
 
     const handleUrgeChange = (urgeId: string, value: number) => {
         setUrgeRatings((prev) => ({
@@ -97,16 +128,61 @@ export default function TodayCheckInScreen() {
         setShowHelpAreasDropdown(false);
     };
 
-    const handleSave = () => {
-        console.log('Save check-in data');
-        // Navigate to daily plan or back
+    const handleSave = async () => {
+        try {
+            const isoDate = formatDateToISO(selectedDate);
+
+            const payload: DiaryEntryRequest = {
+                distress: distressLevel,
+                safety: safetyRating,
+                emotions: emotionRatings,
+                urges: urgeRatings,
+                skillsUsed: selectedSkills,
+                needHelpWith: selectedHelpArea ? [selectedHelpArea] : [],
+                notes,
+            };
+
+            await updateDiaryEntry(isoDate, payload);
+
+            // Switch to daily plan tab after save
+            setActiveTab('daily-plan');
+
+            // Scroll to top after saving
+            if (scrollViewRef.current) {
+                scrollViewRef.current.scrollTo({ y: 0, animated: true });
+            }
+        } catch (error) {
+            console.error('Error saving diary entry:', error);
+        }
     };
+
+    const loadDiaryEntry = useCallback(async (dateToLoad: Date) => {
+        try {
+            const isoDate = formatDateToISO(dateToLoad);
+            const entry = await fetchDiaryEntry(isoDate);
+
+            setDistressLevel(entry?.distress ?? 0);
+            setSafetyRating(entry?.safety ?? 0);
+            setEmotionRatings(() => mergeRatings(buildInitialEmotionRatings(), entry?.emotions));
+            setUrgeRatings(() => mergeRatings(buildInitialUrgeRatings(), entry?.urges));
+            setSelectedSkills(entry?.skillsUsed ?? []);
+            setSelectedHelpArea(entry?.needHelpWith?.[0] ?? '');
+            setNotes(entry?.notes ?? '');
+        } catch (error) {
+            console.error('Error fetching diary entry:', error);
+        }
+    }, []);
+
+    useEffect(() => {
+        loadDiaryEntry(selectedDate);
+    }, [loadDiaryEntry]);
 
     const onDateChange = (event: any, selectedDate?: Date) => {
         const currentDate = selectedDate || new Date();
         setShowDatePicker(Platform.OS === 'ios');
         setSelectedDate(currentDate);
         setDate(formatDate(currentDate));
+        loadDiaryEntry(currentDate);
     };
 
     const showDatepicker = () => {
@@ -122,6 +198,7 @@ export default function TodayCheckInScreen() {
 
             {/* Main Content */}
             <ScrollView
+                ref={scrollViewRef}
                 className="flex-1 px-6 mb-10"
                 showsVerticalScrollIndicator={false}
                 contentContainerStyle={styles.scrollContent}
