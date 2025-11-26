@@ -509,3 +509,51 @@ export const fetchTodayStatus = async (date: string): Promise<TodayStatus> => {
     }
 };
 
+/**
+ * Progress Tracking API types and functions
+ */
+export interface ProgressTracking {
+    distress: (number | null)[];
+    totalPositiveEmotions: (number | null)[];
+    totalNegativeEmotions: (number | null)[];
+    totalUrges: (number | null)[];
+    numberOfSkillsUsed: (number | null)[];
+}
+
+/**
+ * Fetch progress tracking data for a specific date
+ * @param date - ISO date format (YYYY-MM-DD)
+ */
+export const fetchProgressTracking = async (date: string): Promise<ProgressTracking> => {
+    try {
+        const token = await getAuthToken();
+
+        if (!token) {
+            throw new Error('No authentication token found');
+        }
+
+        // Validate date format (YYYY-MM-DD)
+        if (!/^\d{4}-\d{2}-\d{2}$/.test(date)) {
+            throw new Error('Date must be in ISO format (YYYY-MM-DD)');
+        }
+
+        const response = await fetch(`${API_ENDPOINTS.PROGRESS_TRACKING}/${date}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`,
+            },
+        });
+
+        if (!response.ok) {
+            throw new Error(`Failed to fetch progress tracking: ${response.statusText}`);
+        }
+
+        const data: ProgressTracking = await response.json();
+        return data;
+    } catch (error) {
+        console.error('Error fetching progress tracking:', error);
+        throw error;
+    }
+};
+

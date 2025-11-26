@@ -24,4 +24,5 @@ export const API_ENDPOINTS = {
   SHARING_PERMISSIONS: `${BASE_API_URL}/sharing-permissions`,
   DIARY: `${BASE_API_URL}/diary`,
   TODAY_STATUS: `${BASE_API_URL}/today-status`,
+  PROGRESS_TRACKING: `${BASE_API_URL}/progress-tracking`,
 } as const;
