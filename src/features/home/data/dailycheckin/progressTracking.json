@@ -6,112 +6,19 @@
     },
     "sudsOvertime": {
         "title": "SUDS Overtime",
-        "subtitle": "Your overall distress levels for the last 30 days",
-        "data": [
-            { "day": 1, "value": 7 },
-            { "day": 2, "value": 6 },
-            { "day": 3, "value": 5 },
-            { "day": 4, "value": 4 },
-            { "day": 5, "value": 5 },
-            { "day": 6, "value": 6 },
-            { "day": 7, "value": 5 },
-            { "day": 8, "value": 4 },
-            { "day": 9, "value": 3 },
-            { "day": 10, "value": 4 },
-            { "day": 11, "value": 5 },
-            { "day": 12, "value": 6 },
-            { "day": 13, "value": 7 },
-            { "day": 14, "value": 8 },
-            { "day": 15, "value": 9 },
-            { "day": 16, "value": 8 },
-            { "day": 17, "value": 7 },
-            { "day": 18, "value": 8 },
-            { "day": 19, "value": 7 },
-            { "day": 20, "value": 6 },
-            { "day": 21, "value": 5 },
-            { "day": 22, "value": 4 },
-            { "day": 23, "value": 3 },
-            { "day": 24, "value": 4 },
-            { "day": 25, "value": 5 },
-            { "day": 26, "value": 6 },
-            { "day": 27, "value": 7 },
-            { "day": 28, "value": 8 },
-            { "day": 29, "value": 7 },
-            { "day": 30, "value": 6 }
-        ],
-        "highlightedDay": 18
+        "subtitle": "Your overall distress levels for the last 30 days"
     },
     "emotionalIntensity": {
         "title": "Emotional Intensity",
-        "subtitle": "Average intensity of positive vs. negative emotions",
-        "positive": [
-            { "point": 1, "value": 5 },
-            { "point": 2, "value": 4 },
-            { "point": 3, "value": 3 },
-            { "point": 4, "value": 4 },
-            { "point": 5, "value": 6 },
-            { "point": 6, "value": 8 },
-            { "point": 7, "value": 7 },
-            { "point": 8, "value": 5 },
-            { "point": 9, "value": 6 },
-            { "point": 10, "value": 7 }
-        ],
-        "negative": [
-            { "point": 1, "value": 6 },
-            { "point": 2, "value": 7 },
-            { "point": 3, "value": 5 },
-            { "point": 4, "value": 4 },
-            { "point": 5, "value": 5 },
-            { "point": 6, "value": 7 },
-            { "point": 7, "value": 6 },
-            { "point": 8, "value": 5 },
-            { "point": 9, "value": 4 },
-            { "point": 10, "value": 5 }
-        ]
+        "subtitle": "Average intensity of positive vs. negative emotions"
     },
     "targetBehaviorUrges": {
         "title": "Target Behavior Urges",
-        "subtitle": "Incidence of urges for target behaviors per day",
-        "data": [
-            { "day": 1, "value": 2 },
-            { "day": 2, "value": 2 },
-            { "day": 3, "value": 2 },
-            { "day": 4, "value": 3 },
-            { "day": 5, "value": 6 },
-            { "day": 6, "value": 6 },
-            { "day": 7, "value": 5 },
-            { "day": 8, "value": 5 },
-            { "day": 9, "value": 2 },
-            { "day": 10, "value": 5 },
-            { "day": 11, "value": 8 },
-            { "day": 12, "value": 6 },
-            { "day": 13, "value": 4 },
-            { "day": 14, "value": 4 },
-            { "day": 15, "value": 6 }
-        ],
-        "highlightedDay": 11
+        "subtitle": "Incidence of urges for target behaviors per day"
     },
     "skillsUsedPerDay": {
         "title": "Skills Used Per Day",
-        "subtitle": "Number of different DBT skills you practiced each day",
-        "data": [
-            { "day": 1, "value": 3 },
-            { "day": 2, "value": 4 },
-            { "day": 3, "value": 4 },
-            { "day": 4, "value": 3 },
-            { "day": 5, "value": 6 },
-            { "day": 6, "value": 7 },
-            { "day": 7, "value": 5 },
-            { "day": 8, "value": 6 },
-            { "day": 9, "value": 2 },
-            { "day": 10, "value": 5 },
-            { "day": 11, "value": 9 },
-            { "day": 12, "value": 6 },
-            { "day": 13, "value": 4 },
-            { "day": 14, "value": 5 },
-            { "day": 15, "value": 6 }
-        ],
-        "highlightedDay": 11
+        "subtitle": "Number of different DBT skills you practiced each day"
     }
 }
 
