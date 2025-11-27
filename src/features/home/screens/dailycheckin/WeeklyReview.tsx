@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
     View,
     Text,
@@ -8,15 +8,16 @@ import {
     StyleSheet,
     StatusBar,
     Dimensions,
+    ActivityIndicator,
 } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { HomeStackParams } from '@app/navigation/types';
 import { colors } from '@design/color';
 import { t } from '@design/typography';
 import { ArrowRightIcon } from '@components/Utils';
 import { PageHeader } from '../../components';
-import weeklyReviewData from '../../data/dailycheckin/weeklyReview.json';
+import { fetchWeeklyReview, updateWeeklyReview } from '@features/home/api';
+import { formatDateToISO, getDayName } from '../../utils/dateHelper';
 
 type NavigationProp = NativeStackNavigationProp<HomeStackParams>;
 
@@ -40,18 +41,85 @@ const chartWidth = screenWidth - 80; // Account for padding
 const barWidth = Math.min((chartWidth / 7) - 8, 24); // 7 days, with spacing
 
 export default function WeeklyReviewScreen() {
-    const navigation = useNavigation<NavigationProp>();
     const [reflection, setReflection] = useState('');
+    const [weeklySUDS, setWeeklySUDS] = useState<WeeklySUDSData[]>([]);
+    const [topEmotions, setTopEmotions] = useState<EmotionData[]>([]);
+    const [topUrges, setTopUrges] = useState<UrgeData[]>([]);
+    const [mostPracticedSkills, setMostPracticedSkills] = useState<string[]>([]);
+    const [isLoading, setIsLoading] = useState(false);
+    const [isSaving, setIsSaving] = useState(false);
 
-    // Data from JSON file - in real app, this would come from user's data store
-    const weeklySUDS: WeeklySUDSData[] = weeklyReviewData.sampleData.weeklySUDS;
-    const topEmotions: EmotionData[] = weeklyReviewData.sampleData.topEmotions;
-    const topUrges: UrgeData[] = weeklyReviewData.sampleData.topUrges;
-    const mostPracticedSkills = weeklyReviewData.sampleData.mostPracticedSkills;
+    useEffect(() => {
+        const loadWeeklyReview = async () => {
+            try {
+                setIsLoading(true);
+                const todayIso = formatDateToISO(new Date());
+                const data = await fetchWeeklyReview(todayIso);
+                // Transform dailyDistress to WeeklySUDSData format
+                const dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+                const transformedSUDS: WeeklySUDSData[] = data.dailyDistress.map((value, index) => {
+                    // Calculate the date for this index (7 days ending with today)
+                    const date = new Date();
+                    date.setDate(date.getDate() - (6 - index));
+                    const dayName = dayNames[date.getDay()];
+                    
+                    return {
+                        day: dayName,
+                        level: value ?? 0,
+                    };
+                });
+                setWeeklySUDS(transformedSUDS);
 
-    const handleSaveReflection = () => {
-        console.log('Save reflection:', reflection);
-        // Handle save logic
+                // Transform topEmotions - convert camelCase to Title Case
+                const formatKeyToName = (key: string): string => {
+                    return key
+                        .replace(/([A-Z])/g, ' $1') // Add space before capital letters
+                        .replace(/^./, (str) => str.toUpperCase()) // Capitalize first letter
+                        .trim();
+                };
+
+                const transformedEmotions: EmotionData[] = data.topEmotions.map((emotion) => ({
+                    name: formatKeyToName(emotion.key),
+                    value: Math.round(emotion.average * 10) / 10, // Round to 1 decimal place
+                }));
+                setTopEmotions(transformedEmotions);
+
+                // Transform topUrges
+                const transformedUrges: UrgeData[] = data.topUrges.map((urge) => ({
+                    name: formatKeyToName(urge.key),
+                    value: Math.round(urge.average * 10) / 10, // Round to 1 decimal place
+                }));
+                setTopUrges(transformedUrges);
+
+                // Set most practiced skills
+                setMostPracticedSkills(data.mostPracticedSkills);
+
+                // Set reflection
+                setReflection(data.reflection || '');
+            } catch (error) {
+                console.error('Error loading weekly review:', error);
+            } finally {
+                setIsLoading(false);
+            }
+        };
+
+        loadWeeklyReview();
+    }, []);
+
+    const handleSaveReflection = async () => {
+        if (!reflection.trim()) {
+            return;
+        }
+
+        try {
+            setIsSaving(true);
+            const todayIso = formatDateToISO(new Date());
+            await updateWeeklyReview(todayIso, { reflection });
+        } catch (error) {
+            console.error('Error saving reflection:', error);
+        } finally {
+            setIsSaving(false);
+        }
     };
 
     const renderBarChart = () => {
@@ -133,21 +201,26 @@ export default function WeeklyReviewScreen() {
             <PageHeader title="Weekly Review" />
 
             {/* Main Content */}
-            <ScrollView
-                className="flex-1 px-6"
-                showsVerticalScrollIndicator={false}
-                contentContainerStyle={styles.scrollContent}
-            >
-                {/* Weekly SUDS Levels */}
-                <Text style={[t.title20SemiBold, { color: colors.Text_Primary }]} className="mb-8">
-                    Weekly SUDS Levels
-                </Text>
-                <View
-                    className="p-4 rounded-xl mb-4 border border-gray-200"
-                    style={{ backgroundColor: colors.white }}
-                >
-                    {renderBarChart()}
+            {isLoading ? (
+                <View style={styles.loadingContainer}>
+                    <ActivityIndicator size="large" color={colors.button_orange} />
                 </View>
+            ) : (
+                <ScrollView
+                    className="flex-1 px-6"
+                    showsVerticalScrollIndicator={false}
+                    contentContainerStyle={styles.scrollContent}
+                >
+                    {/* Weekly SUDS Levels */}
+                    <Text style={[t.title20SemiBold, { color: colors.Text_Primary }]} className="mb-8">
+                        Weekly SUDS Levels
+                    </Text>
+                    <View
+                        className="p-4 pt-8 rounded-xl mb-4 border border-gray-200"
+                        style={{ backgroundColor: colors.white }}
+                    >
+                        {renderBarChart()}
+                    </View>
 
                 {/* Top Emotions */}
                 <View
@@ -226,23 +299,30 @@ export default function WeeklyReviewScreen() {
                     />
                 </View>
 
-                {/* Save Button */}
-                <Pressable
-                    className="rounded-full py-4 px-6 flex-row justify-center items-center mb-6"
-                    style={{ backgroundColor: colors.button_orange }}
-                    onPress={handleSaveReflection}
-                >
-                    <Text
-                        style={[t.button, { color: colors.white }]}
-                        className="flex-1 text-center"
+                    {/* Save Button */}
+                    <Pressable
+                        className="rounded-full py-4 px-6 flex-row justify-center items-center mb-6"
+                        style={{ 
+                            backgroundColor: isSaving ? colors.text_disabled : colors.button_orange,
+                            opacity: isSaving ? 0.6 : 1,
+                        }}
+                        onPress={handleSaveReflection}
+                        disabled={isSaving}
                     >
-                        Save Reflection
-                    </Text>
-                    <View className="w-9 h-9 justify-center items-center bg-white rounded-full">
-                        <ArrowRightIcon size={16} color={colors.icon} />
-                    </View>
-                </Pressable>
-            </ScrollView>
+                        <Text
+                            style={[t.button, { color: colors.white }]}
+                            className="flex-1 text-center"
+                        >
+                            {isSaving ? 'Saving...' : 'Save Reflection'}
+                        </Text>
+                        {!isSaving && (
+                            <View className="w-9 h-9 justify-center items-center bg-white rounded-full">
+                                <ArrowRightIcon size={16} color={colors.icon} />
+                            </View>
+                        )}
+                    </Pressable>
+                </ScrollView>
+            )}
         </View>
     );
 }
@@ -251,12 +331,19 @@ const styles = StyleSheet.create({
     scrollContent: {
         paddingBottom: 20,
     },
+    loadingContainer: {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+        paddingVertical: 100,
+    },
     chartContainer: {
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'flex-end',
         paddingHorizontal: 8,
         paddingVertical: 16,
+        marginTop: 24,
     },
     barContainer: {
         alignItems: 'center',
