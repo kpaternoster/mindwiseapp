@@ -557,3 +557,107 @@ export const fetchProgressTracking = async (date: string): Promise<ProgressTrack
     }
 };
 
+/**
+ * Weekly Review API types and functions
+ */
+export interface TopEmotion {
+    key: string;
+    average: number;
+}
+
+export interface TopUrge {
+    key: string;
+    average: number;
+}
+
+export interface WeeklyReviewResponse {
+    dailyDistress: (number | null)[];
+    topEmotions: TopEmotion[];
+    topUrges: TopUrge[];
+    mostPracticedSkills: string[];
+    reflection: string;
+}
+
+export interface WeeklyReviewRequest {
+    reflection: string;
+}
+
+/**
+ * Fetch weekly review data for a specific date
+ * @param date - ISO date format (YYYY-MM-DD)
+ */
+export const fetchWeeklyReview = async (date: string): Promise<WeeklyReviewResponse> => {
+    try {
+        const token = await getAuthToken();
+
+        if (!token) {
+            throw new Error('No authentication token found');
+        }
+
+        // Validate date format (YYYY-MM-DD)
+        if (!/^\d{4}-\d{2}-\d{2}$/.test(date)) {
+            throw new Error('Date must be in ISO format (YYYY-MM-DD)');
+        }
+
+        const response = await fetch(`${API_ENDPOINTS.WEEKLY_REVIEW}/${date}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`,
+            },
+        });
+
+        if (!response.ok) {
+            throw new Error(`Failed to fetch weekly review: ${response.statusText}`);
+        }
+
+        const data: WeeklyReviewResponse = await response.json();
+        return data;
+    } catch (error) {
+        console.error('Error fetching weekly review:', error);
+        throw error;
+    }
+};
+
+/**
+ * Update weekly review reflection for a specific date
+ * @param date - ISO date format (YYYY-MM-DD)
+ * @param reviewData - Weekly review data containing reflection
+ */
+export const updateWeeklyReview = async (
+    date: string,
+    reviewData: WeeklyReviewRequest
+): Promise<WeeklyReviewResponse> => {
+    try {
+        const token = await getAuthToken();
+
+        if (!token) {
+            throw new Error('No authentication token found');
+        }
+
+        // Validate date format (YYYY-MM-DD)
+        if (!/^\d{4}-\d{2}-\d{2}$/.test(date)) {
+            throw new Error('Date must be in ISO format (YYYY-MM-DD)');
+        }
+
+        const response = await fetch(`${API_ENDPOINTS.WEEKLY_REVIEW}/${date}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`,
+            },
+            body: JSON.stringify(reviewData),
+        });
+
+        if (!response.ok) {
+            throw new Error(`Failed to update weekly review: ${response.statusText}`);
+        }
+
+        const data: WeeklyReviewResponse = await response.json();
+        return data;
+    } catch (error) {
+        console.error('Error updating weekly review:', error);
+        throw error;
+    }
+};
+

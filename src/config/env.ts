@@ -25,4 +25,5 @@ export const API_ENDPOINTS = {
   DIARY: `${BASE_API_URL}/diary`,
   TODAY_STATUS: `${BASE_API_URL}/today-status`,
   PROGRESS_TRACKING: `${BASE_API_URL}/progress-tracking`,
+  WEEKLY_REVIEW: `${BASE_API_URL}/weekly-review`,
 } as const;
