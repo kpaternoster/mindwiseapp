@@ -1,5 +1,6 @@
-import React, { useState, useRef } from 'react';
-import { View, Text, PanResponder, Animated } from 'react-native';
+import React, { useState, useEffect, useRef } from 'react';
+import { View, Text, Platform } from 'react-native';
+import Slider from '@react-native-community/slider';
 import { colors } from '@design/color';
 import { t } from '@design/typography';
 
@@ -13,11 +14,11 @@ export const DistressSlider: React.FC<DistressSliderProps> = ({
     onValueChange,
 }) => {
     const [sliderWidth, setSliderWidth] = useState(0);
-    const [trackLeft, setTrackLeft] = useState(0);
+    const [displayValue, setDisplayValue] = useState(value);
+    const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
     const minValue = 0;
     const maxValue = 10;
     const tickCount = 11; // 0 to 10 = 11 ticks
-    const startValueRef = useRef(value);
 
     const getDistressMessage = (level: number): string => {
         if (level <= 2) return "You're feeling quite calm and in control.";
@@ -28,56 +29,37 @@ export const DistressSlider: React.FC<DistressSliderProps> = ({
         return "You're feeling extremely overwhelmed or in crisis.";
     };
 
-    const handleTouch = (locationX: number) => {
-        if (sliderWidth === 0) return;
-        
-        // Calculate the value based on touch position relative to track
-        const percentage = Math.max(0, Math.min(1, locationX / sliderWidth));
-        const newValue = Math.round(percentage * (maxValue - minValue) + minValue);
-        
-        onValueChange(newValue);
+    const handleValueChange = (newValue: number) => {
+        // Round to nearest integer to ensure step values
+        const roundedValue = Math.round(newValue);
+
+        // Update parent immediately
+        onValueChange(roundedValue);
+
+        // Clear any existing timeout
+        if (timeoutRef.current) {
+            clearTimeout(timeoutRef.current);
+        }
+
+        // Update display value with a slight delay to sync with thumb movement
+        timeoutRef.current = setTimeout(() => {
+            setDisplayValue(roundedValue);
+        }, 50); // 50ms delay to sync with thumb animation
     };
 
-    // Track PanResponder (for tapping on track)
-    const trackPanResponder = PanResponder.create({
-        onStartShouldSetPanResponder: () => true,
-        onPanResponderGrant: (evt, gestureState) => {
-            handleTouch(gestureState.x0 - trackLeft);
-        },
-    });
+    // Sync displayValue when value prop changes externally
+    useEffect(() => {
+        setDisplayValue(value);
+    }, [value]);
 
-    // Thumb PanResponder (for dragging thumb)
-    const thumbPanResponder = useRef(
-        PanResponder.create({
-            onStartShouldSetPanResponder: () => true,
-            onMoveShouldSetPanResponder: () => true,
-            onPanResponderGrant: () => {
-                // Store the current value when drag starts
-                startValueRef.current = value;
-            },
-            onPanResponderMove: (evt, gestureState) => {
-                if (sliderWidth === 0) return;
-                
-                // Calculate the change in position based on dx (accumulated distance)
-                const startPosition = ((startValueRef.current - minValue) / (maxValue - minValue)) * sliderWidth;
-                const newPosition = startPosition + gestureState.dx;
-                
-                // Clamp the position and convert to value
-                const clampedPosition = Math.max(0, Math.min(sliderWidth, newPosition));
-                const percentage = clampedPosition / sliderWidth;
-                const newValue = Math.round(percentage * (maxValue - minValue) + minValue);
-                
-                onValueChange(newValue);
-            },
-            onPanResponderRelease: () => {
-                // Drag ended
-            },
-        })
-    ).current;
-
-    const thumbPosition = sliderWidth > 0 
-        ? ((value - minValue) / (maxValue - minValue)) * sliderWidth 
-        : 0;
+    // Cleanup timeout on unmount
+    useEffect(() => {
+        return () => {
+            if (timeoutRef.current) {
+                clearTimeout(timeoutRef.current);
+            }
+        };
+    }, []);
 
     return (
         <View style={{ backgroundColor: colors.white }} className="mt-4">
@@ -94,98 +76,64 @@ export const DistressSlider: React.FC<DistressSliderProps> = ({
                 </Text>
             </View>
 
-            {/* Custom Slider */}
             <View
-                className="relative"
-                style={{ height: 40, paddingHorizontal: 0 }}
+                style={{ position: 'relative', marginTop: 20 }}
                 onLayout={(event) => {
-                    const { width, x } = event.nativeEvent.layout;
+                    const { width } = event.nativeEvent.layout;
                     setSliderWidth(width);
-                    event.currentTarget.measure((fx, fy, width, height, px, py) => {
-                        setTrackLeft(px);
-                    });
                 }}
             >
-                {/* Slider Track */}
-                <View
-                    className="absolute"
-                    style={{
-                        top: 18,
-                        left: 0,
-                        right: 0,
-                        height: 4,
-                        borderRadius: 2,
-                    }}
-                    {...trackPanResponder.panHandlers}
-                >
-                    {/* Inactive Track (Full width, faded) */}
-                    <View
-                        className="absolute"
-                        style={{
-                            left: 0,
-                            right: 0,
-                            height: 4,
-                            backgroundColor: `${colors.orange_500}40`, // 25% opacity
-                            borderRadius: 2,
-                        }}
-                    />
-                    
-                    {/* Active Track (Up to thumb position) */}
+                <Slider
+                    style={{ width: '100%' }}
+                    value={value}
+                    onValueChange={handleValueChange}
+                    minimumValue={minValue}
+                    maximumValue={maxValue}
+                    step={1}
+                    minimumTrackTintColor="transparent"
+                    maximumTrackTintColor="transparent"
+                    thumbImage={require('@assets/icons/slider_thumb.png')}
+                    tapToSeek
+                    StepMarker={({ stepMarked, currentValue, index }) =>
+                        !stepMarked ?
+                            index < displayValue ?
+                                <View style={{ width: 2, height: 12, backgroundColor: colors.stroke_orange, }} /> :
+                                <View style={{ width: 2, height: 12, backgroundColor: colors.orange_opacity_20, }} />
+                            : null}
+                />
+
+                {/* Custom Active Track Overlay with delayed update */}
+                {sliderWidth > 0 && (
                     <View
                         style={{
                             position: 'absolute',
-                            left: 0,
-                            width: thumbPosition,
+                            left: 16,
+                            top: 4, // Match slider track position
+                            right: 16,
                             height: 4,
-                            backgroundColor: colors.orange_500,
+                            backgroundColor: colors.orange_opacity_20,
                             borderRadius: 2,
+                            pointerEvents: 'none',
                         }}
-                    />
-
-                    {/* Tick Marks */}
-                    {Array.from({ length: tickCount }).map((_, index) => {
-                        const tickPosition = (index / (tickCount - 1)) * sliderWidth;
-                        const isActive = tickPosition <= thumbPosition;
-                        
-                        return (
-                            <View
-                                key={index}
+                    >
+                        {
+                            displayValue > 0 && <View
                                 style={{
                                     position: 'absolute',
-                                    left: tickPosition - 1,
-                                    top: -2,
-                                    width: 2,
-                                    height: 8,
-                                    backgroundColor: isActive 
-                                        ? colors.orange_500 
-                                        : `${colors.orange_500}40`,
-                                    borderRadius: 1,
+                                    left: 0,
+                                    top: 0, // Match slider track position
+                                    width: ((displayValue - minValue) / (maxValue - minValue)) * sliderWidth - 20,
+                                    height: 4,
+                                    backgroundColor: colors.stroke_orange,
+                                    borderRadius: 2,
+                                    pointerEvents: 'none',
                                 }}
-                            />
-                        );
-                    })}
-                </View>
+                            ></View>
+                        }
 
-                {/* Thumb */}
-                <Animated.View
-                    {...thumbPanResponder.panHandlers}
-                    style={{
-                        position: 'absolute',
-                        left: thumbPosition - 12,
-                        top: 8,
-                        width: 24,
-                        height: 24,
-                        borderRadius: 12,
-                        backgroundColor: colors.white,
-                        shadowColor: '#000',
-                        shadowOffset: { width: 0, height: 2 },
-                        shadowOpacity: 0.2,
-                        shadowRadius: 3,
-                        elevation: 4,
-                    }}
-                />
+                    </View>
+                )}
             </View>
-
             <Text style={[t.textMedium, { color: colors.Text_Primary }]} className="text-center mt-3 mb-3">
                 Current: {value}
             </Text>
