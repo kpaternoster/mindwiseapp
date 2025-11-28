@@ -8,6 +8,7 @@ import {
     StyleSheet,
     StatusBar,
     Platform,
+    ActivityIndicator,
 } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { useNavigation } from '@react-navigation/native';
@@ -93,6 +94,7 @@ export default function TodayCheckInScreen() {
     const [selectedHelpArea, setSelectedHelpArea] = useState<string>('');
     const [showHelpAreasDropdown, setShowHelpAreasDropdown] = useState(false);
     const [notes, setNotes] = useState('');
+    const [loadingDiaryEntry, setLoadingDiaryEntry] = useState(false);
 
     const handleEmotionChange = (emotionId: string, value: number) => {
         setEmotionRatings((prev) => ({
@@ -158,6 +160,7 @@ export default function TodayCheckInScreen() {
 
     const loadDiaryEntry = useCallback(async (dateToLoad: Date) => {
         try {
+            setLoadingDiaryEntry(true);
             const isoDate = formatDateToISO(dateToLoad);
             const entry = await fetchDiaryEntry(isoDate);
 
@@ -170,6 +173,8 @@ export default function TodayCheckInScreen() {
             setNotes(entry?.notes ?? '');
         } catch (error) {
             console.error('Error fetching diary entry:', error);
+        } finally {
+            setLoadingDiaryEntry(false);
         }
     }, []);
 
@@ -197,12 +202,17 @@ export default function TodayCheckInScreen() {
             <PageHeader title="Daily Check-In" />
 
             {/* Main Content */}
-            <ScrollView
-                ref={scrollViewRef}
-                className="flex-1 px-6 mb-10"
-                showsVerticalScrollIndicator={false}
-                contentContainerStyle={styles.scrollContent}
-            >
+            {loadingDiaryEntry ? (
+                <View style={styles.loadingContainer}>
+                    <ActivityIndicator size="large" color={colors.button_orange} />
+                </View>
+            ) : (
+                <ScrollView
+                    ref={scrollViewRef}
+                    className="flex-1 px-6 mb-10"
+                    showsVerticalScrollIndicator={false}
+                    contentContainerStyle={styles.scrollContent}
+                >
                 {/* Today's Focus */}
                 <View
                     className="p-4 rounded-2xl mb-4"
@@ -700,6 +710,7 @@ export default function TodayCheckInScreen() {
                     </View>
                 </Pressable>
             </ScrollView>
+            )}
 
             {/* Date Picker */}
             {showDatePicker && (
@@ -718,6 +729,12 @@ export default function TodayCheckInScreen() {
 const styles = StyleSheet.create({
     scrollContent: {
         paddingBottom: 20,
+    },
+    loadingContainer: {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+        paddingVertical: 100,
     },
 });
 
