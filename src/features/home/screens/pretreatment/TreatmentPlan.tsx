@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
     View,
     Text,
@@ -6,21 +6,34 @@ import {
     Pressable,
     StyleSheet,
     StatusBar,
+    ActivityIndicator,
 } from 'react-native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { HomeStackParams } from '@app/navigation/types';
 import { colors } from '@design/color';
 import { t } from '@design/typography';
-import { ArrowRightIcon, GreenLeafIcon, CaretRightIcon, BackIcon, LeafIcon, UpIcon, DownIcon } from '@components/Utils';
+import { ArrowRightIcon, BackIcon, LeafIcon} from '@components/Utils';
 import { PageHeader } from '../../components';
 import treatmentPlanData from '../../data/pretreatment/treatmentPlan.json';
 import { useDissolveNavigation } from '@hooks/useDissolveNavigation';
+import { fetchTreatmentPlan, TreatmentPlan } from '../../api/treatment';
 
 type NavigationProp = NativeStackNavigationProp<HomeStackParams>;
+
+interface TreatmentTarget {
+    id: string;
+    title: string;
+    subtitle: string;
+    goals: string[];
+    priorities: string[];
+    skills: string[];
+}
 
 export default function TreatmentPlanScreen() {
     const [showGenerationInfo, setShowGenerationInfo] = useState(false);
     const { dissolveTo } = useDissolveNavigation();
+    const [treatmentTargets, setTreatmentTargets] = useState<TreatmentTarget[]>([]);
+    const [isLoading, setIsLoading] = useState(false);
 
     const [expandedSections, setExpandedSections] = useState<{
         [key: string]: {
@@ -33,6 +46,48 @@ export default function TreatmentPlanScreen() {
         '60-days': { goals: true, priorities: false, skills: false },
         '180-days': { goals: true, priorities: false, skills: false },
     });
+
+    useEffect(() => {
+        const loadTreatmentPlan = async () => {
+            try {
+                setIsLoading(true);
+                const plan: TreatmentPlan = await fetchTreatmentPlan();
+                console.log(plan)
+                
+                // Transform API response to match UI structure
+                const transformedTargets: TreatmentTarget[] = plan.map((section) => {
+                    const id = `${section.numberOfDays}-days`;
+                    const title = `Next ${section.numberOfDays} Days`;
+                    
+                    // Extract goals from subsections with type "goal"
+                    const goals: string[] = [];
+                    section.subsections.forEach((subsection) => {
+                        if (subsection.type === 'goal') {
+                            goals.push(...subsection.items);
+                        }
+                    });
+                    
+                    return {
+                        id,
+                        title,
+                        subtitle: section.objective,
+                        goals,
+                        priorities: [], // Not in API response
+                        skills: [], // Not in API response
+                    };
+                });
+                
+                setTreatmentTargets(transformedTargets);
+            } catch (error) {
+                console.error('Error loading treatment plan:', error);
+                // Fallback to empty array or show error
+            } finally {
+                setIsLoading(false);
+            }
+        };
+
+        loadTreatmentPlan();
+    }, []);
 
     const toggleSection = (targetId: string, section: 'goals' | 'priorities' | 'skills') => {
         setExpandedSections((prev) => ({
@@ -52,11 +107,16 @@ export default function TreatmentPlanScreen() {
             <PageHeader title="Your Treatment Plan" />
 
             {/* Main Content */}
-            <ScrollView
-                className="flex-1 px-6 mb-10"
-                showsVerticalScrollIndicator={false}
-                contentContainerStyle={styles.scrollContent}
-            >
+            {isLoading ? (
+                <View style={styles.loadingContainer}>
+                    <ActivityIndicator size="large" color={colors.button_orange} />
+                </View>
+            ) : (
+                <ScrollView
+                    className="flex-1 px-6 mb-10"
+                    showsVerticalScrollIndicator={false}
+                    contentContainerStyle={styles.scrollContent}
+                >
                 {/* Introduction */}
                 <View className="flex-row items-start mb-6">
                     <LeafIcon size={20} />
@@ -100,7 +160,7 @@ export default function TreatmentPlanScreen() {
                 </Text>
 
                 {/* Treatment Target Cards */}
-                {treatmentPlanData.treatmentTargets.map((target) => (
+                {treatmentTargets.map((target) => (
                     <View
                         key={target.id}
                         className="rounded-xl mb-4"
@@ -310,6 +370,7 @@ export default function TreatmentPlanScreen() {
                     </Pressable>
                 </View>
             </ScrollView>
+            )}
         </View>
     );
 }
@@ -317,6 +378,12 @@ export default function TreatmentPlanScreen() {
 const styles = StyleSheet.create({
     scrollContent: {
         paddingBottom: 20,
+    },
+    loadingContainer: {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+        paddingVertical: 100,
     },
 });
 
