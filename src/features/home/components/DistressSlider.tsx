@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { View, Text, Platform } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text } from 'react-native';
 import Slider from '@react-native-community/slider';
 import { colors } from '@design/color';
 import { t } from '@design/typography';
@@ -14,11 +14,8 @@ export const DistressSlider: React.FC<DistressSliderProps> = ({
     onValueChange,
 }) => {
     const [sliderWidth, setSliderWidth] = useState(0);
-    const [displayValue, setDisplayValue] = useState(value);
-    const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
     const minValue = 0;
     const maxValue = 10;
-    const tickCount = 11; // 0 to 10 = 11 ticks
 
     const getDistressMessage = (level: number): string => {
         if (level <= 2) return "You're feeling quite calm and in control.";
@@ -32,34 +29,8 @@ export const DistressSlider: React.FC<DistressSliderProps> = ({
     const handleValueChange = (newValue: number) => {
         // Round to nearest integer to ensure step values
         const roundedValue = Math.round(newValue);
-
-        // Update parent immediately
         onValueChange(roundedValue);
-
-        // Clear any existing timeout
-        if (timeoutRef.current) {
-            clearTimeout(timeoutRef.current);
-        }
-
-        // Update display value with a slight delay to sync with thumb movement
-        timeoutRef.current = setTimeout(() => {
-            setDisplayValue(roundedValue);
-        }, 50); // 50ms delay to sync with thumb animation
     };
-
-    // Sync displayValue when value prop changes externally
-    useEffect(() => {
-        setDisplayValue(value);
-    }, [value]);
-
-    // Cleanup timeout on unmount
-    useEffect(() => {
-        return () => {
-            if (timeoutRef.current) {
-                clearTimeout(timeoutRef.current);
-            }
-        };
-    }, []);
 
     return (
         <View style={{ backgroundColor: colors.white }} className="mt-4">
@@ -96,20 +67,20 @@ export const DistressSlider: React.FC<DistressSliderProps> = ({
                     tapToSeek
                     StepMarker={({ stepMarked, currentValue, index }) =>
                         !stepMarked ?
-                            index < displayValue ?
+                            index < value ?
                                 <View style={{ width: 2, height: 12, backgroundColor: colors.stroke_orange, }} /> :
                                 <View style={{ width: 2, height: 12, backgroundColor: colors.orange_opacity_20, }} />
                             : null}
                 />
 
-                {/* Custom Active Track Overlay with delayed update */}
+                {/* Custom Active Track Overlay */}
                 {sliderWidth > 0 && (
                     <View
                         style={{
                             position: 'absolute',
-                            left: 16,
-                            top: 4, // Match slider track position
-                            right: 16,
+                            left: 18,
+                            top: 4,
+                            right: 18,
                             height: 4,
                             backgroundColor: colors.orange_opacity_20,
                             borderRadius: 2,
@@ -117,20 +88,19 @@ export const DistressSlider: React.FC<DistressSliderProps> = ({
                         }}
                     >
                         {
-                            displayValue > 0 && <View
+                            value > 0 && <View
                                 style={{
                                     position: 'absolute',
                                     left: 0,
-                                    top: 0, // Match slider track position
-                                    width: ((displayValue - minValue) / (maxValue - minValue)) * sliderWidth - 20,
+                                    top: 0,
+                                    width: ((value - minValue) / (maxValue - minValue)) * (sliderWidth - 32),
                                     height: 4,
                                     backgroundColor: colors.stroke_orange,
                                     borderRadius: 2,
                                     pointerEvents: 'none',
                                 }}
-                            ></View>
+                            />
                         }
-
                     </View>
                 )}
             </View>
