@@ -5,7 +5,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { ENV } from '@config/env';
 import type { NotificationClickEvent, NotificationWillDisplayEvent, PushSubscriptionChangedState } from 'react-native-onesignal';
 
-const ONESIGNAL_APP_ID = ENV.ONESIGNAL_APP_ID || 'ONESIGNAL_APP_ID';
+const ONESIGNAL_APP_ID = ENV.ONESIGNAL_APP_ID;
 
 /**
  * Initialize OneSignal SDK
@@ -13,9 +13,15 @@ const ONESIGNAL_APP_ID = ENV.ONESIGNAL_APP_ID || 'ONESIGNAL_APP_ID';
 export const initializeOneSignal = (): void => {
     try {
         OneSignal.initialize(ONESIGNAL_APP_ID);
-        OneSignal.Notifications.requestPermission(false).then((accepted: boolean) => {
-            console.log('OneSignal push notification permission:', accepted);
-        });
+        
+        // Request permission (non-blocking)
+        OneSignal.Notifications.requestPermission(false)
+            .then((accepted: boolean) => {
+                console.log('OneSignal push notification permission:', accepted);
+            })
+            .catch((error) => {
+                console.error('OneSignal: Error requesting permission:', error);
+            });
 
         // Set up notification handlers
         OneSignal.Notifications.addEventListener('foregroundWillDisplay', (event: NotificationWillDisplayEvent) => {
@@ -32,22 +38,35 @@ export const initializeOneSignal = (): void => {
         OneSignal.User.pushSubscription.addEventListener('change', (event: PushSubscriptionChangedState) => {
             console.log('OneSignal: subscription changed:', event);
             if (event.current.optedIn && event.current.id) {
-                handleTokenProvision(event.current.id);
+                handleTokenProvision(event.current.id).catch((error) => {
+                    console.error('OneSignal: Error in token provision handler:', error);
+                });
             }
         });
 
         // Get initial subscription state and provision token if already subscribed
-        OneSignal.User.pushSubscription.getIdAsync().then((userId: string | null) => {
-            if (userId) {
-                OneSignal.User.pushSubscription.getOptedInAsync().then((optedIn: boolean) => {
-                    if (optedIn) {
-                        handleTokenProvision(userId);
-                    }
-                });
-            }
-        });
+        OneSignal.User.pushSubscription.getIdAsync()
+            .then((userId: string | null) => {
+                if (userId) {
+                    OneSignal.User.pushSubscription.getOptedInAsync()
+                        .then((optedIn: boolean) => {
+                            if (optedIn) {
+                                handleTokenProvision(userId).catch((error) => {
+                                    console.error('OneSignal: Error provisioning initial token:', error);
+                                });
+                            }
+                        })
+                        .catch((error) => {
+                            console.error('OneSignal: Error checking opted in status:', error);
+                        });
+                }
+            })
+            .catch((error) => {
+                console.error('OneSignal: Error getting user ID:', error);
+            });
     } catch (error) {
         console.error('Error initializing OneSignal:', error);
+        // Don't throw - allow app to continue even if OneSignal fails
     }
 };
 

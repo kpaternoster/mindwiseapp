@@ -2,7 +2,7 @@ const BASE_API_URL = 'https://mindwise-main.vercel.app/api';
 
 export const ENV = {
   API_URL: BASE_API_URL,
-  ONESIGNAL_APP_ID: 'ONESIGNAL_APP_ID',
+  ONESIGNAL_APP_ID: 'f7ec6e56-2baf-4220-a772-1754ae26d062',
 } as const;
 
 export const API_ENDPOINTS = {

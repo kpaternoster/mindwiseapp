@@ -26,9 +26,9 @@ export const AuthProvider: React.FC<React.PropsWithChildren> = ({ children }) =>
                 if (stored) {
                     setToken(stored);
                     // Provision OneSignal token if user is already logged in
-                    provisionTokenIfSubscribed().catch((error) => {
-                        console.error('Error provisioning OneSignal token on app start:', error);
-                    });
+                    // provisionTokenIfSubscribed().catch((error) => {
+                    //     console.error('Error provisioning OneSignal token on app start:', error);
+                    // });
                 }
             } finally {
                 setLoading(false);
@@ -40,9 +40,9 @@ export const AuthProvider: React.FC<React.PropsWithChildren> = ({ children }) =>
         await AsyncStorage.setItem("auth_token", newToken);
         setToken(newToken);
         // Provision OneSignal token after login
-        provisionTokenIfSubscribed().catch((error) => {
-            console.error('Error provisioning OneSignal token after login:', error);
-        });
+        // provisionTokenIfSubscribed().catch((error) => {
+        //     console.error('Error provisioning OneSignal token after login:', error);
+        // });
     };
 
     const signUp = async (newToken: string) => {
@@ -63,9 +63,9 @@ export const AuthProvider: React.FC<React.PropsWithChildren> = ({ children }) =>
         await AsyncStorage.removeItem("onesignal_last_provisioned_token");
         setToken(null);
         // Remove OneSignal external user ID on logout
-        removeOneSignalExternalUserId().catch((error) => {
-            console.error('Error removing OneSignal external user ID on logout:', error);
-        });
+        // removeOneSignalExternalUserId().catch((error) => {
+        //     console.error('Error removing OneSignal external user ID on logout:', error);
+        // });
     };
 
     const value = useMemo(

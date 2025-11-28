@@ -11,8 +11,20 @@ import '../../global.css';
 
 function App() {
   useEffect(() => {
-    // Initialize OneSignal
-    initializeOneSignal();
+    // Initialize OneSignal asynchronously to prevent blocking app render
+    // Use setTimeout to ensure app renders first, then initialize OneSignal
+    const initOneSignal = async () => {
+      try {
+        // Small delay to ensure app UI renders first
+        await new Promise<void>(resolve => setTimeout(() => resolve(), 100));
+        initializeOneSignal();
+      } catch (error) {
+        console.error('Failed to initialize OneSignal:', error);
+        // App should continue to work even if OneSignal fails
+      }
+    };
+
+    initOneSignal();
   }, []);
 
   return (
