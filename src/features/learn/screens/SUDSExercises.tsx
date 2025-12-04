@@ -4,9 +4,9 @@ import { colors } from '@design/color';
 import { useDissolveNavigation } from '@hooks/useDissolveNavigation';
 import { PageHeader } from '../components/PageHeader';
 import { IntroCard } from '../components/IntroCard';
-import { SUDSExerciseCard } from '../components/SUDSExerciseCard';
 import { ReminderCard } from '../components/ReminderCard';
 import sudsExercisesData from '../data/sudsExercises.json';
+import { ExerciseCard } from '../components';
 
 export default function SUDSExercisesScreen() {
     const { dissolveTo } = useDissolveNavigation();
@@ -38,7 +38,7 @@ export default function SUDSExercisesScreen() {
 
                 {/* Exercise Cards */}
                 {exercises.map((exercise) =>
-                    <SUDSExerciseCard
+                    <ExerciseCard
                         key={exercise.id}
                         number={exercise.number}
                         title={exercise.title}

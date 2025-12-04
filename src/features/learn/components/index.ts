@@ -33,7 +33,6 @@ export { FormInput } from './FormInput';
 export { ObservationCard } from './ObservationCard';
 export { EmptyState } from './EmptyState';
 export { SavedObservationsList } from './SavedObservationsList';
-export { SUDSExerciseCard } from './SUDSExerciseCard';
 export { SUDSSlider } from './SUDSSlider';
 export { NumberedInputSection } from './NumberedInputSection';
 export { SUDSEntryCard } from './SUDSEntryCard';
