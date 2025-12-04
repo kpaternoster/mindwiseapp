@@ -36,16 +36,8 @@ export default function STUNWAVEEntriesScreen() {
     };
 
     return (
-        <View className="flex-1 bg-white" style={{ backgroundColor: colors.white }}>
+        <View className="flex-1 bg-white pt-9" style={{ backgroundColor: colors.white }}>
             <StatusBar barStyle="dark-content" backgroundColor={colors.white} />
-            
-            {/* Header Text */}
-            <View className="px-5 pb-2">
-                <Text style={[t.textRegular, { color: colors.text_secondary }]}>
-                    View saved entries
-                </Text>
-            </View>
-
             <PageHeader title="Saved STUNWAVE Entries" showHomeIcon={true} showLeafIcon={true} />
 
             <ScrollView

@@ -4,7 +4,7 @@ import { colors } from '@design/color';
 import { t } from '@design/typography';
 import { useDissolveNavigation } from '@hooks/useDissolveNavigation';
 import { PageHeader } from '../components/PageHeader';
-import { STUNWAVESection } from '../components/STUNWAVESection';
+import { CollapsibleInputWithTags } from '../components/CollapsibleInputWithTags';
 import { WaveTimer } from '../components/WaveTimer';
 import { UpIcon, DownIcon } from '@components/Utils';
 import stunwaveCheckInData from '../data/stunwaveCheckIn.json';
@@ -81,14 +81,15 @@ export default function STUNWAVECheckInScreen() {
                 >
                     {/* STUNWAVE Sections */}
                     {sections.map((section) => (
-                        <STUNWAVESection
+                        <CollapsibleInputWithTags
                             key={section.id}
+                            id={section.id}
                             title={section.title}
                             prompt={section.prompt}
                             placeholder={section.placeholder}
                             tags={section.tags}
                             value={formData[section.id]}
-                            onChangeText={(text) => handleInputChange(section.id, text)}
+                            onChangeText={handleInputChange}
                             isExpanded={expandedSections[section.id]}
                             onToggle={() => toggleSection(section.id)}
                         />
