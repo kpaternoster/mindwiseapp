@@ -1,0 +1,64 @@
+{
+  "categoryId": "2",
+  "title": "Regulate Emotions",
+  "totalSkills": 5,
+  "completedSkills": 0,
+  "progressPercentage": 0,
+  "sections": [
+    {
+      "id": 1,
+      "type": "intro",
+      "icon": "leaf",
+      "title": "Manage and regulate difficult emotions",
+      "description": "Emotion regulation teaches you how to manage intense feelings without being overwhelmed. We use these skills when emotions feel too big or don't match the situation. These techniques help you change unwanted emotions, reduce their intensity, and respond thoughtfully rather than reactively to emotional experiences."
+    }
+  ],
+  "skills": [
+    {
+      "id": 1,
+      "title": "Check the Facts",
+      "duration": "25 min",
+      "difficulty": "Intermediate",
+      "description": "Determine if your emotional response fits the situation and intensity.",
+      "tags": ["Facts vs Assumptions", "Grounding with Perspective"]
+    },
+    {
+      "id": 2,
+      "title": "Chain Analysis",
+      "duration": "30 min",
+      "difficulty": "Advanced",
+      "description": "Understand the triggers and sequence of events, emotions, and urges that led to challenging situations.",
+      "tags": ["Guided Chain Analysis"]
+    },
+    {
+      "id": 3,
+      "title": "Self-Care (PLEASE)",
+      "duration": "20 min",
+      "difficulty": "Beginner",
+      "description": "Take care of your body to regulate emotions using PLEASE: treat Physical illness, balance Eating, avoid mood-Altering substances, balance Sleep, and get Exercise",
+      "tags": ["Self-Care PLEASE Plan", "Self-Care PLEASE Reflection"]
+    },
+    {
+      "id": 4,
+      "title": "Dialectical Thinking",
+      "duration": "30 min",
+      "difficulty": "Advanced",
+      "description": "Learn to hold two seemingly opposite truths at the same time - both/and instead of either/or",
+      "tags": ["Dialectical Reframing", "Exploring Perspectives"]
+    },
+    {
+      "id": 5,
+      "title": "Problem Solving",
+      "duration": "28 min",
+      "difficulty": "Intermediate",
+      "description": "Systematic approach to solving problems when you can change the situation",
+      "tags": ["Practice Problem Solving"]
+    }
+  ],
+  "keepLearning": {
+    "icon": "trophy",
+    "title": "Keep Learning!",
+    "description": "Complete skills to earn leaves and grow your tree. Each completed skill gives you 5 leaves! 🍃"
+  }
+}
+

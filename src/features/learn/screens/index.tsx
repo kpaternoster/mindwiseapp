@@ -54,6 +54,9 @@ export default function Learn() {
             case "1":
                 dissolveTo('Learn_UnderstandEmotions');
                 break;
+            case "2":
+                dissolveTo('Learn_RegulateEmotions');
+                break;
             default:
                 console.log("Navigate to category:", categoryId);
                 break;

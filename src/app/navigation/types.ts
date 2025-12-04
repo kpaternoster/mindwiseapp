@@ -61,6 +61,7 @@ export type HomeStackParams = {
 
   Learn: undefined;
   Learn_UnderstandEmotions: undefined;
+  Learn_RegulateEmotions: undefined;
   Learn_EmotionsWheel: undefined;
   Learn_EmotionsWheelExercises: undefined;
   Learn_NameYourEmotions: undefined;

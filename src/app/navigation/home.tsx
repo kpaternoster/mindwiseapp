@@ -5,6 +5,7 @@ import Home from '@features/home/screens/index';
 import Plan from '@features/plan/screens/index';
 import Learn from '@features/learn/screens/index';
 import UnderstandEmotionsLearnScreen from '@features/learn/screens/UnderstandEmotions';
+import RegulateEmotionsScreen from '@features/learn/screens/RegulateEmotions';
 import EmotionsWheelScreen from '@features/learn/screens/EmotionsWheel';
 import EmotionsWheelExercisesScreen from '@features/learn/screens/EmotionsWheelExercises';
 import NameYourEmotionsScreen from '@features/learn/screens/NameYourEmotions';
@@ -94,6 +95,7 @@ export default function HomeNavigator() {
             
             <Stack.Screen name="Learn" component={Learn} />
             <Stack.Screen name="Learn_UnderstandEmotions" component={UnderstandEmotionsLearnScreen} />
+            <Stack.Screen name="Learn_RegulateEmotions" component={RegulateEmotionsScreen} />
             <Stack.Screen name="Learn_EmotionsWheel" component={EmotionsWheelScreen} />
             <Stack.Screen name="Learn_EmotionsWheelExercises" component={EmotionsWheelExercisesScreen} />
             <Stack.Screen name="Learn_NameYourEmotions" component={NameYourEmotionsScreen} />
