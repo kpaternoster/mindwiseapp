@@ -1,32 +1,183 @@
-import React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import React, { useState, useEffect } from "react";
+import { View, Text, StyleSheet, Image, StatusBar, ScrollView } from "react-native";
 import { HomePage } from "@components/HomePage";
 import { colors } from "@design/color";
 import { t } from "@design/typography";
+import { useDissolveNavigation } from "@hooks/useDissolveNavigation";
+import { GettingStartedCard } from "../components/GettingStartedCard";
+import { SkillCategoryCard } from "../components/SkillCategoryCard";
+import { LearningTipCard } from "../components/LearningTipCard";
+import { images } from "@design/image";
+import skillCategoriesData from "../data/skillCategories.json";
+
+interface SkillCategory {
+    id: string;
+    title: string;
+    description: string;
+    skillCount: number;
+    progressPercentage: number;
+}
 
 export default function Learn() {
+    const [categories, setCategories] = useState<SkillCategory[]>([]);
+    const [learningTip, setLearningTip] = useState<string>("");
+    const [overallProgress, setOverallProgress] = useState(0);
+
+    useEffect(() => {
+        // Load data from JSON
+        try {
+            if (skillCategoriesData && skillCategoriesData.categories) {
+                setCategories(skillCategoriesData.categories as SkillCategory[]);
+            }
+            if (skillCategoriesData && skillCategoriesData.learningTip) {
+                setLearningTip(skillCategoriesData.learningTip);
+            }
+        } catch (error) {
+            console.error("Error loading skill categories data:", error);
+        }
+    }, []);
+
+    // Calculate overall progress from all categories
+    useEffect(() => {
+        if (categories.length > 0) {
+            const totalProgress = categories.reduce((sum, category) => sum + category.progressPercentage, 0);
+            const averageProgress = Math.round(totalProgress / categories.length);
+            setOverallProgress(averageProgress);
+        }
+    }, [categories]);
+
+    const { dissolveTo } = useDissolveNavigation();
+
+    const handleCategoryPress = (categoryId: string) => {
+        // Navigate to category detail screen
+        switch (categoryId) {
+            case "1":
+                dissolveTo('Learn_UnderstandEmotions');
+                break;
+            default:
+                console.log("Navigate to category:", categoryId);
+                break;
+        }
+    };
+
+    // Calculate progress percentage and width
+    const progressPercentage = overallProgress;
+    const progressWidth = `${progressPercentage}%` as `${number}%`;
+    const indicatorLeftPosition = (progressPercentage === 0 ? 0 : `${progressPercentage}%`) as `${number}%` | 0;
+
+    // Calculate total skills across all categories
+    const totalSkills = categories.reduce((sum, category) => sum + category.skillCount, 0);
+    const completedSkills = Math.round((progressPercentage / 100) * totalSkills);
+
     return (
         <HomePage active="learn">
-            <View style={styles.container}>
-                <Text style={[t.title24SemiBold, styles.text]}>Learn Skills</Text>
-                <Text style={[t.bodyRegular, styles.subtext]}>Coming soon...</Text>
+            <StatusBar barStyle="dark-content" backgroundColor={colors.white} />
+            {/* Header */}
+            <View className="flex-row justify-between items-start px-7 pt-9 pb-4">
+                <View className="flex-1">
+                    <Text style={[t.title32SemiBold, { color: colors.Text_Primary }]} className='mb-1'>
+                        Learn
+                    </Text>
+                    <Text style={[t.textRegular, { color: colors.text_secondary }]}>
+                        Build your DBT skills toolkit
+                    </Text>
+                </View>
+                <Image
+                    source={images.leaf_big}
+                    style={styles.logo}
+                    resizeMode="contain"
+                />
             </View>
+            <ScrollView className="flex-1 bg-white pt-4 pb-4 px-2 mb-12" showsVerticalScrollIndicator={false}>
+                {/* Your Learning Progress Card */}
+                <View className="mx-5 mb-4 p-4 rounded-2xl" style={{ backgroundColor: colors.orange_50 }}>
+                    <View className="flex-row justify-between items-center">
+                        <Text style={[t.title16SemiBold, { color: colors.Text_Primary }]} className='mb-2'>
+                            Your Learning Progress
+                        </Text>
+                        <Text style={[t.title24SemiBold, { color: colors.orange_500 }]}>
+                            {progressPercentage}%
+                        </Text>
+                    </View>
+
+                    <View className="flex-row justify-between items-center mb-3">
+                        <Text style={[t.textMedium, { color: colors.text_secondary }]}>
+                            Skills mastered across all categories
+                        </Text>
+                        <View className="items-end">
+                            <Text style={[t.textRegular, { color: colors.text_secondary }]}>Complete</Text>
+                        </View>
+                    </View>
+                    <View className="h-1.5 bg-white rounded mb-2">
+                        <View
+                            className="h-full rounded absolute left-0"
+                            style={{ width: progressWidth, backgroundColor: colors.orange }}
+                        />
+                        {/* Progress Indicator Dot */}
+                        <View
+                            className="absolute -top-1 -ml-1.5"
+                            style={{
+                                left: indicatorLeftPosition,
+                            }}
+                        >
+                            <View
+                                className="w-3.5 h-3.5 rounded-full border-2"
+                                style={{
+                                    backgroundColor: colors.orange,
+                                    borderColor: colors.white,
+                                }}
+                            />
+                        </View>
+                    </View>
+                    <Text style={[t.footnoteRegular, { color: colors.text_secondary }]} className="mt-1">
+                        Keep practicing to strengthen your skills.
+                    </Text>
+                </View>
+
+                {/* Getting Started Section */}
+                <View className="flex-row justify-between items-start px-5 pb-4">
+                    <Text style={[t.title24SemiBold, { color: colors.Text_Primary }]} className='mt-5 mb-4'>
+                        Getting Started
+                    </Text>
+                </View>
+
+                <GettingStartedCard />
+
+                {/* Skill Categories Section */}
+                <View className="flex-row justify-between items-start px-5 pb-4">
+                    <Text style={[t.title24SemiBold, { color: colors.Text_Primary }]} className='mt-5 mb-4'>
+                        Skill Categories
+                    </Text>
+                </View>
+
+                {categories.length > 0 ? (
+                    <>
+                        {categories.map((category) => (
+                            <SkillCategoryCard
+                                key={category.id}
+                                title={category.title}
+                                description={category.description}
+                                skillCount={category.skillCount}
+                                progressPercentage={category.progressPercentage}
+                                onPress={() => handleCategoryPress(category.id)}
+                            />
+                        ))}
+
+                        {learningTip && (
+                            <LearningTipCard tip={learningTip} />
+                        )}
+                    </>
+                ) : null}
+
+                <View className="h-24" />
+            </ScrollView>
         </HomePage>
     );
 }
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-        backgroundColor: colors.orange_50,
-    },
-    text: {
-        color: colors.Text_Primary,
-    },
-    subtext: {
-        color: colors.text_secondary,
-        marginTop: 8,
+    logo: {
+        width: 35,
+        height: 55,
     },
 });
