@@ -11,6 +11,20 @@ export default function RegulateEmotionsScreen() {
     const { dissolveTo } = useDissolveNavigation();
     const { title, totalSkills, completedSkills, progressPercentage, sections, skills, keepLearning } = regulateEmotionsData;
 
+    const handleSkillPress = (skill: any) => {
+        switch (skill.title) {
+            case 'Check the Facts':
+                dissolveTo('Learn_CheckTheFacts');
+                break;
+            case 'Chain Analysis':
+                // dissolveTo('Learn_ChainAnalysis');
+                break;
+            default:
+                console.log('Exercise pressed:', skill.title);
+                break;
+        }
+    };
+
     return (
         <View className="flex-1 bg-white pt-9" style={{ backgroundColor: colors.white }}>
             <StatusBar barStyle="dark-content" backgroundColor={colors.white} />
@@ -65,11 +79,6 @@ export default function RegulateEmotionsScreen() {
 
                 {/* Skill Cards */}
                 {skills && skills.map((skill) => {
-                    const handleSkillPress = () => {
-                        // TODO: Navigate to specific skill exercises
-                        console.log('Exercise pressed:', skill.title);
-                    };
-
                     return (
                         <SkillCard
                             key={skill.id}
@@ -78,7 +87,7 @@ export default function RegulateEmotionsScreen() {
                             difficulty={skill.difficulty as 'Beginner' | 'Intermediate' | 'Advanced'}
                             description={skill.description}
                             tags={skill.tags}
-                            onPress={handleSkillPress}
+                            onPress={() => handleSkillPress(skill)}
                         />
                     );
                 })}

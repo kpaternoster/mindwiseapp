@@ -1,0 +1,68 @@
+{
+  "title": "Fact Finding",
+  "sections": [
+    {
+      "id": "describeSituation",
+      "title": "Describe the Situation",
+      "prompt": "Write about a recent situation that triggered strong emotions.",
+      "placeholder": "What happened? Describe the situation objectively...",
+      "tags": [
+        "Argument with partner",
+        "Got critical feedback",
+        "Friend didn't respond",
+        "Felt excluded"
+      ]
+    },
+    {
+      "id": "factsVsAssumptions",
+      "title": "Facts vs. Assumptions",
+      "subsections": [
+        {
+          "id": "facts",
+          "title": "Facts (What actually happened)",
+          "prompt": "List only the observable facts - what could be recorded on video...",
+          "placeholder": "What are the observable facts?",
+          "tags": [
+            "Snapped at me",
+            "Walked away",
+            "Got an email"
+          ]
+        },
+        {
+          "id": "assumptions",
+          "title": "Assumptions (Your interpretation)",
+          "prompt": "What did you assume about their intentions, feelings, or motivations...",
+          "placeholder": "What assumptions did you make?",
+          "tags": [
+            "They don't care",
+            "They're angry",
+            "I am unloveable"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "alternativeExplanations",
+      "title": "Alternative Explanations",
+      "prompt": "What are other possible explanations for what happened?",
+      "placeholder": "List at-least 2-3 alternative explanations that could also be true.",
+      "tags": [
+        "Bad day",
+        "Distracted",
+        "Misunderstanding"
+      ]
+    },
+    {
+      "id": "emotionFactsCheck",
+      "title": "Emotion & Facts Check",
+      "prompt": "Reflect on whether your emotions matched the facts or your assumptions.",
+      "placeholder": "Do your emotions fit the facts or your assumptions? what would change if you focused on facts instead?",
+      "tags": []
+    }
+  ],
+  "greatWork": {
+    "title": "Great Work!",
+    "content": "You've practiced separating facts from assumptions - a key skill for emotional regulation."
+  }
+}
+

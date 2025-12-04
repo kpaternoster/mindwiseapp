@@ -19,6 +19,10 @@ import AboutSTUNWAVEScreen from '@features/learn/screens/AboutSTUNWAVE';
 import STUNWAVEExercisesScreen from '@features/learn/screens/STUNWAVEExercises';
 import STUNWAVECheckInScreen from '@features/learn/screens/STUNWAVECheckIn';
 import STUNWAVEEntriesScreen from '@features/learn/screens/STUNWAVEEntries';
+import CheckTheFactsScreen from '@features/learn/screens/CheckTheFacts';
+import CheckTheFactsExercisesScreen from '@features/learn/screens/CheckTheFactsExercises';
+import CheckTheFactsFindingScreen from '@features/learn/screens/CheckTheFactsFinding';
+import CheckTheFactsEntriesScreen from '@features/learn/screens/CheckTheFactsEntries';
 import Act from '@features/act/screens/index';
 import Account from '@features/account/screens/index';
 import Help from '@features/help/screens/index';
@@ -109,6 +113,10 @@ export default function HomeNavigator() {
             <Stack.Screen name="Learn_STUNWAVEExercises" component={STUNWAVEExercisesScreen} />
             <Stack.Screen name="Learn_STUNWAVECheckIn" component={STUNWAVECheckInScreen} />
             <Stack.Screen name="Learn_STUNWAVEEntries" component={STUNWAVEEntriesScreen} />
+            <Stack.Screen name="Learn_CheckTheFacts" component={CheckTheFactsScreen} />
+            <Stack.Screen name="Learn_CheckTheFactsExercises" component={CheckTheFactsExercisesScreen} />
+            <Stack.Screen name="Learn_CheckTheFactsFinding" component={CheckTheFactsFindingScreen} />
+            <Stack.Screen name="Learn_CheckTheFactsEntries" component={CheckTheFactsEntriesScreen} />
             <Stack.Screen name="Act" component={Act} />
             <Stack.Screen name="Help" component={Help} />
             <Stack.Screen name="Help_Reason" component={HelpReasonScreen} />

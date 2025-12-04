@@ -42,7 +42,8 @@ export { SUDSGraph } from './SUDSGraph';
 export { CopingSkillCard } from './CopingSkillCard';
 export { SUDSLevelSection } from './SUDSLevelSection';
 export { EditSkillsModal } from './EditSkillsModal';
-export { STUNWAVESection } from './STUNWAVESection';
+export { CollapsibleInputWithTags } from './CollapsibleInputWithTags';
 export { WaveTimer } from './WaveTimer';
 export { STUNWAVEEntryCard } from './STUNWAVEEntryCard';
+export { CheckTheFactsEntryCard } from './CheckTheFactsEntryCard';
 

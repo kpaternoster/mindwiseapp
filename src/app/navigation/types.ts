@@ -75,6 +75,10 @@ export type HomeStackParams = {
   Learn_STUNWAVEExercises: undefined;
   Learn_STUNWAVECheckIn: undefined;
   Learn_STUNWAVEEntries: undefined;
+  Learn_CheckTheFacts: undefined;
+  Learn_CheckTheFactsExercises: undefined;
+  Learn_CheckTheFactsFinding: undefined;
+  Learn_CheckTheFactsEntries: undefined;
   Act: undefined;
   Help: undefined;
   Help_Reason: undefined;

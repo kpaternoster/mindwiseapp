@@ -1,0 +1,17 @@
+{
+  "title": "Check the Facts Exercises",
+  "introText": "Check the Facts helps you see whether your emotional reaction fits what's actually happening. It guides you to pause, look at the evidence, and separate facts from assumptions so you can respond with more clarity and calm.",
+  "exercises": [
+    {
+      "id": 1,
+      "number": 1,
+      "title": "Fact Finding",
+      "description": "Reflect on a situation and identify what is fact versus what is assumption."
+    }
+  ],
+  "reminder": {
+    "title": "Remember",
+    "content": "Emotions are real, but they don't always reflect reality. Checking the facts creates space to see situations clearly and choose responses based on what's true—not on assumptions or fear."
+  }
+}
+

@@ -1,0 +1,23 @@
+{
+  "title": "Check the Facts",
+  "sections": [
+    {
+      "id": 1,
+      "title": "About Check the Facts",
+      "content": "Check the Facts helps you see whether your emotional reaction matches what's actually happening. It guides you to pause, look at the evidence, consider other explanations, and separate facts from assumptions. This skill reduces distress caused by misinterpretations or past fears and helps you respond more accurately and calmly in difficult situations."
+    },
+    {
+      "id": 2,
+      "title": "Example",
+      "content": "David heard his partner say, 'The dishes are piling up,' and immediately felt judged. Using Check the Facts, he paused and realized he had added that meaning himself—she was simply making an observation. After a breath, he asked her what she meant and learned she was just making conversation."
+    },
+    {
+      "id": 3,
+      "title": "Remember",
+      "content": "Emotions are valid but don't always fit facts. Checking facts creates space for clarity, self-regulation, and healthier responses instead of assumption-based reactions.",
+      "backgroundColor": "#FDF4EE"
+    }
+  ],
+  "buttonText": "Try Check the Facts Exercises"
+}
+
