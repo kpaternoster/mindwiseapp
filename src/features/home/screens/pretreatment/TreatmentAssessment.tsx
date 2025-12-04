@@ -74,6 +74,14 @@ function TreatmentAssessmentContent() {
         setShowNoGoalsModal(false);
     };
 
+    const handleNextToStrengthsResources = () => {
+        if (!checkIfGoalsSelected()) {
+            setShowNoGoalsModal(true);
+            return;
+        }
+        
+        dissolveTo('StrengthsResources');
+    };
 
     const toggleSection = (section: keyof typeof expandedSections) => {
         setExpandedSections((prev) => ({
@@ -500,7 +508,7 @@ function TreatmentAssessmentContent() {
                     <Pressable
                         className="rounded-full py-4 px-6 flex-row justify-center items-center mb-3"
                         style={{ backgroundColor: colors.button_orange }}
-                        onPress={() => dissolveTo('StrengthsResources')}
+                        onPress={() => handleNextToStrengthsResources()}
                     >
                         <Text
                             style={[t.title16SemiBold, { color: colors.white }]}

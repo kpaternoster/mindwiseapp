@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef, useMemo } from 'react';
 import {
     View,
     Text,
@@ -19,6 +19,7 @@ import {
 } from '../../components';
 import { SkillCard } from '../../components/SkillCard';
 import { AssumptionAccordion } from '../../components/AssumptionAccordion';
+import { fetchPreTreatmentState, updatePreTreatmentState } from '../../api/treatment';
 import aboutDBTData from '../../data/pretreatment/aboutDBT.json';
 
 const CORE_SKILLS = aboutDBTData.coreSkills;
@@ -74,18 +75,58 @@ export default function AboutDBTScreen() {
     // - Step 1: Based on scroll position through content
     // - Step 2: All expandable sections viewed
     // - Step 3: Scrolled to bottom
-    let currentStep: number;
-    
-    if (viewedCount >= totalSections && hasScrolledToBottom) {
-        // ✅ Complete: All sections expanded AND scrolled to bottom (3/3)
-        currentStep = 3;
-    } else if (viewedCount >= totalSections && !hasScrolledToBottom) {
-        // ⚠️ Almost complete: All sections opened but need to scroll to bottom (2/3)
-        currentStep = 2;
-    } else {
-        // 📖 In progress: Show step 1 until all sections are opened
-        currentStep = 1;
-    }
+    const currentStep = useMemo(() => {
+        if (viewedCount >= totalSections && hasScrolledToBottom) {
+            // ✅ Complete: All sections expanded AND scrolled to bottom (3/3)
+            return 3;
+        } else if (viewedCount >= totalSections && !hasScrolledToBottom) {
+            // ⚠️ Almost complete: All sections opened but need to scroll to bottom (2/3)
+            return 2;
+        } else {
+            // 📖 In progress: Show step 1 until all sections are opened
+            return 1;
+        }
+    }, [viewedCount, totalSections, hasScrolledToBottom]);
+
+    const previousStepRef = useRef(1);
+
+    // Update API when currentStep changes
+    useEffect(() => {
+        const updateProgress = async () => {
+            // Skip if step hasn't changed
+            if (currentStep === previousStepRef.current) {
+                return;
+            }
+
+            // Only update if step has increased
+            if (currentStep > previousStepRef.current) {
+                previousStepRef.current = currentStep;
+
+                try {
+                    // Fetch current state
+                    const currentState = await fetchPreTreatmentState();
+                    
+                    // Update only the aboutDBT field
+                    const updatedState = {
+                        ...currentState,
+                        dbtOverviewPartsCompleted: {
+                            ...currentState.dbtOverviewPartsCompleted,
+                            aboutDBT: currentStep,
+                        },
+                    };
+
+                    // Send updated state to API
+                    await updatePreTreatmentState(updatedState);
+                } catch (error) {
+                    console.error('Error updating pre-treatment state:', error);
+                    // Revert the ref if update failed
+                    previousStepRef.current = currentStep - 1;
+                } 
+            }
+        };
+
+        updateProgress();
+    }, [currentStep]);
 
     return (
         <View className="flex-1 bg-white pt-9" style={{ backgroundColor: colors.white }}>

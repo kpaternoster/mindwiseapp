@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef, useMemo } from 'react';
 import {
     View,
     Text,
@@ -19,6 +19,7 @@ import {
 } from '../../components';
 import { SkillModuleAccordion } from '../../components/SkillModuleAccordion';
 import { LearningApproachCard } from '../../components/LearningApproachCard';
+import { fetchPreTreatmentState, updatePreTreatmentState } from '../../api/treatment';
 import dbtSkillsData from '../../data/pretreatment/dbtSkills.json';
 
 const SKILL_MODULES = dbtSkillsData.skillModules;
@@ -73,19 +74,59 @@ export default function DBTSkillsScreen() {
     // Calculate progress:
     // - Each module opened = 1 step (1/6, 2/6, 3/6, 4/6, 5/6)
     // - Final step (6/6) requires: all 6 modules opened + scrolled to bottom
-    let currentStep: number;
-    
-    if (viewedCount === totalModules && hasScrolledToBottom) {
-        // ✅ Complete: All modules viewed AND scrolled to bottom (6/6)
-        currentStep = totalModules;
-    } else if (viewedCount === totalModules && !hasScrolledToBottom) {
-        // ⚠️ Almost complete: All modules opened but need to scroll to bottom (5/6)
-        // This ensures users can't get 6/6 without scrolling through all content
-        currentStep = totalModules - 1;
-    } else {
-        // 📖 In progress: Show number of unique modules opened (1-5)
-        currentStep = viewedCount;
-    }
+    const currentStep = useMemo(() => {
+        if (viewedCount === totalModules && hasScrolledToBottom) {
+            // ✅ Complete: All modules viewed AND scrolled to bottom (6/6)
+            return totalModules;
+        } else if (viewedCount === totalModules && !hasScrolledToBottom) {
+            // ⚠️ Almost complete: All modules opened but need to scroll to bottom (5/6)
+            // This ensures users can't get 6/6 without scrolling through all content
+            return totalModules - 1;
+        } else {
+            // 📖 In progress: Show number of unique modules opened (1-5)
+            return viewedCount;
+        }
+    }, [viewedCount, totalModules, hasScrolledToBottom]);
+
+    const previousStepRef = useRef(1);
+
+    // Update API when currentStep changes
+    useEffect(() => {
+        const updateProgress = async () => {
+            // Skip if step hasn't changed
+            if (currentStep === previousStepRef.current) {
+                return;
+            }
+
+            // Only update if step has increased
+            if (currentStep > previousStepRef.current) {
+                previousStepRef.current = currentStep;
+
+                try {
+                    // Fetch current state
+                    const currentState = await fetchPreTreatmentState();
+                    
+                    // Update only the dbtSkills field
+                    const updatedState = {
+                        ...currentState,
+                        dbtOverviewPartsCompleted: {
+                            ...currentState.dbtOverviewPartsCompleted,
+                            dbtSkills: currentStep,
+                        },
+                    };
+
+                    // Send updated state to API
+                    await updatePreTreatmentState(updatedState);
+                } catch (error) {
+                    console.error('Error updating pre-treatment state:', error);
+                    // Revert the ref if update failed
+                    previousStepRef.current = currentStep - 1;
+                } 
+            }
+        };
+
+        updateProgress();
+    }, [currentStep]);
 
     return (
         <View className="flex-1 bg-white pt-9" style={{ backgroundColor: colors.white }}>

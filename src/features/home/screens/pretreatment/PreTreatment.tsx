@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import {
     View,
     Text,
@@ -8,12 +8,14 @@ import {
     StyleSheet,
     StatusBar,
 } from 'react-native';
+import { useFocusEffect } from '@react-navigation/native';
 import { HomePage } from '@components/HomePage';
 import { colors } from '@design/color';
 import { t } from '@design/typography';
 import { images } from '@design/image';
 import { ArrowRightIcon, VideoIcon } from '@components/Utils';
 import { useDissolveNavigation } from '@hooks/useDissolveNavigation';
+import { fetchPreTreatmentState } from '../../api/treatment';
 import preTreatmentData from '../../data/pretreatment/preTreatment.json';
 
 interface Step {
@@ -27,16 +29,49 @@ interface Step {
 const STEPS_DATA: Step[] = preTreatmentData.steps;
 
 export default function PreTreatmentScreen() {
-    const [steps] = useState<Step[]>(STEPS_DATA);
+    const [steps, setSteps] = useState<Step[]>(STEPS_DATA);
     const [completedSteps, setCompletedSteps] = useState(0);
+    const [isLoading, setIsLoading] = useState(true);
     const totalSteps = steps.length;
     const { dissolveTo } = useDissolveNavigation();
 
-    // Calculate completed steps
+    // Fetch pre-treatment state from API
+    const loadPreTreatmentState = useCallback(async () => {
+        try {
+            setIsLoading(true);
+            const state = await fetchPreTreatmentState();
+            console.log(state)
+            // Update completed steps from API
+            setCompletedSteps(state.stepsCompleted);
+            
+            // Update steps array to mark completed steps
+            setSteps(prevSteps => 
+                prevSteps.map((step, index) => ({
+                    ...step,
+                    completed: index < state.stepsCompleted
+                }))
+            );
+        } catch (error) {
+            console.error('Error loading pre-treatment state:', error);
+            // On error, keep the default state
+            setCompletedSteps(0);
+            setSteps(STEPS_DATA);
+        } finally {
+            setIsLoading(false);
+        }
+    }, []);
+
+    // Load pre-treatment state on mount and when screen comes into focus
     useEffect(() => {
-        const completed = steps.filter(step => step.completed).length;
-        setCompletedSteps(completed);
-    }, [steps]);
+        loadPreTreatmentState();
+    }, [loadPreTreatmentState]);
+
+    // Refetch when screen comes into focus
+    useFocusEffect(
+        useCallback(() => {
+            loadPreTreatmentState();
+        }, [loadPreTreatmentState])
+    );
 
     // Calculate progress percentage
     const progressPercentage = totalSteps > 0 ? Math.round((completedSteps / totalSteps) * 100) : 0;

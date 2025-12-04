@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
     View,
     Text,
@@ -20,14 +20,54 @@ import {
 import { EmotionFunctionCard } from '../../components/EmotionFunctionCard';
 import { DefinitionBlock } from '../../components/DefinitionBlock';
 import { BulletPoint } from '../../components/BulletPoint';
+import { fetchPreTreatmentState, updatePreTreatmentState } from '../../api/treatment';
 import { handleScrollProgress } from '../../utils/scrollHelper';
 
 export default function UnderstandEmotionsScreen() {
     const [currentStep, setCurrentStep] = useState(1);
+    const previousStepRef = useRef(1);
 
     const handleScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
         handleScrollProgress(event, 3, setCurrentStep);
     };
+
+    // Update API when currentStep changes
+    useEffect(() => {
+        const updateProgress = async () => {
+            // Skip if step hasn't changed
+            if (currentStep === previousStepRef.current) {
+                return;
+            }
+
+            // Only update if step has increased
+            if (currentStep > previousStepRef.current) {
+                previousStepRef.current = currentStep;
+
+                try {
+                    // Fetch current state
+                    const currentState = await fetchPreTreatmentState();
+                    
+                    // Update only the understandEmotions field
+                    const updatedState = {
+                        ...currentState,
+                        dbtOverviewPartsCompleted: {
+                            ...currentState.dbtOverviewPartsCompleted,
+                            understandEmotions: currentStep,
+                        },
+                    };
+
+                    // Send updated state to API
+                    await updatePreTreatmentState(updatedState);
+                } catch (error) {
+                    console.error('Error updating pre-treatment state:', error);
+                    // Revert the ref if update failed
+                    previousStepRef.current = currentStep - 1;
+                } 
+            }
+        };
+
+        updateProgress();
+    }, [currentStep]);
 
     return (
         <View className="flex-1 bg-white pt-9" style={{ backgroundColor: colors.white }}>
