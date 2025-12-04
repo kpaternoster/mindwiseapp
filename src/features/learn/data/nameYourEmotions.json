@@ -1,0 +1,56 @@
+{
+  "title": "Name Your Emotions",
+  "currentStep": 1,
+  "totalSteps": 4,
+  "stepTitle": "What are you experiencing?",
+  "stepSubtitle": "Take a moment to notice what's happening in your body, mind, and urges.",
+  "sections": [
+    {
+      "id": 1,
+      "title": "What does your body feel like?",
+      "placeholder": "Describe any physical sensations you notice...",
+      "tags": [
+        "Racing heart, sweating",
+        "Heavy feeling, low energy",
+        "Tension in jaw, heat",
+        "Light feeling, warmth"
+      ]
+    },
+    {
+      "id": 2,
+      "title": "What thoughts are you having?",
+      "placeholder": "What's going through your mind...",
+      "tags": [
+        "Something bad will happen",
+        "Someone is wrong",
+        "Things won't get better",
+        "Things are good"
+      ]
+    },
+    {
+      "id": 3,
+      "title": "What urges do you have?",
+      "placeholder": "Escape, avoid, freeze...",
+      "tags": [
+        "Escape, avoid, freeze",
+        "Attack, argue, defend",
+        "Withdraw, isolate, cry",
+        "Share, celebrate, connect"
+      ]
+    },
+    {
+      "id": 4,
+      "title": "What emotion do you think this is?",
+      "placeholder": "Fear...",
+      "tags": [
+        "Fear",
+        "Anger",
+        "Sadness",
+        "Joy"
+      ],
+      "isEmotion": true
+    }
+  ],
+  "buttonText": "Continue to Emotions Wheel"
+}
+

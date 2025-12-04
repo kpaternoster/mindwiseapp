@@ -60,6 +60,20 @@ export type HomeStackParams = {
   Account_Help: undefined;
 
   Learn: undefined;
+  Learn_UnderstandEmotions: undefined;
+  Learn_EmotionsWheel: undefined;
+  Learn_EmotionsWheelExercises: undefined;
+  Learn_NameYourEmotions: undefined;
+  Learn_EmotionsTracker: undefined;
+  Learn_PracticeWithOthers: undefined;
+  Learn_AboutSUDS: undefined;
+  Learn_SUDSExercises: undefined;
+  Learn_SUDSCheckIn: undefined;
+  Learn_SUDSCopingPlan: undefined;
+  Learn_AboutSTUNWAVE: undefined;
+  Learn_STUNWAVEExercises: undefined;
+  Learn_STUNWAVECheckIn: undefined;
+  Learn_STUNWAVEEntries: undefined;
   Act: undefined;
   Help: undefined;
   Help_Reason: undefined;

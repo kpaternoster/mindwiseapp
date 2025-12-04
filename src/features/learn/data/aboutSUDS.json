@@ -1,0 +1,24 @@
+{
+  "title": "About SUDS",
+  "sections": [
+    {
+      "id": 1,
+      "title": "About SUDS",
+      "content": "SUDS (Subjective Units of Distress Scale) measures how intense your distress feels on a 1-10 scale. It helps you track your emotions, notice patterns, and know when to use coping skills before things get overwhelming. Regular check-ins increase self-awareness and make it easier to communicate your distress level and ask for support when you need it."
+    },
+    {
+      "id": 2,
+      "title": "Example",
+      "content": "Maria saw her friends hanging out without her online and felt a rush of rejection. She paused, rated her distress as 7/10, and used a few quick skills—deep breaths and some movement—to calm her body. When she checked again, she was at 5/10. From that steadier place, she reached out to her friends with curiosity instead of hurt."
+    },
+    {
+      "id": 3,
+      "title": "Remember",
+      "content": "You don't need to eliminate distress completely—just bring it down enough to think clearly. SUDS creates space between feeling and reacting, giving you time to choose your response.",
+      "backgroundColor": "#FDF4EE"
+    }
+  ],
+  "buttonText": "Try SUDS Exercises",
+  "footerText": "Take your time with these calming exercises to build emotional awareness and expand your ability to identify and name feelings with kindness toward yourself."
+}
+

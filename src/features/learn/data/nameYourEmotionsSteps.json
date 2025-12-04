@@ -1,0 +1,25 @@
+{
+  "steps": [
+    {
+      "step": 1,
+      "title": "What are you experiencing?",
+      "subtitle": "Take a moment to notice what's happening in your body, mind, and urges."
+    },
+    {
+      "step": 2,
+      "title": "Explore the Emotions Wheel",
+      "subtitle": "Explore the wheel, then click to select what you think you are feeling after exploring."
+    },
+    {
+      "step": 3,
+      "title": "Check Your Match",
+      "subtitle": "Compare your initial guess with your selected emotion."
+    },
+    {
+      "step": 4,
+      "title": "What is this emotion telling you?",
+      "subtitle": "Emotions are messengers. What might yours be trying to communicate?"
+    }
+  ]
+}
+

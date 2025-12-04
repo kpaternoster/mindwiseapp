@@ -1,0 +1,58 @@
+{
+  "categoryId": "1",
+  "title": "Understand Emotions",
+  "totalSkills": 3,
+  "completedSkills": 1,
+  "progressPercentage": 33,
+  "sections": [
+    {
+      "id": 1,
+      "type": "intro",
+      "icon": "leaf",
+      "title": "Identify and understand your emotions",
+      "description": "Understanding emotions helps you recognize what you're feeling and why. We use these skills to build emotional awareness and make sense of our inner experiences. Practice identifying emotions accurately to respond more effectively to life's challenges and build stronger relationships with yourself and others."
+    },
+    {
+      "id": 2,
+      "type": "info",
+      "title": "Why We Use DBT",
+      "readTime": "2 min read",
+      "paragraphs": [
+        "DBT knows that some people are more emotionally sensitive than others, may have experienced an invalidating or traumatic past, and may not have the skills to manage the resulting emotions and their consequences.",
+        "DBT is scientifically proven to help reduce unproductive behavior, manage extreme emotions, and create a balanced life - especially when other therapies feel too challenging during emotional crises."
+      ]
+    }
+  ],
+  "skills": [
+    {
+      "id": 1,
+      "title": "Emotions Wheel",
+      "duration": "15 min",
+      "difficulty": "Beginner",
+      "description": "Learn to identify and name your emotions accurately using a comprehensive emotions wheel",
+      "tags": ["Name Your Emotion", "Emotion Tracker", "Practice with Others"]
+    },
+    {
+      "id": 2,
+      "title": "SUDS",
+      "duration": "10 min",
+      "difficulty": "Beginner",
+      "description": "Subjective Units of Distress Scale for measuring emotional intensity from 0-10",
+      "tags": ["SUDS Check-in", "SUDS Coping Plan"]
+    },
+    {
+      "id": 3,
+      "title": "Stun Wave",
+      "duration": "20 min",
+      "difficulty": "Intermediate",
+      "description": "Understanding the wave-like nature of emotions and how they rise and fall naturally",
+      "tags": ["STUNWAVE Check-in"]
+    }
+  ],
+  "keepLearning": {
+    "icon": "trophy",
+    "title": "Keep Learning!",
+    "description": "Complete skills to earn leaves and grow your tree. Each completed skill gives you 5 leaves! 🍃"
+  }
+}
+

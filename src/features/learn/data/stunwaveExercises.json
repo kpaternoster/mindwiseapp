@@ -1,0 +1,18 @@
+{
+  "title": "STUNWAVE Exercises",
+  "introText": "STUNWAVE helps you slow down and stay grounded when emotions rise quickly. By noticing your Sensations, Thoughts, Urges, and Naming the emotion, you create space to respond thoughtfully instead of reacting impulsively. This skill builds awareness, emotional tolerance, and clarity during intense moments.",
+  "exercises": [
+    {
+      "id": 1,
+      "number": 1,
+      "title": "STUNWAVE Check-In",
+      "description": "Take a moment to pause and observe what's happening inside you. Reflect on your Sensations, Thoughts, Urges, and Emotion, and write down what you notice."
+    }
+  ],
+  "reminder": {
+    "title": "Ride the Wave with Awareness",
+    "icon": "heart",
+    "content": "Every emotional wave rises and falls. STUNWAVE helps you stay steady, notice the shifts, and choose your response with clarity and self-compassion."
+  }
+}
+

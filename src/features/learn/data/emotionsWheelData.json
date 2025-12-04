@@ -1,0 +1,106 @@
+{
+  "primaryEmotions": [
+    {
+      "id": "anger",
+      "name": "Anger",
+      "subEmotions": [
+        "Rage",
+        "Fury",
+        "Outrage",
+        "Resentment",
+        "Irritation",
+        "Annoyance"
+      ]
+    },
+    {
+      "id": "fear",
+      "name": "Fear",
+      "subEmotions": [
+        "Anxiety",
+        "Worry",
+        "Nervousness",
+        "Dread",
+        "Panic",
+        "Terror"
+      ]
+    },
+    {
+      "id": "sadness",
+      "name": "Sadness",
+      "subEmotions": [
+        "Depression",
+        "Despair",
+        "Hopelessness",
+        "Grief",
+        "Sorrow",
+        "Melancholy"
+      ]
+    },
+    {
+      "id": "joy",
+      "name": "Joy",
+      "subEmotions": [
+        "Happiness",
+        "Excitement",
+        "Contentment",
+        "Bliss",
+        "Elation",
+        "Euphoria"
+      ]
+    },
+    {
+      "id": "disgust",
+      "name": "Disgust",
+      "subEmotions": [
+        "Revulsion",
+        "Loathing",
+        "Contempt",
+        "Aversion",
+        "Distaste"
+      ]
+    },
+    {
+      "id": "shame",
+      "name": "Shame",
+      "subEmotions": [
+        "Guilt",
+        "Embarrassment",
+        "Humiliation",
+        "Mortification"
+      ]
+    },
+    {
+      "id": "love",
+      "name": "Love",
+      "subEmotions": [
+        "Affection",
+        "Caring",
+        "Compassion",
+        "Tenderness",
+        "Fondness",
+        "Adoration"
+      ]
+    },
+    {
+      "id": "envy",
+      "name": "Envy",
+      "subEmotions": [
+        "Resentment",
+        "Bitterness",
+        "Covetousness",
+        "Spite"
+      ]
+    },
+    {
+      "id": "jealousy",
+      "name": "Jealousy",
+      "subEmotions": [
+        "Suspicion",
+        "Possessiveness",
+        "Insecurity",
+        "Paranoia"
+      ]
+    }
+  ]
+}
+

@@ -12,6 +12,7 @@ export const colors = {
     background_purple: '#CCC1F0',
 
     button_orange: '#EE9153',
+    Button_Orange: '#E2772F',
     stoke_gray: '#0000001A',
     button_brown: '#985B3380',
     orange: '#EE9153',
@@ -27,6 +28,7 @@ export const colors = {
     orange_150: '#FADECB',
     orange_200: '#F8D3BA',
     orange_300: '#F5BD98',
+    orange_400: '#F1A775',
     orange_500: '#EE9153',
     orange_600: '#C37643',
     orange_800: '#6D4122',
@@ -46,6 +48,9 @@ export const colors = {
     gray_200: '#F0F0F0',
     gray_300: '#E0E0E0',
     gray_400: '#D9D9D9',
+    gray_500: '#9E9E9E',
+    gray_tag_text: '#424242',
+    gray_tag_background: '#EBEBEB',
     gray_medium: '#71757C',
     black_40: '#00000066',
     crisis: '#E67C73',
@@ -62,5 +67,9 @@ export const colors = {
     icon_orange: '#EE9153',
     soft_amber: '#F4C27F',
     icon: '#682C0E',
-    red_light: '#FF3B30'
+    red_light: '#FF3B30',
+    yellow_light: '#FAEDCA',
+    yellow_dark: '#83662C',
+    cream_40: '#F5E6D366',
+    system_red: '#FF6C64'
 }

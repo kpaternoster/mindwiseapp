@@ -1,0 +1,73 @@
+[
+  {
+    "id": "deep-breathing",
+    "title": "Deep Breathing",
+    "description": "Slow, controlled breathing to calm the nervous system"
+  },
+  {
+    "id": "here-now",
+    "title": "Here & Now",
+    "description": "Use Mindful Observation to focus on the moment"
+  },
+  {
+    "id": "self-care-please",
+    "title": "Self-Care (PLEASE)",
+    "description": "Ensure you are taking care of yourself"
+  },
+  {
+    "id": "positive-self-talk",
+    "title": "Positive Self-Talk",
+    "description": "Kind, encouraging words to yourself"
+  },
+  {
+    "id": "stop-skill",
+    "title": "STOP Skill",
+    "description": "Stop, Take a breath, Observe, Proceed mindfully"
+  },
+  {
+    "id": "distraction-activities",
+    "title": "Distraction Activities",
+    "description": "Engage in activities that shift your focus"
+  },
+  {
+    "id": "problem-solving",
+    "title": "Problem Solving",
+    "description": "Use problem solving to address any challenges with clarity and intention"
+  },
+  {
+    "id": "self-soothing",
+    "title": "Self-Soothing",
+    "description": "Kind, encouraging words to yourself"
+  },
+  {
+    "id": "tipp-skills",
+    "title": "TIPP Skills",
+    "description": "Temperature, Intense exercise, Paced breathing, Paired muscle relaxation"
+  },
+  {
+    "id": "radical-acceptance",
+    "title": "Radical Acceptance",
+    "description": "Accept reality without fighting it"
+  },
+  {
+    "id": "different-action",
+    "title": "Different Action",
+    "description": "Act opposite to your emotional urges"
+  },
+  {
+    "id": "grounding-techniques",
+    "title": "Grounding Techniques",
+    "description": "5-4-3-2-1 technique to stay present"
+  },
+  {
+    "id": "crisis-support",
+    "title": "Crisis Support",
+    "description": "Open the 'Crisis Support' page to reach out for help"
+  },
+  {
+    "id": "crisis-survival",
+    "title": "Crisis Survival",
+    "description": "Use your favorite distress tolerance skills like TIPP or Different Action"
+  }
+]
+

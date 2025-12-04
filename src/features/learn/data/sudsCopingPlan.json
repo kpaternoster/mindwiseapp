@@ -1,0 +1,122 @@
+{
+  "title": "SUDS Coping Plan",
+  "intro": {
+    "title": "Your Personalized Coping Toolkit",
+    "description": "Different SUDS levels need different strategies. Build your personalized plan by choosing skills that work best for you at each intensity level."
+  },
+  "sudsLevels": [
+    {
+      "id": "1-3",
+      "range": "1-3",
+      "label": "Mild Distress",
+      "description": "Manageable discomfort, good time for prevention.",
+      "skills": [
+        {
+          "id": "deep-breathing",
+          "title": "Deep Breathing",
+          "description": "Slow, controlled breathing to calm the nervous system"
+        },
+        {
+          "id": "here-now",
+          "title": "Here & Now",
+          "description": "Use Mindful Observation to focus on the moment"
+        },
+        {
+          "id": "self-care-please",
+          "title": "Self-Care (PLEASE)",
+          "description": "Ensure you are taking care of yourself"
+        },
+        {
+          "id": "positive-self-talk",
+          "title": "Positive Self-Talk",
+          "description": "Kind, encouraging words to yourself"
+        }
+      ]
+    },
+    {
+      "id": "4-6",
+      "range": "4-6",
+      "label": "Moderate Distress",
+      "description": "Noticeable distress, need active coping.",
+      "skills": [
+        {
+          "id": "stop-skill",
+          "title": "STOP Skill",
+          "description": "Stop, Take a breath, Observe, Proceed mindfully"
+        },
+        {
+          "id": "distraction-activities",
+          "title": "Distraction Activities",
+          "description": "Engage in activities that shift your focus"
+        },
+        {
+          "id": "problem-solving",
+          "title": "Problem Solving",
+          "description": "Use problem solving to address any challenges with clarity and intention"
+        },
+        {
+          "id": "self-soothing",
+          "title": "Self-Soothing",
+          "description": "Kind, encouraging words to yourself"
+        }
+      ]
+    },
+    {
+      "id": "7-8",
+      "range": "7-8",
+      "label": "High Distress",
+      "description": "Significant distress, need intensive skills.",
+      "skills": [
+        {
+          "id": "tipp-skills",
+          "title": "TIPP Skills",
+          "description": "Temperature, Intense exercise, Paced breathing, Paired muscle relaxation"
+        },
+        {
+          "id": "radical-acceptance",
+          "title": "Radical Acceptance",
+          "description": "Accept reality without fighting it"
+        },
+        {
+          "id": "different-action",
+          "title": "Different Action",
+          "description": "Act opposite to your emotional urges"
+        },
+        {
+          "id": "grounding-techniques",
+          "title": "Grounding Techniques",
+          "description": "5-4-3-2-1 technique to stay present"
+        }
+      ]
+    },
+    {
+      "id": "9-10",
+      "range": "9-10",
+      "label": "Extreme Distress",
+      "description": "Crisis level, need immediate support.",
+      "skills": [
+        {
+          "id": "crisis-support",
+          "title": "Crisis Support",
+          "description": "Open the 'Crisis Support' page to reach out for help"
+        },
+        {
+          "id": "crisis-survival",
+          "title": "Crisis Survival",
+          "description": "Use your favorite distress tolerance skills like TIPP or Different Action"
+        }
+      ]
+    }
+  ],
+  "howToUse": {
+    "title": "How to Use Your Plan",
+    "instructions": [
+      "Check your current SUDS level",
+      "Choose skills from the matching category",
+      "Try 2-3 skills before moving to higher intensity",
+      "Click \"Learn more\" to practice any skill",
+      "Edit your plan as you discover what works"
+    ]
+  }
+}
+

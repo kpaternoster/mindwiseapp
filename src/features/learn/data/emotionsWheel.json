@@ -1,0 +1,23 @@
+{
+  "title": "Emotions Wheel",
+  "sections": [
+    {
+      "id": 1,
+      "title": "Emotions Wheel",
+      "content": "The Emotions Wheel is a visual tool for identifying and naming emotions. It organizes feelings from broad categories to precise ones, helping you pinpoint specific emotions (e.g., anger, sadness, fear) and choose coping strategies. Building your emotional vocabulary improves communication and self-awareness."
+    },
+    {
+      "id": 2,
+      "title": "Example",
+      "content": "Luke avoided math homework, saying he felt \"stressed.\" Using the Emotions Wheel, he realized the true feeling was \"fear\" - insecurity about failing and disappointing his parents. This clarity led him to seek tutoring and have an honest conversation."
+    },
+    {
+      "id": 3,
+      "title": "Remember",
+      "content": "Understanding emotions is the first step to managing them effectively. Regular use of the Emotions Wheel builds vocabulary and helps you make better decisions.",
+      "backgroundColor": "#FDF4EE"
+    }
+  ],
+  "buttonText": "Try Emotion Wheel Exercises"
+}
+

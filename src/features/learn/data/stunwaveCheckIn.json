@@ -1,0 +1,89 @@
+{
+  "title": "STUNWAVE Check-In",
+  "sections": [
+    {
+      "id": "sensations",
+      "title": "Sensations",
+      "prompt": "What do you notice in your body right now?",
+      "placeholder": "Describe what you feel in your body...",
+      "tags": [
+        "Tight chest",
+        "Racing Heart",
+        "Tense Shoulders",
+        "Butterflies in Stomach"
+      ]
+    },
+    {
+      "id": "thoughts",
+      "title": "Thoughts",
+      "prompt": "What thoughts are going through your mind?",
+      "placeholder": "What are you thinking about?",
+      "tags": [
+        "I can handle this",
+        "Something bad will happen",
+        "I'm not good enough",
+        "This is overwhelming"
+      ]
+    },
+    {
+      "id": "urges",
+      "title": "Urges",
+      "prompt": "What do you feel like doing right now?",
+      "placeholder": "What actions do you want to take...",
+      "tags": [
+        "Run away",
+        "Yell or scream",
+        "Hide or isolate",
+        "Call someone"
+      ]
+    },
+    {
+      "id": "emotions",
+      "title": "Emotions",
+      "prompt": "What emotion(s) are you experiencing?",
+      "placeholder": "Name the emotions you're feeling...",
+      "tags": [
+        "Anxious",
+        "Angry",
+        "Sad",
+        "Overwhelmed",
+        "Frustrated",
+        "Scared"
+      ]
+    }
+  ],
+  "surfTheWave": {
+    "title": "Surf the Wave",
+    "reminder": "Remember: Primary emotions typically last only 90 seconds. Everything else is rumination.",
+    "steps": [
+      {
+        "number": 1,
+        "text": "Identify: Notice and label the specific emotion"
+      },
+      {
+        "number": 2,
+        "text": "Acknowledge: This is normal and temporary"
+      },
+      {
+        "number": 3,
+        "text": "Breathe: Use deep breathing to stay grounded"
+      },
+      {
+        "number": 4,
+        "text": "Allow: Let it rise and naturally subside"
+      },
+      {
+        "number": 5,
+        "text": "Self-care: Be kind to yourself"
+      }
+    ],
+    "timerDuration": 90,
+    "reflectionPlaceholder": "How did surfing the Wave feel? What did you notice..."
+  },
+  "reflection": {
+    "title": "Reflection & Save",
+    "prompt": "Capture your insights from this STUNWAVE experience",
+    "placeholder": "What did you learn about your emotional experience? Any insights or patterns..."
+  }
+}
+

@@ -1,0 +1,48 @@
+{
+  "categories": [
+    {
+      "id": "1",
+      "title": "Understand Emotions",
+      "description": "Learn to identify and understand your emotions.",
+      "skillCount": 3,
+      "progressPercentage": 0
+    },
+    {
+      "id": "2",
+      "title": "Regulate Emotions",
+      "description": "Develop skills to manage difficult emotions.",
+      "skillCount": 6,
+      "progressPercentage": 0
+    },
+    {
+      "id": "3",
+      "title": "Be Mindful",
+      "description": "Practice present-moment awareness.",
+      "skillCount": 4,
+      "progressPercentage": 0
+    },
+    {
+      "id": "4",
+      "title": "Improve Interpersonal Effectiveness",
+      "description": "Build healthier relationships.",
+      "skillCount": 5,
+      "progressPercentage": 0
+    },
+    {
+      "id": "5",
+      "title": "Build Distress Tolerance",
+      "description": "Learn to survive crisis situations.",
+      "skillCount": 8,
+      "progressPercentage": 0
+    },
+    {
+      "id": "6",
+      "title": "Build Self-Love",
+      "description": "Develop self-compassion.",
+      "skillCount": 5,
+      "progressPercentage": 0
+    }
+  ],
+  "learningTip": "Start with skills that feel most relevant to your current challenges. Regular practice is more important than perfection."
+}
+

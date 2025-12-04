@@ -4,6 +4,20 @@ import { HomeStackParams } from './types';
 import Home from '@features/home/screens/index';
 import Plan from '@features/plan/screens/index';
 import Learn from '@features/learn/screens/index';
+import UnderstandEmotionsLearnScreen from '@features/learn/screens/UnderstandEmotions';
+import EmotionsWheelScreen from '@features/learn/screens/EmotionsWheel';
+import EmotionsWheelExercisesScreen from '@features/learn/screens/EmotionsWheelExercises';
+import NameYourEmotionsScreen from '@features/learn/screens/NameYourEmotions';
+import EmotionsTrackerScreen from '@features/learn/screens/EmotionsTracker';
+import PracticeWithOthersScreen from '@features/learn/screens/PracticeWithOthers';
+import AboutSUDSScreen from '@features/learn/screens/AboutSUDS';
+import SUDSExercisesScreen from '@features/learn/screens/SUDSExercises';
+import SUDSCheckInScreen from '@features/learn/screens/SUDSCheckIn';
+import SUDSCopingPlanScreen from '@features/learn/screens/SUDSCopingPlan';
+import AboutSTUNWAVEScreen from '@features/learn/screens/AboutSTUNWAVE';
+import STUNWAVEExercisesScreen from '@features/learn/screens/STUNWAVEExercises';
+import STUNWAVECheckInScreen from '@features/learn/screens/STUNWAVECheckIn';
+import STUNWAVEEntriesScreen from '@features/learn/screens/STUNWAVEEntries';
 import Act from '@features/act/screens/index';
 import Account from '@features/account/screens/index';
 import Help from '@features/help/screens/index';
@@ -83,6 +97,20 @@ export default function HomeNavigator() {
 
             
             <Stack.Screen name="Learn" component={Learn} />
+            <Stack.Screen name="Learn_UnderstandEmotions" component={UnderstandEmotionsLearnScreen} />
+            <Stack.Screen name="Learn_EmotionsWheel" component={EmotionsWheelScreen} />
+            <Stack.Screen name="Learn_EmotionsWheelExercises" component={EmotionsWheelExercisesScreen} />
+            <Stack.Screen name="Learn_NameYourEmotions" component={NameYourEmotionsScreen} />
+            <Stack.Screen name="Learn_EmotionsTracker" component={EmotionsTrackerScreen} />
+            <Stack.Screen name="Learn_PracticeWithOthers" component={PracticeWithOthersScreen} />
+            <Stack.Screen name="Learn_AboutSUDS" component={AboutSUDSScreen} />
+            <Stack.Screen name="Learn_SUDSExercises" component={SUDSExercisesScreen} />
+            <Stack.Screen name="Learn_SUDSCheckIn" component={SUDSCheckInScreen} />
+            <Stack.Screen name="Learn_SUDSCopingPlan" component={SUDSCopingPlanScreen} />
+            <Stack.Screen name="Learn_AboutSTUNWAVE" component={AboutSTUNWAVEScreen} />
+            <Stack.Screen name="Learn_STUNWAVEExercises" component={STUNWAVEExercisesScreen} />
+            <Stack.Screen name="Learn_STUNWAVECheckIn" component={STUNWAVECheckInScreen} />
+            <Stack.Screen name="Learn_STUNWAVEEntries" component={STUNWAVEEntriesScreen} />
             <Stack.Screen name="Act" component={Act} />
             <Stack.Screen name="Help" component={Help} />
             <Stack.Screen name="Help_Reason" component={HelpReasonScreen} />

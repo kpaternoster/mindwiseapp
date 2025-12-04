@@ -1,0 +1,30 @@
+{
+  "title": "Emotions Wheel Exercises",
+  "introText": "Take your time with these calming exercises to build emotional awareness and expand your ability to identify and name feelings with kindness toward yourself.",
+  "exercises": [
+    {
+      "id": 1,
+      "number": 1,
+      "title": "Name Your Emotion",
+      "description": "A 4-step guided process to help you identify and understand your emotions by connecting body sensations, thoughts, and urges to the right emotion name."
+    },
+    {
+      "id": 2,
+      "number": 2,
+      "title": "Emotion Tracker",
+      "description": "Track your daily primary and secondary emotions using the Emotions Wheel, and view patterns over time to build emotional awareness."
+    },
+    {
+      "id": 3,
+      "number": 3,
+      "title": "Practice With Others",
+      "description": "Observe and record others' emotions to build empathy and validation skills. Practice identifying what you see and asking about their emotional experience."
+    }
+  ],
+  "reminder": {
+    "title": "Be Patient With Yourself",
+    "icon": "heart",
+    "content": "The more you patiently practice identifying emotions, the better you'll become at understanding and managing them with compassion."
+  }
+}
+

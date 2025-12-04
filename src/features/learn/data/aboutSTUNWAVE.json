@@ -1,0 +1,24 @@
+{
+  "title": "About STUNWAVE",
+  "sections": [
+    {
+      "id": 1,
+      "title": "About STUNWAVE",
+      "content": "STUN Wave helps you stay grounded during intense emotions so you don't get overwhelmed or act impulsively. STUN stands for Sensations, Thoughts, Urges, and Name the emotion. By noticing each of these steps, you create space between yourself and the emotion, making it easier to respond thoughtfully instead of react. This skill builds emotional tolerance and reduces impulsive decisions during tough moments."
+    },
+    {
+      "id": 2,
+      "title": "Example",
+      "content": "Alex got tough feedback and felt frustration hit immediately. Using STUN Wave, he noticed his pounding heart (Sensations), self-critical thoughts (Thoughts), and the urge to react defensively (Urges). He named the emotion as hurt and disappointment. After a few deep breaths, he reminded himself the wave would pass and was able to respond thoughtfully instead of reacting impulsively."
+    },
+    {
+      "id": 3,
+      "title": "Remember",
+      "content": "STUN Wave helps you observe emotions before reacting. Regular practice builds resilience, improves self-awareness, and prevents impulsive decisions during strong emotional moments.",
+      "backgroundColor": "#FDF4EE"
+    }
+  ],
+  "buttonText": "Try STUNWAVE Exercises",
+  "footerText": "Take your time with these calming exercises to build emotional awareness and expand your ability to identify and name feelings with kindness toward yourself."
+}
+
