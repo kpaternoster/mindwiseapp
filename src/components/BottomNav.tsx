@@ -4,7 +4,7 @@ import { colors } from "@design/color";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useDissolveNavigation } from "@hooks/useDissolveNavigation";
 import { t } from "@design/typography";
-import { HomeIcon, CalendarBlankIcon, BookOpenIcon } from "./Utils";
+import { HomeIcon, CalendarBlankIcon, BookOpenIcon, HomeFillIcon, BookOpenFillIcon } from "./Utils";
 import ActIcon from "@assets/icons/Act.svg";
 
 type TabKey = "home" | "plan" | "learn" | "help" | "act";
@@ -32,9 +32,9 @@ const Tab = ({
     const iconColor = isActive ? colors.warm_dark : colors.text_secondary;
 
     const icon = {
-        home: <HomeIcon size={20} color={iconColor} />,
+        home: isActive? <HomeFillIcon size={20} color={iconColor}/> : <HomeIcon size={20} color={iconColor} />,
         plan: <CalendarBlankIcon size={20} color={iconColor} />,
-        learn: <BookOpenIcon size={20} color={iconColor} />,
+        learn: isActive? <BookOpenFillIcon size={20} color={iconColor}/> : <BookOpenIcon size={20} color={iconColor} />,
         act: <ActIcon />,
     }[k];
 
