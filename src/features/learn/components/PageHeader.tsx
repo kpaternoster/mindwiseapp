@@ -3,7 +3,7 @@ import { View, Text, Pressable, Image, StyleSheet } from 'react-native';
 import { colors } from '@design/color';
 import { t } from '@design/typography';
 import { images } from '@design/image';
-import { BackIcon, HomeIcon } from '@components/Utils';
+import { BackIcon, HomeFillIcon } from '@components/Utils';
 import { useDissolveNavigation } from '@hooks/useDissolveNavigation';
 
 interface PageHeaderProps {
@@ -51,7 +51,7 @@ export const PageHeader: React.FC<PageHeaderProps> = ({
                         className="h-9 w-9 items-center justify-center"
                         accessibilityLabel="Go to home"
                     >
-                        <HomeIcon size={20} color={colors.Text_Primary} />
+                        <HomeFillIcon size={20} color={colors.Text_Primary} />
                     </Pressable>
                 )}
                 {showLeafIcon && (

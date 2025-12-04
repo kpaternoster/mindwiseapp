@@ -22,8 +22,6 @@ import Act from '@features/act/screens/index';
 import Account from '@features/account/screens/index';
 import Help from '@features/help/screens/index';
 
-import CreateDiaryCardScreen from '@features/plan/screens/CreateDiaryCard';
-import AboutDiaryCardScreen from '@features/plan/screens/AboutDiaryCard';
 import HelpReasonScreen from '@features/help/screens/Reason';
 import TutorialIntroScreen from '@features/tutorial/screens/TutorialIntro';
 import TutorialScreen from '@features/tutorial/screens/Tutorial';
@@ -63,8 +61,6 @@ export default function HomeNavigator() {
             <Stack.Screen name="Tutorial" component={TutorialScreen} />
 
             <Stack.Screen name="Plan" component={Plan} />
-            <Stack.Screen name='Plan_Diary' component={CreateDiaryCardScreen} />
-            <Stack.Screen name='Plan_DiaryCard_Help' component={AboutDiaryCardScreen} />
 
             {/* Pre-Treatment Module */}
             <Stack.Screen name="PreTreatment" component={PreTreatmentScreen} />
