@@ -76,3 +76,23 @@ export const generateWeekDates = (): WeekDate[] => {
 export const getDayName = (date: Date): string => {
     return date.toLocaleString('en-US', { weekday: 'short' });
 };
+
+/**
+ * Format ISO date string (YYYY-MM-DD) to human-readable format
+ * @param isoDateString - ISO date string (e.g., "2025-11-28")
+ * @returns Human-readable date string (e.g., "Yesterday", "2 days ago", or formatted date)
+ */
+export const formatISODateToRelative = (isoDateString: string): string => {
+    const date = new Date(isoDateString + 'T00:00:00'); // Add time to avoid timezone issues
+    const now = new Date();
+    now.setHours(0, 0, 0, 0); // Reset to start of day for accurate comparison
+    
+    const diffTime = Math.abs(now.getTime() - date.getTime());
+    const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+    
+    if (diffDays === 0) return 'Today';
+    if (diffDays === 1) return 'Yesterday';
+    if (diffDays < 7) return `${diffDays} days ago`;
+    
+    return formatDate(date);
+};

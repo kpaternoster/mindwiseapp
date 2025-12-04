@@ -335,6 +335,12 @@ export interface DiaryEntry {
     notes: string;
 }
 
+export interface MostRecentDiaryEntry {
+    date: string;
+    distress: number;
+    safety: number;
+}
+
 export interface DiaryEntryRequest {
     distress: number;
     safety: number;
@@ -458,6 +464,37 @@ export const deleteDiaryEntry = async (date: string): Promise<void> => {
         }
     } catch (error) {
         console.error('Error deleting diary entry:', error);
+        throw error;
+    }
+};
+
+/**
+ * Fetch most recent diary entries
+ */
+export const fetchMostRecentDiaryEntries = async (): Promise<MostRecentDiaryEntry[]> => {
+    try {
+        const token = await getAuthToken();
+        
+        if (!token) {
+            throw new Error('No authentication token found');
+        }
+        
+        const response = await fetch(`${API_ENDPOINTS.DIARY}/most-recent`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`,
+            },
+        });
+
+        if (!response.ok) {
+            throw new Error(`Failed to fetch most recent diary entries: ${response.statusText}`);
+        }
+
+        const data: MostRecentDiaryEntry[] = await response.json();
+        return data;
+    } catch (error) {
+        console.error('Error fetching most recent diary entries:', error);
         throw error;
     }
 };

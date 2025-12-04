@@ -6,7 +6,8 @@ import {
     Pressable,
     StyleSheet,
     StatusBar,
-    Image
+    Image,
+    ActivityIndicator
 } from 'react-native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { HomeStackParams } from '@app/navigation/types';
@@ -18,8 +19,8 @@ import { images } from '@design/image';
 import { useNavigation } from '@react-navigation/native';
 import { HomePage } from '@components/HomePage';
 import InfiniteDateSelector from '@features/home/components/InfiniteDateSelector';
-import { fetchTodayStatus } from '../../api';
-import { formatDateToISO, capitalizeFirstLetter } from '../../utils';
+import { fetchTodayStatus, fetchMostRecentDiaryEntries, MostRecentDiaryEntry } from '../../api';
+import { formatDateToISO, capitalizeFirstLetter, formatISODateToRelative } from '../../utils';
 
 type NavigationProp = NativeStackNavigationProp<HomeStackParams>;
 
@@ -32,6 +33,8 @@ export default function DailyCheckInScreen() {
     const [weeklyCount, setWeeklyCount] = useState(5);
     const [totalEntries, setTotalEntries] = useState(45);
     const [isLoading, setIsLoading] = useState(false);
+    const [isLoadingRecentEntries, setIsLoadingRecentEntries] = useState(false);
+    const [recentDiaryEntries, setRecentDiaryEntries] = useState<MostRecentDiaryEntry[]>([]);
 
     /**
      * Fetch today's status for the selected date
@@ -54,8 +57,24 @@ export default function DailyCheckInScreen() {
         }
     };
 
+    /**
+     * Fetch most recent diary entries
+     */
+    const loadRecentDiaryEntries = async () => {
+        try {
+            setIsLoadingRecentEntries(true);
+            const entries = await fetchMostRecentDiaryEntries();
+            setRecentDiaryEntries(entries);
+        } catch (error) {
+            console.error('Error loading recent diary entries:', error);
+        } finally {
+            setIsLoadingRecentEntries(false);
+        }
+    };
+
     useEffect(() => {
         loadTodayStatus(selectedDate);
+        loadRecentDiaryEntries();
     }, []);
 
     const handleDateSelect = (date: Date) => {
@@ -103,53 +122,64 @@ export default function DailyCheckInScreen() {
                     className="p-4 rounded-xl mb-4"
                     style={{ backgroundColor: colors.orange_50 }}
                 >
-                    <View className='flex-row items-center justify-between'>
-                        <View className="flex-col mb-4">
-                            <Text style={[t.title16SemiBold, { color: colors.Text_Primary }]}>
-                                Today's Status
-                            </Text>
-                            <Text style={[t.textMedium, { color: colors.text_secondary }]} className='mt-3'>
-                                {todayStatus}
+                    {isLoading ? (
+                        <View className="items-center justify-center py-8">
+                            <ActivityIndicator size="large" color={colors.orange_500} />
+                            <Text style={[t.textMedium, { color: colors.text_secondary }]} className="mt-4">
+                                Loading status...
                             </Text>
                         </View>
+                    ) : (
+                        <>
+                            <View className='flex-row items-center justify-between'>
+                                <View className="flex-col mb-4">
+                                    <Text style={[t.title16SemiBold, { color: colors.Text_Primary }]}>
+                                        Today's Status
+                                    </Text>
+                                    <Text style={[t.textMedium, { color: colors.text_secondary }]} className='mt-3'>
+                                        {todayStatus}
+                                    </Text>
+                                </View>
 
-                        {/* Streak Display */}
-                        <View className="items-center mb-4">
-                            <Text style={[t.title24SemiBold, { color: colors.orange_500 }]}>
-                                {currentStreak}
-                            </Text>
-                            <Text style={[t.textRegular, { color: colors.text_secondary }]}>
-                                days streak
-                            </Text>
-                        </View>
+                                {/* Streak Display */}
+                                <View className="items-center mb-4">
+                                    <Text style={[t.title24SemiBold, { color: colors.orange_500 }]}>
+                                        {currentStreak}
+                                    </Text>
+                                    <Text style={[t.textRegular, { color: colors.text_secondary }]}>
+                                        days streak
+                                    </Text>
+                                </View>
 
-                    </View>
+                            </View>
 
-                    {/* Weekly Stats */}
-                    <View className="flex-row justify-between">
-                        <View
-                            className="flex-1 p-3 rounded-xl mr-2"
-                            style={{ backgroundColor: colors.white }}
-                        >
-                            <Text style={[t.title20SemiBold, { color: colors.text_secondary }]} className="text-center">
-                                <Text style={[t.title20SemiBold, { color: colors.Text_Primary }]}>{weeklyCount}</Text> / <Text style={[t.title20SemiBold, { color: colors.text_secondary }]}>7</Text>
-                            </Text>
-                            <Text style={[t.textRegular, { color: colors.text_secondary }]} className="text-center mt-1">
-                                This week
-                            </Text>
-                        </View>
-                        <View
-                            className="flex-1 p-3 rounded-xl ml-2"
-                            style={{ backgroundColor: colors.white }}
-                        >
-                            <Text style={[t.title20SemiBold, { color: colors.Text_Primary }]} className="text-center">
-                                {totalEntries}
-                            </Text>
-                            <Text style={[t.textRegular, { color: colors.text_secondary }]} className="text-center mt-1">
-                                Total Enteries
-                            </Text>
-                        </View>
-                    </View>
+                            {/* Weekly Stats */}
+                            <View className="flex-row justify-between">
+                                <View
+                                    className="flex-1 p-3 rounded-xl mr-2"
+                                    style={{ backgroundColor: colors.white }}
+                                >
+                                    <Text style={[t.title20SemiBold, { color: colors.text_secondary }]} className="text-center">
+                                        <Text style={[t.title20SemiBold, { color: colors.Text_Primary }]}>{weeklyCount}</Text> / <Text style={[t.title20SemiBold, { color: colors.text_secondary }]}>7</Text>
+                                    </Text>
+                                    <Text style={[t.textRegular, { color: colors.text_secondary }]} className="text-center mt-1">
+                                        This week
+                                    </Text>
+                                </View>
+                                <View
+                                    className="flex-1 p-3 rounded-xl ml-2"
+                                    style={{ backgroundColor: colors.white }}
+                                >
+                                    <Text style={[t.title20SemiBold, { color: colors.Text_Primary }]} className="text-center">
+                                        {totalEntries}
+                                    </Text>
+                                    <Text style={[t.textRegular, { color: colors.text_secondary }]} className="text-center mt-1">
+                                        Total Enteries
+                                    </Text>
+                                </View>
+                            </View>
+                        </>
+                    )}
                 </View>
 
                 {/* Today's Check-In Card */}
@@ -212,27 +242,40 @@ export default function DailyCheckInScreen() {
                         </View>
                     </View>
 
-                    {dailyCheckInData.recentCheckIns.map((entry) => (
-                        <View
-                            key={entry.id}
-                            className="p-3 rounded-xl mt-2"
-                            style={{ backgroundColor: colors.gray_100 }}
-                        >
-                            <View className="flex-row items-center justify-between">
-                                <View className="flex-1">
-                                    <Text style={[t.textSemiBold, { color: colors.Text_Primary }]}>
-                                        {entry.date}
-                                    </Text>
-                                    <Text style={[t.textMedium, { color: colors.text_secondary }]} className="mt-3">
-                                        Mood: {entry.mood}/10  Anxiety: {entry.anxiety}/10
+                    {isLoadingRecentEntries ? (
+                        <View className="items-center justify-center py-8">
+                            <ActivityIndicator size="large" color={colors.orange_500} />
+                            <Text style={[t.textMedium, { color: colors.text_secondary }]} className="mt-4">
+                                Loading recent check-ins...
+                            </Text>
+                        </View>
+                    ) : recentDiaryEntries.length > 0 ? (
+                        recentDiaryEntries.map((entry) => (
+                            <View
+                                key={entry.date}
+                                className="p-3 rounded-xl mt-2"
+                                style={{ backgroundColor: colors.gray_100 }}
+                            >
+                                <View className="flex-row items-center justify-between">
+                                    <View className="flex-1">
+                                        <Text style={[t.textSemiBold, { color: colors.Text_Primary }]}>
+                                            {formatISODateToRelative(entry.date)}
+                                        </Text>
+                                        <Text style={[t.textMedium, { color: colors.text_secondary }]} className="mt-3">
+                                            Distress: {entry.distress}/10  Safety: {entry.safety}/10
+                                        </Text>
+                                    </View>
+                                    <Text style={[t.textMedium, { color: colors.text_secondary }]}>
+                                        Complete
                                     </Text>
                                 </View>
-                                <Text style={[t.textMedium, { color: colors.text_secondary }]}>
-                                    {entry.status}
-                                </Text>
                             </View>
-                        </View>
-                    ))}
+                        ))
+                    ) : (
+                        <Text style={[t.textMedium, { color: colors.text_secondary }]} className="mt-2">
+                            No recent check-ins
+                        </Text>
+                    )}
                 </View>
 
                 {/* Weekly Review Card */}
