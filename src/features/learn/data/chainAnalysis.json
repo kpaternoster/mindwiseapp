@@ -1,0 +1,23 @@
+{
+  "title": "Chain Analysis",
+  "sections": [
+    {
+      "id": 1,
+      "title": "About Chain Analysis",
+      "content": "Chain Analysis helps you understand the steps that lead to problematic behaviors by breaking them down into triggers, thoughts, feelings, and consequences. This reveals patterns and points where you can use DBT skills to interrupt the cycle. By seeing your behavioral patterns clearly, you can create strategies to prevent unwanted behaviors and respond more effectively in difficult situations."
+    },
+    {
+      "id": 2,
+      "title": "Example",
+      "content": "Alex realized they kept having blow-up arguments with their partner. Using Chain Analysis, they broke down a recent fight—poor sleep and stress (vulnerabilities), constructive feedback from their partner (prompting event), and a chain of reactions (feeling attacked → defensive thoughts → anger → raised voice → hurtful comments). The problem behavior was storming out; the consequences were both partners feeling hurt and ashamed. Seeing the pattern helped Alex identify where to intervene next time: using PLEASE for sleep/stress, Check the Facts to interpret feedback more accurately, and STOP to prevent escalation."
+    },
+    {
+      "id": 3,
+      "title": "Remember",
+      "content": "Chain Analysis isn't about blame or judgment—it's about understanding patterns to create positive change. The goal is to identify where you can apply DBT skills to interrupt harmful chains and build healthier responses. Every chain analysis is a step toward greater self-awareness and emotional regulation.",
+      "backgroundColor": "#FDF4EE"
+    }
+  ],
+  "buttonText": "Try Chain Analysis Exercises"
+}
+

@@ -1,0 +1,27 @@
+{
+  "title": "Chain Analysis Exercises",
+  "intro": {
+    "title": "Practice Chain Analysis",
+    "description": "Chain Analysis helps you understand patterns in challenging situations by breaking them down into clear components. Use these exercises to practice identifying vulnerability factors, triggers, and intervention points.",
+    "tip": {
+      "title": "Tip:",
+      "content": "Start with a recent situation that wasn't too intense. As you get comfortable with the process, you can analyze more challenging experiences."
+    }
+  },
+  "exercises": [
+    {
+      "id": 1,
+      "number": 1,
+      "title": "Guided Chained Analysis",
+      "duration": "15-20 min",
+      "difficulty": "Advanced",
+      "description": "Step-by-step guided analysis of a challenging behavioral situation",
+      "tags": ["Self Reflection"]
+    }
+  ],
+  "reminder": {
+    "title": "Remember",
+    "content": "Chain Analysis isn't about blaming yourself—it's about understanding patterns with compassion so you can make different choices next time."
+  }
+}
+

@@ -17,7 +17,7 @@ export default function RegulateEmotionsScreen() {
                 dissolveTo('Learn_CheckTheFacts');
                 break;
             case 'Chain Analysis':
-                // dissolveTo('Learn_ChainAnalysis');
+                dissolveTo('Learn_ChainAnalysis');
                 break;
             default:
                 console.log('Exercise pressed:', skill.title);

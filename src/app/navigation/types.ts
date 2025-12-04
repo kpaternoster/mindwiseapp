@@ -79,6 +79,8 @@ export type HomeStackParams = {
   Learn_CheckTheFactsExercises: undefined;
   Learn_CheckTheFactsFinding: undefined;
   Learn_CheckTheFactsEntries: undefined;
+  Learn_ChainAnalysis: undefined;
+  Learn_ChainAnalysisExercises: undefined;
   Act: undefined;
   Help: undefined;
   Help_Reason: undefined;
