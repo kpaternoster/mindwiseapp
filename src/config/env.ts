@@ -27,4 +27,5 @@ export const API_ENDPOINTS = {
   PROGRESS_TRACKING: `${BASE_API_URL}/progress-tracking`,
   WEEKLY_REVIEW: `${BASE_API_URL}/weekly-review`,
   TREATMENT_PLAN: `${BASE_API_URL}/treatment-plan`,
+  PRE_TREATMENT_STATE: `${BASE_API_URL}/pre-treatment-state`,
 } as const;
