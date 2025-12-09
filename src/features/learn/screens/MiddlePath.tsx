@@ -12,8 +12,7 @@ export default function MiddlePathScreen() {
     const { title, sections, buttonText } = middlePathData;
 
     const handleButtonPress = () => {
-        // TODO: Navigate to Middle Path Exercises screen when created
-        console.log('Try Middle Path Exercises pressed');
+        dissolveTo('Learn_MiddlePathExercises');
     };
 
     return (
@@ -31,7 +30,7 @@ export default function MiddlePathScreen() {
                         key={index}
                         title={section.title}
                         content={section.content}
-                        backgroundColor={section.backgroundColor}
+                        backgroundColor={section.backgroundColor?? colors.white}
                     />
                 ))}
             </ScrollView>

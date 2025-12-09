@@ -67,6 +67,11 @@ import LovingKindnessPracticeScreen from '@features/learn/screens/LovingKindness
 import LovingKindnessPracticeEntriesScreen from '@features/learn/screens/LovingKindnessPracticeEntries';
 import LovingKindnessPracticeEntryDetailScreen from '@features/learn/screens/LovingKindnessPracticeEntryDetail';
 import MiddlePathScreen from '@features/learn/screens/MiddlePath';
+import MiddlePathExercisesScreen from '@features/learn/screens/MiddlePathExercises';
+import RecognizingDialecticalDilemmasScreen from '@features/learn/screens/RecognizingDialecticalDilemmas';
+import RecognizingDialecticalDilemmasEntriesScreen from '@features/learn/screens/RecognizingDialecticalDilemmasEntries';
+import AcceptanceAndChangeScreen from '@features/learn/screens/AcceptanceAndChange';
+import AcceptanceAndChangeEntriesScreen from '@features/learn/screens/AcceptanceAndChangeEntries';
 import Act from '@features/act/screens/index';
 import Account from '@features/account/screens/index';
 import Help from '@features/help/screens/index';
@@ -205,6 +210,11 @@ export default function HomeNavigator() {
             <Stack.Screen name="Learn_LovingKindnessPracticeEntries" component={LovingKindnessPracticeEntriesScreen} />
             <Stack.Screen name="Learn_LovingKindnessPracticeEntryDetail" component={LovingKindnessPracticeEntryDetailScreen} />
             <Stack.Screen name="Learn_MiddlePath" component={MiddlePathScreen} />
+            <Stack.Screen name="Learn_MiddlePathExercises" component={MiddlePathExercisesScreen} />
+            <Stack.Screen name="Learn_RecognizingDialecticalDilemmas" component={RecognizingDialecticalDilemmasScreen} />
+            <Stack.Screen name="Learn_RecognizingDialecticalDilemmasEntries" component={RecognizingDialecticalDilemmasEntriesScreen} />
+            <Stack.Screen name="Learn_AcceptanceAndChange" component={AcceptanceAndChangeScreen} />
+            <Stack.Screen name="Learn_AcceptanceAndChangeEntries" component={AcceptanceAndChangeEntriesScreen} />
             <Stack.Screen name="Act" component={Act} />
             <Stack.Screen name="Help" component={Help} />
             <Stack.Screen name="Help_Reason" component={HelpReasonScreen} />

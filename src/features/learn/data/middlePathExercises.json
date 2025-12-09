@@ -1,0 +1,25 @@
+{
+  "title": "Middle Path Exercises",
+  "intro": {
+    "title": "About Middle Path",
+    "content": "Middle Path helps us move away from black-and-white thinking and embrace the idea that opposing truths can coexist. It is the foundation of dialectical thinking—considering the 'both/and' rather than the 'either/or.'"
+  },
+  "exercises": [
+    {
+      "title": "Recognizing Dialectical Dilemmas",
+      "description": "Write down a situation where you feel stuck in 'either/or' thinking. Identify the extremes and explore how both might hold some truth.",
+      "number": 1
+    },
+    {
+      "title": "Acceptance & Change",
+      "description": "Write down a challenging situation. What parts do you need to accept as they are? What parts can you change? Write down actionable steps for both.",
+      "number": 2
+    }
+  ],
+  "conclusion": {
+    "title": "Embrace the Middle Path",
+    "content": "Middle Path invites us to move beyond rigid thinking and embrace the complexity of life. It's not about choosing one side over the other; it's about finding wisdom in the tension between them.",
+    "icon": "heart"
+  }
+}
+

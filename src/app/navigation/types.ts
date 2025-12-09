@@ -124,6 +124,11 @@ export type HomeStackParams = {
   Learn_LovingKindnessPracticeEntries: undefined;
   Learn_LovingKindnessPracticeEntryDetail: { entryId: string };
   Learn_MiddlePath: undefined;
+  Learn_MiddlePathExercises: undefined;
+  Learn_RecognizingDialecticalDilemmas: undefined;
+  Learn_RecognizingDialecticalDilemmasEntries: undefined;
+  Learn_AcceptanceAndChange: undefined;
+  Learn_AcceptanceAndChangeEntries: undefined;
   Act: undefined;
   Help: undefined;
   Help_Reason: undefined;

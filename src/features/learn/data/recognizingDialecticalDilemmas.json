@@ -1,0 +1,52 @@
+{
+  "title": "Recognizing Dialectical Dilemmas",
+  "intro": {
+    "icon": "scale",
+    "text": "When we're stuck in 'either/or' thinking, we miss the complexity of real situations. This exercise helps you identify extremes and find the truth that exists in both perspectives."
+  },
+  "sections": [
+    {
+      "id": "describeSituation",
+      "title": "Describe the Situation",
+      "instructions": "Write about a situation where you feel stuck in 'either/or' thinking. What's the dilemma you're facing?",
+      "question1": "Describe your either/or dilemma",
+      "placeholder1": "Example: I must work constantly to succeed OR I'll fail completely...",
+      "question2": "",
+      "placeholder2": ""
+    },
+    {
+      "id": "identifyExtremes",
+      "title": "Identify the Extremes",
+      "instructions": "",
+      "question1": "What's one extreme position in this situation?",
+      "placeholder1": "",
+      "question2": "What's the opposite extreme position?",
+      "placeholder2": ""
+    },
+    {
+      "id": "findTruth",
+      "title": "Find Truth in Both Sides",
+      "instructions": "",
+      "question1": "What truth or wisdom exists in the first extreme?",
+      "placeholder1": "",
+      "question2": "What truth or wisdom exists in the second extreme?",
+      "placeholder2": ""
+    },
+    {
+      "id": "middlePathPerspective",
+      "title": "Middle Path Perspective",
+      "instructions": "How can you hold both truths at the same time? What would a balanced, 'both/and' perspective look like?",
+      "question1": "Create your balanced 'both/and' perspective",
+      "placeholder1": "Example: I can work hard AND take breaks. Success includes both effort and self-care....",
+      "question2": "",
+      "placeholder2": ""
+    }
+  ],
+  "buttons": {
+    "view": "View",
+    "save": "Save",
+    "clearForm": "Clear Form",
+    "backToMenu": "Back to menu"
+  }
+}
+

@@ -57,4 +57,6 @@ export { default as WiseMindPracticeEntryCard } from './WiseMindPracticeEntryCar
 export { default as WiseMindPastDecisionEntryCard } from './WiseMindPastDecisionEntryCard';
 export { default as WillingHandsEntryCard } from './WillingHandsEntryCard';
 export { LovingKindnessPracticeEntryCard } from './LovingKindnessPracticeEntryCard';
+export { RecognizingDialecticalDilemmasEntryCard } from './RecognizingDialecticalDilemmasEntryCard';
+export { AcceptanceAndChangeEntryCard } from './AcceptanceAndChangeEntryCard';
 

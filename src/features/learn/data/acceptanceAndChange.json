@@ -1,0 +1,57 @@
+{
+  "title": "Acceptance & Change",
+  "intro": {
+    "title": "Middle Path Practice",
+    "text": "Some things we must accept as they are, while others we can work to change. This exercise helps you identify which is which and create actionable steps for both."
+  },
+  "steps": [
+    {
+      "id": "describeSituation",
+      "number": 1,
+      "title": "Describe the Challenging Situation",
+      "prompt": "Write about a challenging situation you're currently facing. What's making this difficult for you?",
+      "placeholder": "Describe the situation that's causing you stress or difficulty..."
+    },
+    {
+      "id": "partsNeedAcceptance",
+      "number": 2,
+      "title": "What Parts Need Acceptance?",
+      "prompt": "What aspects of this situation are outside your control and need to be accepted as they are?",
+      "placeholder": "List the parts you cannot change and must accept..."
+    },
+    {
+      "id": "partsCanChange",
+      "number": 3,
+      "title": "What Parts Can You Change?",
+      "prompt": "What aspects of this situation are within your control and could potentially be changed?",
+      "placeholder": "List the parts you have some control over and could work to change..."
+    },
+    {
+      "id": "actionableStepsAcceptance",
+      "number": 4,
+      "title": "Actionable Steps for Acceptance",
+      "prompt": "What specific actions can you take to practice accepting the unchangeable parts?",
+      "placeholder": "Example: Practice mindfulness when I notice resistance, remind myself 'this is how it is right now'..."
+    },
+    {
+      "id": "actionableStepsChange",
+      "number": 5,
+      "title": "Actionable Steps for Change",
+      "prompt": "What specific, concrete actions can you take to work on changing what's within your control?",
+      "placeholder": "Example: Have a conversation with my manager about workload, set boundaries with my time..."
+    },
+    {
+      "id": "reflection",
+      "number": 6,
+      "title": "Reflection",
+      "prompt": "How does it feel to separate what you can accept from what you can change? What insights emerged?",
+      "placeholder": "Reflect on this process and any insights you gained..."
+    }
+  ],
+  "buttons": {
+    "view": "View",
+    "save": "Save",
+    "backToMenu": "Back to menu"
+  }
+}
+
