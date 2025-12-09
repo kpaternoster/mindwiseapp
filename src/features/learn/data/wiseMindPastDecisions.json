@@ -1,0 +1,39 @@
+{
+  "title": "Past Decisions",
+  "intro": {
+    "title": "Reflect on Past Choices",
+    "text": "Explore how Wise Mind could have influenced a past decision made from Emotion Mind or Reasonable Mind."
+  },
+  "sections": [
+    {
+      "id": "situation",
+      "title": "Situation",
+      "instructions": "Describe the situation and decision you made",
+      "placeholder": "What was the situation and context? What decision did you make..."
+    },
+    {
+      "id": "mindStateAnalysis",
+      "title": "Mind State Analysis",
+      "instructions": "Analyze which mind state you were in",
+      "placeholder": "Were you primarily in Emotion Mind or Reasonable Mind? How do you know..."
+    },
+    {
+      "id": "wiseMindPerspective",
+      "title": "Wise Mind Perspective",
+      "instructions": "What would Wise Mind have done differently?",
+      "placeholder": "If you had accessed Wise Mind, what might you have done differently..."
+    },
+    {
+      "id": "insightsLearning",
+      "title": "Insights & Learning",
+      "instructions": "What insights or lessons did you gain?",
+      "placeholder": "What insights or lessons can you take from this reflection..."
+    }
+  ],
+  "buttons": {
+    "view": "View",
+    "save": "Save",
+    "backToMenu": "Back to Menu"
+  }
+}
+

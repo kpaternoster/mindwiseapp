@@ -68,6 +68,7 @@ export const colors = {
     soft_amber: '#F4C27F',
     icon: '#682C0E',
     red_light: '#FF3B30',
+    red_light_10: '#FF3B301A',
     yellow_light: '#FAEDCA',
     yellow_dark: '#83662C',
     cream_40: '#F5E6D366',

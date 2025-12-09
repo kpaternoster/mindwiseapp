@@ -105,6 +105,15 @@ export type HomeStackParams = {
   Learn_MindfulPresencePractice: undefined;
   Learn_MindfulPresencePracticeEntries: undefined;
   Learn_MindfulPresencePracticeEntryDetail: { entryId: string };
+  Learn_WiseMind: undefined;
+  Learn_WiseMindExercises: undefined;
+  Learn_WiseMindPractice: undefined;
+  Learn_WiseMindPracticeEntries: undefined;
+  Learn_WiseMindPracticeEntryDetail: { entryId: string };
+  Learn_WiseMindPastDecisions: undefined;
+  Learn_WiseMindPastDecisionEntries: undefined;
+  Learn_WiseMindPastDecisionEntryDetail: { entryId: string };
+  Learn_WillingHands: undefined;
   Act: undefined;
   Help: undefined;
   Help_Reason: undefined;

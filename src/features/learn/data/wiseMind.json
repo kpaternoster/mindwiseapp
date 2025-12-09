@@ -1,0 +1,23 @@
+{
+  "title": "Wise Mind",
+  "sections": [
+    {
+      "id": 1,
+      "title": "About Wise Mind",
+      "content": "Wise Mind helps you find the balanced place between your emotions and your logic. It guides you to pause, tune into your inner clarity, and respond from a centered, grounded perspective. This skill reduces impulsive reactions, quiets inner conflict, and supports decisions that align with both your values and what's true in the moment."
+    },
+    {
+      "id": 2,
+      "title": "Example",
+      "content": "Anna saw a message from her boss that said, 'We need to talk,' and her emotional mind jumped to panic. Her reasonable mind tried to list the facts, but she still felt tense. Using Wise Mind, she paused, took a few slow breaths, and asked herself what she actually knew. From that calmer place, she realized there was no evidence of a problem. She responded to the message and later found out it was simply about planning the next week."
+    },
+    {
+      "id": 3,
+      "title": "Remember",
+      "content": "Emotions are valid but don't always fit facts. Checking facts creates space for clarity, self-regulation, and healthier responses instead of assumption-based reactions.",
+      "backgroundColor": "#FDF4EE"
+    }
+  ],
+  "buttonText": "Try Wise Mind Exercises"
+}
+

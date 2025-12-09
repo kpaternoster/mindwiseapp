@@ -1,0 +1,76 @@
+{
+  "title": "Wise Mind Practice",
+  "intro": {
+    "text": "This practice guides you through breathing reflection, visualization, and integration of your three minds (emotion, reasonable, and wise) to find balance and clarity."
+  },
+  "sections": [
+    {
+      "id": "breathingReflection",
+      "title": "Breathing Reflection",
+      "instructions": "Spend five minutes focusing on your breath. As you breathe, ask yourself: 'What does my Wise Mind say about this situation?' Notice any insights or clarity that arise.",
+      "timerMinutes": 5,
+      "question": "What insights arose during your breathing practice?",
+      "placeholder": "Notice any thoughts, feelings, or insights that came up..."
+    },
+    {
+      "id": "visualization",
+      "title": "Visualization",
+      "instructions": "Choose a visualization and spend 5 minutes in this peaceful space. Ask your Wise Mind for guidance and listen for what arises.",
+      "timerMinutes": 5,
+      "visualizationOptions": [
+        {
+          "id": "spiralStaircase",
+          "label": "Spiral Staircase",
+          "icon": "spiral"
+        },
+        {
+          "id": "calmLake",
+          "label": "Calm Lake",
+          "icon": "lake"
+        }
+      ],
+      "question": "What guidance did you receive?",
+      "placeholder": "What insights, images, or guidance came to you during the visualization..."
+    },
+    {
+      "id": "reflectionIntegration",
+      "title": "Reflection & Integration",
+      "instructions": "Compare your three minds and integrate your insights.",
+      "steps": [
+        {
+          "number": 1,
+          "title": "Current Situation",
+          "placeholder": "Describe a current challenge or decision you're facing..."
+        },
+        {
+          "number": 2,
+          "title": "Three Minds Comparison",
+          "subsections": [
+            {
+              "title": "Emotion Mind",
+              "placeholder": "What do your feelings and emotions suggest..."
+            },
+            {
+              "title": "Reasonable Mind",
+              "placeholder": "What does logic and reasoning suggest..."
+            },
+            {
+              "title": "Wise Mind",
+              "placeholder": "What feels right when you balance both emotion and reason..."
+            }
+          ]
+        },
+        {
+          "number": 3,
+          "title": "Past Experience",
+          "placeholder": "Write about a recent time you tried Wise Mind - how did it go and what did you learn..."
+        }
+      ]
+    }
+  ],
+  "buttons": {
+    "view": "View",
+    "save": "Save"
+  }
+}
+

@@ -1,0 +1,27 @@
+{
+  "title": "Wise Mind Exercises",
+  "introText": "Wise Mind is the balance between emotion and reason. Use these exercises to access your inner wisdom and make decisions from a place of clarity and balance.",
+  "introTitle": "About Wise Mind",
+  "exercises": [
+    {
+      "id": 1,
+      "number": 1,
+      "title": "Wise Mind Practice",
+      "description": "3-step guided meditation to access your inner wisdom through breathing, visualization, and reflection."
+    },
+    {
+      "id": 2,
+      "number": 2,
+      "title": "Past Decisions",
+      "description": "Reflect on past decisions and explore how Wise Mind could have influenced your choices."
+    },
+    {
+      "id": 3,
+      "title": "Finding Your Inner Wisdom",
+      "description": "Wise Mind isn't about having all the answers—it's about finding balance between your thoughts and feelings. Trust the wisdom that emerges when you create space for both emotion and reason.",
+      "hasHeartIcon": true,
+      "hasNavigation": false
+    }
+  ]
+}
+

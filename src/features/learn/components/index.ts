@@ -53,4 +53,6 @@ export { DialecticalThinkingEntryCard } from './DialecticalThinkingEntryCard';
 export { DialecticalThinkingPerspectiveEntryCard } from './DialecticalThinkingPerspectiveEntryCard';
 export { ProblemSolvingEntryCard } from './ProblemSolvingEntryCard';
 export { MindfulPresencePracticeEntryCard } from './MindfulPresencePracticeEntryCard';
+export { default as WiseMindPracticeEntryCard } from './WiseMindPracticeEntryCard';
+export { default as WiseMindPastDecisionEntryCard } from './WiseMindPastDecisionEntryCard';
 

@@ -48,6 +48,15 @@ import HereAndNowScreen from '@features/learn/screens/HereAndNow';
 import HereAndNowExercisesScreen from '@features/learn/screens/HereAndNowExercises';
 import MindfulPresencePracticeScreen from '@features/learn/screens/MindfulPresencePractice';
 import MindfulPresencePracticeEntriesScreen from '@features/learn/screens/MindfulPresencePracticeEntries';
+import WiseMindScreen from '@features/learn/screens/WiseMind';
+import WiseMindExercisesScreen from '@features/learn/screens/WiseMindExercises';
+import WiseMindPracticeScreen from '@features/learn/screens/WiseMindPractice';
+import WiseMindPracticeEntriesScreen from '@features/learn/screens/WiseMindPracticeEntries';
+import WiseMindPracticeEntryDetailScreen from '@features/learn/screens/WiseMindPracticeEntryDetail';
+import WiseMindPastDecisionsScreen from '@features/learn/screens/WiseMindPastDecisions';
+import WiseMindPastDecisionEntriesScreen from '@features/learn/screens/WiseMindPastDecisionEntries';
+import WiseMindPastDecisionEntryDetailScreen from '@features/learn/screens/WiseMindPastDecisionEntryDetail';
+import WillingHandsScreen from '@features/learn/screens/WillingHands';
 import Act from '@features/act/screens/index';
 import Account from '@features/account/screens/index';
 import Help from '@features/help/screens/index';
@@ -167,6 +176,15 @@ export default function HomeNavigator() {
             <Stack.Screen name="Learn_HereAndNowExercises" component={HereAndNowExercisesScreen} />
             <Stack.Screen name="Learn_MindfulPresencePractice" component={MindfulPresencePracticeScreen} />
             <Stack.Screen name="Learn_MindfulPresencePracticeEntries" component={MindfulPresencePracticeEntriesScreen} />
+            <Stack.Screen name="Learn_WiseMind" component={WiseMindScreen} />
+            <Stack.Screen name="Learn_WiseMindExercises" component={WiseMindExercisesScreen} />
+            <Stack.Screen name="Learn_WiseMindPractice" component={WiseMindPracticeScreen} />
+            <Stack.Screen name="Learn_WiseMindPracticeEntries" component={WiseMindPracticeEntriesScreen} />
+            <Stack.Screen name="Learn_WiseMindPracticeEntryDetail" component={WiseMindPracticeEntryDetailScreen} />
+            <Stack.Screen name="Learn_WiseMindPastDecisions" component={WiseMindPastDecisionsScreen} />
+            <Stack.Screen name="Learn_WiseMindPastDecisionEntries" component={WiseMindPastDecisionEntriesScreen} />
+            <Stack.Screen name="Learn_WiseMindPastDecisionEntryDetail" component={WiseMindPastDecisionEntryDetailScreen} />
+            <Stack.Screen name="Learn_WillingHands" component={WillingHandsScreen} />
             <Stack.Screen name="Act" component={Act} />
             <Stack.Screen name="Help" component={Help} />
             <Stack.Screen name="Help_Reason" component={HelpReasonScreen} />

@@ -5,7 +5,7 @@ import { t } from '@design/typography';
 import { ArrowRightIcon, CaretRightIcon } from '@components/Utils';
 
 interface ExerciseCardProps {
-    number: number;
+    number?: number;
     title: string;
     description: string;
     duration?: string;

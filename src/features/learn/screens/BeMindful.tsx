@@ -17,12 +17,10 @@ export default function BeMindfulScreen() {
                 dissolveTo('Learn_HereAndNow');
                 break;
             case 'Wise Mind':
-                // TODO: Navigate to Wise Mind screen when created
-                console.log('Wise Mind pressed');
+                dissolveTo('Learn_WiseMind');
                 break;
             case 'Willing Hands':
-                // TODO: Navigate to Willing Hands screen when created
-                console.log('Willing Hands pressed');
+                dissolveTo('Learn_WillingHands');
                 break;
             case 'Loving Kindness':
                 // TODO: Navigate to Loving Kindness screen when created
