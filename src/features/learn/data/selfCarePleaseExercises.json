@@ -1,0 +1,19 @@
+{
+  "title": "Self-Care (PLEASE) Exercises",
+  "introText": "Take your time with these calming exercises to build emotional awareness and expand your ability to identify and name feelings with kindness toward yourself.",
+  "exercises": [
+    {
+      "id": 1,
+      "number": 1,
+      "title": "Self-Care (PLEASE) Plan",
+      "description": "Rate your current self-care quality (1-10) for each PLEASE element, explore suggested practices, and create your personalized self-care plan with your own ideas and challenges."
+    },
+    {
+      "id": 2,
+      "number": 2,
+      "title": "Self-Care (PLEASE) Reflection",
+      "description": "Journal-style check-in to reflect on your progress with each self-care element, capture insights about what you've learned, and revise your plan for continued growth."
+    }
+  ]
+}
+

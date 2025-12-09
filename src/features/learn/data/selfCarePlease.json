@@ -1,0 +1,23 @@
+{
+  "title": "Self-Care (PLEASE)",
+  "sections": [
+    {
+      "id": 1,
+      "title": "About Self-Care (PLEASE)",
+      "content": "PLEASE helps you check basic physical needs that affect your emotional balance. It stands for: Physical illness, Eating well, Avoiding mood-altering substances, Sleep, and Exercise. When these areas are neglected, emotions feel harder to manage and decisions become tougher. Taking care of these basics builds a steadier foundation for handling stress and regulating emotions."
+    },
+    {
+      "id": 2,
+      "title": "Example",
+      "content": "Sam had been anxious and irritable for days. Using PLEASE, Sam realized several basic needs were off—a headache, skipped meals, too much caffeine, poor sleep, and no exercise. After taking care of these areas, Sam felt much calmer and more balanced."
+    },
+    {
+      "id": 3,
+      "title": "Be Patient With Yourself",
+      "content": "The more you patiently practice identifying emotions, the better you'll become at understanding and managing them with compassion",
+      "backgroundColor": "#FDF4EE"
+    }
+  ],
+  "buttonText": "Try Self-Care (PLEASE) Exercises"
+}
+

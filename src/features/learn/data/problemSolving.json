@@ -1,0 +1,23 @@
+{
+  "title": "Problem Solving",
+  "sections": [
+    {
+      "id": 1,
+      "title": "About Problem Solving",
+      "content": "Problem Solving helps you handle challenges by breaking them down and choosing effective actions. Using the SOLVER method—State the problem, Observe options, List pros/cons, Verify the best choice, Execute, and Reflect—you create a structured plan. This approach reduces overwhelm, lowers emotional intensity, and supports clearer, more confident decision-making."
+    },
+    {
+      "id": 2,
+      "title": "Example",
+      "content": "Alex noticed family dinners triggered shame and anxiety when relatives made judgmental comments. Using Problem Solving, Alex identified the trigger, accepted they couldn't control others' remarks, and planned healthier responses—like grounding outside or reframing the thoughts (\"Their comments reflect them, not me\"). At the next dinner, Alex felt more prepared and resilient."
+    },
+    {
+      "id": 3,
+      "title": "Remember",
+      "content": "Problem Solving helps you approach recurring challenges with a plan. It's about reclaiming control in ways that protect your emotional well-being and build resilience over time.",
+      "backgroundColor": "#FDF4EE"
+    }
+  ],
+  "buttonText": "Try Problem Solving Exercises"
+}
+

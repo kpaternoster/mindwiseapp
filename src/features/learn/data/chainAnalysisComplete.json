@@ -1,0 +1,37 @@
+{
+  "title": "Chain Analysis Complete",
+  "keyInsights": {
+    "title": "Key Insights",
+    "interventionPoints": {
+      "title": "Intervention Points",
+      "description": "Look for places in your chain where you could use DBT skills:",
+      "points": [
+        {
+          "label": "Vulnerability factors:",
+          "skill": "Use PLEASE skills for self-care"
+        },
+        {
+          "label": "Initial thoughts:",
+          "skill": "Use Check the Facts or Wise Mind"
+        },
+        {
+          "label": "Rising emotions:",
+          "skill": "Use TIPP or Self-Soothing"
+        },
+        {
+          "label": "Urges to act:",
+          "skill": "Use STOP or Distress Tolerance skills"
+        }
+      ]
+    }
+  },
+  "description": "Think of a recent situation where you acted in a way you'd like to change. This could be an argument, an impulsive decision, or any behavior you want to understand better.",
+  "nextSteps": {
+    "title": "Next Steps",
+    "description": "Consider which DBT skills you could practice to interrupt this chain in the future. Remember, Chain Analysis is about learning, not self-criticism."
+  },
+  "buttons": {
+    "reviewAnalysis": "Review Analysis",
+    "backToExercises": "Back to Exercises"
+  }
+}

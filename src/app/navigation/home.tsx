@@ -25,6 +25,23 @@ import CheckTheFactsFindingScreen from '@features/learn/screens/CheckTheFactsFin
 import CheckTheFactsEntriesScreen from '@features/learn/screens/CheckTheFactsEntries';
 import ChainAnalysisScreen from '@features/learn/screens/ChainAnalysis';
 import ChainAnalysisExercisesScreen from '@features/learn/screens/ChainAnalysisExercises';
+import GuidedChainAnalysisScreen from '@features/learn/screens/GuidedChainAnalysis';
+import ChainAnalysisCompleteScreen from '@features/learn/screens/ChainAnalysisComplete';
+import SelfCarePleaseScreen from '@features/learn/screens/SelfCarePlease';
+import SelfCarePleaseExercisesScreen from '@features/learn/screens/SelfCarePleaseExercises';
+import SelfCarePleasePlanScreen from '@features/learn/screens/SelfCarePleasePlan';
+import SelfCarePleaseEntriesScreen from '@features/learn/screens/SelfCarePleaseEntries';
+import SelfCarePleaseReflectionScreen from '@features/learn/screens/SelfCarePleaseReflection';
+import DialecticalThinkingScreen from '@features/learn/screens/DialecticalThinking';
+import DialecticalThinkingExercisesScreen from '@features/learn/screens/DialecticalThinkingExercises';
+import DialecticalThinkingReframingScreen from '@features/learn/screens/DialecticalThinkingReframing';
+import DialecticalThinkingEntriesScreen from '@features/learn/screens/DialecticalThinkingEntries';
+import DialecticalThinkingExploringPerspectivesScreen from '@features/learn/screens/DialecticalThinkingExploringPerspectives';
+import DialecticalThinkingPerspectiveEntriesScreen from '@features/learn/screens/DialecticalThinkingPerspectiveEntries';
+import ProblemSolvingScreen from '@features/learn/screens/ProblemSolving';
+import ProblemSolvingExerciseScreen from '@features/learn/screens/ProblemSolvingExercise';
+import ProblemSolvingEntriesScreen from '@features/learn/screens/ProblemSolvingEntries';
+import ProblemSolvingEntryDetailScreen from '@features/learn/screens/ProblemSolvingEntryDetail';
 import Act from '@features/act/screens/index';
 import Account from '@features/account/screens/index';
 import Help from '@features/help/screens/index';
@@ -121,6 +138,23 @@ export default function HomeNavigator() {
             <Stack.Screen name="Learn_CheckTheFactsEntries" component={CheckTheFactsEntriesScreen} />
             <Stack.Screen name="Learn_ChainAnalysis" component={ChainAnalysisScreen} />
             <Stack.Screen name="Learn_ChainAnalysisExercises" component={ChainAnalysisExercisesScreen} />
+            <Stack.Screen name="Learn_GuidedChainAnalysis" component={GuidedChainAnalysisScreen} />
+            <Stack.Screen name="Learn_ChainAnalysisComplete" component={ChainAnalysisCompleteScreen} />
+            <Stack.Screen name="Learn_SelfCarePlease" component={SelfCarePleaseScreen} />
+            <Stack.Screen name="Learn_SelfCarePleaseExercises" component={SelfCarePleaseExercisesScreen} />
+            <Stack.Screen name="Learn_SelfCarePleasePlan" component={SelfCarePleasePlanScreen} />
+            <Stack.Screen name="Learn_SelfCarePleaseEntries" component={SelfCarePleaseEntriesScreen} />
+            <Stack.Screen name="Learn_SelfCarePleaseReflection" component={SelfCarePleaseReflectionScreen} />
+            <Stack.Screen name="Learn_DialecticalThinking" component={DialecticalThinkingScreen} />
+            <Stack.Screen name="Learn_DialecticalThinkingExercises" component={DialecticalThinkingExercisesScreen} />
+            <Stack.Screen name="Learn_DialecticalThinkingReframing" component={DialecticalThinkingReframingScreen} />
+            <Stack.Screen name="Learn_DialecticalThinkingEntries" component={DialecticalThinkingEntriesScreen} />
+            <Stack.Screen name="Learn_DialecticalThinkingExploringPerspectives" component={DialecticalThinkingExploringPerspectivesScreen} />
+            <Stack.Screen name="Learn_DialecticalThinkingPerspectiveEntries" component={DialecticalThinkingPerspectiveEntriesScreen} />
+            <Stack.Screen name="Learn_ProblemSolving" component={ProblemSolvingScreen} />
+            <Stack.Screen name="Learn_ProblemSolvingExercise" component={ProblemSolvingExerciseScreen} />
+            <Stack.Screen name="Learn_ProblemSolvingEntries" component={ProblemSolvingEntriesScreen} />
+            <Stack.Screen name="Learn_ProblemSolvingEntryDetail" component={ProblemSolvingEntryDetailScreen} />
             <Stack.Screen name="Act" component={Act} />
             <Stack.Screen name="Help" component={Help} />
             <Stack.Screen name="Help_Reason" component={HelpReasonScreen} />

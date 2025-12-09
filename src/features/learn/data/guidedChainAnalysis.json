@@ -1,0 +1,55 @@
+{
+  "title": "Guided Chain Analysis",
+  "gettingStarted": {
+    "title": "Getting Started",
+    "instruction": "Think of a recent situation where you acted in a way you'd like to change. This could be an argument, an impulsive decision, or any behavior you want to understand better.",
+    "tip": {
+      "title": "Tip:",
+      "content": "Start with a situation that feels manageable to analyze. You can always come back to practice with more challenging situations later."
+    }
+  },
+  "behavioralChain": {
+    "title": "Your Behavioral Chain",
+    "subtitle": "See how the pieces connect"
+  },
+  "sections": [
+    {
+      "id": "problemBehavior",
+      "title": "Problem Behavior",
+      "instruction": "Be specific and objective. What exactly did you do? Avoid judgmental language like 'I was stupid' and stick to observable behaviors.",
+      "placeholder": "Specifically describe the behavior you want to change"
+    },
+    {
+      "id": "promptingEvent",
+      "title": "Prompting Event",
+      "instruction": "This is the immediate trigger. What was happening in the moments right before you felt the urge to engage in the problem behavior?",
+      "placeholder": "What happened right before the urge/action?"
+    },
+    {
+      "id": "vulnerabilityFactors",
+      "title": "Vulnerability Factors",
+      "instruction": "These are things that made you more likely to engage in the problem behavior. Think about physical state, emotional state, or life circumstances.",
+      "placeholder": "What made you vulnerable? (e.g. poor sleep, stress)",
+      "addButtonText": "Add Another"
+    },
+    {
+      "id": "linksInChain",
+      "title": "Links in the Chain",
+      "instruction": "What happened between the prompting event and the problem behavior? Include thoughts, feelings, body sensations, and actions in order.",
+      "placeholder": "List the sequence of thoughts, feelings and actions...",
+      "addButtonText": "Add Chain Link"
+    },
+    {
+      "id": "consequences",
+      "title": "Consequences",
+      "instruction": "What happened as a result of the problem behavior? Include both immediate and delayed consequences, positive and negative.",
+      "placeholder": "What were the short-term and long-term consequences?",
+      "addButtonText": "Add Another"
+    }
+  ],
+  "buttons": {
+    "completeAnalysis": "Complete Analysis",
+    "backToExercises": "Back to Exercises"
+  }
+}
+

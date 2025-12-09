@@ -1,0 +1,59 @@
+{
+  "title": "Self-Care Reflection",
+  "intro": {
+    "title": "Introduction",
+    "description": "Reflect on your progress with each self-care element, capture insights about what you've learned, and revise your plan for continued growth."
+  },
+  "pleaseElements": [
+    {
+      "id": "physicalIllness",
+      "title": "Physical Illness",
+      "prompt": "How have you been managing your physical health, medical appointments, and prescribed medications? What patterns do you notice between your physical health and emotional wellbeing?"
+    },
+    {
+      "id": "balanceSleep",
+      "title": "Balance Sleep",
+      "prompt": "How has your sleep schedule consistency affected your mood and energy levels? What sleep habits have been most helpful or challenging?"
+    },
+    {
+      "id": "balancedEating",
+      "title": "Balanced Eating",
+      "prompt": "How have your eating patterns and meal timing impacted your emotional stability? What connections do you notice between nutrition and mood?"
+    },
+    {
+      "id": "avoidSubstances",
+      "title": "Avoid Mood-Altering Substances",
+      "prompt": "How have you been managing substances that affect your mood? What triggers or situations make it harder to avoid these substances?"
+    },
+    {
+      "id": "adequateSleep",
+      "title": "Adequate Sleep",
+      "prompt": "How has the quality and quantity of your sleep been supporting your emotional regulation? What bedtime routines or sleep practices have been most effective?"
+    },
+    {
+      "id": "regularExercise",
+      "title": "Regular Exercise",
+      "prompt": "How has physical movement and activity been contributing to your mood and stress levels? What types of movement feel most beneficial for your wellbeing?"
+    }
+  ],
+  "additionalSections": [
+    {
+      "id": "overallInsights",
+      "title": "Overall Insights & Learning",
+      "prompt": "What patterns do you notice across all PLEASE areas? What have you learned about your self-care needs and how they connect to your emotional wellbeing?",
+      "placeholder": "Write about any patterns, insights or learnings from your self-care reflection..."
+    },
+    {
+      "id": "revisedPlan",
+      "title": "Revised Plan for Next Period",
+      "prompt": "Based on your reflections and insights, what specific adjustments do you want to make to your self-care plan? What will you prioritize?",
+      "placeholder": "Write your revised self-care plan and specific goals for the coming period"
+    }
+  ],
+  "buttons": {
+    "saveReflection": "Save Reflection",
+    "viewSaved": "View Saved",
+    "backToMenu": "Back to Menu"
+  }
+}
+

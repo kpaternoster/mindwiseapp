@@ -1,0 +1,60 @@
+{
+  "title": "Self-Care Plan",
+  "intro": {
+    "title": "Introduction",
+    "description": "Rate your current self-care quality for each PLEASE element, explore suggested practices, and create your personalized plan."
+  },
+  "pleaseElements": [
+    {
+      "id": "physicalIllness",
+      "title": "Physical Illness",
+      "description": "Treat physical illness and take prescribed medications.",
+      "suggestedPractices": [
+        "Start a medication calendar and put a star in for every day you take all prescribed medicines as directed",
+        "If you are feeling unwell, make an appointment with a healthcare provider"
+      ]
+    },
+    {
+      "id": "balanceSleep",
+      "title": "Balance Sleep",
+      "description": "Get adequate, quality sleep on a regular schedule",
+      "suggestedPractices": [
+        "Create a 30 minute, no-screen wind-down routine before bed",
+        "Practice deep breathing technique in bed to relax"
+      ]
+    },
+    {
+      "id": "balancedEating",
+      "title": "Balanced Eating",
+      "description": "Eat regular, nutritious meals to stabilize mood",
+      "suggestedPractices": [
+        "Eat every 3-4 hours; include protein, healthy fats & complex carbs",
+        "Drink 8 glasses of water every day"
+      ]
+    },
+    {
+      "id": "avoidSubstances",
+      "title": "Avoid Mood-Altering Substances",
+      "description": "Limit alcohol, drugs, and other substances that affect mood",
+      "suggestedPractices": [
+        "Identify and plan to avoid your triggers",
+        "Practice urge surfing or opposite action when urges arise"
+      ]
+    },
+    {
+      "id": "regularExercise",
+      "title": "Regular Exercise",
+      "description": "Engage in physical activity that you enjoy",
+      "suggestedPractices": [
+        "Take a 10 minute brisk walk after every meal",
+        "Dance to your favorite song to take a break"
+      ]
+    }
+  ],
+  "buttons": {
+    "savePlan": "Save Plan",
+    "viewSaved": "View Saved",
+    "backToMenu": "Back to Menu"
+  }
+}
+

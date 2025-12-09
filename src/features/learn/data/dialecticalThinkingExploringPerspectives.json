@@ -1,0 +1,91 @@
+{
+  "title": "Exploring Perspectives",
+  "totalSteps": 3,
+  "steps": [
+    {
+      "stepNumber": 1,
+      "stepBadge": {
+        "number": 1,
+        "text": "Multiple Perspectives"
+      },
+      "instructions": "Think of a recent conflict or struggle. Write your perspective, then explore two other possible viewpoints.",
+      "inputs": [
+        {
+          "id": "conflict",
+          "label": "Describe the conflict or struggle:",
+          "placeholder": "What happened? What was the situation?"
+        },
+        {
+          "id": "perspective",
+          "label": "Your perspective:",
+          "placeholder": "How do you see this situation? What are your thoughts and feelings?"
+        }
+      ],
+      "tags": [
+        "Disagreement with friend",
+        "Work conflict",
+        "Family tension"
+      ],
+      "buttons": {
+        "continue": "Continue to Alternative Views",
+        "viewSaved": "View Saved"
+      }
+    },
+    {
+      "stepNumber": 2,
+      "stepBadge": {
+        "number": 2,
+        "text": "Alternative Perspectives"
+      },
+      "instructions": "Now explore two other possible perspectives on this situation, even if you don't fully agree with them.",
+      "inputs": [
+        {
+          "id": "alternative1",
+          "label": "Alternative Perspective #1:",
+          "placeholder": "How might the other person see this? What might they be feeling or thinking?"
+        },
+        {
+          "id": "alternative2",
+          "label": "Alternative Perspective #2:",
+          "placeholder": "What might a neutral observer think? Is there another way to view this?"
+        }
+      ],
+      "buttons": {
+        "back": "Back",
+        "continue": "Continue to Self Debate",
+        "viewSaved": "View Saved"
+      }
+    },
+    {
+      "stepNumber": 3,
+      "stepBadge": {
+        "number": 3,
+        "text": "Self-Debate Practice"
+      },
+      "instructions": "Choose a personal belief or strong opinion. Challenge yourself to argue the opposite side to understand how multiple truths can exist.",
+      "inputs": [
+        {
+          "id": "belief",
+          "label": "Your personal belief or strong opinion:",
+          "placeholder": "What's something you feel strongly about?"
+        },
+        {
+          "id": "opposite",
+          "label": "Argue the opposite side:",
+          "placeholder": "What arguments could someone make for the opposite viewpoint?"
+        },
+        {
+          "id": "bothTruths",
+          "label": "How might both perspectives contain truth?",
+          "placeholder": "What insights emerge when you hold both viewpoints simultaneously?"
+        }
+      ],
+      "buttons": {
+        "back": "Back",
+        "saveEntry": "Save Entry",
+        "viewSaved": "View Saved"
+      }
+    }
+  ]
+}
+

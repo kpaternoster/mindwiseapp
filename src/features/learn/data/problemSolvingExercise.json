@@ -1,0 +1,78 @@
+{
+  "title": "Practice Problem Solving",
+  "intro": {
+    "title": "SOLVER Framework",
+    "description": "The SOLVER framework helps you systematically approach problems that can be changed. Work through each step to find effective solutions."
+  },
+  "sections": [
+    {
+      "id": "stateProblem",
+      "title": "State the Problem Clearly",
+      "description": "Identify and describe the problem in a clear, specific, and concise way. Avoid vague or overly emotional descriptions.",
+      "question": "What is the specific problem you're facing?",
+      "example": "Instead of 'Everything is a mess,' try 'I feel overwhelmed because I have three deadlines this week.'",
+      "problemOptions": [
+        "I'm overwhelmed with work deadlines",
+        "My relationship feels strained lately",
+        "I'm struggling with financial stress",
+        "I feel disconnected from friends"
+      ]
+    },
+    {
+      "id": "observeOptions",
+      "title": "Observe Your Options",
+      "description": "Brainstorm all possible solutions without judgment. Consider various approaches, even unconventional ones."
+    },
+    {
+      "id": "prosCons",
+      "title": "List the Pros and Cons",
+      "description": "Evaluate the benefits and drawbacks of each potential solution. Think about short-term and long-term consequences."
+    },
+    {
+      "id": "verifySolution",
+      "title": "Verify the Best Solution",
+      "description": "Choose the most effective solution based on your values, goals, and the analysis of pros and cons.",
+      "questions": [
+        "Which solution do you choose?",
+        "Why is this the best choice for you?"
+      ],
+      "placeholders": [
+        "e.g., I will prioritize two deadlines while requesting an extension for the third",
+        "Consider your values, goals, and what matters most to you in this situation..."
+      ]
+    },
+    {
+      "id": "execute",
+      "title": "Execute Your Solution",
+      "description": "Plan how to implement your solution with specific, actionable steps.",
+      "questions": [
+        "How will you implement this solution?",
+        "What specific steps will you take?"
+      ],
+      "placeholders": [
+        "Break down the specific steps you'll take to put this solution into action...",
+        "Consider your values, goals, and what matters most to you in this situation..."
+      ],
+      "actionTags": [
+        "Set specific deadlines",
+        "Break into smaller tasks",
+        "Schedule time blocks",
+        "Identify needed resources"
+      ]
+    },
+    {
+      "id": "reflect",
+      "title": "Reflection & Evaluation",
+      "description": "After trying your solution, reflect on how well it worked and what you learned.",
+      "question": "How did it work? What was the outcome?",
+      "placeholder": "Did this reduce your stress? Meet your goals? How did it feel to implement?"
+    }
+  ],
+  "buttons": {
+    "back": "Back",
+    "saveEntry": "Save Entry",
+    "clearForm": "Clear Form",
+    "viewSaved": "View Saved"
+  }
+}
+

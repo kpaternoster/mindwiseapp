@@ -19,6 +19,14 @@ export default function RegulateEmotionsScreen() {
             case 'Chain Analysis':
                 dissolveTo('Learn_ChainAnalysis');
                 break;
+            case "Self-Care (PLEASE)":
+                dissolveTo('Learn_SelfCarePlease');
+            case "Dialectical Thinking":
+                dissolveTo('Learn_DialecticalThinking');
+                break;
+            case "Problem Solving":
+                dissolveTo('Learn_ProblemSolving');
+                break;
             default:
                 console.log('Exercise pressed:', skill.title);
                 break;

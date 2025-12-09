@@ -13,8 +13,11 @@ export default function ChainAnalysisExercisesScreen() {
     const { title, intro, exercises, reminder } = chainAnalysisExercisesData;
 
     const handleExercisePress = (exercise: any) => {
-        // TODO: Navigate to specific exercise screen
-        console.log('Exercise pressed:', exercise.title);
+        if (exercise.title === 'Guided Chained Analysis') {
+            dissolveTo('Learn_GuidedChainAnalysis');
+        } else {
+            console.log('Exercise pressed:', exercise.title);
+        }
     };
 
     return (
@@ -42,13 +45,13 @@ export default function ChainAnalysisExercisesScreen() {
                     {intro.tip && (
                         <View
                             className="rounded-xl p-3"
-                            style={{ backgroundColor: colors.orange_50 }}
+                            style={{ backgroundColor: colors.white, borderColor: colors.orange_150, borderWidth: 1  }}
                         >
-                            <Text style={[t.textSemiBold, { color: colors.Text_Primary }]} className="mb-2">
-                                {intro.tip.title}
-                            </Text>
-                            <Text style={[t.textRegular, { color: colors.text_secondary }]}>
-                                {intro.tip.content}
+                            <Text style={[t.textBold, { color: colors.Text_Primary }]}>
+                                {intro.tip.title} {" "}
+                                <Text style={[t.textRegular, { color: colors.Text_Primary }]}>
+                                    {intro.tip.content}
+                                </Text>
                             </Text>
                         </View>
                     )}

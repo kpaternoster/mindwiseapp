@@ -1,0 +1,23 @@
+{
+  "title": "Dialectical Thinking Exercises",
+  "introText": "Dialectical thinking helps us move beyond black-and-white perspectives to embrace the complexity of life. These exercises will help you practice holding multiple truths simultaneously.",
+  "exercises": [
+    {
+      "id": 1,
+      "number": 1,
+      "title": "Dialectical Reframing",
+      "description": "Transform either/or thinking into both/and wisdom."
+    },
+    {
+      "id": 2,
+      "number": 2,
+      "title": "Exploring Perspectives",
+      "description": "Practice seeing multiple viewpoints and self-debate."
+    }
+  ],
+  "conclusion": {
+    "title": "Embrace Complexity",
+    "content": "Dialectical thinking isn't about being indecisive—it's about recognizing that opposing truths can coexist. Practice these skills regularly to develop more flexible and wise thinking patterns."
+  }
+}
+
