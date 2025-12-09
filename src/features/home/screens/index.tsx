@@ -62,9 +62,9 @@ const Home = () => {
         const initData = async () => {
             setIsLoading(true);
             await Promise.all([
-                initUserProfile(),
-                initContacts(),
-                initProgress(),
+                // initUserProfile(),
+                // initContacts(),
+                // initProgress(),
             ]);
             setIsLoading(false);
         };

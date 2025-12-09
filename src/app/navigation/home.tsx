@@ -42,6 +42,12 @@ import ProblemSolvingScreen from '@features/learn/screens/ProblemSolving';
 import ProblemSolvingExerciseScreen from '@features/learn/screens/ProblemSolvingExercise';
 import ProblemSolvingEntriesScreen from '@features/learn/screens/ProblemSolvingEntries';
 import ProblemSolvingEntryDetailScreen from '@features/learn/screens/ProblemSolvingEntryDetail';
+import ImproveInterpersonalEffectivenessScreen from '@features/learn/screens/ImproveInterpersonalEffectiveness';
+import BeMindfulScreen from '@features/learn/screens/BeMindful';
+import HereAndNowScreen from '@features/learn/screens/HereAndNow';
+import HereAndNowExercisesScreen from '@features/learn/screens/HereAndNowExercises';
+import MindfulPresencePracticeScreen from '@features/learn/screens/MindfulPresencePractice';
+import MindfulPresencePracticeEntriesScreen from '@features/learn/screens/MindfulPresencePracticeEntries';
 import Act from '@features/act/screens/index';
 import Account from '@features/account/screens/index';
 import Help from '@features/help/screens/index';
@@ -155,6 +161,12 @@ export default function HomeNavigator() {
             <Stack.Screen name="Learn_ProblemSolvingExercise" component={ProblemSolvingExerciseScreen} />
             <Stack.Screen name="Learn_ProblemSolvingEntries" component={ProblemSolvingEntriesScreen} />
             <Stack.Screen name="Learn_ProblemSolvingEntryDetail" component={ProblemSolvingEntryDetailScreen} />
+            <Stack.Screen name="Learn_ImproveInterpersonalEffectiveness" component={ImproveInterpersonalEffectivenessScreen} />
+            <Stack.Screen name="Learn_BeMindful" component={BeMindfulScreen} />
+            <Stack.Screen name="Learn_HereAndNow" component={HereAndNowScreen} />
+            <Stack.Screen name="Learn_HereAndNowExercises" component={HereAndNowExercisesScreen} />
+            <Stack.Screen name="Learn_MindfulPresencePractice" component={MindfulPresencePracticeScreen} />
+            <Stack.Screen name="Learn_MindfulPresencePracticeEntries" component={MindfulPresencePracticeEntriesScreen} />
             <Stack.Screen name="Act" component={Act} />
             <Stack.Screen name="Help" component={Help} />
             <Stack.Screen name="Help_Reason" component={HelpReasonScreen} />

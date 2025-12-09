@@ -52,4 +52,5 @@ export { PLEASEReflectionSection } from './PLEASEReflectionSection';
 export { DialecticalThinkingEntryCard } from './DialecticalThinkingEntryCard';
 export { DialecticalThinkingPerspectiveEntryCard } from './DialecticalThinkingPerspectiveEntryCard';
 export { ProblemSolvingEntryCard } from './ProblemSolvingEntryCard';
+export { MindfulPresencePracticeEntryCard } from './MindfulPresencePracticeEntryCard';
 

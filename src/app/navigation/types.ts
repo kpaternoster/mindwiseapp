@@ -98,6 +98,13 @@ export type HomeStackParams = {
   Learn_ProblemSolvingExercise: undefined;
   Learn_ProblemSolvingEntries: undefined;
   Learn_ProblemSolvingEntryDetail: { entryId: string };
+  Learn_ImproveInterpersonalEffectiveness: undefined;
+  Learn_BeMindful: undefined;
+  Learn_HereAndNow: undefined;
+  Learn_HereAndNowExercises: undefined;
+  Learn_MindfulPresencePractice: undefined;
+  Learn_MindfulPresencePracticeEntries: undefined;
+  Learn_MindfulPresencePracticeEntryDetail: { entryId: string };
   Act: undefined;
   Help: undefined;
   Help_Reason: undefined;

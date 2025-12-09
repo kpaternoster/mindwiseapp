@@ -1,0 +1,23 @@
+{
+  "title": "Here & Now",
+  "sections": [
+    {
+      "id": 1,
+      "title": "About Here & Now",
+      "content": "Here & Now helps you pause, ground yourself, and fully arrive in the present moment. It guides you to focus on your surroundings or sensations so you can step out of rumination and reconnect with what's actually happening. This skill reduces overwhelm, increases clarity, and strengthens mindful awareness."
+    },
+    {
+      "id": 2,
+      "title": "Example",
+      "content": "Sam found himself spiraling about a mistake he might have made at work. His thoughts kept jumping to worst-case scenarios, making him more anxious. Using Here & Now, he paused, felt his feet on the floor, and named three things he could see in the room. His mind settled as he returned to the present moment, and the anxious spiral eased."
+    },
+    {
+      "id": 3,
+      "title": "Remember",
+      "content": "Emotions are valid but don't always fit facts. Checking facts creates space for clarity, self-regulation, and healthier responses instead of assumption-based reactions.",
+      "backgroundColor": "#FDF4EE"
+    }
+  ],
+  "buttonText": "Try Here & Now Exercises"
+}
+

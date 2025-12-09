@@ -1,0 +1,55 @@
+{
+  "title": "Mindful Presence Practice",
+  "intro": {
+    "text": "This practice guides you through four essential mindfulness techniques: body awareness, object observation, thought visualization, and reflection. Each step includes a 5-minute timer to help you stay focused."
+  },
+  "sections": [
+    {
+      "id": "bodyAwareness",
+      "title": "Body Awareness Scan",
+      "instructions": "Sit comfortably and focus on the sensations in your body, from your toes to the top of your head. Observe any tension, warmth, or tingling without judgment.",
+      "timerMinutes": 5,
+      "question": "What did you notice in your body?",
+      "placeholder": "Describe any sensations, tension, warmth, tingling, or areas of relaxation you observed..."
+    },
+    {
+      "id": "objectObservation",
+      "title": "Object Observation",
+      "instructions": "Choose a small, neutral object nearby. Spend 5 minutes observing it using all your senses. Notice its color, texture, shape, weight, and any other qualities.",
+      "timerMinutes": 5,
+      "objectOptions": [
+        "A pen or pencil",
+        "A small stone or pebble",
+        "A coin",
+        "A piece of fruit",
+        "A small book",
+        "A coffee mug",
+        "A key",
+        "A small plant or flower"
+      ],
+      "customObjectPlaceholder": "OR describe your own object choice....",
+      "question": "What did you observe about your object?",
+      "placeholder": "Describe its color, texture, shape, weight, temperature, smell, or any other qualities you noticed..."
+    },
+    {
+      "id": "thoughtVisualization",
+      "title": "Thought Visualization",
+      "instructions": "Imagine your thoughts as clouds drifting across the sky or leaves floating down a stream. Notice each thought without holding onto it and let it pass naturally.",
+      "timerMinutes": 5,
+      "question": "What thoughts did you notice?",
+      "placeholder": "Describe the thoughts that came up and how you visualized them passing by...."
+    },
+    {
+      "id": "reflection",
+      "title": "Reflection",
+      "instructions": "Reflect on your mindfulness practice. What did you notice? How did it feel to focus on the present moment?",
+      "question": "Your reflection:",
+      "placeholder": "What did you notice during this practice? How did it feel to focus on the present moment? What was challenging or easy about staying present?"
+    }
+  ],
+  "buttons": {
+    "view": "View",
+    "save": "Save"
+  }
+}
+

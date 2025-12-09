@@ -1,0 +1,72 @@
+{
+  "categoryId": "3",
+  "title": "Improve Interpersonal Effectiveness",
+  "totalSkills": 6,
+  "completedSkills": 0,
+  "progressPercentage": 0,
+  "sections": [
+    {
+      "id": 1,
+      "type": "intro",
+      "icon": "leaf",
+      "title": "Build healthy relationships and communication",
+      "description": "Interpersonal effectiveness helps you navigate relationships with confidence and clarity. These skills teach you how to communicate your needs, set boundaries, resolve conflicts, and maintain self-respect while building meaningful connections with others."
+    }
+  ],
+  "skills": [
+    {
+      "id": 1,
+      "title": "DEAR MAN",
+      "duration": "30 min",
+      "difficulty": "Intermediate",
+      "description": "A structured approach for effective communication: Describe the situation, Express your feelings, Assert your needs, Reinforce the benefits, stay Mindful, Appear confident, and Negotiate when needed.",
+      "tags": ["Practice Your DEAR MAN", "Start Small, Build Up"]
+    },
+    {
+      "id": 2,
+      "title": "FAST",
+      "duration": "25 min",
+      "difficulty": "Intermediate",
+      "description": "Maintain self-respect in interactions: be Fair, avoid unnecessary Apologies, Stick to your values, and be Truthful.",
+      "tags": ["FAST Preparation", "FAST in Action"]
+    },
+    {
+      "id": 3,
+      "title": "GIVE",
+      "duration": "25 min",
+      "difficulty": "Intermediate",
+      "description": "Maintain relationships while asking for what you need: be Gentle, show Interest, Validate others, and use an Easy manner.",
+      "tags": ["Reflect with GIVE", "Practice with GIVE in Action"]
+    },
+    {
+      "id": 4,
+      "title": "Interpersonal Goals",
+      "duration": "20 min",
+      "difficulty": "Beginner",
+      "description": "Identify and prioritize your goals in interpersonal situations.",
+      "tags": ["Clarify Your Goals", "Plan Your Response"]
+    },
+    {
+      "id": 5,
+      "title": "THINK",
+      "duration": "18 min",
+      "difficulty": "Intermediate",
+      "description": "Consider if your approach is True, Helpful, Inspiring, Necessary, and Kind.",
+      "tags": ["Practice Empathy & Reframing", "Communicate with Kindness"]
+    },
+    {
+      "id": 6,
+      "title": "Validating Others",
+      "duration": "22 min",
+      "difficulty": "Intermediate",
+      "description": "Learn to acknowledge and validate other people's experiences and emotions.",
+      "tags": ["Active Listening Practice", "Strengthen Your Validation", "Self-Reflection"]
+    }
+  ],
+  "keepLearning": {
+    "icon": "trophy",
+    "title": "Keep Learning!",
+    "description": "Complete skills to earn leaves and grow your tree. Each completed skill gives you 5 leaves! 🍃"
+  }
+}
+

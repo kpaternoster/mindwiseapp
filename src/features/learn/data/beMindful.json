@@ -1,0 +1,64 @@
+{
+  "categoryId": "4",
+  "title": "Be mindful",
+  "totalSkills": 5,
+  "completedSkills": 1,
+  "progressPercentage": 20,
+  "sections": [
+    {
+      "id": 1,
+      "type": "intro",
+      "icon": "leaf",
+      "title": "Practice present-moment awareness",
+      "description": "Mindfulness helps you stay grounded in the present moment, reducing anxiety about the future and rumination about the past. Regular practice improves emotional regulation, increases self-awareness, and enhances your ability to respond thoughtfully rather than react impulsively to life's challenges."
+    }
+  ],
+  "skills": [
+    {
+      "id": 1,
+      "title": "Here & Now",
+      "duration": "12 min",
+      "difficulty": "Beginner",
+      "description": "Practice present-moment awareness and grounding techniques",
+      "tags": ["Mindful Presence Practice"]
+    },
+    {
+      "id": 2,
+      "title": "Wise Mind",
+      "duration": "15 min",
+      "difficulty": "Beginner",
+      "description": "Balance emotion and reason for wise decisions by accessing your inner wisdom",
+      "tags": ["Wise Mind Practice", "Past Decisions"]
+    },
+    {
+      "id": 3,
+      "title": "Willing Hands",
+      "duration": "10 min",
+      "difficulty": "Beginner",
+      "description": "Use body posture to cultivate acceptance and openness",
+      "tags": ["Willing Hands Practice"]
+    },
+    {
+      "id": 4,
+      "title": "Loving Kindness",
+      "duration": "18 min",
+      "difficulty": "Intermediate",
+      "description": "Practice compassion for yourself and others through loving-kindness meditation",
+      "tags": ["Loving Kindness Practice"]
+    },
+    {
+      "id": 5,
+      "title": "Middle Path",
+      "duration": "25 min",
+      "difficulty": "Intermediate",
+      "description": "Find balance between extremes and avoid all-or-nothing thinking",
+      "tags": ["Recognizing Dialectical Dilemmas", "Acceptance & Change"]
+    }
+  ],
+  "keepLearning": {
+    "icon": "trophy",
+    "title": "Keep Learning!",
+    "description": "Complete skills to earn leaves and grow your tree. Each completed skill gives you 5 leaves! 🍃"
+  }
+}
+
