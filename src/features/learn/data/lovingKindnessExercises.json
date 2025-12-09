@@ -1,0 +1,20 @@
+{
+  "title": "Loving Kindness Exercises",
+  "intro": {
+    "title": "About Loving Kindness",
+    "content": "Loving Kindness is a mindfulness practice that helps you cultivate warmth and compassion toward yourself and others. It involves intentionally sending positive thoughts and well wishes, using phrases like \"May I (or you) be safe and happy\"."
+  },
+  "exercises": [
+    {
+      "title": "Loving Kindness Practice",
+      "description": "A guided meditation practice to cultivate warmth and compassion toward yourself, loved ones, neutral people, and even difficult people through intentional positive wishes.",
+      "number": 1
+    }
+  ],
+  "conclusion": {
+    "title": "Practice with Kindness",
+    "content": "Loving Kindness isn't about forcing positive feelings—it's about practicing a mindset shift. Over time, this practice can help you feel lighter, more connected, and more at peace with yourself and others.",
+    "icon": "heart"
+  }
+}
+

@@ -55,4 +55,6 @@ export { ProblemSolvingEntryCard } from './ProblemSolvingEntryCard';
 export { MindfulPresencePracticeEntryCard } from './MindfulPresencePracticeEntryCard';
 export { default as WiseMindPracticeEntryCard } from './WiseMindPracticeEntryCard';
 export { default as WiseMindPastDecisionEntryCard } from './WiseMindPastDecisionEntryCard';
+export { default as WillingHandsEntryCard } from './WillingHandsEntryCard';
+export { LovingKindnessPracticeEntryCard } from './LovingKindnessPracticeEntryCard';
 

@@ -114,6 +114,16 @@ export type HomeStackParams = {
   Learn_WiseMindPastDecisionEntries: undefined;
   Learn_WiseMindPastDecisionEntryDetail: { entryId: string };
   Learn_WillingHands: undefined;
+  Learn_WillingHandsExercises: undefined;
+  Learn_WillingHandsPractice: undefined;
+  Learn_WillingHandsEntries: undefined;
+  Learn_WillingHandsEntryDetail: { entryId: string };
+  Learn_LovingKindness: undefined;
+  Learn_LovingKindnessExercises: undefined;
+  Learn_LovingKindnessPractice: undefined;
+  Learn_LovingKindnessPracticeEntries: undefined;
+  Learn_LovingKindnessPracticeEntryDetail: { entryId: string };
+  Learn_MiddlePath: undefined;
   Act: undefined;
   Help: undefined;
   Help_Reason: undefined;

@@ -23,12 +23,10 @@ export default function BeMindfulScreen() {
                 dissolveTo('Learn_WillingHands');
                 break;
             case 'Loving Kindness':
-                // TODO: Navigate to Loving Kindness screen when created
-                console.log('Loving Kindness pressed');
+                dissolveTo('Learn_LovingKindness');
                 break;
             case 'Middle Path':
-                // TODO: Navigate to Middle Path screen when created
-                console.log('Middle Path pressed');
+                dissolveTo('Learn_MiddlePath');
                 break;
             default:
                 console.log('Exercise pressed:', skill.title);

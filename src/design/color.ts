@@ -72,5 +72,6 @@ export const colors = {
     yellow_light: '#FAEDCA',
     yellow_dark: '#83662C',
     cream_40: '#F5E6D366',
-    system_red: '#FF6C64'
+    system_red: '#FF6C64',
+    yellow_20: '#F4C27F33'
 }

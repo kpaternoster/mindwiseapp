@@ -1,0 +1,23 @@
+{
+  "title": "Willing Hands Exercises",
+  "introText": "Willing Hands skills help you ground your attention in the present moment. Use these exercises to quiet mental chatter and develop mindful awareness through your body, senses, and thoughts.",
+  "introTitle": "About Willing Hands",
+  "exercises": [
+    {
+      "id": 1,
+      "number": 1,
+      "title": "Willing Hands Practice",
+      "description": "Learn and practice the willing hands posture to cultivate acceptance and reduce resistance.",
+      "tags": ["4-step practice", "Body scan timer", "Guided reflection"]
+    },
+    {
+      "id": 2,
+      "number": 2,
+      "title": "Saved Entries",
+      "description": "Review your previous willing hands practice sessions and track your progress.",
+      "tags": ["Practice history", "Progress tracking", "Insights review"]
+    }
+  ],
+  "buttonText": "Back to Willing Hands Overview"
+}
+

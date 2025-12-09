@@ -57,6 +57,16 @@ import WiseMindPastDecisionsScreen from '@features/learn/screens/WiseMindPastDec
 import WiseMindPastDecisionEntriesScreen from '@features/learn/screens/WiseMindPastDecisionEntries';
 import WiseMindPastDecisionEntryDetailScreen from '@features/learn/screens/WiseMindPastDecisionEntryDetail';
 import WillingHandsScreen from '@features/learn/screens/WillingHands';
+import WillingHandsExercisesScreen from '@features/learn/screens/WillingHandsExercises';
+import WillingHandsPracticeScreen from '@features/learn/screens/WillingHandsPractice';
+import WillingHandsEntriesScreen from '@features/learn/screens/WillingHandsEntries';
+import WillingHandsEntryDetailScreen from '@features/learn/screens/WillingHandsEntryDetail';
+import LovingKindnessScreen from '@features/learn/screens/LovingKindness';
+import LovingKindnessExercisesScreen from '@features/learn/screens/LovingKindnessExercises';
+import LovingKindnessPracticeScreen from '@features/learn/screens/LovingKindnessPractice';
+import LovingKindnessPracticeEntriesScreen from '@features/learn/screens/LovingKindnessPracticeEntries';
+import LovingKindnessPracticeEntryDetailScreen from '@features/learn/screens/LovingKindnessPracticeEntryDetail';
+import MiddlePathScreen from '@features/learn/screens/MiddlePath';
 import Act from '@features/act/screens/index';
 import Account from '@features/account/screens/index';
 import Help from '@features/help/screens/index';
@@ -185,6 +195,16 @@ export default function HomeNavigator() {
             <Stack.Screen name="Learn_WiseMindPastDecisionEntries" component={WiseMindPastDecisionEntriesScreen} />
             <Stack.Screen name="Learn_WiseMindPastDecisionEntryDetail" component={WiseMindPastDecisionEntryDetailScreen} />
             <Stack.Screen name="Learn_WillingHands" component={WillingHandsScreen} />
+            <Stack.Screen name="Learn_WillingHandsExercises" component={WillingHandsExercisesScreen} />
+            <Stack.Screen name="Learn_WillingHandsPractice" component={WillingHandsPracticeScreen} />
+            <Stack.Screen name="Learn_WillingHandsEntries" component={WillingHandsEntriesScreen} />
+            <Stack.Screen name="Learn_WillingHandsEntryDetail" component={WillingHandsEntryDetailScreen} />
+            <Stack.Screen name="Learn_LovingKindness" component={LovingKindnessScreen} />
+            <Stack.Screen name="Learn_LovingKindnessExercises" component={LovingKindnessExercisesScreen} />
+            <Stack.Screen name="Learn_LovingKindnessPractice" component={LovingKindnessPracticeScreen} />
+            <Stack.Screen name="Learn_LovingKindnessPracticeEntries" component={LovingKindnessPracticeEntriesScreen} />
+            <Stack.Screen name="Learn_LovingKindnessPracticeEntryDetail" component={LovingKindnessPracticeEntryDetailScreen} />
+            <Stack.Screen name="Learn_MiddlePath" component={MiddlePathScreen} />
             <Stack.Screen name="Act" component={Act} />
             <Stack.Screen name="Help" component={Help} />
             <Stack.Screen name="Help_Reason" component={HelpReasonScreen} />

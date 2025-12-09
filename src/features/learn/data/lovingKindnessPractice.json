@@ -1,0 +1,59 @@
+{
+  "title": "Loving Kindness Practice",
+  "intro": {
+    "text": "Loving Kindness meditation cultivates compassion by extending good wishes to yourself and others. Start with yourself, then gradually expand to loved ones, neutral people, difficult people, and all beings."
+  },
+  "sections": [
+    {
+      "id": "forYourself",
+      "title": "Loving Kindness for Yourself",
+      "instructions": "Find a quiet space and take a few deep breaths. Focus on yourself and send positive wishes:",
+      "phrases": "May I be safe, may I be healthy, may I be happy, may I be at peace",
+      "additionalInstructions": "Repeat these phrases slowly and intentionally, imagining warmth spreading through your body.",
+      "timerMinutes": 1.5,
+      "reflectionLabel": "Reflection:",
+      "reflectionPlaceholder": "How did it feel to send loving kindness to yourself? What did you notice?"
+    },
+    {
+      "id": "forLovedOne",
+      "title": "Loving Kindness for a Loved One",
+      "instructions": "Think of someone you really care about - a family member, friend, or someone you want to send positive wishes to:",
+      "phrases": "May you be safe, may you be happy, may you be healthy, may you be at peace",
+      "additionalInstructions": "Visualize this person and imagine your loving wishes reaching them.",
+      "timerMinutes": 1.5,
+      "reflectionLabel": "Reflection:",
+      "reflectionPlaceholder": "Who did you choose? How did it feel to send them loving kindness?"
+    },
+    {
+      "id": "forNeutralPerson",
+      "title": "Loving Kindness for a Neutral Person",
+      "instructions": "If you're ready, try offering loving kindness toward someone you neither feel close to nor have conflict with — perhaps a barista, a coworker you don't know well, or someone you see regularly but don't interact with much. You can repeat silently:",
+      "phrases": "\"May you be safe, may you be happy, may you be healthy, may you be at peace.\"",
+      "additionalInstructions": "There's no need to feel anything specific — just offer the words with openness. You can skip this step anytime it feels off or too difficult.",
+      "timerMinutes": 1.5,
+      "reflectionLabel": "Reflection:",
+      "reflectionPlaceholder": "lorem ipsum"
+    },
+    {
+      "id": "forDifficultPerson",
+      "title": "Loving Kindness for a Difficult Person",
+      "instructions": "If you're ready, try sending loving kindness toward someone you've had difficulties with. You don't have to agree with them:",
+      "phrases": "May you be safe, may you be happy, may you be healthy, may you be at peace",
+      "additionalInstructions": "This is challenging - start small and be gentle with yourself. You can skip this step if it feels too difficult today.",
+      "timerMinutes": 1.5,
+      "reflectionLabel": "Reflection:",
+      "reflectionPlaceholder": "How did this feel? What did you notice? It's okay if this was difficult.",
+      "overallReflection": {
+        "title": "Overall Reflection",
+        "instructions": "Take a moment to reflect on your entire Loving Kindness practice. How did it feel to extend compassion to different people?",
+        "label": "Overall Reflection:",
+        "placeholder": "What did you learn about yourself? How did your feelings change throughout the practice? What was most challenging or surprising?"
+      }
+    }
+  ],
+  "buttons": {
+    "view": "View",
+    "save": "Save"
+  }
+}
+

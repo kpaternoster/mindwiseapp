@@ -1,18 +1,19 @@
 import React from 'react';
-import { View, ScrollView, StatusBar, Text, Pressable } from 'react-native';
+import { View, Text, ScrollView, StatusBar, Pressable } from 'react-native';
 import { colors } from '@design/color';
 import { t } from '@design/typography';
 import { useDissolveNavigation } from '@hooks/useDissolveNavigation';
 import { PageHeader, ContentCard } from '../components';
 import { ArrowRightIcon } from '@components/Utils';
-import willingHandsData from '../data/willingHands.json';
+import middlePathData from '../data/middlePath.json';
 
-export default function WillingHandsScreen() {
+export default function MiddlePathScreen() {
     const { dissolveTo } = useDissolveNavigation();
-    const { title, sections, buttonText } = willingHandsData;
+    const { title, sections, buttonText } = middlePathData;
 
     const handleButtonPress = () => {
-        dissolveTo('Learn_WillingHandsExercises');
+        // TODO: Navigate to Middle Path Exercises screen when created
+        console.log('Try Middle Path Exercises pressed');
     };
 
     return (
@@ -49,7 +50,7 @@ export default function WillingHandsScreen() {
                         {buttonText}
                     </Text>
                     <View
-                        className="w-8 h-8 rounded-full items-center justify-center"
+                        className="w-9 h-9 rounded-full items-center justify-center"
                         style={{ backgroundColor: colors.white }}
                     >
                         <ArrowRightIcon size={16} color={colors.icon} />

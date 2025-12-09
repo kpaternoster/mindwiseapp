@@ -1,0 +1,76 @@
+{
+  "title": "Willing Hands Practice",
+  "intro": {
+    "text": "Willing Hands is a body posture that signals openness and acceptance. Through this practice, you'll learn how physical openness can create mental and emotional acceptance, even in challenging situations."
+  },
+  "sections": [
+    {
+      "id": "willingHandsPosture",
+      "title": "Willing Hands Posture",
+      "instructions": "The Willing Hands Posture:",
+      "steps": [
+        "Sit or stand comfortably with your arms at your sides",
+        "Turn your palms to face upward, fingers relaxed and slightly curved",
+        "Let your shoulders drop and soften",
+        "Relax your facial muscles, especially around your jaw and forehead",
+        "Breathe naturally and notice the feeling of openness"
+      ],
+      "quote": "This posture signals to your nervous system that you're open to whatever comes, reducing the body's natural tendency to brace against difficulty."
+    },
+    {
+      "id": "bodyScan",
+      "title": "Body Scan with Willing Hands",
+      "instructions": "Adopt the willing hands posture and spend 5 minutes scanning your body from head to toe. Notice where you hold tension when you feel resistance or stress.",
+      "timerMinutes": 5,
+      "guideTitle": "Body Scan Guide:",
+      "guideSteps": [
+        "Start at the top of your head, notice any tension",
+        "Move to your forehead, eyes, jaw, and neck",
+        "Feel your shoulders, arms, and hands",
+        "Notice your chest, back, and stomach",
+        "Scan your hips, legs, and feet",
+        "When you find tension, breathe into that area and soften"
+      ],
+      "question": "Where did you notice tension in your body?",
+      "placeholder": "Describe the areas where you felt tension or resistance..."
+    },
+    {
+      "id": "setIntention",
+      "title": "Set Your Intention",
+      "instructions": "Think of a situation that feels stressful or challenging. Adopt the willing hands posture and set an intention for acceptance and calm in that situation.",
+      "question1": "What situation will you practice willing hands with?",
+      "placeholder1": "Describe the areas where you felt tension or resistance...",
+      "subSectionTitle": "Setting Your Intention:",
+      "subSectionSteps": [
+        "Adopt the willing hands posture",
+        "Take three deep breaths",
+        "Visualize yourself in the challenging situation",
+        "Set an intention to remain open and calm",
+        "Notice how the posture affects your mindset"
+      ],
+      "question2": "What intention are you setting for acceptance and calm?",
+      "placeholder2": "Write your intention for approaching this situation with willing hands..."
+    },
+    {
+      "id": "reflectionIntegration",
+      "title": "Reflection & Integration",
+      "instructions": "Reflect on your willing hands practice. How did it feel to adopt this posture of openness? What did you learn about your relationship with resistance and acceptance?",
+      "question": "How did the willing hands practice feel? What did you learn?",
+      "placeholder": "Reflect on your experience with willing hands - how it felt, what you noticed, what you learned...",
+      "subSectionTitle": "Reflection Prompts:",
+      "subSectionSteps": [
+        "How did your body feel when you adopted willing hands?",
+        "What changed in your mindset or emotional state?",
+        "How might you use this posture in daily life?",
+        "What resistance did you notice, and how did openness help?"
+      ]
+    }
+  ],
+  "buttons": {
+    "view": "View",
+    "save": "Save",
+    "clearForm": "Clear Form",
+    "backToMenu": "Back to menu"
+  }
+}
+
