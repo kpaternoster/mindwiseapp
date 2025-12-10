@@ -174,7 +174,7 @@ export default function DailyCheckInScreen() {
                                         {totalEntries}
                                     </Text>
                                     <Text style={[t.textRegular, { color: colors.text_secondary }]} className="text-center mt-1">
-                                        Total Enteries
+                                        Total Entries
                                     </Text>
                                 </View>
                             </View>
@@ -185,7 +185,7 @@ export default function DailyCheckInScreen() {
                 {/* Today's Check-In Card */}
                 <Pressable
                     className="p-4 rounded-xl mb-4"
-                    style={{ backgroundColor: colors.button_orange }}
+                    style={{ backgroundColor: colors.orange_medium }}
                     onPress={() => navigation.navigate('TodayCheckIn')}
                 >
                     <View className="flex-row items-start justify-between mb-2">

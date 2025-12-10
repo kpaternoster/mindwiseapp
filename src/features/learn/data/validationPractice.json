@@ -1,0 +1,206 @@
+{
+  "title": "Validation Practice",
+  "totalSteps": 6,
+  "steps": [
+    {
+      "stepNumber": 1,
+      "stepBadge": {
+        "number": 1,
+        "text": "Active Listening Skills Practice"
+      },
+      "inputs": [
+        {
+          "id": "describeConversation",
+          "label": "Describe a recent conversation where you struggled to listen fully (without judgment):",
+          "placeholder": "What was the situation? What made it challenging to listen?"
+        },
+        {
+          "id": "specificChallenges",
+          "label": "What specific challenges did you face while listening? (interrupting, judging, planning your response, etc.)",
+          "placeholder": "Identify your listening barriers..."
+        },
+        {
+          "id": "engagementTechniques",
+          "label": "What engagement techniques will you practice? (eye contact, nodding, reflecting back, asking clarifying questions)",
+          "placeholder": "Choose 2-3 specific techniques to focus on..."
+        }
+      ],
+      "buttons": {
+        "next": "Next",
+        "backToMenu": "Back to Menu"
+      }
+    },
+    {
+      "stepNumber": 2,
+      "stepBadge": {
+        "number": 2,
+        "text": "Role-Play Exercise"
+      },
+      "instructionsTitle": "Instructions",
+      "instructions": "Find a partner (friend, family member, or practice alone with a mirror). Take turns being the speaker and listener. Each person gets 3-5 minutes to share something meaningful while the other practices active listening.",
+      "inputs": [
+        {
+          "id": "practiceTopic",
+          "label": "What topic did you/will you practice with? (personal challenge, recent experience, goal, etc.)",
+          "placeholder": "Choose something meaningful but not too sensitive for practice..."
+        },
+        {
+          "id": "asSpeaker",
+          "label": "As the speaker: How did it feel to be listened to without interruption or advice?",
+          "placeholder": "Describe your experience being heard..."
+        },
+        {
+          "id": "asListener",
+          "label": "As the listener: What was challenging? What felt natural? What did you notice about your partner?",
+          "placeholder": "Reflect on your listening experience...."
+        }
+      ],
+      "buttons": {
+        "back": "Back",
+        "next": "Next",
+        "viewSaved": "View Saved"
+      }
+    },
+    {
+      "stepNumber": 3,
+      "stepBadge": {
+        "number": 3,
+        "text": "Active Listening Reflection"
+      },
+      "inputs": [
+        {
+          "id": "keyLearnings",
+          "label": "What are your key learnings about active listening from this practice?",
+          "placeholder": "What insights did you gain about listening and connection?"
+        },
+        {
+          "id": "areasToImprove",
+          "label": "What specific areas do you want to improve in your listening skills?",
+          "placeholder": "Be specific about what you want to work on..."
+        },
+        {
+          "id": "practiceThisWeek",
+          "label": "How will you practice active listening in your daily conversations this week?",
+          "placeholder": "Set specific intentions for practicing active listening..."
+        }
+      ],
+      "buttons": {
+        "back": "Back",
+        "next": "Next",
+        "viewSaved": "View Saved"
+      }
+    },
+    {
+      "stepNumber": 4,
+      "stepBadge": {
+        "number": 4,
+        "text": "Validate Emotions Before Advice"
+      },
+      "instructionsTitle": "Practice: ",
+      "instructions": "Think of someone who recently shared an emotional experience with you. Practice validating their emotions first, then offering support or advice.",
+      "inputs": [
+        {
+          "id": "emotionalSituation",
+          "label": "Describe the emotional situation someone shared with you:",
+          "placeholder": "What did they tell you about their experience?"
+        },
+        {
+          "id": "emotionsIdentified",
+          "label": "What emotion(s) did you identify in their experience?",
+          "placeholder": "Frustrated, hurt, overwhelmed, excited, worried, etc."
+        },
+        {
+          "id": "validatingResponse",
+          "label": "Write a validating response that acknowledges their emotion:",
+          "placeholder": "'That sounds really frustrating...' or 'It makes sense you'd feel overwhelmed by that...'"
+        },
+        {
+          "id": "supportOrAdvice",
+          "label": "After validating, what support or advice would you offer (if any)?",
+          "placeholder": "Only offer advice if they want it, and only after validating their emotions..."
+        }
+      ],
+      "buttons": {
+        "back": "Back",
+        "next": "Next",
+        "viewSaved": "View Saved"
+      }
+    },
+    {
+      "stepNumber": 5,
+      "stepBadge": {
+        "number": 5,
+        "text": "Reframe Dismissive Phrases"
+      },
+      "instructionsTitle": "Practice",
+      "instructions": "Transform common dismissive phrases into validating responses. Think of phrases you've heard or used that minimize emotions.",
+      "inputs": [
+        {
+          "id": "dismissivePhrase1",
+          "label": "Dismissive phrase #1:",
+          "placeholder": "e.g., 'You're overreacting' or 'Just get over it' or 'It's not that bad'"
+        },
+        {
+          "id": "reframe1",
+          "label": "Reframe into validating response:",
+          "placeholder": "e.g., 'This is really important to you' or 'I can see this is affecting you deeply'"
+        },
+        {
+          "id": "dismissivePhrase2",
+          "label": "Dismissive phrase #2:",
+          "placeholder": "Another dismissive phrase you've heard or used..."
+        },
+        {
+          "id": "reframe2",
+          "label": "Reframe into validating response:",
+          "placeholder": "How would you validate instead of dismiss?"
+        },
+        {
+          "id": "dismissivePhrase3",
+          "label": "Dismissive phrase #3:",
+          "placeholder": "One more dismissive phrase to practice reframing..."
+        },
+        {
+          "id": "reframe3",
+          "label": "Reframe into validating response:",
+          "placeholder": "Your validating alternative..."
+        }
+      ],
+      "buttons": {
+        "back": "Back",
+        "next": "Next",
+        "viewSaved": "View Saved"
+      }
+    },
+    {
+      "stepNumber": 6,
+      "stepBadge": {
+        "number": 6,
+        "text": "Practice Integration"
+      },
+      "inputs": [
+        {
+          "id": "practiceScenario",
+          "label": "Describe a real or hypothetical scenario where you can practice your new validation skills:",
+          "placeholder": "Who will you practice with? What kind of situation might arise?"
+        },
+        {
+          "id": "validationApproach",
+          "label": "What specific validation approach will you use in this scenario?",
+          "placeholder": "How will you listen, acknowledge emotions, and respond validatingly?"
+        },
+        {
+          "id": "impactOnRelationships",
+          "label": "Reflect on how strengthening your validation skills might impact your relationships:",
+          "placeholder": "What changes do you hope to see? How might others respond differently?"
+        }
+      ],
+      "buttons": {
+        "back": "Back",
+        "save": "Save",
+        "viewSaved": "View Saved"
+      }
+    }
+  ]
+}
+

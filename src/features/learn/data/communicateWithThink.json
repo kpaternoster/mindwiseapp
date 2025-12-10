@@ -1,0 +1,87 @@
+{
+  "title": "Communicate with THINK",
+  "intro": {
+    "title": "About THINK Communication",
+    "description": "This exercise helps you practice thoughtful communication by considering if your approach is True, Helpful, Inspiring, Necessary, and Kind before engaging with others."
+  },
+  "sections": [
+    {
+      "id": "recognizeTheGood",
+      "title": "Recognize the Good",
+      "subsections": [
+        {
+          "id": "chooseSomeone",
+          "title": "Choose someone you'll interact with today",
+          "prompt": "Who will you practice THINK communication with? (family member, friend, colleague, etc.)",
+          "placeholder": "Who will you practice THINK communication with? (family member, friend, colleague, etc.)"
+        },
+        {
+          "id": "listPositiveQualities",
+          "title": "List 3-5 positive qualities about this person",
+          "prompt": "What do you genuinely appreciate about them? Their kindness, humor, work ethic, creativity, etc.",
+          "placeholder": "What do you genuinely appreciate about them? Their kindness, humor, work ethic, creativity, etc."
+        }
+      ]
+    },
+    {
+      "id": "planYourThinkApproach",
+      "title": "Plan Your THINK Approach",
+      "subsections": [
+        {
+          "id": "whatConversation",
+          "title": "What conversation or interaction do you want to have?",
+          "prompt": "What do you need to discuss? Is it a casual check-in, addressing an issue, or sharing something positive?",
+          "placeholder": "What do you need to discuss? Is it a casual check-in, addressing an issue, or sharing something positive?"
+        },
+        {
+          "id": "howApplyThink",
+          "title": "How will you apply THINK? (True, Helpful, Inspiring, Necessary, Kind)",
+          "prompt": "Plan your THINK approach: Is what you'll say True? Will it be Helpful? Is it Inspiring? Is it Necessary? Will you communicate with Kindness?",
+          "placeholder": "Plan your THINK approach: Is what you'll say True? Will it be Helpful? Is it Inspiring? Is it Necessary? Will you communicate with Kindness?"
+        }
+      ]
+    },
+    {
+      "id": "afterTheConversation",
+      "title": "After the Conversation",
+      "subsections": [
+        {
+          "id": "howDidItGo",
+          "title": "How did the conversation go? What happened?",
+          "prompt": "Describe what happened during your interaction. How did you feel? What went well?",
+          "placeholder": "Describe what happened during your interaction. How did you feel? What went well?"
+        },
+        {
+          "id": "howDidTheyRespond",
+          "title": "How did the other person respond to your THINK approach?",
+          "prompt": "What was their reaction? Did they seem more open, relaxed, or positive? How did they engage with you?",
+          "placeholder": "What was their reaction? Did they seem more open, relaxed, or positive? How did they engage with you?"
+        },
+        {
+          "id": "whatDidYouNotice",
+          "title": "What did you notice about the connection between you?",
+          "prompt": "Did you feel closer? More understanding? Did the conversation flow better than usual?",
+          "placeholder": "Did you feel closer? More understanding? Did the conversation flow better than usual?"
+        }
+      ]
+    },
+    {
+      "id": "reflection",
+      "title": "Reflection",
+      "subsections": [
+        {
+          "id": "whatDidYouLearn",
+          "title": "What did you learn about communicating with THINK?",
+          "prompt": "How did it feel to apply the THINK framework? What impact did your thoughtful approach have? What would you do differently next time?",
+          "placeholder": "How did it feel to apply the THINK framework? What impact did your thoughtful approach have? What would you do differently next time?"
+        }
+      ]
+    }
+  ],
+  "buttons": {
+    "save": "Save",
+    "viewSaved": "View Saved",
+    "backToMenu": "Back to Menu"
+  }
+}
+

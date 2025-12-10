@@ -1,0 +1,27 @@
+{
+  "title": "Validating Others Exercises",
+  "introTitle": "About Validating Others",
+  "introText": "Validation acknowledges and affirms someone's emotions, thoughts, or experiences, showing them their feelings make sense even without full agreement. It builds trust and strengthens relationships by creating emotional safety and connection.",
+  "exercises": [
+    {
+      "id": 1,
+      "number": 1,
+      "title": "Self-Reflection",
+      "description": "Recall a time you felt unheard and consider how you can offer the response you needed to others, building empathy through personal experience."
+    },
+    {
+      "id": 2,
+      "number": 2,
+      "title": "Validation Practice",
+      "description": "Practice active listening and validation skills through structured exercises that build connection and emotional safety in relationships."
+    },
+    {
+      "id": 3,
+      "title": "Connection Through Understanding",
+      "description": "Validation is about connection, not correction. It's holding space for another person's emotions without trying to fix them. Practice listening fully, validating genuinely, and watch relationships strengthen through understanding.",
+      "hasHeartIcon": true,
+      "hasNavigation": false
+    }
+  ]
+}
+

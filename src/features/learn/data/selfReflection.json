@@ -1,0 +1,42 @@
+{
+  "title": "Self-Reflection",
+  "intro": {
+    "title": "Introduction",
+    "description": "Reflect on your own experiences of feeling unheard or invalidated. Understanding what you needed in those moments can help you offer better validation to others."
+  },
+  "sections": [
+    {
+      "id": "reflectionQuestions",
+      "title": "Reflection Questions",
+      "placeholder": "",
+      "subsections": [
+        {
+          "id": "describeTime",
+          "title": "Describe a time when you felt unheard or invalidated",
+          "placeholder": "What happened? Who was involved? What did they say or do that made you feel unheard?"
+        },
+        {
+          "id": "whatEmotions",
+          "title": "What emotions did you experience?",
+          "placeholder": "Hurt, frustrated, angry, sad, lonely, misunderstood, etc."
+        },
+        {
+          "id": "whatResponse",
+          "title": "What response did you need?",
+          "placeholder": "What words, tone, or actions would have made you feel validated?"
+        },
+        {
+          "id": "howValidateOthers",
+          "title": "How could you validate others more effectively?",
+          "placeholder": "What specific changes will you make in how you respond to others' emotions?"
+        }
+      ]
+    }
+  ],
+  "buttons": {
+    "save": "Save",
+    "viewSaved": "View Saved",
+    "backToMenu": "Back to Menu"
+  }
+}
+

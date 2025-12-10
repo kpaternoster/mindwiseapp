@@ -1,0 +1,92 @@
+{
+  "title": "Start Small",
+  "totalSteps": 3,
+  "steps": [
+    {
+      "stepNumber": 1,
+      "stepBadge": {
+        "number": 1,
+        "text": "Start Small"
+      },
+      "instructions": "Begin with a simple, low-stakes request to practice FAST in a safe situation.",
+      "inputs": [
+        {
+          "id": "smallRequest",
+          "label": "What small request will you make?",
+          "placeholder": "Choose something simple like asking for help with a task, requesting a small favor, or expressing a minor preference.."
+        },
+        {
+          "id": "outcome",
+          "label": "What happened when you made this request?",
+          "placeholder": "Describe the outcome. How did the other person respond? How did you feel?"
+        },
+        {
+          "id": "reflection",
+          "label": "Reflection: What worked? What would you try differently?",
+          "placeholder": "How well did you use FAST? What felt natural? What was challenging?"
+        }
+      ],
+      "buttons": {
+        "next": "Next",
+        "backToMenu": "Back to Menu"
+      }
+    },
+    {
+      "stepNumber": 2,
+      "stepBadge": {
+        "number": 2,
+        "text": "Build Up to Bigger Challenges"
+      },
+      "instructions": "Now practice with a more challenging boundary-setting situation.",
+      "inputs": [
+        {
+          "id": "biggerSituation",
+          "label": "What bigger situation will you address?",
+          "placeholder": "Describe a more challenging situation where you need to set boundaries or make a difficult request..."
+        },
+        {
+          "id": "practiceOutLoud",
+          "label": "Practice out loud (role-play, mirror, or recording)",
+          "placeholder": "How did you practice? What did you notice about your tone, confidence, or body language?"
+        },
+        {
+          "id": "biggerChallengeOutcome",
+          "label": "How did this bigger challenge go?",
+          "placeholder": "If you had the conversation, how did it go? If you haven't yet, how confident do you feel about having it?"
+        }
+      ],
+      "buttons": {
+        "back": "Back",
+        "next": "Next",
+        "backToMenu": "Back to Menu"
+      }
+    },
+    {
+      "stepNumber": 3,
+      "stepBadge": {
+        "number": 3,
+        "text": "Overall Reflection"
+      },
+      "instructions": "",
+      "inputs": [
+        {
+          "id": "learnedAboutFast",
+          "label": "What did you learn about using FAST?",
+          "placeholder": "What insights did you gain? Which part of FAST felt most natural? Which was most challenging?"
+        },
+        {
+          "id": "nextSteps",
+          "label": "Next steps for building FAST skills",
+          "placeholder": "What situations will you practice FAST in next? How will you continue building these skills?"
+        }
+      ],
+      "buttons": {
+        "back": "Back",
+        "save": "Save",
+        "viewSaved": "View Saved",
+        "backToMenu": "Back to Menu"
+      }
+    }
+  ]
+}
+

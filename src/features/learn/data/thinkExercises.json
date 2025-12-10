@@ -1,0 +1,21 @@
+{
+  "title": "THINK Exercises",
+  "introTitle": "About THINK",
+  "introText": "THINK helps you pause before responding and consider whether your words and actions are True, Helpful, Inspiring, Necessary, and Kind. These exercises build empathy and compassionate communication skills.",
+  "exercises": [
+    {
+      "id": 1,
+      "number": 1,
+      "title": "Communicate with THINK",
+      "description": "Practice thoughtful communication by considering if your approach is True, Helpful, Inspiring, Necessary, and Kind before engaging with others."
+    },
+    {
+      "id": 2,
+      "title": "Practice Thoughtful Communication",
+      "description": "THINK isn't about being perfect—it's about being intentional. When you pause to consider your words and actions, you create space for more meaningful and compassionate interactions.",
+      "hasHeartIcon": true,
+      "hasNavigation": false
+    }
+  ]
+}
+

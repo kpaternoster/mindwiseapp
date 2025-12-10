@@ -1,0 +1,22 @@
+{
+  "title": "FAST",
+  "sections": [
+    {
+      "id": 1,
+      "title": "About FAST",
+      "content": "FAST helps you communicate assertively while protecting your self-respect. It stands for Fair (be fair to yourself and the other person), Apologies – minimize (only apologize when necessary; don’t apologize for having needs), Stick to values(stay true to what matters to you), and Truthful (be honest and avoid exaggeration or excuses).\n FAST gives you a simple framework to express yourself clearly and confidently without guilt or regret."
+    },
+    {
+      "id": 2,
+      "title": "Example",
+      "content": "Elaine often felt unheard when Cliff jumped into advice instead of listening. Using FAST, she spoke up fairly (“I know you mean well and want to help”), avoided unnecessary apologies, stayed true to her values (“I need to feel listened to before I can hear solutions”), and was truthful about how his responses affected her. Cliff understood, and Elaine left feeling respected and heard."
+    },
+    {
+      "id": 3,
+      "title": "Remember",
+      "content": "FAST helps you advocate for yourself while maintaining self-respect. Difficult conversations can bring up self-doubt or people-pleasing tendencies, but this framework keeps you grounded in your values and helps you communicate authentically.",
+      "backgroundColor": "#FDF4EE"
+    }
+  ],
+  "buttonText": "Try FAST Exercises"
+}

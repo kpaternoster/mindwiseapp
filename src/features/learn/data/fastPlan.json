@@ -1,0 +1,78 @@
+{
+  "title": "FAST Plan",
+  "gettingStarted": {
+    "title": "Getting Started",
+    "description": "Use this exercise to prepare for important conversations where you need to maintain self-respect. Work through each element of FAST to build confidence and clarity before you speak."
+  },
+  "sections": [
+    {
+      "id": "situationRequest",
+      "title": "Situation & Request",
+      "inputs": [
+        {
+          "id": "situation",
+          "label": "What situation requires you to use FAST?",
+          "placeholder": "Describe the situation where you need to maintain self-respect..."
+        },
+        {
+          "id": "request",
+          "label": "What is your specific request or boundary?",
+          "placeholder": "What do you need to ask for or what boundary do you need to set?"
+        }
+      ]
+    },
+    {
+      "id": "fastCheck",
+      "title": "FAST Check",
+      "subsections": [
+        {
+          "id": "fair",
+          "title": "Fair",
+          "label": "Fair - Is your request fair to both you and the other person?",
+          "placeholder": "How is this request fair? What makes it reasonable for both parties?"
+        },
+        {
+          "id": "apologies",
+          "title": "Apologies",
+          "label": "Apologies - Are you avoiding unnecessary apologies?",
+          "placeholder": "What unnecessary apologies might you be tempted to make? How will you avoid them?"
+        },
+        {
+          "id": "stickToValues",
+          "title": "Stick to Values",
+          "label": "Stick to Values - How does this align with your core values?",
+          "placeholder": "What values are you honoring by making this request? Why is this important to you?"
+        },
+        {
+          "id": "truthful",
+          "title": "Truthful",
+          "label": "Truthful - Are you being honest about your needs and feelings?",
+          "placeholder": "What is the honest truth about what you need? Are you being authentic?"
+        }
+      ]
+    },
+    {
+      "id": "buildConfidence",
+      "title": "Build Confidence",
+      "inputs": [
+        {
+          "id": "confidence",
+          "label": "How confident do you feel about this conversation? (1-10)",
+          "placeholder": "Rate your confidence and explain. What would help you feel more confident?"
+        },
+        {
+          "id": "notes",
+          "label": "Final planning notes",
+          "placeholder": "What key points will you remember? How will you stay grounded in your values during the conversation?"
+        }
+      ]
+    }
+  ],
+  "buttons": {
+    "view": "View",
+    "save": "Save",
+    "clearForm": "Clear Form",
+    "backToMenu": "Back to Menu"
+  }
+}
+

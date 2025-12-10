@@ -1,0 +1,84 @@
+{
+  "title": "GIVE Reframing",
+  "intro": {
+    "title": "Transform Difficult Conversations",
+    "description": "Think of a tense conversation you've had recently. We'll explore how it went without GIVE, then reframe it using Gentle, Interested, Validate, and Easy manner approaches to see the difference."
+  },
+  "sections": [
+    {
+      "id": "recallConversation",
+      "title": "Recall a Tense Conversation",
+      "placeholder": "Describe a recent conversation that felt tense, difficult, or didn't go well. What happened? Who was involved? What made it challenging?"      
+    },
+    {
+      "id": "withoutGive",
+      "title": "How It Went Without GIVE",
+      "placeholder": "Write how the conversation actually went. What tone did you use? How did you respond to the other person? What was the outcome?"
+    },
+    {
+      "id": "reframeUsingGive",
+      "title": "Reframe Using GIVE",
+      "placeholder": "",
+      "subsections": [
+        {
+          "id": "gentle",
+          "title": "Be Gentle - How could you approach this more gently?",
+          "placeholder": "Use a softer tone, avoid harsh words, be kind in your approach."
+        },
+        {
+          "id": "showInterest",
+          "title": "Show Interest - How could you show genuine interest in their perspective?",
+          "placeholder": "Ask questions, listen actively, show curiosity about their viewpoint..."
+          
+        },
+        {
+          "id": "validate",
+          "title": "Validate - How could you acknowledge their feelings or perspective?",
+          "placeholder": "'I can see why you'd feel that way.' 'That makes sense given...' 'I understand this is important to you...'"
+          
+        },
+        {
+          "id": "easyManner",
+          "title": "Easy Manner - How could you approach this in a more relaxed, easy manner?",
+          "placeholder": "Smile, use humor appropriately, stay relaxed, avoid being too serious or intense..."
+        }
+      ]
+    },
+    {
+      "id": "fullGiveConversation",
+      "title": "Write the Full GIVE Conversation",
+      "placeholder": "Now write how the entire conversation could have gone using all GIVE principles together. What would you say differently?"
+      
+    },
+    {
+      "id": "reflectOnDifference",
+      "title": "Reflect on the Difference",
+      "placeholder": "",
+      "subsections": [
+        {
+          "id": "differences",
+          "title": "What differences do you notice between the two approaches?",
+          "placeholder": "How might the other person have responded differently? What would the outcome have been?"
+          
+        },
+        {
+          "id": "insights",
+          "title": "What insights did you gain about using GIVE?",
+          "placeholder": "Which GIVE element would be most helpful for you? What surprised you about this exercise?"
+          
+        },
+        {
+          "id": "applyGive",
+          "title": "How will you apply GIVE in future conversations?",
+          "placeholder": "What specific situations could benefit from GIVE? Which element will you focus on first?"
+          
+        }
+      ]
+    }
+  ],
+  "buttons": {
+    "save": "Save",
+    "viewSaved": "View Saved",
+    "backToMenu": "Back to Menu"
+  }
+}

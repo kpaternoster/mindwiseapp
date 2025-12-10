@@ -142,7 +142,7 @@ export default function NameYourEmotionsScreen() {
                                 <InputWithTags
                                     key={section.id}
                                     title={section.title}
-                                    placeholder={section.placeholder}
+                                    placeholder={""}
                                     tags={section.tags}
                                     isEmotion={section.isEmotion}
                                     value={formData[section.id]}

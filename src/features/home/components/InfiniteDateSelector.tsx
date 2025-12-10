@@ -291,7 +291,7 @@ const DateItem = React.memo(
                 style={[
                     styles.datePill,
                     {
-                        backgroundColor: selected ? colors.orange_500 : colors.gray_100
+                        backgroundColor: selected ? colors.orange_medium : colors.gray_100
                     }
                 ]}
                 onPress={() => onPress(date)}

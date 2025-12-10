@@ -1,0 +1,34 @@
+{
+  "title": "DEAR MAN Exercises",
+  "introTitle": "About DEAR MAN",
+  "introText": "DEAR MAN helps you ask for what you want while maintaining relationships. Practice these skills to communicate clearly, confidently, and respectfully.",
+  "exercises": [
+    {
+      "id": 1,
+      "number": 1,
+      "title": "Practice DEAR MAN",
+      "description": "Write your script using the DEAR MAN framework to prepare for an important conversation. Include what you'll Describe, Express, Assert, and Reinforce. Then practice it aloud and reflect on how it went - what felt natural, what was challenging, and what you'd adjust next time.",
+      "scriptTitle": "Write Your DEAR MAN Script",
+      "scriptInstructions": "Include each component: Describe the situation objectively, Express your feelings using \"I\" statements, Assert what you need clearly, and Reinforce why it matters. Be specific and practice saying it out loud.",
+      "scriptPlaceholder": "Describe: The situation is...\nExpress: I feel...\nAssert: I need/want...\nReinforce: This would help because...",
+      "reflectionTitle": "Practice Reflection",
+      "reflectionInstructions": "After practicing your script aloud, reflect on the experience. What felt comfortable? What was challenging? How did it feel to be Mindful, Appear confident, and be ready to Negotiate?",
+      "reflectionPlaceholder": "After practicing, I noticed..."
+    },
+    {
+      "id": 2,
+      "number": 2,
+      "title": "Start Small",
+      "description": "Begin with low-stakes requests to build your confidence with DEAR MAN. Start by asking for something small from someone you trust, like asking a friend to pick a different restaurant or requesting a family member to lower the TV volume. Gradually work your way up to more challenging conversations as you become comfortable with the technique."
+    }
+  ],
+  "remember": {
+    "title": "Remember",
+    "text": "DEAR MAN isn't about getting your way every time—it's about communicating your needs clearly and respectfully. Practice builds confidence, and confidence helps you maintain important relationships while advocating for yourself."
+  },
+  "buttons": {
+    "view": "View",
+    "saveEntry": "Save Entry"
+  }
+}
+

@@ -59,7 +59,7 @@ export default function DialecticalThinkingExercisesScreen() {
                     }}
                 >
                     <View className="flex-row items-start mb-3">
-                        <View className="mr-3 mt-1">
+                        <View className="mr-3">
                             <HeartIcon size={24} color={colors.orange_500} />
                         </View>
                         <View className="flex-1">

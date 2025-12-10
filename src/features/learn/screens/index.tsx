@@ -63,6 +63,9 @@ export default function Learn() {
             case "4":
                 dissolveTo('Learn_ImproveInterpersonalEffectiveness');
                 break;
+            case "5":
+                dissolveTo('Learn_BuildDistressTolerance');
+                break;
             default:
                 console.log("Navigate to category:", categoryId);
                 break;

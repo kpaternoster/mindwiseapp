@@ -1,0 +1,124 @@
+{
+  "title": "GIVE Practice",
+  "intro": {
+    "title": "Real-World GIVE Practice",
+    "description": "Practice GIVE in your daily conversations by consciously validating emotions and sending a thoughtful check-in to someone close to you. Notice how these approaches affect your connections."
+  },
+  "sections": [
+    {
+      "id": "practiceDailyValidation",
+      "title": "Practice Daily Validation",
+      "instructions": "In three different conversations today, consciously validate the other person's emotions or perspective. Record what you said and how they responded.",
+      "subsections": [
+        {
+          "id": "validation1",
+          "title": "Validation 1",
+          "inputs": [
+            {
+              "id": "validation1What",
+              "placeholder": "What did you say to validate their feelings or perspective? (e.g., 'That sounds really frustrating' or 'I can see why that would be important to you')"
+            },
+            {
+              "id": "validation1Response",
+              "placeholder": "How did they respond? What did you notice about the conversation?"
+            }
+          ]
+        },
+        {
+          "id": "validation2",
+          "title": "Validation 2",
+          "inputs": [
+            {
+              "id": "validation2What",
+              "placeholder": "What did you say to validate their feelings or perspective?"
+            },
+            {
+              "id": "validation2Response",
+              "placeholder": "How did they respond? What did you notice about the conversation?"
+            }
+          ]
+        },
+        {
+          "id": "validation3",
+          "title": "Validation 3",
+          "inputs": [
+            {
+              "id": "validation3What",
+              "placeholder": "What did you say to validate their feelings or perspective?"
+            },
+            {
+              "id": "validation3Response",
+              "placeholder": "How did they respond? What did you notice about the conversation?"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sendGiveCheckIn",
+      "title": "Send a GIVE-Style Check-In",
+      "inputs": [
+        {
+          "id": "whoReachOut",
+          "label": "Who will you reach out to?",
+          "instructions": "Choose someone close to you - a friend, family member, or partner you want to connect with...",
+          "placeholder": ""
+        },
+        {
+          "id": "giveMessage",
+          "label": "Write your GIVE-style check-in message",
+          "instructions": "Use Gentle tone, show Interest in their life, Validate their experiences, and keep an Easy manner",
+          "placeholder": "Example: 'Hi! I was thinking about you and wondering how you've been feeling lately. I know work has been stressful for you - how are you managing? I'd love to hear what's going on in your world. ❤️'"
+        },
+        {
+          "id": "checkInResponse",
+          "label": "How did they respond?",
+          "instructions": "What was their response? How did they seem to receive your message?",
+          "placeholder": ""
+        }
+      ]
+    },
+    {
+      "id": "reflectOnPractice",
+      "title": "Reflect on Your GIVE Practice",
+      "subsections": [
+        {
+          "id": "connectionResponses",
+          "title": "What did you notice about connection and responses?",
+          "prompt": "Did people seem more open? Did conversations flow differently? How did it feel to use GIVE?",
+          "placeholder": ""
+        },
+        {
+          "id": "challenges",
+          "title": "What challenges did you encounter?",
+          "prompt": "Was it hard to remember to validate? Did any conversations feel awkward? What was difficult?",
+          "placeholder": ""
+        },
+        {
+          "id": "naturalHardest",
+          "title": "Which GIVE elements came most naturally? Which were hardest?",
+          "prompt": "Gentle, Interested, Validate, Easy manner - which felt natural and which need more practice?",
+          "placeholder": ""
+        },
+        {
+          "id": "doDifferently",
+          "title": "What would you do differently next time?",
+          "prompt": "How could you improve your GIVE approach? What specific changes would you make?",
+          "placeholder": ""
+        },
+        {
+          "id": "continuePracticing",
+          "title": "How will you continue practicing GIVE?",
+          "prompt": "What situations will you focus on? Who else might benefit from GIVE-style communication?",
+          "placeholder": ""
+        }
+      ]
+    }
+  ],
+  "buttons": {
+    "save": "Save",
+    "viewSaved": "View Saved",
+    "backToMenu": "Back to Menu"
+  }
+}
+

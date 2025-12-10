@@ -33,6 +33,7 @@ export const colors = {
     orange_600: '#C37643',
     orange_800: '#6D4122',
     orange_900: '#F4C27F',
+    orange_opacity_5: '#F4C27F1A',
     orange_opacity_10: '#EE915320',
     orange_opacity_20: '#EE915333',
     orange_opacity_30: '#F4C27F4D',

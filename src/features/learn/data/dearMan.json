@@ -1,0 +1,23 @@
+{
+  "title": "DEAR MAN",
+  "sections": [
+    {
+      "id": 1,
+      "title": "About DEAR MAN",
+      "content": "DEAR MAN is a communication tool that helps you ask for what you need, set boundaries, and stay respectful. DEAR is what to say: Describe the situation, Express your feelings, Assert your request, and Reinforce why it matters. MAN is how to say it: stay Mindful, Appear confident, and Negotiate if needed. It gives you a step-by-step way to communicate clearly and assertively, even in tough conversations."
+    },
+    {
+      "id": 2,
+      "title": "Example",
+      "content": "Marco was exhausted from back-to-back shifts, so he used DEAR MAN to talk with his boss. He described the schedule, expressed how it affected his sleep and focus, asserted his need for a change, and reinforced how being rested would improve his work. He stayed mindful, spoke confidently, and was ready to negotiate by offering shift swaps. His boss appreciated the clarity and agreed to adjust the schedule."
+    },
+    {
+      "id": 3,
+      "title": "Remember",
+      "content": "DEAR MAN takes practice, but it can transform the way you communicate. Start with small requests before working up to more difficult conversations. Every time you practice, you're strengthening your ability to navigate conversations with assertiveness and ease.",
+      "backgroundColor": "#FDF4EE"
+    }
+  ],
+  "buttonText": "Try DEAR MAN Exercises"
+}
+

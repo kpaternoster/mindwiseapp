@@ -1,0 +1,27 @@
+{
+  "title": "FAST Exercises",
+  "introTitle": "About FAST",
+  "introText": "FAST helps you maintain self-respect while navigating relationships and difficult conversations. Practice being Fair, avoiding unnecessary Apologies, Sticking to your values, and being Truthful in all your interactions.",
+  "exercises": [
+    {
+      "id": 1,
+      "number": 1,
+      "title": "Start Small",
+      "description": "Start small with simple requests, then role-play or practice bigger boundary-setting situations out loud. Build skills through progressive practice."
+    },
+    {
+      "id": 2,
+      "number": 2,
+      "title": "FAST Plan",
+      "description": "Write your request, check fairness, honesty, and alignment with values, and avoid unnecessary apologies. Build confidence through thorough preparation."
+    },
+    {
+      "id": 3,
+      "title": "Build Self-Respect",
+      "description": "FAST isn't about being perfect—it's about honoring yourself while maintaining healthy relationships. Practice these skills to build confidence in standing up for your values with kindness and integrity.",
+      "hasHeartIcon": true,
+      "hasNavigation": false
+    }
+  ]
+}
+

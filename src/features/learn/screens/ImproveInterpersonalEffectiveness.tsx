@@ -14,28 +14,22 @@ export default function ImproveInterpersonalEffectivenessScreen() {
     const handleSkillPress = (skill: any) => {
         switch (skill.title) {
             case 'DEAR MAN':
-                // TODO: Navigate to DEAR MAN screen when created
-                console.log('DEAR MAN pressed');
+                dissolveTo('Learn_DearMan');
                 break;
             case 'FAST':
-                // TODO: Navigate to FAST screen when created
-                console.log('FAST pressed');
+                dissolveTo('Learn_Fast');
                 break;
             case 'GIVE':
-                // TODO: Navigate to GIVE screen when created
-                console.log('GIVE pressed');
+                dissolveTo('Learn_Give');
                 break;
             case 'Interpersonal Goals':
-                // TODO: Navigate to Interpersonal Goals screen when created
-                console.log('Interpersonal Goals pressed');
+                dissolveTo('Learn_InterpersonalGoals');
                 break;
             case 'THINK':
-                // TODO: Navigate to THINK screen when created
-                console.log('THINK pressed');
+                dissolveTo('Learn_Think');
                 break;
             case 'Validating Others':
-                // TODO: Navigate to Validating Others screen when created
-                console.log('Validating Others pressed');
+                dissolveTo('Learn_ValidatingOthers');
                 break;
             default:
                 console.log('Exercise pressed:', skill.title);
@@ -67,7 +61,7 @@ export default function ImproveInterpersonalEffectivenessScreen() {
                         style={{
                             borderColor: colors.stoke_gray,
                             borderWidth: 1,
-                            backgroundColor: colors.orange_50,
+                            backgroundColor: colors.white,
                         }}
                     >
                         {/* Header with icon and title */}

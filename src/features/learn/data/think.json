@@ -1,0 +1,23 @@
+{
+  "title": "THINK",
+  "sections": [
+    {
+      "id": 1,
+      "title": "About THINK",
+      "content": "THINK helps you handle conflict by managing your emotions and communicating with empathy. It stands for Think, Have Empathy, Interpretations (check your assumptions), Notice (what's happening for you and the other person), and Kindness. This skill encourages you to slow down, regulate your feelings, and consider other perspectives before reacting. It reduces misunderstandings and strengthens healthy, compassionate relationships."
+    },
+    {
+      "id": 2,
+      "title": "Example",
+      "content": "Ron and Jarod often argued about chores, especially the dishes. Before reacting, Ron used THINK. He considered Jarod's perspective (Think), realized Jarod might feel guilty or exhausted (Have empathy), questioned his assumption that Jarod was avoiding chores on purpose (Interpretations), and reminded himself of the tasks Jarod does do (Notice). When he brought it up, Ron spoke kindly and acknowledged Jarod's efforts (Kindness). This turned a potential fight into a calm, problem-solving conversation where both felt heard and respected."
+    },
+    {
+      "id": 3,
+      "title": "Remember",
+      "content": "THINK takes practice, but it can transform the way you approach conflict. A little empathy and perspective can go a long way in maintaining healthy relationships and preventing unnecessary arguments.",
+      "backgroundColor": "#FDF4EE"
+    }
+  ],
+  "buttonText": "Try THINK Exercises"
+}
+

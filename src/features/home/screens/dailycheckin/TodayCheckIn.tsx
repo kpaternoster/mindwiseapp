@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useRef } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import {
     View,
     Text,
@@ -11,9 +11,6 @@ import {
     ActivityIndicator,
 } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
-import { useNavigation } from '@react-navigation/native';
-import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { HomeStackParams } from '@app/navigation/types';
 import { colors } from '@design/color';
 import { t } from '@design/typography';
 import { ArrowRightIcon, CalendarBlankIcon, CheckIcon, CloseIcon, DownIcon } from '@components/Utils';
@@ -22,8 +19,8 @@ import { getCurrentDate, formatDate, formatDateToISO } from '../../utils/dateHel
 import todayCheckInData from '../../data/dailycheckin/todayCheckIn.json';
 import dailyPlanData from '../../data/dailycheckin/dailyPlan.json';
 import { fetchDiaryEntry, updateDiaryEntry, DiaryEntryRequest } from '@features/home/api';
+import { useDissolveNavigation } from '@hooks/useDissolveNavigation';
 
-type NavigationProp = NativeStackNavigationProp<HomeStackParams>;
 
 interface EmotionRatings {
     [key: string]: number;
@@ -74,8 +71,7 @@ const mergeRatings = (
 };
 
 export default function TodayCheckInScreen() {
-    const navigation = useNavigation<NavigationProp>();
-    const scrollViewRef = useRef<ScrollView | null>(null);
+    const { dissolveTo } = useDissolveNavigation(); 
     const [activeTab, setActiveTab] = useState<'check-in' | 'daily-plan'>('check-in');
     const [date, setDate] = useState(getCurrentDate());
     const [selectedDate, setSelectedDate] = useState(new Date());
@@ -146,13 +142,8 @@ export default function TodayCheckInScreen() {
 
             await updateDiaryEntry(isoDate, payload);
 
-            // Switch to daily plan tab after save
-            setActiveTab('daily-plan');
+            dissolveTo('DailyCheckIn');
 
-            // Scroll to top after saving
-            if (scrollViewRef.current) {
-                scrollViewRef.current.scrollTo({ y: 0, animated: true });
-            }
         } catch (error) {
             console.error('Error saving diary entry:', error);
         }
@@ -208,7 +199,6 @@ export default function TodayCheckInScreen() {
                 </View>
             ) : (
                 <ScrollView
-                    ref={scrollViewRef}
                     className="flex-1 px-6 mb-10"
                     showsVerticalScrollIndicator={false}
                     contentContainerStyle={styles.scrollContent}
@@ -250,7 +240,7 @@ export default function TodayCheckInScreen() {
                     <Pressable
                         className="flex-1 py-3 ml-2 rounded-full items-center"
                         style={{
-                            backgroundColor: activeTab === 'daily-plan' ? colors.button_orange : colors.white,
+                            backgroundColor: activeTab === 'daily-plan' ? colors.orange_medium : colors.white,
                         }}
                         onPress={() => setActiveTab('daily-plan')}
                     >
@@ -696,17 +686,17 @@ export default function TodayCheckInScreen() {
                 {/* Save Button */}
                 <Pressable
                     className="rounded-full py-4 px-6 flex-row justify-center items-center mb-4"
-                    style={{ backgroundColor: colors.button_orange }}
+                    style={{ backgroundColor: colors.orange_medium }}
                     onPress={handleSave}
                 >
                     <Text
                         style={[t.button, { color: colors.white }]}
                         className="flex-1 text-center"
                     >
-                        Save & View Your Daily Plan
+                        Go back to Daily Check-In
                     </Text>
                     <View className="w-9 h-9 justify-center items-center bg-white rounded-full">
-                        <ArrowRightIcon size={16} color={colors.Text_Primary} />
+                        <ArrowRightIcon size={16} color={colors.orange_medium} />
                     </View>
                 </Pressable>
             </ScrollView>

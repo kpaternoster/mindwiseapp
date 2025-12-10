@@ -128,41 +128,53 @@ export default function WeeklyReviewScreen() {
 
         return (
             <View style={styles.chartContainer}>
-                {weeklySUDS.map((data, index) => (
-                    <View key={index} style={styles.barContainer}>
-                        <View style={styles.barWrapper}>
-                            {/* Background bar (gray outline) */}
-                            <View
-                                style={[
-                                    styles.backgroundBar,
-                                    {
-                                        height: chartHeight,
-                                        width: barWidth,
-                                    },
-                                ]}
-                            />
-                            {/* Filled bar (orange) */}
-                            <Text style={[t.footnoteBold, { color: colors.Text_Color }]}>
-                                {data.level}
-                            </Text>
-                            <View
-                                style={[
-                                    styles.filledBar,
-                                    {
-                                        height: (data.level / maxLevel) * chartHeight,
-                                        width: barWidth,
-                                        backgroundColor: colors.button_orange,
-                                    },
-                                ]}
-                            >
-
+                {weeklySUDS.map((data, index) => {
+                    const barHeight = (data.level / maxLevel) * chartHeight;
+                    return (
+                        <View key={index} style={styles.barContainer}>
+                            <View style={styles.barWrapper}>
+                                {/* Background bar (gray outline) */}
+                                <View
+                                    style={[
+                                        styles.backgroundBar,
+                                        {
+                                            height: chartHeight,
+                                            width: barWidth,
+                                        },
+                                    ]}
+                                />
+                                {/* Filled bar (orange) - positioned absolutely at bottom */}
+                                <View
+                                    style={[
+                                        styles.filledBar,
+                                        {
+                                            height: barHeight,
+                                            width: barWidth,
+                                            backgroundColor: colors.button_orange,
+                                            bottom: 0,
+                                        },
+                                    ]}
+                                />
+                                {/* Level text - positioned above the filled bar */}
+                                <Text 
+                                    style={[
+                                        t.footnoteBold, 
+                                        { 
+                                            color: colors.Text_Color,
+                                            position: 'absolute',
+                                            bottom: barHeight + 4,
+                                        }
+                                    ]}
+                                >
+                                    {data.level}
+                                </Text>
                             </View>
+                            <Text style={[t.textRegular, { color: colors.text_secondary, marginTop: 8 }]}>
+                                {data.day}
+                            </Text>
                         </View>
-                        <Text style={[t.textRegular, { color: colors.text_secondary, marginTop: 8 }]}>
-                            {data.day}
-                        </Text>
-                    </View>
-                ))}
+                    );
+                })}
             </View>
         );
     };
@@ -303,7 +315,7 @@ export default function WeeklyReviewScreen() {
                     <Pressable
                         className="rounded-full py-4 px-6 flex-row justify-center items-center mb-6"
                         style={{ 
-                            backgroundColor: isSaving ? colors.text_disabled : colors.button_orange,
+                            backgroundColor: isSaving ? colors.text_disabled : colors.orange_medium,
                             opacity: isSaving ? 0.6 : 1,
                         }}
                         onPress={handleSaveReflection}
@@ -343,7 +355,6 @@ const styles = StyleSheet.create({
         alignItems: 'flex-end',
         paddingHorizontal: 8,
         paddingVertical: 16,
-        marginTop: 24,
     },
     barContainer: {
         alignItems: 'center',
@@ -355,17 +366,17 @@ const styles = StyleSheet.create({
         justifyContent: 'flex-end',
     },
     backgroundBar: {
-        position: 'absolute',
+        // position: 'absolute',
         bottom: 0,
         backgroundColor: colors.gray_300,
-        borderRadius: 16,
+        borderRadius: 100,
         opacity: 0.3,
     },
     filledBar: {
-        borderRadius: 16,
-        justifyContent: 'flex-start',
+        position: 'absolute',
+        borderRadius: 100,
+        justifyContent: 'flex-end',
         alignItems: 'center',
-        paddingTop: 8,
     },
     progressBarContainer: {
         marginBottom: 16,

@@ -1,0 +1,23 @@
+{
+  "title": "GIVE",
+  "sections": [
+    {
+      "id": 1,
+      "title": "About GIVE",
+      "content": "GIVE is a communication skill that helps you build stronger, more trusting relationships. It stands for Gentle, Interested, Validate emotions, and Easy manner. It guides you to stay calm, respectful, and open-minded so conversations—especially difficult ones—feel safe rather than tense. Using GIVE helps prevent misunderstandings, deepen connection, and create space for meaningful dialogue."
+    },
+    {
+      "id": 2,
+      "title": "Example",
+      "content": "Emma noticed her friend Leah kept canceling plans, so she used GIVE to check in gently. She reached out with care, showed genuine interest, validated Leah's stress, and kept the tone easy and pressure-free. Leah felt understood instead of guilty, and the conversation helped them reconnect without tension."
+    },
+    {
+      "id": 3,
+      "title": "Remember",
+      "content": "GIVE isn't about sugarcoating conversations or avoiding difficult topics. It's about communicating with intention—staying kind, curious, and open while also expressing yourself clearly. When you GIVE, you make space for real connection.",
+      "backgroundColor": "#FDF4EE"
+    }
+  ],
+  "buttonText": "Try GIVE Exercises"
+}
+

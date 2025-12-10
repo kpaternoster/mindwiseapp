@@ -1,0 +1,27 @@
+{
+  "title": "Interpersonal Goals Exercises",
+  "introTitle": "About Interpersonal Goals",
+  "introText": "Before any interpersonal interaction, it's important to clarify what you want to achieve. These exercises help you identify your objectives, relationship, and self-respect goals, then plan how to communicate effectively while staying true to your values.",
+  "exercises": [
+    {
+      "id": 1,
+      "number": 1,
+      "title": "Clarify Your Goals",
+      "description": "Identify your objectives, relationship, and self-respect goals, then rank them by importance for your current situation."
+    },
+    {
+      "id": 2,
+      "number": 2,
+      "title": "Plan Your Response",
+      "description": "Reflect on whether your goals align with your values, then plan your words, tone, and desired outcome."
+    },
+    {
+      "id": 3,
+      "title": "Balance Your Goals",
+      "description": "Remember that interpersonal effectiveness is about balancing three goals: getting what you want (objectives), maintaining the relationship, and keeping your self-respect. Sometimes you'll prioritize one over the others, and that's okay—the key is making that choice consciously.",
+      "hasHeartIcon": true,
+      "hasNavigation": false
+    }
+  ]
+}
+

@@ -1,0 +1,80 @@
+{
+  "categoryId": "4",
+  "title": "Build Distress Tolerance",
+  "totalSkills": 7,
+  "completedSkills": 0,
+  "progressPercentage": 0,
+  "sections": [
+    {
+      "id": 1,
+      "type": "intro",
+      "icon": "plant",
+      "title": "Survive crisis without making things worse",
+      "description": "Distress tolerance helps you get through crisis moments without making things worse. We use these skills when problems can't be solved immediately and you need to survive intense emotional pain. These techniques help you tolerate distress, self-soothe, and avoid impulsive actions that could harm you or your relationships."
+    }
+  ],
+  "skills": [
+    {
+      "id": 1,
+      "title": "TIPP",
+      "duration": "20 min",
+      "difficulty": "Beginner",
+      "description": "Change your body chemistry quickly in crisis using TIPP: change your Temperature, do Intense exercise, use Paced breathing, and try Paired muscle relaxation",
+      "tags": ["TIPP Skill Practice"]
+    },
+    {
+      "id": 2,
+      "title": "STOP",
+      "duration": "15 min",
+      "difficulty": "Beginner",
+      "description": "Pause before acting on impulses to prevent making situations worse using STOP: Stop what you're doing, Take a breath, Observe your thoughts and feelings, and Proceed mindfully",
+      "tags": ["Reflect & Rehearse with STOP", "Everyday STOP Practice"]
+    },
+    {
+      "id": 3,
+      "title": "Self-Soothing",
+      "duration": "18 min",
+      "difficulty": "Beginner",
+      "description": "Comfort yourself through your five senses during difficult times",
+      "tags": ["Create Your Soothing Toolkit", "Practice & Reflect on Self-Soothing"]
+    },
+    {
+      "id": 4,
+      "title": "IMPROVE",
+      "duration": "25 min",
+      "difficulty": "Intermediate",
+      "description": "Distract and cope using IMPROVE: Imagery, find Meaning, Prayer/meditation, Relaxation, focus on One thing, take a mental Vacation, and use Encouragement",
+      "tags": ["Build Your IMPROVE Toolkit"]
+    },
+    {
+      "id": 5,
+      "title": "Radical Acceptance",
+      "duration": "30 min",
+      "difficulty": "Advanced",
+      "description": "Completely accept reality as it is, without fighting against what you cannot change",
+      "tags": ["Practice Radical Acceptance Daily", "Build Your Acceptance Tools"]
+    },
+    {
+      "id": 6,
+      "title": "Different Action",
+      "duration": "22 min",
+      "difficulty": "Intermediate",
+      "description": "Act opposite to your urges when emotions don't fit the facts",
+      "tags": ["Practice Different Actions", "Reinforce with Reminders"]
+    },
+    {
+      "id": 7,
+      "title": "Half-Smiling",
+      "duration": "12 min",
+      "difficulty": "Beginner",
+      "description": "Use facial expressions to influence your emotional state and promote acceptance",
+      "tags": ["Practice the Half-Smile", "Reflect with the Half-Smile"]
+    }
+  ],
+  "keepLearning": {
+    "icon": "trophy",
+    "title": "Keep Learning!",
+    "description": "Complete skills to earn leaves and grow your tree. Each completed skill gives you 5 leaves! 🍃"
+  }
+}
+

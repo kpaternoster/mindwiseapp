@@ -28,4 +28,5 @@ export const API_ENDPOINTS = {
   WEEKLY_REVIEW: `${BASE_API_URL}/weekly-review`,
   TREATMENT_PLAN: `${BASE_API_URL}/treatment-plan`,
   PRE_TREATMENT_STATE: `${BASE_API_URL}/pre-treatment-state`,
+  GRACE: `${BASE_API_URL}/grace`,
 } as const;

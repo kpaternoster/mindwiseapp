@@ -43,9 +43,40 @@ import ProblemSolvingExerciseScreen from '@features/learn/screens/ProblemSolving
 import ProblemSolvingEntriesScreen from '@features/learn/screens/ProblemSolvingEntries';
 import ProblemSolvingEntryDetailScreen from '@features/learn/screens/ProblemSolvingEntryDetail';
 import ImproveInterpersonalEffectivenessScreen from '@features/learn/screens/ImproveInterpersonalEffectiveness';
+import BuildDistressToleranceScreen from '@features/learn/screens/BuildDistressTolerance';
+import TIPPScreen from '@features/learn/screens/TIPP';
+import InterpersonalGoalsScreen from '@features/learn/screens/InterpersonalGoals';
+import InterpersonalGoalsExercisesScreen from '@features/learn/screens/InterpersonalGoalsExercises';
+import ClarifyYourGoalsScreen from '@features/learn/screens/ClarifyYourGoals';
+import PlanYourResponseScreen from '@features/learn/screens/PlanYourResponse';
+import ThinkScreen from '@features/learn/screens/Think';
+import ThinkExercisesScreen from '@features/learn/screens/ThinkExercises';
+import CommunicateWithThinkScreen from '@features/learn/screens/CommunicateWithThink';
+import ThinkEntriesScreen from '@features/learn/screens/ThinkEntries';
+import ValidatingOthersScreen from '@features/learn/screens/ValidatingOthers';
+import ValidatingOthersExercisesScreen from '@features/learn/screens/ValidatingOthersExercises';
+import SelfReflectionScreen from '@features/learn/screens/SelfReflection';
+import SelfReflectionEntriesScreen from '@features/learn/screens/SelfReflectionEntries';
+import ValidationPracticeScreen from '@features/learn/screens/ValidationPractice';
+import ValidationPracticeEntriesScreen from '@features/learn/screens/ValidationPracticeEntries';
 import BeMindfulScreen from '@features/learn/screens/BeMindful';
 import HereAndNowScreen from '@features/learn/screens/HereAndNow';
 import HereAndNowExercisesScreen from '@features/learn/screens/HereAndNowExercises';
+import DearManScreen from '@features/learn/screens/DearMan';
+import DearManExercisesScreen from '@features/learn/screens/DearManExercises';
+import DearManEntriesScreen from '@features/learn/screens/DearManEntries';
+import FastScreen from '@features/learn/screens/Fast';
+import FastExercisesScreen from '@features/learn/screens/FastExercises';
+import FastStartSmallScreen from '@features/learn/screens/FastStartSmall';
+import FastStartSmallEntriesScreen from '@features/learn/screens/FastStartSmallEntries';
+import FastPlanScreen from '@features/learn/screens/FastPlan';
+import FastPlanEntriesScreen from '@features/learn/screens/FastPlanEntries';
+import GiveScreen from '@features/learn/screens/Give';
+import GiveExercisesScreen from '@features/learn/screens/GiveExercises';
+import GiveReframingScreen from '@features/learn/screens/GiveReframing';
+import GiveReframingEntriesScreen from '@features/learn/screens/GiveReframingEntries';
+import GivePracticeScreen from '@features/learn/screens/GivePractice';
+import GivePracticeEntriesScreen from '@features/learn/screens/GivePracticeEntries';
 import MindfulPresencePracticeScreen from '@features/learn/screens/MindfulPresencePractice';
 import MindfulPresencePracticeEntriesScreen from '@features/learn/screens/MindfulPresencePracticeEntries';
 import WiseMindScreen from '@features/learn/screens/WiseMind';
@@ -186,9 +217,40 @@ export default function HomeNavigator() {
             <Stack.Screen name="Learn_ProblemSolvingEntries" component={ProblemSolvingEntriesScreen} />
             <Stack.Screen name="Learn_ProblemSolvingEntryDetail" component={ProblemSolvingEntryDetailScreen} />
             <Stack.Screen name="Learn_ImproveInterpersonalEffectiveness" component={ImproveInterpersonalEffectivenessScreen} />
+            <Stack.Screen name="Learn_BuildDistressTolerance" component={BuildDistressToleranceScreen} />
+            <Stack.Screen name="Learn_TIPP" component={TIPPScreen} />
+            <Stack.Screen name="Learn_InterpersonalGoals" component={InterpersonalGoalsScreen} />
+            <Stack.Screen name="Learn_InterpersonalGoalsExercises" component={InterpersonalGoalsExercisesScreen} />
+            <Stack.Screen name="Learn_ClarifyYourGoals" component={ClarifyYourGoalsScreen} />
+            <Stack.Screen name="Learn_PlanYourResponse" component={PlanYourResponseScreen} />
+            <Stack.Screen name="Learn_Think" component={ThinkScreen} />
+            <Stack.Screen name="Learn_ThinkExercises" component={ThinkExercisesScreen} />
+            <Stack.Screen name="Learn_CommunicateWithThink" component={CommunicateWithThinkScreen} />
+            <Stack.Screen name="Learn_ThinkEntries" component={ThinkEntriesScreen} />
+            <Stack.Screen name="Learn_ValidatingOthers" component={ValidatingOthersScreen} />
+            <Stack.Screen name="Learn_ValidatingOthersExercises" component={ValidatingOthersExercisesScreen} />
+            <Stack.Screen name="Learn_SelfReflection" component={SelfReflectionScreen} />
+            <Stack.Screen name="Learn_SelfReflectionEntries" component={SelfReflectionEntriesScreen} />
+            <Stack.Screen name="Learn_ValidationPractice" component={ValidationPracticeScreen} />
+            <Stack.Screen name="Learn_ValidationPracticeEntries" component={ValidationPracticeEntriesScreen} />
             <Stack.Screen name="Learn_BeMindful" component={BeMindfulScreen} />
             <Stack.Screen name="Learn_HereAndNow" component={HereAndNowScreen} />
             <Stack.Screen name="Learn_HereAndNowExercises" component={HereAndNowExercisesScreen} />
+            <Stack.Screen name="Learn_DearMan" component={DearManScreen} />
+            <Stack.Screen name="Learn_DearManExercises" component={DearManExercisesScreen} />
+            <Stack.Screen name="Learn_DearManEntries" component={DearManEntriesScreen} />
+            <Stack.Screen name="Learn_Fast" component={FastScreen} />
+            <Stack.Screen name="Learn_FastExercises" component={FastExercisesScreen} />
+            <Stack.Screen name="Learn_FastStartSmall" component={FastStartSmallScreen} />
+            <Stack.Screen name="Learn_FastStartSmallEntries" component={FastStartSmallEntriesScreen} />
+            <Stack.Screen name="Learn_FastPlan" component={FastPlanScreen} />
+            <Stack.Screen name="Learn_FastPlanEntries" component={FastPlanEntriesScreen} />
+            <Stack.Screen name="Learn_Give" component={GiveScreen} />
+            <Stack.Screen name="Learn_GiveExercises" component={GiveExercisesScreen} />
+            <Stack.Screen name="Learn_GiveReframing" component={GiveReframingScreen} />
+            <Stack.Screen name="Learn_GiveReframingEntries" component={GiveReframingEntriesScreen} />
+            <Stack.Screen name="Learn_GivePractice" component={GivePracticeScreen} />
+            <Stack.Screen name="Learn_GivePracticeEntries" component={GivePracticeEntriesScreen} />
             <Stack.Screen name="Learn_MindfulPresencePractice" component={MindfulPresencePracticeScreen} />
             <Stack.Screen name="Learn_MindfulPresencePracticeEntries" component={MindfulPresencePracticeEntriesScreen} />
             <Stack.Screen name="Learn_WiseMind" component={WiseMindScreen} />

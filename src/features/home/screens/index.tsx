@@ -270,7 +270,7 @@ const Home = () => {
                         </View>
                     </Pressable>
 
-                    <Pressable style={styles.moduleCard} onPress={() => dissolveTo('Help')}>
+                    <Pressable style={styles.moduleCard} onPress={() => dissolveTo('Account_Help')}>
                         <View style={styles.moduleIconContainer}>
                             <ChatTeardropIcon size={24} color={colors.orange_500} />
                         </View>

@@ -62,7 +62,7 @@ export default function WiseMindExercisesScreen() {
                                 }}
                             >
                                 <View className="flex-row items-center mb-3">
-                                    <View className="mr-3 mt-1">
+                                    <View className="mr-3">
                                         <HeartIcon size={24} color={colors.orange_500} />
                                     </View>
                                     <View className="flex-1">

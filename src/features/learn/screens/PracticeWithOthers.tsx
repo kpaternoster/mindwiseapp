@@ -110,6 +110,7 @@ export default function PracticeWithOthersScreen() {
                                 placeholder="What emotions do you think they were feeling?..."
                                 value={emotionGuess}
                                 onChangeText={setEmotionGuess}
+                                multiline
                             />
 
                             {/* Optional: Check Your Accuracy */}

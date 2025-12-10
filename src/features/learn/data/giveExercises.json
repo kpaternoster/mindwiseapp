@@ -1,0 +1,27 @@
+{
+  "title": "GIVE Exercises",
+  "introTitle": "About GIVE",
+  "introText": "GIVE helps you maintain relationships while asking for what you need. Practice being Gentle, showing Interest, Validating others, and using an Easy manner to build stronger connections and get your needs met respectfully.",
+  "exercises": [
+    {
+      "id": 1,
+      "number": 1,
+      "title": "GIVE Reframing",
+      "description": "Recall a tense conversation, imagine it without GIVE, then reframe it using GIVE principles and reflect on the difference."
+    },
+    {
+      "id": 2,
+      "number": 2,
+      "title": "GIVE Practice",
+      "description": "Consciously validate emotions in daily conversations and send a GIVE-style check-in to someone close, noticing responses and connection."
+    },
+    {
+      "id": 3,
+      "title": "Build Connection",
+      "description": "GIVE isn't about being perfect or always agreeing with others. It's about maintaining connection while advocating for yourself. Practice these skills to build stronger relationships and communicate your needs with warmth and respect.",
+      "hasHeartIcon": true,
+      "hasNavigation": false
+    }
+  ]
+}
+
