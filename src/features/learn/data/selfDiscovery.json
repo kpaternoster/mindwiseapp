@@ -1,0 +1,22 @@
+{
+  "title": "Self Discovery",
+  "sections": [
+    {
+      "id": 1,
+      "title": "About Self Discovery",
+      "content": "Self-discovery helps you understand your values, emotions, and beliefs by exploring where they come from. It involves noticing patterns in your thoughts and relationships, tracing limiting beliefs back to their sources, and separating old external messages from your authentic self. By seeing which beliefs no longer serve you, you can choose new perspectives that better align with who you want to become."
+    },
+    {
+      "id": 2,
+      "title": "Example",
+      "content": "Jordan felt rejected when friends didn't reply quickly and assumed they were being annoying. Through self-discovery, they realized this pattern came from growing up with emotionally inconsistent parents. With this insight, Jordan paused before pulling away and chose to reach out with curiosity instead of jumping to self-criticism or isolation."
+    },
+    {
+      "id": 3,
+      "title": "Remember",
+      "content": "Self-discovery isn't about fixing yourself—it's understanding where pain came from so you stop confusing it for your identity. Take it one step at a time; you have power to change your life.",
+      "backgroundColor": "#FDF4EE"
+    }
+  ],
+  "buttonText": "Try Self-discovery Exercises"
+}

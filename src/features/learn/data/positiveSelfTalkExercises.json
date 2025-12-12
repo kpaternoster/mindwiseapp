@@ -1,0 +1,26 @@
+{
+  "title": "Positive Self-Talk Exercises",
+  "introText": "When you constantly tell yourself negative things, it strengthens those muscles in your brain which makes it easier to keep thinking negatively. It can also make it harder to build positive interpersonal relationships, get through the day, and even get out of bed. Positive self-talk skills give you tools when your thoughts about yourself are dark and lonely.",
+  "introTitle": "About Self Discovery",
+  "exercises": [
+    {
+      "id": 1,
+      "number": 1,
+      "title": "Reframe Negative Self-Talk",
+      "description": "Catch negative thoughts, test their truth, and replace them with compassionate, balanced statements that support your well-being and growth.",
+      "hasNavigation": true
+    },
+    {
+      "id": 2,
+      "number": 2,
+      "title": "Self-Talk Toolkit",
+      "description": "Create a personal bank of encouraging phrases and practice one daily (e.g., mirror, reading, or reminders) to build a supportive inner voice.",
+      "hasNavigation": true
+    }
+  ],
+  "bePatientCard": {
+    "title": "Be Patient With Yourself",
+    "description": "Self-talk is like building a muscle—it takes practice but gets easier with time. Start by catching one negative thought per day and rewriting it more realistically. Consistency matters more than perfection."
+  }
+}
+

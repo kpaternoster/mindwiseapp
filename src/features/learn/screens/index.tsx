@@ -66,6 +66,9 @@ export default function Learn() {
             case "5":
                 dissolveTo('Learn_BuildDistressTolerance');
                 break;
+            case "6":
+                dissolveTo('Learn_BuildSelfLove');
+                break;
             default:
                 console.log("Navigate to category:", categoryId);
                 break;

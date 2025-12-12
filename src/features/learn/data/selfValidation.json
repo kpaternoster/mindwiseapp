@@ -1,0 +1,23 @@
+{
+  "title": "Self Validation",
+  "sections": [
+    {
+      "id": 1,
+      "title": "About Self Validation",
+      "content": "Self-validation recognizes your emotions, thoughts, and experiences as understandable and valid, even when painful or difficult. It develops a compassionate inner voice instead of harsh self-criticism by acknowledging that your feelings make sense given your circumstances and history. This skill involves observing your emotional responses without judgment, understanding why you might feel this way, and treating yourself with the same kindness you'd offer a friend. Self-validation doesn't mean agreeing with every emotion or thought, but rather accepting them as part of your human experience while maintaining self-respect and emotional awareness."
+    },
+    {
+      "id": 2,
+      "title": "Example",
+      "content": "Maya felt overwhelming shame after a fight with her fiancé, unable to get out of bed. Using self-validation, she acknowledged her tight throat and heavy stomach, accepted that shame was something she'd struggled with before, and understood it made sense given her history of being called 'crazy' during conflicts. This helped her feel more grounded and ready to address the situation constructively."
+    },
+    {
+      "id": 3,
+      "title": "Remember",
+      "content": "Self-validation isn't about agreeing with emotions —it's acknowledging them without judgment. Your pain is real, and you deserve kindness from yourself. Practice builds a more compassionate inner voice.",
+      "backgroundColor": "#FDF4EE"
+    }
+  ],
+  "buttonText": "Try Self-Validation Exercises"
+}
+

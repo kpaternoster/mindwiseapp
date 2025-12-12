@@ -1,0 +1,19 @@
+{
+  "title": "Self Validation Exercises",
+  "introText": "Self-validation is a fundamental skill in DBT (Dialectical Behavior Therapy) that involves acknowledging your emotions, thoughts, and experiences as understandable and valid – even when they're painful or you wish you felt differently.",
+  "introTitle": "About Self Validation",
+  "exercises": [
+    {
+      "id": 1,
+      "number": 1,
+      "title": "Self-Validation Practice",
+      "description": "Practice acknowledging your emotions, accepting them without judgment, and responding with compassion through structured validation steps.",
+      "hasNavigation": true
+    }
+  ],
+  "bePatientCard": {
+    "title": "Be Patient With Yourself",
+    "description": "Self-validation isn't about agreeing with every thought or feeling—it's about acknowledging that your emotions make sense given your experience. Practice treating yourself with the same kindness you'd offer a good friend."
+  }
+}
+

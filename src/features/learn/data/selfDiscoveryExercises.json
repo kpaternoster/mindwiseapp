@@ -1,0 +1,19 @@
+{
+  "title": "Self Discovery Exercises",
+  "introText": "Self-discovery isn't about fixing yourself—it's about understanding where your pain came from, so you stop confusing it for your identity. The more you uncover and untangle, the more room you make for truth, compassion, and change.",
+  "introTitle": "About Self Discovery",
+  "exercises": [
+    {
+      "id": 1,
+      "number": 1,
+      "title": "Origins",
+      "description": "Explore unhelpful patterns, understand where limiting beliefs originated, and practice self-compassion to create space for change and growth.",
+      "hasNavigation": true
+    }
+  ],
+  "bePatientCard": {
+    "title": "Be Patient With Yourself",
+    "description": "The more you patiently practice identifying emotions, the better you'll become at understanding and managing them with compassion."
+  }
+}
+

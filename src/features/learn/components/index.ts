@@ -100,4 +100,12 @@ export { DifferentActionIdentifyEmotionalUrgesEntryCard } from './DifferentActio
 export type { DifferentActionIdentifyEmotionalUrgesEntry } from './DifferentActionIdentifyEmotionalUrgesEntryCard';
 export { HalfSmilingEntryCard } from './HalfSmilingEntryCard';
 export type { HalfSmilingEntry } from './HalfSmilingEntryCard';
+export { SelfDiscoveryOriginEntryCard } from './SelfDiscoveryOriginEntryCard';
+export type { SelfDiscoveryOriginEntry } from './SelfDiscoveryOriginEntryCard';
+export { SelfTalkToolkitEntryCard } from './SelfTalkToolkitEntryCard';
+export type { SelfTalkToolkitEntry } from './SelfTalkToolkitEntryCard';
+export { SelfValidationPracticeEntryCard } from './SelfValidationPracticeEntryCard';
+export type { SelfValidationPracticeEntry } from './SelfValidationPracticeEntryCard';
+export { ReframeNegativeSelfTalkEntryCard } from './ReframeNegativeSelfTalkEntryCard';
+export type { ReframeNegativeSelfTalkEntry } from './ReframeNegativeSelfTalkEntryCard';
 

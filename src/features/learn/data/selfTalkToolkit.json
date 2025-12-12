@@ -1,0 +1,46 @@
+{
+  "title": "Self-Talk Toolkit",
+  "sections": [
+    {
+      "id": "listAccomplishments",
+      "title": "List Your Accomplishments",
+      "instruction": "Write down things you've accomplished, big or small. Include challenges you've overcome, skills you've learned, or goals you've achieved.",
+      "placeholder": "Examples: Graduated high school, learned to cook, helped a friend through a tough time, got through a difficult period..."
+    },
+    {
+      "id": "createEncouragingPhrases",
+      "title": "Create Encouraging Phrases",
+      "instruction": "Write encouraging phrases that feel true and supportive. These should be realistic and compassionate.",
+      "placeholder": "Examples: 'I'm learning and growing every day', 'I deserve kindness, especially from myself', 'I'm doing the best I can with what I have'..."
+    },
+    {
+      "id": "saveKindMessages",
+      "title": "Save Kind Messages",
+      "instruction": "Write down kind things others have said about you, compliments you've received, or supportive messages you want to remember.",
+      "placeholder": "Include compliments, thank you notes, positive feedback, or encouraging words from friends, family, teachers, or colleagues..."
+    },
+    {
+      "id": "collectGoodMemories",
+      "title": "Collect Good Memories",
+      "instruction": "Write about positive memories, moments when you felt proud, happy, or successful. These are your emotional anchors for tough times.",
+      "placeholder": "Describe specific moments: times you felt proud, happy memories with loved ones, moments of success or joy..."
+    },
+    {
+      "id": "chooseDailyPractice",
+      "title": "Choose Your Daily Practice",
+      "instruction": "Pick one encouraging phrase or affirmation from your toolkit to practice daily. Choose something that feels authentic and supportive.",
+      "placeholder": "Write the specific phrase you want to practice daily..."
+    },
+    {
+      "id": "practiceMethod",
+      "title": "Practice Method",
+      "instruction": "How will you practice your daily phrase? Choose a method that works for your lifestyle.",
+      "placeholder": "Examples: Say it in the mirror each morning, write it in a journal, set phone reminders, read it before bed..."
+    }
+  ],
+  "buttons": {
+    "view": "View",
+    "save": "Save"
+  }
+}
+

@@ -44,6 +44,21 @@ import ProblemSolvingEntriesScreen from '@features/learn/screens/ProblemSolvingE
 import ProblemSolvingEntryDetailScreen from '@features/learn/screens/ProblemSolvingEntryDetail';
 import ImproveInterpersonalEffectivenessScreen from '@features/learn/screens/ImproveInterpersonalEffectiveness';
 import BuildDistressToleranceScreen from '@features/learn/screens/BuildDistressTolerance';
+import BuildSelfLoveScreen from '@features/learn/screens/BuildSelfLove';
+import SelfDiscoveryScreen from '@features/learn/screens/SelfDiscovery';
+import SelfDiscoveryExercisesScreen from '@features/learn/screens/SelfDiscoveryExercises';
+import SelfDiscoveryOriginsScreen from '@features/learn/screens/SelfDiscoveryOrigins';
+import SelfDiscoveryOriginEntriesScreen from '@features/learn/screens/SelfDiscoveryOriginEntries';
+import PositiveSelfTalkScreen from '@features/learn/screens/PositiveSelfTalk';
+import PositiveSelfTalkExercisesScreen from '@features/learn/screens/PositiveSelfTalkExercises';
+import ReframeNegativeSelfTalkScreen from '@features/learn/screens/ReframeNegativeSelfTalk';
+import ReframeNegativeSelfTalkEntriesScreen from '@features/learn/screens/ReframeNegativeSelfTalkEntries';
+import SelfTalkToolkitScreen from '@features/learn/screens/SelfTalkToolkit';
+import SelfTalkToolkitEntriesScreen from '@features/learn/screens/SelfTalkToolkitEntries';
+import SelfValidationScreen from '@features/learn/screens/SelfValidation';
+import SelfValidationExercisesScreen from '@features/learn/screens/SelfValidationExercises';
+import SelfValidationPracticeScreen from '@features/learn/screens/SelfValidationPractice';
+import SelfValidationPracticeEntriesScreen from '@features/learn/screens/SelfValidationPracticeEntries';
 import TIPPScreen from '@features/learn/screens/TIPP';
 import TIPPExercisesScreen from '@features/learn/screens/TIPPExercises';
 import STOPScreen from '@features/learn/screens/STOP';
@@ -260,6 +275,21 @@ export default function HomeNavigator() {
             <Stack.Screen name="Learn_ProblemSolvingEntryDetail" component={ProblemSolvingEntryDetailScreen} />
             <Stack.Screen name="Learn_ImproveInterpersonalEffectiveness" component={ImproveInterpersonalEffectivenessScreen} />
             <Stack.Screen name="Learn_BuildDistressTolerance" component={BuildDistressToleranceScreen} />
+            <Stack.Screen name="Learn_BuildSelfLove" component={BuildSelfLoveScreen} />
+            <Stack.Screen name="Learn_SelfDiscovery" component={SelfDiscoveryScreen} />
+            <Stack.Screen name="Learn_SelfDiscoveryExercises" component={SelfDiscoveryExercisesScreen} />
+            <Stack.Screen name="Learn_SelfDiscoveryOrigins" component={SelfDiscoveryOriginsScreen} />
+            <Stack.Screen name="Learn_SelfDiscoveryOriginEntries" component={SelfDiscoveryOriginEntriesScreen} />
+            <Stack.Screen name="Learn_PositiveSelfTalk" component={PositiveSelfTalkScreen} />
+            <Stack.Screen name="Learn_PositiveSelfTalkExercises" component={PositiveSelfTalkExercisesScreen} />
+            <Stack.Screen name="Learn_ReframeNegativeSelfTalk" component={ReframeNegativeSelfTalkScreen} />
+            <Stack.Screen name="Learn_ReframeNegativeSelfTalkEntries" component={ReframeNegativeSelfTalkEntriesScreen} />
+            <Stack.Screen name="Learn_SelfTalkToolkit" component={SelfTalkToolkitScreen} />
+            <Stack.Screen name="Learn_SelfTalkToolkitEntries" component={SelfTalkToolkitEntriesScreen} />
+            <Stack.Screen name="Learn_SelfValidation" component={SelfValidationScreen} />
+            <Stack.Screen name="Learn_SelfValidationExercises" component={SelfValidationExercisesScreen} />
+            <Stack.Screen name="Learn_SelfValidationPractice" component={SelfValidationPracticeScreen} />
+            <Stack.Screen name="Learn_SelfValidationPracticeEntries" component={SelfValidationPracticeEntriesScreen} />
             <Stack.Screen name="Learn_TIPP" component={TIPPScreen} />
             <Stack.Screen name="Learn_TIPPExercises" component={TIPPExercisesScreen} />
             <Stack.Screen name="Learn_STOP" component={STOPScreen} />

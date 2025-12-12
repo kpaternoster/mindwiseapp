@@ -1,0 +1,45 @@
+{
+  "title": "Build Self-Love",
+  "totalSkills": 3,
+  "completedSkills": 0,
+  "progressPercentage": 0,
+  "sections": [
+    {
+      "id": "intro",
+      "icon": true,
+      "title": "Develop self-compassion and self-regard",
+      "description": "Self-love skills teach you to treat yourself with kindness and compassion. We use these skills to counter self-criticism and build a healthier relationship with yourself. These practices help you develop self-acceptance, speak to yourself kindly, and validate your own experiences and emotions."
+    }
+  ],
+  "skills": [
+    {
+      "id": 1,
+      "title": "Self Discovery",
+      "duration": "25 min",
+      "difficulty": "Intermediate",
+      "description": "Discover yourself to change your future.",
+      "tags": ["Origins"]
+    },
+    {
+      "id": 2,
+      "title": "Self-Talk",
+      "duration": "20 min",
+      "difficulty": "Beginner",
+      "description": "Shift the way you talk to yourself to shift the way you feel.",
+      "tags": ["Self-Talk Worksheet"]
+    },
+    {
+      "id": 3,
+      "title": "Self Validation",
+      "duration": "22 min",
+      "difficulty": "Intermediate",
+      "description": "Acknowledge your emotions without judgment.",
+      "tags": ["Self-Validation Practice"]
+    }
+  ],
+  "keepLearning": {
+    "title": "Keep Learning!",
+    "description": "Complete skills to earn leaves and grow your tree. Each completed skill gives you 5 leaves! 🌱"
+  }
+}
+

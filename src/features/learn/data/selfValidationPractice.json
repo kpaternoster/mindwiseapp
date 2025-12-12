@@ -1,0 +1,48 @@
+{
+  "title": "Self-Validation Practice",
+  "sections": [
+    {
+      "id": "acknowledge",
+      "title": "Acknowledge",
+      "instruction": "First, try to notice what you're feeling without changing it. Let's say you make a mistake at work and immediately start experiencing intense self-hatred. Instead of pushing the feeling away or attacking yourself, try to observe your emotions, thoughts, and urges: 'I'm noticing that I'm feeling shame and self-hatred right now. My chest feels tight, and my thoughts are getting really dark.'",
+      "placeholder": "What are you noticing right now? Describe your emotions, physical sensations, and thoughts without trying to change them..."
+    },
+    {
+      "id": "accept",
+      "title": "Accept",
+      "subsections": [
+        {
+          "id": "acceptEmotion",
+          "title": "Accept Emotion",
+          "instruction": "Allow yourself to experience the emotion and tell yourself that it is okay that you are having this experience. You may tell yourself, 'I have experienced strong emotions before. I don't like how I feel, but it won't hurt me.' Or even something as simple as 'This is how I feel right now.'",
+          "placeholder": "How can you accept this emotion without trying to fix or change it? What would you tell yourself to allow these feelings to be present?"
+        },
+        {
+          "id": "understandEmotion",
+          "title": "Understand Emotion",
+          "instruction": "Try to look for the understandable part. Even if you don't like the feeling, try to see how it makes sense given your history and circumstances: 'Of course, I'm feeling this way - I grew up believing I had to be perfect to be worthy of love. Anyone with my experiences might feel similar.' or 'This self-hatred feels overwhelming right now, and that makes sense given everything I've been through. My feelings are valid responses to real experiences.'",
+          "placeholder": "How does this emotional response make sense given your history, values, and circumstances? Why is it understandable that you would feel this way?"
+        }
+      ]
+    },
+    
+    {
+      "id": "respond",
+      "title": "Respond",
+      "instruction":"What evidence contradicts this negative thought? Include times when the opposite was true.",
+      "subsections": [
+        {
+          "id": "offerCompassion",
+          "title": "Offer Compassion",
+          "instruction": "Respond to yourself with the same compassion you would offer a good friend. What would you say to comfort and support yourself in this moment? How can you treat yourself with kindness and understanding?",
+          "placeholder": "How can you offer yourself compassion right now? What kind words or actions would help you feel supported and cared for?"
+        }
+      ]
+    }
+  ],
+  "buttons": {
+    "view": "View",
+    "save": "Save"
+  }
+}
+

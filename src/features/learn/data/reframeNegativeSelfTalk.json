@@ -1,0 +1,46 @@
+{
+  "title": "Reframe Negative Self-Talk",
+  "sections": [
+    {
+      "id": "catchNegativeThoughts",
+      "title": "Catch Negative Thoughts",
+      "instruction": "Write down specific negative thoughts you've been having about yourself. Be honest and specific.",
+      "subheading": "Negative Thought 1",
+      "placeholder": "Example: 'I'm terrible at everything I try' or 'Nobody really likes me'",
+      "addButtonText": "Add Another Negative Thought"
+    },
+    {
+      "id": "evidenceFor",
+      "title": "Evidence For",
+      "instruction": "What evidence supports this negative thought? Be specific and factual.",
+      "subheading": "List evidence that supports this thought",
+      "placeholder": "List specific examples or situations that seem to support this thought..."
+    },
+    {
+      "id": "evidenceAgainst",
+      "title": "Evidence Against",
+      "instruction": "What evidence contradicts this negative thought? Include times when the opposite was true.",
+      "subheading": "List evidence that contradicts this thought",
+      "placeholder": "List examples of times when this thought wasn't true, accomplishments, positive feedback..."
+    },
+    {
+      "id": "friendsPerspective",
+      "title": "Friend's Perspective",
+      "instruction": "What would you say to a good friend who had this same negative thought about themselves?",
+      "subheading": "What would you tell a friend in this situation?",
+      "placeholder": "Write the compassionate, supportive response you'd give to a friend..."
+    },
+    {
+      "id": "balancedThought",
+      "title": "Balanced Thought",
+      "instruction": "Based on the evidence and your friend's perspective, write a more balanced, compassionate thought.",
+      "subheading": "Create your balanced, compassionate thought",
+      "placeholder": "Example: 'I'm learning and growing. Sometimes I struggle, but I also have successes and people who care about me.'"
+    }
+  ],
+  "buttons": {
+    "view": "View",
+    "save": "Save"
+  }
+}
+

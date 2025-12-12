@@ -1,0 +1,38 @@
+{
+  "title": "Origins",
+  "intro": {
+    "description": "Explore unhelpful patterns, understand where limiting beliefs originated, and practice self-compassion to create space for change and growth."
+  },
+  "sections": [
+    {
+      "id": "origins",
+      "title": "Origins",
+      "subsections": [
+        {
+          "id": "unhelpfulStories",
+          "title": "Unhelpful Stories",
+          "prompt": "What stories do you tell yourself that leave you feeling worthless or unlovable?",
+          "placeholder": "Unhelpful story..."
+        },
+        {
+          "id": "storyOrigins",
+          "title": "Story Origins",
+          "prompt": "Where did these beliefs originate? Connect each story to its source.",
+          "storyPlaceholder": "The unhelpful story...",
+          "originPlaceholder": "Where did this belief come from? Family, experiences, culture..."
+        }
+      ]
+    },
+    {
+      "id": "compassion",
+      "title": "Compassion",
+      "description": "Treat yourself with the same care and kindness that you would a good friend. Remind yourself: these patterns were adaptation. What other options do you have? If your self-hatred tells you to shut down, isolate, or punish yourself, what would it look like to do the opposite? To reach out, to rest, or to speak kindly to yourself?",
+      "placeholder": "How can you respond to yourself with compassion? What would kindness look like? What opposite actions could you take when self-criticism arises?"
+    }
+  ],
+  "buttons": {
+    "view": "View",
+    "save": "Save"
+  }
+}
+
