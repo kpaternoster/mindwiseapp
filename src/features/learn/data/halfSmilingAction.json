@@ -1,0 +1,47 @@
+{
+  "title": "Half-Smile in Action",
+  "introText": "Select a specific daily activity and incorporate Half-Smile during that time. Notice how this simple practice shifts your focus or emotional state during routine moments.",
+  "activities": [
+    "Washing dishes",
+    "Walking to class or work",
+    "Waiting in line",
+    "Riding public transit",
+    "Doing household chores",
+    "Taking a shower",
+    "Eating a meal",
+    "Checking email",
+    "During a meeting",
+    "Before a difficult conversation"
+  ],
+  "sections": [
+    {
+      "id": "beforeStarting",
+      "title": "Before Starting",
+      "description": "How do you feel before starting the activity? Note your mood and energy level.",
+      "placeholder": "e.g., Feeling rushed, a bit stressed, mind is busy..."
+    },
+    {
+      "id": "duringActivity",
+      "title": "During the Activity",
+      "description": "What did you notice while maintaining Half-Smile during the activity?",
+      "placeholder": "e.g., I noticed my thoughts slowing down, the activity felt less like a chore..."
+    },
+    {
+      "id": "afterFinishing",
+      "title": "After Finishing",
+      "description": "How do you feel after completing the activity with Half-Smile?",
+      "placeholder": "e.g., More relaxed, accomplished, present..."
+    },
+    {
+      "id": "whatChanged",
+      "title": "What Changed?",
+      "description": "Overall, how did Half-Smile shift your focus or emotional state during this activity?",
+      "placeholder": "Reflect on the difference Half-Smile made..."
+    }
+  ],
+  "buttons": {
+    "view": "View",
+    "save": "Save"
+  }
+}
+

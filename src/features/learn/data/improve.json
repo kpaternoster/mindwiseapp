@@ -1,0 +1,23 @@
+{
+  "title": "IMPROVE",
+  "sections": [
+    {
+      "id": 1,
+      "title": "About IMPROVE",
+      "content": "IMPROVE offers seven quick strategies to help you cope with intense emotions in the moment. It stands for: **Imagery** (visualizing calm or empowering scenes), **Meaning** (finding purpose in the experience), **Prayer** (spiritual connection), **Relaxation** (calming your body), **One thing in the moment** (deep focus on one activity), **Vacation** (a brief mental or physical break), and **Encouragement** (supportive self-talk). Each option gives you a different way to feel grounded and comforted during emotional overwhelm."
+    },
+    {
+      "id": 2,
+      "title": "Example",
+      "content": "After a tense talk with their parents, Sai felt overwhelmed and reactive. Using IMPROVE, they pictured a peaceful mountain trail (Imagery), reminded themselves these conversations help them grow (Meaning), said a quiet prayer (Prayer), relaxed their body (Relaxation), focused on folding a blanket (One thing), stepped outside to listen to birds (Vacation), and told themselves \"I'm doing the best I can\" (Encouragement). These steps helped Sai feel calmer and more in control."
+    },
+    {
+      "id": 3,
+      "title": "Remember",
+      "content": "IMPROVE isn't about making everything perfect. It's about finding small, meaningful ways to bring comfort and care to yourself when you need it most—one small step at a time.",
+      "backgroundColor": "#FDF4EE"
+    }
+  ],
+  "buttonText": "Try IMPROVE Exercises"
+}
+

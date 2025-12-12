@@ -1,0 +1,41 @@
+{
+  "title": "Emotion Mapping",
+  "introText": "Think back to a recent situation where you felt overwhelmed. By mapping your emotions and reflecting on how Half-Smile could have helped, you'll be better prepared to use this skill in the future.",
+  "sections": [
+    {
+      "id": "situation",
+      "title": "The Situation",
+      "description": "Describe a recent situation where you felt overwhelmed or emotionally reactive.",
+      "placeholder": "What happened? Where were you? Who was involved?"
+    },
+    {
+      "id": "emotions",
+      "title": "Emotions Experienced",
+      "description": "What emotions did you experience? Try to name them specifically.",
+      "placeholder": "e.g., Frustration, anxiety, anger, sadness, overwhelm..."
+    },
+    {
+      "id": "bodyResponse",
+      "title": "Body Response",
+      "description": "How did your body react? Notice tension, breathing changes, or physical sensations.",
+      "placeholder": "e.g., Tight shoulders, clenched jaw, rapid heartbeat, shallow breathing..."
+    },
+    {
+      "id": "halfSmileHelp",
+      "title": "How Half-Smile Could Help",
+      "description": "Reflect on whether using Half-Smile could have helped in this situation. How might it have changed your experience?",
+      "placeholder": "e.g., It could have relaxed my face and signaled my body to calm down, creating space before reacting..."
+    },
+    {
+      "id": "futurePlan",
+      "title": "Future Plan",
+      "description": "How will you incorporate Half-Smile into similar future situations?",
+      "placeholder": "e.g., When I notice my jaw clenching, I'll pause and adopt a half-smile before responding...."
+    }
+  ],
+  "buttons": {
+    "view": "View",
+    "save": "Save"
+  }
+}
+

@@ -1,0 +1,20 @@
+{
+  "title": "Reflective Practice",
+  "introText": "Recall a recent moment when emotions ran high. Write down how using the STOP skill might have changed the outcome and what you learned.",
+  "inputs": {
+    "situation": {
+      "label": "Situation:",
+      "placeholder": "Describe a recent moment when emotions ran high..."
+    },
+    "reflection": {
+      "label": "Reflection & Learning:",
+      "placeholder": "How might using STOP have changed the outcome? What did you learn?"
+    }
+  },
+  "buttons": {
+    "addAnotherEntry": "Add Another Entry",
+    "view": "View",
+    "save": "Save"
+  }
+}
+

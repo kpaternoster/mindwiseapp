@@ -12,6 +12,7 @@ interface ExerciseCardProps {
     difficulty?: 'Beginner' | 'Intermediate' | 'Advanced';
     tags?: string[];
     onPress?: () => void;
+    isNavigation?: boolean;
 }
 
 export const ExerciseCard: React.FC<ExerciseCardProps> = ({
@@ -22,6 +23,7 @@ export const ExerciseCard: React.FC<ExerciseCardProps> = ({
     difficulty,
     tags = [],
     onPress,
+    isNavigation = true,
 }) => {
     const getDifficultyColor = () => {
         switch (difficulty) {
@@ -73,7 +75,9 @@ export const ExerciseCard: React.FC<ExerciseCardProps> = ({
                     </Text>
 
                 </View>
-                <ArrowRightIcon size={16} color={colors.gray_medium} />
+                {isNavigation && (
+                    <ArrowRightIcon size={16} color={colors.gray_medium} />
+                )}
             </View>
             {(duration || difficulty) && (
                 <View className="flex-row items-center justify-start gap-2 mb-3">

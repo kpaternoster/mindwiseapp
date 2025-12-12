@@ -74,7 +74,7 @@ export const FastStartSmallEntryCard: React.FC<FastStartSmallEntryCardProps> = (
                         <EyeIcon size={20} color={colors.text_secondary} />
                     </Pressable>
                     <Pressable onPress={() => onDelete(entry.id)}>
-                        <TrashIcon size={20} color={colors.muted_coral} />
+                        <TrashIcon size={16} color={colors.muted_coral} />
                     </Pressable>
                 </View>
             </View>

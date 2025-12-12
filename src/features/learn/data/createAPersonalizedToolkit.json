@@ -1,0 +1,12 @@
+{
+  "title": "Create a Personalized Toolkit",
+  "introText": "Which parts of IMPROVE resonate most with you? Write them down and keep the list handy for moments of distress. Customize for your preferences.",
+  "input": {
+    "placeholder": "Which parts of IMPROVE resonate most with you? List them and describe how you'll use each in moments of distress."
+  },
+  "buttons": {
+    "view": "View",
+    "save": "Save"
+  }
+}
+

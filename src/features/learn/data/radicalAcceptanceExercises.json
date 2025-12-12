@@ -1,0 +1,41 @@
+  {
+    "title": "Radical Acceptance Exercises",
+    "introText": "Take your time with these calming exercises to build emotional awareness and expand your ability to identify and name feelings with kindness toward yourself.",
+    "exercises": [
+      {
+        "id": 1,
+        "number": 1,
+        "title": "Acceptance Journal",
+        "description": "Write about a situation that's hard to accept. List the facts without judgment, note emotions that arise. Practice writing a coping statement for each entry.",
+        "hasNavigation": true
+      },
+      {
+        "id": 2,
+        "number": 2,
+        "title": "Daily Practice",
+        "description": "Spend five minutes daily identifying something small you find challenging to accept (delay, mistake). Use Radical Acceptance to process it in real time.",
+        "hasNavigation": false
+      },
+      {
+        "id": 3,
+        "number": 3,
+        "title": "Coping Statements List",
+        "description": "Create personal list of affirmations like 'I cannot change the past, but I can choose my response.' Refer to it when emotions run high.",
+        "hasNavigation": true
+      },
+      {
+        "id": 4,
+        "number": 4,
+        "title": "Acceptance Visualization",
+        "description": "Imagine yourself letting go of resistance, like releasing a balloon into the sky. Reflect on how this feels emotionally and physically.",
+        "hasNavigation": false
+      },
+      {
+        "id": 5,
+        "title": "Be Patient With Yourself",
+        "description": "The more you patiently practice identifying emotions, the better you'll become at understanding and managing them with compassion.",
+        "hasHeartIcon": true,
+        "hasNavigation": false
+      }
+    ]
+  }

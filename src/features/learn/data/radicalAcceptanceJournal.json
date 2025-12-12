@@ -1,0 +1,28 @@
+{
+  "title": "Acceptance Journal",
+  "introText": "Write about a situation that's hard to accept. List the facts without judgment, note emotions that arise. Practice writing a coping statement for each entry.",
+  "inputs": {
+    "situation": {
+      "label": "Situation That's Hard to Accept:",
+      "placeholder": "Describe the situation you're struggling to accept..."
+    },
+    "facts": {
+      "label": "Facts Without Judgment",
+      "placeholder": "List the facts objectively, without judgment..."
+    },
+    "emotions": {
+      "label": "Emotions That Arise",
+      "placeholder": "Note the emotions you're experiencing..."
+    },
+    "copingStatement": {
+      "label": "Coping Statement:",
+      "placeholder": "Write a coping statement to help you accept this situation..."
+    }
+  },
+  "buttons": {
+    "addAnotherEntry": "Add Another Entry",
+    "view": "View",
+    "save": "Save"
+  }
+}
+

@@ -1,0 +1,23 @@
+{
+  "title": "STOP",
+  "sections": [
+    {
+      "id": 1,
+      "title": "About STOP",
+      "content": "STOP is a crisis skill that helps you pause before acting on intense emotions. The steps are: **Stop** (freeze and don't react), **Take a step back** (physically or mentally), **Observe** your thoughts, feelings, and body sensations without judgment, and **Proceed** mindfully, choosing an action that aligns with your values—not your impulses. STOP creates space between emotion and action, helping you avoid impulsive decisions during moments of anger, panic, or overwhelm."
+    },
+    {
+      "id": 2,
+      "title": "Example",
+      "content": "Sky felt a strong urge to engage in harmful eating behaviors after a stressful day. Using STOP, they froze, stepped away from the kitchen, and observed their racing thoughts and tight chest without judgment. Then they chose to text a friend and journal instead of acting on the urge. This helped Sky break the cycle and cope in a healthier way."
+    },
+    {
+      "id": 3,
+      "title": "Remember",
+      "content": "The STOP skill gives you the power to pause and choose how to respond, even in life's most challenging moments. It's a practice of mindfulness in action, helping you navigate emotional storms with clarity.",
+      "backgroundColor": "#FDF4EE"
+    }
+  ],
+  "buttonText": "Try STOP Exercises"
+}
+

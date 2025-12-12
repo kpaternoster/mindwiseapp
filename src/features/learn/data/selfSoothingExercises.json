@@ -1,0 +1,41 @@
+{
+  "title": "Self Soothing Exercises",
+  "introText": "Take your time with these calming exercises to build emotional awareness and expand your ability to identify and name feelings with kindness toward yourself.",
+  "exercises": [
+    {
+      "id": 1,
+      "number": 1,
+      "title": "Five Senses Inventory",
+      "description": "Create a personalized list of self-soothing activities for each sense. Keep it handy for moments of distress and update it regularly with new discoveries.",
+      "hasNavigation": true
+    },
+    {
+      "id": 2,
+      "number": 2,
+      "title": "Soothing Space Creation",
+      "description": "Designate a calming area at home with comforting items like soft fabrics, scented candles, or calming music. Make it your go-to place for self-care.",
+      "hasNavigation": false
+    },
+    {
+      "id": 3,
+      "number": 3,
+      "title": "Mindful Soothing Exercise",
+      "description": "Pick one sensory activity and focus entirely on it for five minutes. Observe how it affects your mood and body with patience and curiosity.",
+      "hasNavigation": false
+    },
+    {
+      "id": 4,
+      "number": 4,
+      "title": "Reflection Journal",
+      "description": "After using Self-Soothing, write about the experience with compassion. What worked? What didn't? How did it impact your emotional state?",
+      "hasNavigation": true
+    },
+    {
+      "id": 5,
+      "title": "Be Patient With Yourself",
+      "description": "The more you patiently practice identifying emotions, the better you'll become at understanding and managing them with compassion.",
+      "hasHeartIcon": true,
+      "hasNavigation": false
+    }
+  ]
+}

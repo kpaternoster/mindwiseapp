@@ -1,0 +1,60 @@
+{
+  "title": "Different Action Exercises",
+  "introText": "Take your time with these calming exercises to build emotional awareness and expand your ability to identify and name feelings with kindness toward yourself.",
+  "exercises": [
+    {
+      "id": 1,
+      "number": 1,
+      "title": "Identify Emotional Urges",
+      "description": "Write down common emotional urges you experience (avoiding, yelling, isolating) and brainstorm different or opposite actions for each one.",
+      "hasNavigation": true
+    },
+    {
+      "id": 2,
+      "number": 2,
+      "title": "Rapid Different Action Practice",
+      "description": "Choose one emotional urge to target each day. When the urge arises, immediately act in different or opposite way and note how it feels.",
+      "hasNavigation": false,
+      "hasOptions": true,
+      "options": [
+        {
+          "id": 1,
+          "title": "Opposite action 1",
+          "description": "Description 1"
+        },
+        {
+          "id": 2,
+          "title": "Opposite action 2",
+          "description": "Description 2"
+        },
+        {
+          "id": 3,
+          "title": "Opposite action 3",
+          "description": "Description 3"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "number": 3,
+      "title": "Commitment Phrases",
+      "description": "Practice saying commitment phrases like 'I'm stepping in' or 'This is the different action I'm choosing' to reinforce the skill in the moment.",
+      "hasNavigation": false
+    },
+    {
+      "id": 4,
+      "number": 4,
+      "title": "Flash Card Prompts",
+      "description": "Create flashcards with emotional urges on one side and their different actions on the other. Use as quick reference tool when emotions arise.",
+      "hasNavigation": true
+    },
+    {
+      "id": 5,
+      "title": "Be Patient With Yourself",
+      "description": "The more you patiently practice identifying emotions, the better you'll become at understanding and managing them with compassion.",
+      "hasHeartIcon": true,
+      "hasNavigation": false
+    }
+  ]
+}
+

@@ -12,8 +12,7 @@ export default function TIPPScreen() {
     const { title, sections, buttonText } = tippData;
 
     const handleButtonPress = () => {
-        // TODO: Navigate to TIPP Exercises screen when created
-        console.log('Navigate to TIPP Exercises');
+        dissolveTo('Learn_TIPPExercises');
     };
 
     return (

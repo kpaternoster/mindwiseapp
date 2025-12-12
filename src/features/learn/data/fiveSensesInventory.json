@@ -1,0 +1,36 @@
+{
+  "title": "Five Senses Inventory",
+  "introText": "Create a personalized list of self-soothing activities for each sense. Keep it handy for moments of distress and update it regularly with new discoveries.",
+  "senses": [
+    {
+      "id": "sight",
+      "label": "Sight:",
+      "placeholder": "Self-soothing activities for sight..."
+    },
+    {
+      "id": "sound",
+      "label": "Sound:",
+      "placeholder": "Self-soothing activities for sound..."
+    },
+    {
+      "id": "smell",
+      "label": "Smell:",
+      "placeholder": "Self-soothing activities for smell..."
+    },
+    {
+      "id": "taste",
+      "label": "Taste:",
+      "placeholder": "Self-soothing activities for taste..."
+    },
+    {
+      "id": "touch",
+      "label": "Touch:",
+      "placeholder": "Self-soothing activities for touch..."
+    }
+  ],
+  "buttons": {
+    "view": "View",
+    "save": "Save"
+  }
+}
+

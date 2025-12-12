@@ -1,0 +1,20 @@
+{
+  "title": "Identify Triggers",
+  "introText": "Create a personalized list of self-soothing activities for each sense. Keep it handy for moments of distress and update it regularly with new discoveries.",
+  "inputs": {
+    "overwhelmingSituation": {
+      "label": "Overwhelming Situation:",
+      "placeholder": "Describe a recent overwhelming situation..."
+    },
+    "improveStrategies": {
+      "label": "IMPROVE Strategies:",
+      "placeholder": "How could you use each part of IMPROVE to manage this? Be specific for each letter."
+    }
+  },
+  "buttons": {
+    "addAnotherEntry": "Add Another Entry",
+    "view": "View",
+    "save": "Save"
+  }
+}
+

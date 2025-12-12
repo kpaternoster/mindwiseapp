@@ -45,6 +45,18 @@ import ProblemSolvingEntryDetailScreen from '@features/learn/screens/ProblemSolv
 import ImproveInterpersonalEffectivenessScreen from '@features/learn/screens/ImproveInterpersonalEffectiveness';
 import BuildDistressToleranceScreen from '@features/learn/screens/BuildDistressTolerance';
 import TIPPScreen from '@features/learn/screens/TIPP';
+import TIPPExercisesScreen from '@features/learn/screens/TIPPExercises';
+import STOPScreen from '@features/learn/screens/STOP';
+import STOPExercisesScreen from '@features/learn/screens/STOPExercises';
+import ReflectivePracticeScreen from '@features/learn/screens/ReflectivePractice';
+import ReflectivePracticeEntriesScreen from '@features/learn/screens/ReflectivePracticeEntries';
+import StopDrillScreen from '@features/learn/screens/StopDrill';
+import StopDrillEntriesScreen from '@features/learn/screens/StopDrillEntries';
+import StopDrillEntryScreen from '@features/learn/screens/StopDrillEntry';
+import MindfulPauseTimerScreen from '@features/learn/screens/MindfulPauseTimer';
+import MindfulPauseEntryScreen from '@features/learn/screens/MindfulPauseEntry';
+import RolePlayExerciseScreen from '@features/learn/screens/RolePlayExercise';
+import RolePlayEntryScreen from '@features/learn/screens/RolePlayEntry';
 import InterpersonalGoalsScreen from '@features/learn/screens/InterpersonalGoals';
 import InterpersonalGoalsExercisesScreen from '@features/learn/screens/InterpersonalGoalsExercises';
 import ClarifyYourGoalsScreen from '@features/learn/screens/ClarifyYourGoals';
@@ -59,6 +71,36 @@ import SelfReflectionScreen from '@features/learn/screens/SelfReflection';
 import SelfReflectionEntriesScreen from '@features/learn/screens/SelfReflectionEntries';
 import ValidationPracticeScreen from '@features/learn/screens/ValidationPractice';
 import ValidationPracticeEntriesScreen from '@features/learn/screens/ValidationPracticeEntries';
+import SelfSoothingScreen from '@features/learn/screens/SelfSoothing';
+import SelfSoothingExercisesScreen from '@features/learn/screens/SelfSoothingExercises';
+import FiveSensesInventoryScreen from '@features/learn/screens/FiveSensesInventory';
+import FiveSensesInventoryEntriesScreen from '@features/learn/screens/FiveSensesInventoryEntries';
+import ReflectionJournalScreen from '@features/learn/screens/ReflectionJournal';
+import ReflectionJournalEntriesScreen from '@features/learn/screens/ReflectionJournalEntries';
+import ImproveScreen from '@features/learn/screens/Improve';
+import ImproveExercisesScreen from '@features/learn/screens/ImproveExercises';
+import IdentifyTriggersScreen from '@features/learn/screens/IdentifyTriggers';
+import IdentifyTriggersEntriesScreen from '@features/learn/screens/IdentifyTriggersEntries';
+import CreateAPersonalizedToolkitScreen from '@features/learn/screens/CreateAPersonalizedToolkit';
+import CreateAPersonalizedToolkitEntriesScreen from '@features/learn/screens/CreateAPersonalizedToolkitEntries';
+import RadicalAcceptanceScreen from '@features/learn/screens/RadicalAcceptance';
+import RadicalAcceptanceExercisesScreen from '@features/learn/screens/RadicalAcceptanceExercises';
+import RadicalAcceptanceJournalScreen from '@features/learn/screens/RadicalAcceptanceJournal';
+import RadicalAcceptanceJournalEntriesScreen from '@features/learn/screens/RadicalAcceptanceJournalEntries';
+import RadicalAcceptanceCopingStatementsListScreen from '@features/learn/screens/RadicalAcceptanceCopingStatementsList';
+import RadicalAcceptanceCopingStatementsListEntriesScreen from '@features/learn/screens/RadicalAcceptanceCopingStatementsListEntries';
+import DifferentActionScreen from '@features/learn/screens/DifferentAction';
+import DifferentActionExercisesScreen from '@features/learn/screens/DifferentActionExercises';
+import DifferentActionIdentifyEmotionalUrgesScreen from '@features/learn/screens/DifferentActionIdentifyEmotionalUrges';
+import DifferentActionIdentifyEmotionalUrgesEntriesScreen from '@features/learn/screens/DifferentActionIdentifyEmotionalUrgesEntries';
+import DifferentActionFlashCardPromptsScreen from '@features/learn/screens/DifferentActionFlashCardPrompts';
+import HalfSmilingScreen from '@features/learn/screens/HalfSmiling';
+import HalfSmilingExercisesScreen from '@features/learn/screens/HalfSmilingExercises';
+import HalfSmilingMindfulHalfSmilePracticeScreen from '@features/learn/screens/HalfSmilingMindfulHalfSmilePractice';
+import HalfSmilingEmotionMappingScreen from '@features/learn/screens/HalfSmilingEmotionMapping';
+import HalfSmilingActionScreen from '@features/learn/screens/HalfSmilingAction';
+import HalfSmilingAnchorPromptScreen from '@features/learn/screens/HalfSmilingAnchorPrompt';
+import HalfSmilingEntriesScreen from '@features/learn/screens/HalfSmilingEntries';
 import BeMindfulScreen from '@features/learn/screens/BeMindful';
 import HereAndNowScreen from '@features/learn/screens/HereAndNow';
 import HereAndNowExercisesScreen from '@features/learn/screens/HereAndNowExercises';
@@ -219,6 +261,14 @@ export default function HomeNavigator() {
             <Stack.Screen name="Learn_ImproveInterpersonalEffectiveness" component={ImproveInterpersonalEffectivenessScreen} />
             <Stack.Screen name="Learn_BuildDistressTolerance" component={BuildDistressToleranceScreen} />
             <Stack.Screen name="Learn_TIPP" component={TIPPScreen} />
+            <Stack.Screen name="Learn_TIPPExercises" component={TIPPExercisesScreen} />
+            <Stack.Screen name="Learn_STOP" component={STOPScreen} />
+            <Stack.Screen name="Learn_STOPExercises" component={STOPExercisesScreen} />
+            <Stack.Screen name="Learn_ReflectivePractice" component={ReflectivePracticeScreen} />
+            <Stack.Screen name="Learn_ReflectivePracticeEntries" component={ReflectivePracticeEntriesScreen} />
+            <Stack.Screen name="Learn_StopDrill" component={StopDrillScreen} />
+            <Stack.Screen name="Learn_StopDrillEntries" component={StopDrillEntriesScreen} />
+            <Stack.Screen name="Learn_StopDrillEntry" component={StopDrillEntryScreen} />
             <Stack.Screen name="Learn_InterpersonalGoals" component={InterpersonalGoalsScreen} />
             <Stack.Screen name="Learn_InterpersonalGoalsExercises" component={InterpersonalGoalsExercisesScreen} />
             <Stack.Screen name="Learn_ClarifyYourGoals" component={ClarifyYourGoalsScreen} />
@@ -233,6 +283,36 @@ export default function HomeNavigator() {
             <Stack.Screen name="Learn_SelfReflectionEntries" component={SelfReflectionEntriesScreen} />
             <Stack.Screen name="Learn_ValidationPractice" component={ValidationPracticeScreen} />
             <Stack.Screen name="Learn_ValidationPracticeEntries" component={ValidationPracticeEntriesScreen} />
+            <Stack.Screen name="Learn_SelfSoothing" component={SelfSoothingScreen} />
+            <Stack.Screen name="Learn_SelfSoothingExercises" component={SelfSoothingExercisesScreen} />
+            <Stack.Screen name="Learn_FiveSensesInventory" component={FiveSensesInventoryScreen} />
+            <Stack.Screen name="Learn_FiveSensesInventoryEntries" component={FiveSensesInventoryEntriesScreen} />
+            <Stack.Screen name="Learn_ReflectionJournal" component={ReflectionJournalScreen} />
+            <Stack.Screen name="Learn_ReflectionJournalEntries" component={ReflectionJournalEntriesScreen} />
+            <Stack.Screen name="Learn_Improve" component={ImproveScreen} />
+            <Stack.Screen name="Learn_ImproveExercises" component={ImproveExercisesScreen} />
+            <Stack.Screen name="Learn_IdentifyTriggers" component={IdentifyTriggersScreen} />
+            <Stack.Screen name="Learn_IdentifyTriggersEntries" component={IdentifyTriggersEntriesScreen} />
+            <Stack.Screen name="Learn_CreateAPersonalizedToolkit" component={CreateAPersonalizedToolkitScreen} />
+            <Stack.Screen name="Learn_CreateAPersonalizedToolkitEntries" component={CreateAPersonalizedToolkitEntriesScreen} />
+            <Stack.Screen name="Learn_RadicalAcceptance" component={RadicalAcceptanceScreen} />
+            <Stack.Screen name="Learn_RadicalAcceptanceExercises" component={RadicalAcceptanceExercisesScreen} />
+            <Stack.Screen name="Learn_RadicalAcceptanceJournal" component={RadicalAcceptanceJournalScreen} />
+            <Stack.Screen name="Learn_RadicalAcceptanceJournalEntries" component={RadicalAcceptanceJournalEntriesScreen} />
+            <Stack.Screen name="Learn_RadicalAcceptanceCopingStatementsList" component={RadicalAcceptanceCopingStatementsListScreen} />
+            <Stack.Screen name="Learn_RadicalAcceptanceCopingStatementsListEntries" component={RadicalAcceptanceCopingStatementsListEntriesScreen} />
+            <Stack.Screen name="Learn_DifferentAction" component={DifferentActionScreen} />
+            <Stack.Screen name="Learn_DifferentActionExercises" component={DifferentActionExercisesScreen} />
+            <Stack.Screen name="Learn_DifferentActionIdentifyEmotionalUrges" component={DifferentActionIdentifyEmotionalUrgesScreen} />
+            <Stack.Screen name="Learn_DifferentActionIdentifyEmotionalUrgesEntries" component={DifferentActionIdentifyEmotionalUrgesEntriesScreen} />
+            <Stack.Screen name="Learn_DifferentActionFlashCardPrompts" component={DifferentActionFlashCardPromptsScreen} />
+            <Stack.Screen name="Learn_HalfSmiling" component={HalfSmilingScreen} />
+            <Stack.Screen name="Learn_HalfSmilingExercises" component={HalfSmilingExercisesScreen} />
+            <Stack.Screen name="Learn_HalfSmilingMindfulHalfSmilePractice" component={HalfSmilingMindfulHalfSmilePracticeScreen} />
+            <Stack.Screen name="Learn_HalfSmilingEmotionMapping" component={HalfSmilingEmotionMappingScreen} />
+            <Stack.Screen name="Learn_HalfSmilingAction" component={HalfSmilingActionScreen} />
+            <Stack.Screen name="Learn_HalfSmilingAnchorPrompt" component={HalfSmilingAnchorPromptScreen} />
+            <Stack.Screen name="Learn_HalfSmilingEntries" component={HalfSmilingEntriesScreen} />
             <Stack.Screen name="Learn_BeMindful" component={BeMindfulScreen} />
             <Stack.Screen name="Learn_HereAndNow" component={HereAndNowScreen} />
             <Stack.Screen name="Learn_HereAndNowExercises" component={HereAndNowExercisesScreen} />
@@ -253,6 +333,10 @@ export default function HomeNavigator() {
             <Stack.Screen name="Learn_GivePracticeEntries" component={GivePracticeEntriesScreen} />
             <Stack.Screen name="Learn_MindfulPresencePractice" component={MindfulPresencePracticeScreen} />
             <Stack.Screen name="Learn_MindfulPresencePracticeEntries" component={MindfulPresencePracticeEntriesScreen} />
+            <Stack.Screen name="Learn_MindfulPauseTimer" component={MindfulPauseTimerScreen} />
+            <Stack.Screen name="Learn_MindfulPauseEntry" component={MindfulPauseEntryScreen} />
+            <Stack.Screen name="Learn_RolePlayExercise" component={RolePlayExerciseScreen} />
+            <Stack.Screen name="Learn_RolePlayEntry" component={RolePlayEntryScreen} />
             <Stack.Screen name="Learn_WiseMind" component={WiseMindScreen} />
             <Stack.Screen name="Learn_WiseMindExercises" component={WiseMindExercisesScreen} />
             <Stack.Screen name="Learn_WiseMindPractice" component={WiseMindPracticeScreen} />

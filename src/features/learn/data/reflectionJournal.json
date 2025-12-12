@@ -1,0 +1,12 @@
+{
+  "title": "Reflection Journal",
+  "introText": "After using Self-Soothing, write about the experience with compassion. What worked? What didn't? How did it impact your emotional state?",
+  "input": {
+    "placeholder": "After using self-soothing, describe your experience. What worked? What didn't? How did it impact your emotional state?"
+  },
+  "buttons": {
+    "view": "View",
+    "save": "Save"
+  }
+}
+

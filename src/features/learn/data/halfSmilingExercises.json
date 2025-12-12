@@ -1,0 +1,42 @@
+{
+  "title": "Half-Smiling Exercises",
+  "introText": "Take your time with these calming exercises to build emotional awareness and expand your ability to identify and name feelings with kindness toward yourself.",
+  "exercises": [
+    {
+      "id": 1,
+      "number": 1,
+      "title": "Mindful Half-Smile Practice",
+      "description": "Spend five minutes practicing Half-Smile each morning. Pair with calming visualization like imagining peaceful place or soothing color washing over you.",
+      "hasNavigation": true
+    },
+    {
+      "id": 2,
+      "number": 2,
+      "title": "Emotion Mapping",
+      "description": "Write down recent situation where you felt overwhelmed. Reflect on whether using Half-Smile could have helped. Plan how to incorporate it into similar future situations.",
+      "hasNavigation": true
+    },
+    {
+      "id": 3,
+      "number": 3,
+      "title": "Half-Smile in Action",
+      "description": "Select specific daily activity (washing dishes, walking to class) and incorporate Half-Smile during that time. Notice how it shifts your focus or emotional state.",
+      "hasNavigation": true
+    },
+    {
+      "id": 4,
+      "number": 4,
+      "title": "Anchor Prompts",
+      "description": "Create list of affirmations or intentions to pair with Half-Smile: 'I am grounded,' 'This is temporary,' 'I can navigate this.' Use these when practicing the skill.",
+      "hasNavigation": true
+    },
+    {
+      "id": 5,
+      "title": "Be Patient With Yourself",
+      "description": "The more you patiently practice identifying emotions, the better you'll become at understanding and managing them with compassion.",
+      "hasHeartIcon": true,
+      "hasNavigation": false
+    }
+  ]
+}
+

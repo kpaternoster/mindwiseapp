@@ -1,0 +1,21 @@
+{
+  "title": "Identify Emotional Urges",
+  "introText": "Write down common emotional urges you experience (avoiding, yelling, isolating) and brainstorm different or opposite actions for each one.",
+  "inputs": {
+    "urge": {
+      "label": "Urges",
+      "placeholder": "Urges 1"
+    },
+    "oppositeAction": {
+      "label": "Opposite Action",
+      "placeholder": "Opposite Action 1"
+    }
+  },
+  "buttons": {
+    "addMoreUrge": "Add more",
+    "addMoreOppositeAction": "Add more",
+    "view": "View",
+    "save": "Save"
+  }
+}
+

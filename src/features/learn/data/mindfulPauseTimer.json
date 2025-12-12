@@ -1,0 +1,25 @@
+{
+  "title": "Mindful Pause Timer",
+  "howToPractice": {
+    "title": "How to Practice",
+    "instructions": [
+      "Find a comfortable position - sitting or standing",
+      "Press start and stop everything you're doing",
+      "Focus solely on your breath and surroundings",
+      "Observe how it feels to pause completely",
+      "A gentle chime will sound when the minute is complete"
+    ]
+  },
+  "timerDuration": 60,
+  "reflection": {
+    "title": "Reflection",
+    "prompt": "After your mindful pause, take a moment to reflect on the experience.",
+    "question": "How did it feel to pause completely? What did you notice?",
+    "placeholder": "Describe your experience... What sensations did you notice? How did your mind respond to the stillness? What thoughts arose?"
+  },
+  "buttons": {
+    "viewEntry": "View Entry",
+    "save": "Save"
+  }
+}
+

@@ -1,0 +1,14 @@
+{
+  "title": "Coping Statements List",
+  "introText": "Create personal list of affirmations like 'I cannot change the past, but I can choose my response.' Refer to it when emotions run high.",
+  "input": {
+    "label": "Coping Statement",
+    "placeholder": "e.g., 'I cannot change the past, but I can choose my response.'"
+  },
+  "buttons": {
+    "addAnotherStatement": "Add Another Statement",
+    "view": "View",
+    "save": "Save"
+  }
+}
+

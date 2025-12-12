@@ -1,0 +1,34 @@
+{
+  "title": "IMPROVE Exercises",
+  "introText": "Take your time with these calming exercises to build emotional awareness and expand your ability to identify and name feelings with kindness toward yourself.",
+  "exercises": [
+    {
+      "id": 1,
+      "number": 1,
+      "title": "Identify Triggers",
+      "description": "Think of recent situation where you felt overwhelmed. How might you use each part of IMPROVE to manage it? Write down specific strategies for each letter.",
+      "hasNavigation": true
+    },
+    {
+      "id": 2,
+      "number": 2,
+      "title": "Practice Each Tool",
+      "description": "Spend a day focusing on one letter of IMPROVE and reflect on how it helped. Build familiarity with each technique before crisis moments.",
+      "hasNavigation": false
+    },
+    {
+      "id": 3,
+      "number": 3,
+      "title": "Create a Personalized Toolkit",
+      "description": "Which parts of IMPROVE resonate most with you? Write them down and keep the list handy for moments of distress. Customize for your preferences.",
+      "hasNavigation": true
+    },
+    {
+      "id": 4,
+      "title": "Be Patient With Yourself",
+      "description": "The more you patiently practice identifying emotions, the better you'll become at understanding and managing them with compassion.",
+      "hasHeartIcon": true,
+      "hasNavigation": false
+    }
+  ]
+}

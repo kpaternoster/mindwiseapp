@@ -1,0 +1,26 @@
+{
+  "title": "Anchor Prompts",
+  "introText": "Create list of affirmations or intentions to pair with Half-Smile: 'I am grounded,' 'This is temporary,' 'I can navigate this.' Use these when practicing the skill.",
+  "suggestedPrompts": [
+    "I am grounded",
+    "This is temporary",
+    "I can navigate this",
+    "I accept this moment",
+    "Peace flows through me",
+    "I am calm and present",
+    "This too shall pass",
+    "I choose serenity",
+    "I am safe right now",
+    "My breath anchors me"
+  ],
+  "reflection": {
+    "title": "Reflection",
+    "question": "How will you use these prompts with your Half-Smile practice?",
+    "placeholder": "e.g., I'll say 'I am grounded' silently while adopting Half-Smile when I feel anxious...."
+  },
+  "buttons": {
+    "view": "View",
+    "save": "Save"
+  }
+}
+

@@ -1,0 +1,41 @@
+{
+  "title": "TIPP Exercises",
+  "introText": "Take your time with these calming exercises to build emotional awareness and expand your ability to identify and name feelings with kindness toward yourself.",
+  "exercises": [
+    {
+      "id": 1,
+      "number": 1,
+      "title": "Temperature Exploration",
+      "description": "Experiment with cold and warm techniques in non-crisis moments to see what works best for you. Try ice cubes, cold water, warm bath, heating pad.",
+      "hasNavigation": false
+    },
+    {
+      "id": 2,
+      "number": 2,
+      "title": "Exercise Burst",
+      "description": "Create list of quick, intense exercises you can do anywhere: jumping jacks, jogging in place, short dance session. Practice when calm to build familiarity.",
+      "hasNavigation": false
+    },
+    {
+      "id": 3,
+      "number": 3,
+      "title": "Breathing Practice",
+      "description": "Practice paced breathing by inhaling slowly for 4 counts, holding for 4, then exhaling for 6-8 counts. This activates your parasympathetic nervous system to calm your body. Set aside five minutes daily using a timer or app.",
+      "hasNavigation": false
+    },
+    {
+      "id": 4,
+      "number": 4,
+      "title": "Muscle Awareness",
+      "description": "Progressive muscle relaxation involves tensing muscle groups for 5 seconds then releasing. Start with toes, work up through legs, abdomen, arms, shoulders, and face. Notice the contrast between tension and relaxation to identify stress patterns.",
+      "hasNavigation": false
+    },
+    {
+      "id": 5,
+      "title": "Be Patient With Yourself",
+      "description": "The more you patiently practice identifying emotions, the better you'll become at understanding and managing them with compassion.",
+      "hasHeartIcon": true,
+      "hasNavigation": false
+    }
+  ]
+}

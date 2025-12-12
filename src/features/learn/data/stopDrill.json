@@ -1,0 +1,43 @@
+{
+  "title": "STOP Drill",
+  "introText": "Practice the STOP skill during low-stress situations to build familiarity. Create your personal plan for each step so you're ready when emotions run high.",
+  "steps": [
+    {
+      "id": "stop",
+      "letter": "S",
+      "title": "Stop",
+      "description": "Freeze in place. Don't move a muscle. Stop whatever you're doing. This creates a pause before you react impulsively.",
+      "planPrompt": "Your plan for \"Stop\":",
+      "placeholder": "What will you do to physically stop? (e.g., freeze, put down phone, step back)..."
+    },
+    {
+      "id": "takeStepBack",
+      "letter": "T",
+      "title": "Take a Step Back",
+      "description": "Take a step back from the situation, either physically or mentally. This creates distance between you and your emotional reaction.",
+      "planPrompt": "Your plan for \"Take a Step Back\":",
+      "placeholder": "How will you create distance? (e.g., leave room, take a breath, count to 10)..."
+    },
+    {
+      "id": "observe",
+      "letter": "O",
+      "title": "Observe",
+      "description": "Notice what's happening inside and outside of you. What are you feeling? What are you thinking? What's the situation?",
+      "planPrompt": "Your plan for \"Observe\":",
+      "placeholder": "What will you observe? (e.g., body sensations, thoughts, emotions, surroundings)..."
+    },
+    {
+      "id": "proceedMindfully",
+      "letter": "P",
+      "title": "Proceed Mindfully",
+      "description": "Act with awareness. Consider your goals and values. What action will be effective and in line with your values?",
+      "planPrompt": "Your plan for \"Proceed Mindfully\":",
+      "placeholder": "How will you proceed mindfully? (e.g., ask wise mind, consider consequences, choose skillfully)..."
+    }
+  ],
+  "buttons": {
+    "view": "View",
+    "save": "Save"
+  }
+}
+

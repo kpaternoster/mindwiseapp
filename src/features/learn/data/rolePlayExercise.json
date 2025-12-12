@@ -1,0 +1,39 @@
+{
+  "title": "Role-Play Exercise",
+  "introText": "With a trusted friend or therapist, rehearse using STOP in hypothetical scenarios like receiving critical feedback, dealing with frustration, or facing an unexpected challenge. Practice makes the skill more natural when you need it most.",
+  "scenarioIdeas": [
+    "Receiving unexpected critical feedback at work or school",
+    "Someone canceling plans at the last minute",
+    "Feeling misunderstood during a conversation",
+    "Dealing with a technology failure or unexpected problem",
+    "Responding to a triggering comment on social media"
+  ],
+  "inputs": [
+    {
+      "id": "rolePlayPartner",
+      "title": "Role-Play Partner",
+      "prompt": "Who are you role-playing with?",
+      "placeholder": "e.g., Friend, therapist, family member, support group member...",
+      "multiline": true
+    },
+    {
+      "id": "scenarioContext",
+      "title": "Scenario Context",
+      "prompt": "What scenario are you practicing?",
+      "placeholder": "Describe the hypothetical scenario you're role-playing... What's the situation? What triggers might come up?",
+      "multiline": true
+    },
+    {
+      "id": "learningsReflections",
+      "title": "Learnings & Reflections",
+      "prompt": "What did you learn from this role-play?",
+      "placeholder": "Reflect on the experience... What worked well? What was challenging? How did using STOP feel? What would you do differently in a real situation?",
+      "multiline": true
+    }
+  ],
+  "buttons": {
+    "viewEntry": "View Entry",
+    "save": "Save"
+  }
+}
+

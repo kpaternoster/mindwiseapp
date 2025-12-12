@@ -1,0 +1,38 @@
+{
+  "title": "STOP Exercises",
+  "introText": "Take your time with these calming exercises to build emotional awareness and expand your ability to identify and name feelings with kindness toward yourself.",
+  "exercises": [
+    {
+      "id": 1,
+      "number": 1,
+      "title": "Reflective Practice",
+      "description": "Recall a recent moment when emotions ran high. Write down how using the STOP skill might have changed the outcome and what you learned."
+    },
+    {
+      "id": 2,
+      "number": 2,
+      "title": "STOP Drill",
+      "description": "Practice each step of STOP during low-stress situations, like deciding what to eat or responding to a text. Build familiarity for when it's needed most."
+    },
+    {
+      "id": 3,
+      "number": 3,
+      "title": "Mindful Pause Timer",
+      "description": "Set timer for one minute and practice stopping everything. Focus solely on breath and surroundings, observing how it feels to pause completely."
+    },
+    {
+      "id": 4,
+      "number": 4,
+      "title": "Role-Play Exercise",
+      "description": "With trusted friend or therapist, rehearse using STOP in hypothetical scenarios (receiving critical feedback). Practice makes it more natural."
+    },
+    {
+      "id": 5,
+      "title": "Be Patient With Yourself",
+      "description": "The more you patiently practice identifying emotions, the better you'll become at understanding and managing them with compassion.",
+      "hasHeartIcon": true,
+      "hasNavigation": false
+    }
+  ]
+}
+

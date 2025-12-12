@@ -1,0 +1,9 @@
+{
+  "title": "Flash Card Prompts",
+  "introText": "Create flashcards with emotional urges on one side and their different actions on the other. Use as quick reference tool when emotions arise.",
+  "buttons": {
+    "listView": "List View",
+    "stackView": "Stack View"
+  }
+}
+

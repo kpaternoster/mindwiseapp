@@ -1,0 +1,23 @@
+{
+  "title": "Self Soothing",
+  "sections": [
+    {
+      "id": 1,
+      "title": "About Self Soothing",
+      "content": "Self-Soothing uses your five senses—sight, sound, touch, taste, and smell—to bring calm during distress. You deliberately choose comforting sensory experiences, like looking at something beautiful, listening to soothing sounds, touching soft textures, tasting something pleasant, or smelling calming scents. Focusing on these sensations grounds you in the present and activates your body's natural relaxation response. It's a simple, accessible way to comfort yourself when you feel overwhelmed or alone."
+    },
+    {
+      "id": 2,
+      "title": "Example",
+      "content": "Deven felt overwhelmed during a difficult mental health period, so they used Self-Soothing to ground themselves. They created a sensory toolkit—looking at calming nature photos, listening to soft music, holding a stress ball, sipping herbal tea, and using lavender oil. Engaging their senses helped Deven find immediate comfort and feel more steady during distressing moments."
+    },
+    {
+      "id": 3,
+      "title": "Remember",
+      "content": "Self-Soothing is about being your own source of comfort and care. It's not about eliminating distress completely, but about offering yourself kindness and grounding when you need it most.",
+      "backgroundColor": "#FDF4EE"
+    }
+  ],
+  "buttonText": "Try Self Soothing Exercises"
+}
+

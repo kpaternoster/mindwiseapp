@@ -1,0 +1,40 @@
+{
+  "title": "Mindful Half-Smile Practice",
+  "howToPractice": {
+    "title": "How to Practice Half-Smile",
+    "instructions": [
+      "Relax your face completely - let go of all tension",
+      "Allow the corners of your lips to turn up slightly - just barely",
+      "Keep your jaw relaxed and teeth slightly apart",
+      "Breathe naturally and maintain this gentle expression",
+      "Pair with a calming visualization for deeper practice"
+    ]
+  },
+  "timerDuration": 300,
+  "timerTitle": "5-Minute Practice",
+  "inputs": [
+    {
+      "id": "visualization",
+      "title": "Calming Visualization",
+      "question": "What peaceful place or soothing image did you visualize during your practice?",
+      "placeholder": "e.g. A quiet beach at sunrise, a warm color washing over me, a peaceful forest..."
+    },
+    {
+      "id": "bodyResponse",
+      "title": "Body Response",
+      "question": "How did your body respond to the half-smile? Notice any changes in tension or relaxation.",
+      "placeholder": "e.g. My shoulders dropped, my jaw relaxed, I felt lighter..."
+    },
+    {
+      "id": "reflection",
+      "title": "Reflection",
+      "question": "What did you notice about your emotional state before and after the practice?",
+      "placeholder": "Reflect on your experience... How do you feel now compared to when you started?"
+    }
+  ],
+  "buttons": {
+    "view": "View",
+    "save": "Save"
+  }
+}
+

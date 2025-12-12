@@ -19,22 +19,22 @@ export default function BuildDistressToleranceScreen() {
                 dissolveTo('Learn_TIPP');
                 break;
             case 'STOP':
-                // dissolveTo('Learn_STOP');
+                dissolveTo('Learn_STOP');
                 break;
             case 'Self-Soothing':
-                // dissolveTo('Learn_SelfSoothing');
+                dissolveTo('Learn_SelfSoothing');
                 break;
             case 'IMPROVE':
-                // dissolveTo('Learn_IMPROVE');
+                dissolveTo('Learn_Improve');
                 break;
             case 'Radical Acceptance':
-                // dissolveTo('Learn_RadicalAcceptance');
+                dissolveTo('Learn_RadicalAcceptance');
                 break;
             case 'Different Action':
-                // dissolveTo('Learn_DifferentAction');
+                dissolveTo('Learn_DifferentAction');
                 break;
             case 'Half-Smiling':
-                // dissolveTo('Learn_HalfSmiling');
+                dissolveTo('Learn_HalfSmiling');
                 break;
             default:
                 console.log('Exercise pressed:', skill.title);

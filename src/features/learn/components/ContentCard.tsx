@@ -9,6 +9,27 @@ interface ContentCardProps {
     backgroundColor?: string;
 }
 
+const renderFormattedText = (text: string) => {
+    const parts = text.split(/(\*\*.*?\*\*)/g);
+    
+    return parts.map((part, index) => {
+        if (part.startsWith('**') && part.endsWith('**')) {
+            // Remove the ** markers and render as bold
+            const boldText = part.slice(2, -2);
+            return (
+                <Text key={index} style={[t.textSemiBold, { color: colors.text_secondary }]}>
+                    {boldText}
+                </Text>
+            );
+        }
+        return (
+            <Text key={index} style={[t.textRegular, { color: colors.text_secondary }]}>
+                {part}
+            </Text>
+        );
+    });
+};
+
 export const ContentCard: React.FC<ContentCardProps> = ({
     title,
     content,
@@ -27,7 +48,7 @@ export const ContentCard: React.FC<ContentCardProps> = ({
                 {title}
             </Text>
             <Text style={[t.textRegular, { color: colors.text_secondary }]}>
-                {content}
+                {renderFormattedText(content)}
             </Text>
         </View>
     );
