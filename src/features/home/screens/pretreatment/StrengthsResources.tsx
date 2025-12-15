@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
     View,
     Text,
@@ -18,17 +18,40 @@ import { t } from '@design/typography';
 import { ArrowRightIcon, NoteBookIcon, UpIcon, DownIcon } from '@components/Utils';
 import { PageHeader } from '../../components';
 import { RadioGroup } from '../../components/RadioGroup';
+import { fetchStrengthsAndResources, updateStrengthsAndResources, StrengthsAndResources } from '../../api/treatment';
 
 type NavigationProp = NativeStackNavigationProp<HomeStackParams>;
 
 export default function StrengthsResourcesScreen() {
     const navigation = useNavigation<NavigationProp>();
-    // State management
-    const [currentStrength, setCurrentStrength] = useState('exercise');
-    const [mainTrigger, setMainTrigger] = useState('relationships');
-    const [supportSystem, setSupportSystem] = useState('family');
-    const [therapyExperience, setTherapyExperience] = useState('new');
+    // State management - multiple selections
+    const [currentStrengths, setCurrentStrengths] = useState<{ [key: string]: boolean }>({
+        exercise: false,
+        meditation: false,
+        creativeOutlets: false,
+        journaling: false,
+        supportFromOthers: false,
+    });
+    const [mainTriggers, setMainTriggers] = useState<{ [key: string]: boolean }>({
+        relationshipConflicts: false,
+        workOrSchool: false,
+        rejection: false,
+        feelingOverwhelmed: false,
+        beingAlone: false,
+        pastTrauma: false,
+        other: false,
+    });
+    const [supportSystem, setSupportSystem] = useState<{ [key: string]: boolean }>({
+        family: false,
+        friends: false,
+        partner: false,
+        therapist: false,
+        supportGroup: false,
+    });
+    const [therapyExperience, setTherapyExperience] = useState('none');
     const [additionalNotes, setAdditionalNotes] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
+    const [isInitialized, setIsInitialized] = useState(false);
     
     const [expandedSections, setExpandedSections] = useState({
         strengths: true,
@@ -45,23 +68,22 @@ export default function StrengthsResourcesScreen() {
         }));
     };
 
-    // Data for radio groups
+    // Data for checkboxes and radio groups
     const strengthsOptions = [
         { value: 'exercise', label: 'Exercise or movement' },
-        { value: 'breathing', label: 'Breathing exercises or meditation' },
-        { value: 'creative', label: 'Creative outlets (art, music, writing)' },
+        { value: 'meditation', label: 'Breathing exercises or meditation' },
+        { value: 'creativeOutlets', label: 'Creative outlets (art, music, writing)' },
         { value: 'journaling', label: 'Journaling' },
-        { value: 'support', label: 'Support from others' },
-        { value: 'none', label: 'None of these currently' },
+        { value: 'supportFromOthers', label: 'Support from others' },
     ];
 
     const triggersOptions = [
-        { value: 'relationships', label: 'Relationship conflicts' },
-        { value: 'work', label: 'Work or school stress' },
-        { value: 'criticism', label: 'Being criticized or rejected' },
-        { value: 'overwhelmed', label: 'Feeling overwhelmed' },
-        { value: 'alone', label: 'Being alone' },
-        { value: 'trauma', label: 'Past trauma memories' },
+        { value: 'relationshipConflicts', label: 'Relationship conflicts' },
+        { value: 'workOrSchool', label: 'Work or school stress' },
+        { value: 'rejection', label: 'Being criticized or rejected' },
+        { value: 'feelingOverwhelmed', label: 'Feeling overwhelmed' },
+        { value: 'beingAlone', label: 'Being alone' },
+        { value: 'pastTrauma', label: 'Past trauma memories' },
         { value: 'other', label: 'Other situations' },
     ];
 
@@ -70,23 +92,105 @@ export default function StrengthsResourcesScreen() {
         { value: 'friends', label: 'Friends' },
         { value: 'partner', label: 'Partner/spouse' },
         { value: 'therapist', label: 'Therapist or counselor' },
-        { value: 'group', label: 'Support group' },
-        { value: 'none', label: 'No reliable support currently' },
+        { value: 'supportGroup', label: 'Support group' },
     ];
 
     const therapyOptions = [
-        { value: 'new', label: 'New to therapy' },
-        { value: 'current', label: 'Currently in therapy' },
-        { value: 'previous', label: 'Previous therapy experience' },
-        { value: 'dbt', label: 'Familiar with DBT skills' },
+        { value: 'none', label: 'New to therapy' },
+        { value: 'currentlyInTherapy', label: 'Currently in therapy' },
+        { value: 'previousExperience', label: 'Previous therapy experience' },
+        { value: 'familiarWithDBTSkills', label: 'Familiar with DBT skills' },
     ];
 
-    const handleBuildCommitmentPlan = () => {
-        navigation.navigate('BuildingCommitment');
+    const toggleStrength = (value: string) => {
+        setCurrentStrengths((prev) => ({
+            ...prev,
+            [value]: !prev[value],
+        }));
     };
 
-    const handleSeeTreatmentPlan = () => {
-        navigation.navigate('TreatmentPlan');
+    const toggleTrigger = (value: string) => {
+        setMainTriggers((prev) => ({
+            ...prev,
+            [value]: !prev[value],
+        }));
+    };
+
+    const toggleSupport = (value: string) => {
+        setSupportSystem((prev) => ({
+            ...prev,
+            [value]: !prev[value],
+        }));
+    };
+
+    // Map API response to component state
+    const mapApiToComponentState = (data: StrengthsAndResources) => {
+        setCurrentStrengths({ ...data.currentStrengths } as { [key: string]: boolean });
+        setMainTriggers({ ...data.mainTriggers } as { [key: string]: boolean });
+        setSupportSystem({ ...data.supportSystem } as { [key: string]: boolean });
+        setTherapyExperience(data.therapyExperience);
+        setAdditionalNotes(data.notes);
+    };
+
+    // Map component state to API format
+    const mapComponentStateToApi = (): StrengthsAndResources => {
+        return {
+            currentStrengths: currentStrengths as any,
+            mainTriggers: mainTriggers as any,
+            supportSystem: supportSystem as any,
+            therapyExperience,
+            notes: additionalNotes,
+        };
+    };
+
+    // Initialize data from API
+    useEffect(() => {
+        const initializeData = async () => {
+            try {
+                setIsLoading(true);
+                const data = await fetchStrengthsAndResources();
+                mapApiToComponentState(data);
+                setIsInitialized(true);
+            } catch (error) {
+                console.error('Error fetching strengths and resources:', error);
+                // Continue with default values if API fails
+                setIsInitialized(true);
+            } finally {
+                setIsLoading(false);
+            }
+        };
+
+        initializeData();
+    }, []);
+
+    const handleBuildCommitmentPlan = async () => {
+        try {
+            setIsLoading(true);
+            const data = mapComponentStateToApi();
+            await updateStrengthsAndResources(data);
+            navigation.navigate('BuildingCommitment');
+        } catch (error) {
+            console.error('Error updating strengths and resources:', error);
+            // Still navigate even if API call fails
+            navigation.navigate('BuildingCommitment');
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
+    const handleSeeTreatmentPlan = async () => {
+        try {
+            setIsLoading(true);
+            const data = mapComponentStateToApi();
+            await updateStrengthsAndResources(data);
+            navigation.navigate('TreatmentPlan');
+        } catch (error) {
+            console.error('Error updating strengths and resources:', error);
+            // Still navigate even if API call fails
+            navigation.navigate('TreatmentPlan');
+        } finally {
+            setIsLoading(false);
+        }
     };
 
     return (
@@ -153,11 +257,32 @@ export default function StrengthsResourcesScreen() {
                     {expandedSections.strengths && (
                         <View className="px-4 pb-4 bg-white rounded-b-xl">
                             <View className="mt-4">
-                                <RadioGroup
-                                    options={strengthsOptions}
-                                    selected={currentStrength}
-                                    onSelect={setCurrentStrength}
-                                />
+                                {strengthsOptions.map((option) => (
+                                    <Pressable
+                                        key={option.value}
+                                        className="flex-row items-center py-3"
+                                        onPress={() => toggleStrength(option.value)}
+                                    >
+                                        <View
+                                            className="w-5 h-5 rounded-full border-2 items-center justify-center mr-3"
+                                            style={{
+                                                borderColor: currentStrengths[option.value]
+                                                    ? colors.orange_500
+                                                    : colors.stroke_orange,
+                                            }}
+                                        >
+                                            {currentStrengths[option.value] && (
+                                                <View
+                                                    className="w-3 h-3 rounded-full"
+                                                    style={{ backgroundColor: colors.orange_500 }}
+                                                />
+                                            )}
+                                        </View>
+                                        <Text style={[t.textRegular, { color: colors.text_secondary }]} className="flex-1">
+                                            {option.label}
+                                        </Text>
+                                    </Pressable>
+                                ))}
                             </View>
                         </View>
                     )}
@@ -190,11 +315,32 @@ export default function StrengthsResourcesScreen() {
                     {expandedSections.triggers && (
                         <View className="px-4 pb-4 bg-white rounded-b-xl">
                             <View className="mt-4">
-                                <RadioGroup
-                                    options={triggersOptions}
-                                    selected={mainTrigger}
-                                    onSelect={setMainTrigger}
-                                />
+                                {triggersOptions.map((option) => (
+                                    <Pressable
+                                        key={option.value}
+                                        className="flex-row items-center py-3"
+                                        onPress={() => toggleTrigger(option.value)}
+                                    >
+                                        <View
+                                            className="w-5 h-5 rounded-full border-2 items-center justify-center mr-3"
+                                            style={{
+                                                borderColor: mainTriggers[option.value]
+                                                    ? colors.orange_500
+                                                    : colors.stroke_orange,
+                                            }}
+                                        >
+                                            {mainTriggers[option.value] && (
+                                                <View
+                                                    className="w-3 h-3 rounded-full"
+                                                    style={{ backgroundColor: colors.orange_500 }}
+                                                />
+                                            )}
+                                        </View>
+                                        <Text style={[t.textRegular, { color: colors.text_secondary }]} className="flex-1">
+                                            {option.label}
+                                        </Text>
+                                    </Pressable>
+                                ))}
                             </View>
                         </View>
                     )}
@@ -227,11 +373,32 @@ export default function StrengthsResourcesScreen() {
                     {expandedSections.support && (
                         <View className="px-4 pb-4 bg-white rounded-b-xl">
                             <View className="mt-4">
-                                <RadioGroup
-                                    options={supportOptions}
-                                    selected={supportSystem}
-                                    onSelect={setSupportSystem}
-                                />
+                                {supportOptions.map((option) => (
+                                    <Pressable
+                                        key={option.value}
+                                        className="flex-row items-center py-3"
+                                        onPress={() => toggleSupport(option.value)}
+                                    >
+                                        <View
+                                            className="w-5 h-5 rounded-full border-2 items-center justify-center mr-3"
+                                            style={{
+                                                borderColor: supportSystem[option.value]
+                                                    ? colors.orange_500
+                                                    : colors.stroke_orange,
+                                            }}
+                                        >
+                                            {supportSystem[option.value] && (
+                                                <View
+                                                    className="w-3 h-3 rounded-full"
+                                                    style={{ backgroundColor: colors.orange_500 }}
+                                                />
+                                            )}
+                                        </View>
+                                        <Text style={[t.textRegular, { color: colors.text_secondary }]} className="flex-1">
+                                            {option.label}
+                                        </Text>
+                                    </Pressable>
+                                ))}
                             </View>
                         </View>
                     )}

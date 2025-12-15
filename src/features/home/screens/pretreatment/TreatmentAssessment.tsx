@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
     View,
     Text,
@@ -19,6 +19,7 @@ import { DistressSlider } from '../../components/DistressSlider';
 import { RadioGroup } from '../../components/RadioGroup';
 import treatmentData from '../../data/pretreatment/treatmentAssessment.json';
 import { useDissolveNavigation } from '@hooks/useDissolveNavigation';
+import { fetchGoals, updateGoals, Goals } from '../../api/treatment';
 
 
 function TreatmentAssessmentContent() {
@@ -50,6 +51,8 @@ function TreatmentAssessmentContent() {
     const [behavioralGoals, setBehavioralGoals] = useState('stop_substances_for_emotions');
     const [relationshipGoals, setRelationshipGoals] = useState('improve_relationships');
     const [traumaRelatedGoals, setTraumaRelatedGoals] = useState('reduce_unwanted_memories');
+    const [isLoading, setIsLoading] = useState(false);
+    const [isInitialized, setIsInitialized] = useState(false);
 
     const checkIfGoalsSelected = () => {
         // Check if any goals are selected
@@ -74,13 +77,24 @@ function TreatmentAssessmentContent() {
         setShowNoGoalsModal(false);
     };
 
-    const handleNextToStrengthsResources = () => {
+    const handleNextToStrengthsResources = async () => {
         if (!checkIfGoalsSelected()) {
             setShowNoGoalsModal(true);
             return;
         }
         
-        dissolveTo('StrengthsResources');
+        try {
+            setIsLoading(true);
+            const goalsData = mapComponentStateToApi();
+            await updateGoals(goalsData);
+            dissolveTo('StrengthsResources');
+        } catch (error) {
+            console.error('Error updating goals:', error);
+            // Still navigate even if API call fails
+            dissolveTo('StrengthsResources');
+        } finally {
+            setIsLoading(false);
+        }
     };
 
     const toggleSection = (section: keyof typeof expandedSections) => {
@@ -97,6 +111,153 @@ function TreatmentAssessmentContent() {
                 : [...prev, value]
         );
     };
+
+    // Map API response to component state
+    const mapApiToComponentState = (goals: Goals) => {
+        // Life Situation
+        setHousing(goals.lifeSituation.housing);
+        setWork(goals.lifeSituation.work);
+        setFood(goals.lifeSituation.food);
+        setHealthcare(goals.lifeSituation.healthcare);
+
+        // Safety Behaviors - convert boolean object to array of selected values
+        const safetySelected: string[] = [];
+        if (goals.safetyBehaviors.selfHarm) safetySelected.push('self_harm');
+        if (goals.safetyBehaviors.deathWish) safetySelected.push('death_wish');
+        if (goals.safetyBehaviors.suicidePlans) safetySelected.push('suicide_plans');
+        if (goals.safetyBehaviors.suicidePrep) safetySelected.push('suicide_prep');
+        if (goals.safetyBehaviors.suicideAttempts) safetySelected.push('suicide_attempts');
+        setSelectedSafety(safetySelected);
+
+        // Emotional Experiences - find the first selected one
+        if (goals.emotionalExperiences.sadDepressed) setEmotionalExperiences('sad_depressed');
+        else if (goals.emotionalExperiences.anxiousOnEdge) setEmotionalExperiences('anxious_on_edge');
+        else if (goals.emotionalExperiences.angryIrritable) setEmotionalExperiences('angry_irritable');
+        else if (goals.emotionalExperiences.panicFear) setEmotionalExperiences('panic_fear');
+        else if (goals.emotionalExperiences.emptinessConfusion) setEmotionalExperiences('emptiness_confusion');
+
+        // Behavioral Goals - find the first selected one
+        if (goals.behavioralGoals.stopSubstancesForEmotions) setBehavioralGoals('stop_substances_for_emotions');
+        else if (goals.behavioralGoals.stopBingeingOrRestrictingFood) setBehavioralGoals('stop_bingeing_or_restricting_food');
+        else if (goals.behavioralGoals.stopRuminatingOverthinking) setBehavioralGoals('stop_ruminating_overthinking');
+        else if (goals.behavioralGoals.stopRiskyBehaviors) setBehavioralGoals('stop_risky_behaviors');
+        else if (goals.behavioralGoals.stopAvoidingResponsibilities) setBehavioralGoals('stop_avoiding_responsibilities');
+        else if (goals.behavioralGoals.stopExcessiveSleepingResting) setBehavioralGoals('stop_excessive_sleeping_resting');
+        else if (goals.behavioralGoals.stopDistractionsAvoidFeelings) setBehavioralGoals('stop_distractions_avoid_feelings');
+        else if (goals.behavioralGoals.stopFoodForComfort) setBehavioralGoals('stop_food_for_comfort');
+        else if (goals.behavioralGoals.stopImpulsiveSpending) setBehavioralGoals('stop_impulsive_spending');
+        else if (goals.behavioralGoals.stopExcessiveWorkingBusy) setBehavioralGoals('stop_excessive_working_busy');
+        else if (goals.behavioralGoals.stopCompulsiveCleaning) setBehavioralGoals('stop_compulsive_cleaning');
+
+        // Relationship Goals - find the first selected one
+        if (goals.relationshipGoals.improveRelationships) setRelationshipGoals('improve_relationships');
+        else if (goals.relationshipGoals.increaseSelfRespect) setRelationshipGoals('increase_self_respect');
+        else if (goals.relationshipGoals.reduceSelfIsolation) setRelationshipGoals('reduce_self_isolation');
+        else if (goals.relationshipGoals.stopLashingOut) setRelationshipGoals('stop_lashing_out');
+        else if (goals.relationshipGoals.stopSelfCriticism) setRelationshipGoals('stop_self_criticism');
+        else if (goals.relationshipGoals.stopSeekingRevenge) setRelationshipGoals('stop_seeking_revenge');
+        else if (goals.relationshipGoals.stopSeekingReassurance) setRelationshipGoals('stop_seeking_reassurance');
+
+        // Trauma Related Goals - find the first selected one
+        if (goals.traumaRelatedGoals.reduceUnwantedMemories) setTraumaRelatedGoals('reduce_unwanted_memories');
+        else if (goals.traumaRelatedGoals.feelLessOnGuard) setTraumaRelatedGoals('feel_less_on_guard');
+        else if (goals.traumaRelatedGoals.reduceNightmaresImproveSleep) setTraumaRelatedGoals('reduce_nightmares_improve_sleep');
+
+        // Other
+        if (goals.other && goals.other.trim() !== '') {
+            setHasOtherGoals(true);
+            setOtherGoalsText(goals.other);
+        }
+    };
+
+    // Map component state to API format
+    const mapComponentStateToApi = (): Goals => {
+        // Map safety behaviors
+        const safetyBehaviors = {
+            selfHarm: selectedSafety.includes('self_harm'),
+            deathWish: selectedSafety.includes('death_wish'),
+            suicidePlans: selectedSafety.includes('suicide_plans'),
+            suicidePrep: selectedSafety.includes('suicide_prep'),
+            suicideAttempts: selectedSafety.includes('suicide_attempts'),
+        };
+
+        // Map emotional experiences
+        const emotionalExperiencesMap = {
+            sadDepressed: emotionalExperiences === 'sad_depressed',
+            anxiousOnEdge: emotionalExperiences === 'anxious_on_edge',
+            angryIrritable: emotionalExperiences === 'angry_irritable',
+            panicFear: emotionalExperiences === 'panic_fear',
+            emptinessConfusion: emotionalExperiences === 'emptiness_confusion',
+        };
+
+        // Map behavioral goals
+        const behavioralGoalsMap = {
+            stopSubstancesForEmotions: behavioralGoals === 'stop_substances_for_emotions',
+            stopBingeingOrRestrictingFood: behavioralGoals === 'stop_bingeing_or_restricting_food',
+            stopRuminatingOverthinking: behavioralGoals === 'stop_ruminating_overthinking',
+            stopRiskyBehaviors: behavioralGoals === 'stop_risky_behaviors',
+            stopAvoidingResponsibilities: behavioralGoals === 'stop_avoiding_responsibilities',
+            stopExcessiveSleepingResting: behavioralGoals === 'stop_excessive_sleeping_resting',
+            stopDistractionsAvoidFeelings: behavioralGoals === 'stop_distractions_avoid_feelings',
+            stopFoodForComfort: behavioralGoals === 'stop_food_for_comfort',
+            stopImpulsiveSpending: behavioralGoals === 'stop_impulsive_spending',
+            stopExcessiveWorkingBusy: behavioralGoals === 'stop_excessive_working_busy',
+            stopCompulsiveCleaning: behavioralGoals === 'stop_compulsive_cleaning',
+        };
+
+        // Map relationship goals
+        const relationshipGoalsMap = {
+            improveRelationships: relationshipGoals === 'improve_relationships',
+            increaseSelfRespect: relationshipGoals === 'increase_self_respect',
+            reduceSelfIsolation: relationshipGoals === 'reduce_self_isolation',
+            stopLashingOut: relationshipGoals === 'stop_lashing_out',
+            stopSelfCriticism: relationshipGoals === 'stop_self_criticism',
+            stopSeekingRevenge: relationshipGoals === 'stop_seeking_revenge',
+            stopSeekingReassurance: relationshipGoals === 'stop_seeking_reassurance',
+        };
+
+        // Map trauma related goals
+        const traumaRelatedGoalsMap = {
+            reduceUnwantedMemories: traumaRelatedGoals === 'reduce_unwanted_memories',
+            feelLessOnGuard: traumaRelatedGoals === 'feel_less_on_guard',
+            reduceNightmaresImproveSleep: traumaRelatedGoals === 'reduce_nightmares_improve_sleep',
+        };
+
+        return {
+            lifeSituation: {
+                housing,
+                work,
+                food,
+                healthcare,
+            },
+            safetyBehaviors,
+            emotionalExperiences: emotionalExperiencesMap,
+            behavioralGoals: behavioralGoalsMap,
+            relationshipGoals: relationshipGoalsMap,
+            traumaRelatedGoals: traumaRelatedGoalsMap,
+            other: hasOtherGoals ? otherGoalsText : '',
+        };
+    };
+
+    // Initialize data from API
+    useEffect(() => {
+        const initializeData = async () => {
+            try {
+                setIsLoading(true);
+                const goals = await fetchGoals();
+                mapApiToComponentState(goals);
+                setIsInitialized(true);
+            } catch (error) {
+                console.error('Error fetching goals:', error);
+                // Continue with default values if API fails
+                setIsInitialized(true);
+            } finally {
+                setIsLoading(false);
+            }
+        };
+
+        initializeData();
+    }, []);
 
     return (
         <KeyboardAvoidingView

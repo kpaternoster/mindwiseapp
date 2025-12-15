@@ -347,7 +347,7 @@ export default function TreatmentPlanScreen() {
                             borderWidth: 2,
                             borderColor: colors.orange_500,
                         }}
-                        onPress={() => console.log('Address specific challenge')}
+                        onPress={() => dissolveTo('Act')}
                     >
                         <Text style={[t.button, { color: colors.Text_Primary }]}>
                             Address Specific Challenge
