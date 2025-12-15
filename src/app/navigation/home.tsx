@@ -75,7 +75,9 @@ import RolePlayEntryScreen from '@features/learn/screens/RolePlayEntry';
 import InterpersonalGoalsScreen from '@features/learn/screens/InterpersonalGoals';
 import InterpersonalGoalsExercisesScreen from '@features/learn/screens/InterpersonalGoalsExercises';
 import ClarifyYourGoalsScreen from '@features/learn/screens/ClarifyYourGoals';
+import ClarifyYourGoalsEntriesScreen from '@features/learn/screens/ClarifyYourGoalsEntries';
 import PlanYourResponseScreen from '@features/learn/screens/PlanYourResponse';
+import PlanYourResponseEntriesScreen from '@features/learn/screens/PlanYourResponseEntries';
 import ThinkScreen from '@features/learn/screens/Think';
 import ThinkExercisesScreen from '@features/learn/screens/ThinkExercises';
 import CommunicateWithThinkScreen from '@features/learn/screens/CommunicateWithThink';
@@ -302,7 +304,9 @@ export default function HomeNavigator() {
             <Stack.Screen name="Learn_InterpersonalGoals" component={InterpersonalGoalsScreen} />
             <Stack.Screen name="Learn_InterpersonalGoalsExercises" component={InterpersonalGoalsExercisesScreen} />
             <Stack.Screen name="Learn_ClarifyYourGoals" component={ClarifyYourGoalsScreen} />
+            <Stack.Screen name="Learn_ClarifyYourGoalsEntries" component={ClarifyYourGoalsEntriesScreen} />
             <Stack.Screen name="Learn_PlanYourResponse" component={PlanYourResponseScreen} />
+            <Stack.Screen name="Learn_PlanYourResponseEntries" component={PlanYourResponseEntriesScreen} />
             <Stack.Screen name="Learn_Think" component={ThinkScreen} />
             <Stack.Screen name="Learn_ThinkExercises" component={ThinkExercisesScreen} />
             <Stack.Screen name="Learn_CommunicateWithThink" component={CommunicateWithThinkScreen} />

@@ -131,7 +131,9 @@ export type HomeStackParams = {
   Learn_InterpersonalGoals: undefined;
   Learn_InterpersonalGoalsExercises: undefined;
   Learn_ClarifyYourGoals: undefined;
+  Learn_ClarifyYourGoalsEntries: undefined;
   Learn_PlanYourResponse: undefined;
+  Learn_PlanYourResponseEntries: undefined;
   Learn_Think: undefined;
   Learn_ThinkExercises: undefined;
   Learn_CommunicateWithThink: undefined;

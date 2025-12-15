@@ -1,67 +1,98 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { View, ScrollView, StatusBar, Pressable, Text, KeyboardAvoidingView, Platform, TextInput } from 'react-native';
 import { colors } from '@design/color';
 import { t } from '@design/typography';
 import { useDissolveNavigation } from '@hooks/useDissolveNavigation';
-import { PageHeader, IntroCard } from '../components';
+import { PageHeader, ProgressBar } from '../components';
 import { ArrowRightIcon, DownIcon, UpIcon } from '@components/Utils';
 import clarifyYourGoalsData from '../data/clarifyYourGoals.json';
 
 export default function ClarifyYourGoalsScreen() {
     const { dissolveTo } = useDissolveNavigation();
-    const { title, intro, sections, buttons } = clarifyYourGoalsData;
+    const { title, totalSteps, steps, buttons } = clarifyYourGoalsData as any;
 
-    const [expandedSections, setExpandedSections] = useState<{ [key: string]: boolean }>({
-        objectiveEffectiveness: true,
-        relationshipEffectiveness: true,
-        selfRespect: true,
-        relationshipMindfulness: true,
-        rankGoals: true,
-        reflectOnPriorities: true,
+    const [currentStep, setCurrentStep] = useState(1);
+    const scrollViewRef = useRef<ScrollView>(null);
+    const stepData = steps.find((s: any) => s.stepNumber === currentStep) || steps[0];
+
+    // State for expanded subsections
+    const [expandedSubsections, setExpandedSubsections] = useState<{ [key: string]: boolean }>({
+        objectiveGoal: true,
+        relationshipGoal: true,
+        selfRespectGoal: true,
+        mostImportant: true,
+        secondPriority: true,
+        thirdPriority: true,
+        priorityReasoning: true,
     });
 
-    const [reflections, setReflections] = useState<{ [key: string]: string }>({
-        objectiveEffectiveness: '',
-        relationshipEffectiveness: '',
-        selfRespect: '',
-        relationshipMindfulness: '',
+    // State for all inputs across all steps
+    const [inputs, setInputs] = useState<{ [key: string]: string }>({
+        describeSituation: '',
+        objectiveGoal: '',
+        relationshipGoal: '',
+        selfRespectGoal: '',
         mostImportant: '',
-        secondImportant: '',
-        leastImportant: '',
-        whyPriorities: '',
-        howToCommunicate: '',
+        secondPriority: '',
+        thirdPriority: '',
+        priorityReasoning: '',
     });
 
-    const toggleSection = (sectionId: string) => {
-        setExpandedSections((prev) => ({
+    // Scroll to top when step changes
+    useEffect(() => {
+        if (scrollViewRef.current) {
+            scrollViewRef.current.scrollTo({ y: 0, animated: true });
+        }
+    }, [currentStep]);
+
+    const handleInputChange = (inputId: string, text: string) => {
+        setInputs((prev) => ({
             ...prev,
-            [sectionId]: !prev[sectionId],
+            [inputId]: text,
         }));
     };
 
-    const handleReflectionChange = (sectionId: string, text: string) => {
-        setReflections((prev) => ({
+    const toggleSubsection = (subsectionId: string) => {
+        setExpandedSubsections((prev) => ({
             ...prev,
-            [sectionId]: text,
+            [subsectionId]: !prev[subsectionId],
         }));
     };
 
-    const handleSaveReflection = () => {
-        // TODO: Save reflection to storage/backend
-        const reflectionData = {
-            reflections,
+    const handleNext = () => {
+        if (currentStep < totalSteps) {
+            setCurrentStep(currentStep + 1);
+        }
+    };
+
+    const handleBack = () => {
+        if (currentStep > 1) {
+            setCurrentStep(currentStep - 1);
+        }
+    };
+
+    const handleSave = () => {
+        // TODO: Save to storage/backend
+        const allData = {
+            step1: {
+                describeSituation: inputs.describeSituation,
+                objectiveGoal: inputs.objectiveGoal,
+                relationshipGoal: inputs.relationshipGoal,
+                selfRespectGoal: inputs.selfRespectGoal,
+            },
+            step2: {
+                mostImportant: inputs.mostImportant,
+                secondPriority: inputs.secondPriority,
+                thirdPriority: inputs.thirdPriority,
+                priorityReasoning: inputs.priorityReasoning,
+            },
         };
-        console.log('Saving Clarify Your Goals:', reflectionData);
-        // TODO: Navigate to entries screen when created
+        console.log('Saving Clarify Your Goals:', allData);
+        dissolveTo('Learn_ClarifyYourGoalsEntries');
     };
 
     const handleViewSaved = () => {
-        // TODO: Navigate to Clarify Your Goals Entries screen when created
-        console.log('View saved entries');
-    };
-
-    const handleBackToMenu = () => {
-        dissolveTo('Learn_InterpersonalGoalsExercises');
+        dissolveTo('Learn_ClarifyYourGoalsEntries');
     };
 
     return (
@@ -73,135 +104,76 @@ export default function ClarifyYourGoalsScreen() {
             <View className="flex-1 bg-white pt-9" style={{ backgroundColor: colors.white }}>
                 <StatusBar barStyle="dark-content" backgroundColor={colors.white} />
                 <PageHeader title={title} showHomeIcon={true} showLeafIcon={true} />
-                {
-                    false && (
-                        <>
-                            <ScrollView
-                                className="flex-1 px-5"
-                                showsVerticalScrollIndicator={false}
-                                contentContainerStyle={{ paddingBottom: 24 }}
-                            >
-                                {/* Intro Card */}
-                                <IntroCard
-                                    title={intro.title}
-                                    text={intro.description}
-                                />
 
-                                {/* Reflection Sections */}
-                                {sections.map((section) => {
-                                    // Sections with subsections (Rank Your Goals, Reflect on Your Priorities)
-                                    if (section.subsections) {
-                                        return (
-                                            <View key={section.id} className="mb-4">
-                                                <Pressable
-                                                    className={`flex-row items-center justify-between px-4 py-4 ${expandedSections[section.id] ? 'rounded-t-2xl' : 'rounded-2xl'}`}
-                                                    style={{
-                                                        backgroundColor: colors.orange_50,
-                                                    }}
-                                                    onPress={() => toggleSection(section.id)}
-                                                >
-                                                    <View className="flex-1">
-                                                        <View className="flex-row items-center justify-between mb-1">
-                                                            <Text style={[t.title16SemiBold, { color: colors.Text_Primary }]}>
-                                                                {section.title}
-                                                            </Text>
-                                                            <View className="ml-3">
-                                                                {expandedSections[section.id] ? (
-                                                                    <UpIcon size={12} color={colors.Text_Primary} />
-                                                                ) : (
-                                                                    <DownIcon size={12} color={colors.Text_Primary} />
-                                                                )}
-                                                            </View>
-                                                        </View>
-                                                    </View>
-                                                </Pressable>
+                {/* Progress Bar */}
+                <ProgressBar currentStep={currentStep} totalSteps={totalSteps} />
 
-                                                {/* Expanded Content with Subsections */}
-                                                {expandedSections[section.id] && (
-                                                    <View
-                                                        className="rounded-b-2xl px-4 py-4"
-                                                        style={{
-                                                            backgroundColor: colors.white,
-                                                            borderColor: colors.stoke_gray,
-                                                            borderWidth: 1,
-                                                            borderTopWidth: 0,
-                                                        }}
-                                                    >
-                                                        {section.subsections.map((subsection: any) => (
-                                                            <View key={subsection.id} className="mb-4">
-                                                                <Text style={[t.textSemiBold, { color: colors.Text_Primary }]} className="mb-2">
-                                                                    {subsection.title}
-                                                                </Text>
-                                                                <TextInput
-                                                                    value={reflections[subsection.id]}
-                                                                    onChangeText={(text) => handleReflectionChange(subsection.id, text)}
-                                                                    placeholder={subsection.placeholder}
-                                                                    placeholderTextColor={colors.text_secondary}
-                                                                    style={[
-                                                                        t.textRegular,
-                                                                        {
-                                                                            color: colors.Text_Primary,
-                                                                            backgroundColor: colors.white,
-                                                                            borderColor: colors.stoke_gray,
-                                                                            borderWidth: 1,
-                                                                            borderRadius: 12,
-                                                                            padding: 12,
-                                                                            minHeight: 100,
-                                                                            textAlignVertical: 'top',
-                                                                        },
-                                                                    ]}
-                                                                    multiline
-                                                                />
-                                                            </View>
-                                                        ))}
-                                                    </View>
-                                                )}
-                                            </View>
-                                        );
-                                    }
+                <ScrollView
+                    ref={scrollViewRef}
+                    className="flex-1 px-5"
+                    showsVerticalScrollIndicator={false}
+                    contentContainerStyle={{ paddingBottom: 24 }}
+                >
+                    {/* Sections */}
+                    {stepData.sections.map((section: any) => (
+                        <View
+                            key={section.id}
+                            className="rounded-2xl mb-4 border"
+                            style={{ backgroundColor: colors.white, borderColor: colors.stoke_gray, borderWidth: 1 }}
+                        >
+                            {/* Header with section number */}
+                            <View className="flex-row items-center mb-2 rounded-t-2xl p-4" style={{ backgroundColor: colors.orange_50 }}>
+                                <View
+                                    className="w-8 h-8 rounded-full items-center justify-center mr-3"
+                                    style={{ backgroundColor: colors.Button_Orange }}
+                                >
+                                    <Text style={[t.title16SemiBold, { color: colors.white }]}>
+                                        {section.number}
+                                    </Text>
+                                </View>
+                                <Text style={[t.title16SemiBold, { color: colors.Text_Primary }]}>
+                                    {section.title}
+                                </Text>
+                            </View>
 
-                                    // Regular sections without subsections
-                                    return (
-                                        <View key={section.id} className="mb-4">
+                            {/* Description */}
+                            {section.description && (
+                                <Text style={[t.textRegular, { color: colors.text_secondary }]} className="mb-3 px-4">
+                                    {section.description}
+                                </Text>
+                            )}
+
+                            {/* Content */}
+                            <View className="p-4">
+                                {/* Section with subsections */}
+                                {section.subsections ? (
+                                    section.subsections.map((subsection: any) => (
+                                        <View key={subsection.id} className="mb-4 p-4 rounded-2xl" style={{backgroundColor: colors.orange_opacity_5}}>
                                             <Pressable
-                                                className={`flex-row items-center justify-between px-4 py-4 ${expandedSections[section.id] ? 'rounded-t-2xl' : 'rounded-2xl'}`}
-                                                style={{
-                                                    backgroundColor: colors.orange_50,
-                                                }}
-                                                onPress={() => toggleSection(section.id)}
+                                                className="flex-row items-center justify-between mb-2"
+                                                onPress={() => toggleSubsection(subsection.id)}
                                             >
-                                                <View className="flex-1">
-                                                    <View className="flex-row items-center justify-between mb-1">
-                                                        <Text style={[t.title16SemiBold, { color: colors.Text_Primary }]}>
-                                                            {section.title}
-                                                        </Text>
-                                                        <View className="ml-3">
-                                                            {expandedSections[section.id] ? (
-                                                                <UpIcon size={12} color={colors.Text_Primary} />
-                                                            ) : (
-                                                                <DownIcon size={12} color={colors.Text_Primary} />
-                                                            )}
-                                                        </View>
-                                                    </View>
-                                                </View>
+                                                <Text style={[t.textSemiBold, { color: colors.Text_Primary }]}>
+                                                    {subsection.title}
+                                                </Text>
+                                                {expandedSubsections[subsection.id] ? (
+                                                    <UpIcon size={12} color={colors.Text_Primary} />
+                                                ) : (
+                                                    <DownIcon size={12} color={colors.Text_Primary} />
+                                                )}
                                             </Pressable>
 
-                                            {/* Expanded Content */}
-                                            {expandedSections[section.id] && (
-                                                <View
-                                                    className="rounded-b-2xl px-4 py-4"
-                                                    style={{
-                                                        backgroundColor: colors.white,
-                                                        borderColor: colors.stoke_gray,
-                                                        borderWidth: 1,
-                                                        borderTopWidth: 0,
-                                                    }}
-                                                >
-                                                    {/* Text Input */}
+                                            {expandedSubsections[subsection.id] && (
+                                                <>
+                                                    {subsection.description && (
+                                                        <Text style={[t.textRegular, { color: colors.text_secondary }]} className="mb-2">
+                                                            {subsection.description}
+                                                        </Text>
+                                                    )}
                                                     <TextInput
-                                                        value={reflections[section.id]}
-                                                        onChangeText={(text) => handleReflectionChange(section.id, text)}
-                                                        placeholder={section.placeholder}
+                                                        value={inputs[subsection.id]}
+                                                        onChangeText={(text) => handleInputChange(subsection.id, text)}
+                                                        placeholder={subsection.placeholder}
                                                         placeholderTextColor={colors.text_secondary}
                                                         style={[
                                                             t.textRegular,
@@ -218,52 +190,99 @@ export default function ClarifyYourGoalsScreen() {
                                                         ]}
                                                         multiline
                                                     />
-                                                </View>
+                                                </>
                                             )}
                                         </View>
-                                    );
-                                })}
-                            </ScrollView>
+                                    ))
+                                ) : (
+                                    // Section without subsections (e.g., Describe Your Situation)
+                                    <>
+                                        {section.subtitle && (
+                                            <Text style={[t.textSemiBold, { color: colors.Text_Primary }]} className="mb-2">
+                                                {section.subtitle}
+                                            </Text>
+                                        )}
+                                        <TextInput
+                                            value={inputs[section.id]}
+                                            onChangeText={(text) => handleInputChange(section.id, text)}
+                                            placeholder={section.placeholder}
+                                            placeholderTextColor={colors.text_secondary}
+                                            style={[
+                                                t.textRegular,
+                                                {
+                                                    color: colors.Text_Primary,
+                                                    backgroundColor: colors.white,
+                                                    borderColor: colors.stoke_gray,
+                                                    borderWidth: 1,
+                                                    borderRadius: 12,
+                                                    padding: 12,
+                                                    minHeight: 100,
+                                                    textAlignVertical: 'top',
+                                                },
+                                            ]}
+                                            multiline
+                                        />
+                                    </>
+                                )}
+                            </View>
+                        </View>
+                    ))}
+                </ScrollView>
 
-                            {/* Bottom Action Buttons */}
-                            <View className="px-5 pb-4" style={{ backgroundColor: colors.white }}>
-                                <View className="flex-row items-center justify-between gap-2">
-                                    <Pressable
-                                        className="rounded-full py-4 px-3 flex-1 items-center justify-center mb-3"
-                                        style={{ borderColor: colors.Button_Orange, borderWidth: 2, backgroundColor: colors.white }}
-                                        onPress={handleViewSaved}
-                                    >
-                                        <Text style={[t.textSemiBold, { color: colors.warm_dark }]}>
-                                            {buttons.viewSaved}
-                                        </Text>
-                                    </Pressable>
-                                    <Pressable
-                                        className="rounded-full py-3 px-3 flex-1 flex-row items-center justify-center mb-3"
-                                        style={{ backgroundColor: colors.Button_Orange }}
-                                        onPress={handleSaveReflection}
-                                    >
-                                        <Text style={[t.textSemiBold, { color: colors.white }]} className="mr-2 flex-1 text-center">
-                                            {buttons.save}
-                                        </Text>
-                                        <View className='w-9 h-9 bg-white rounded-full items-center justify-center'>
-                                            <ArrowRightIcon size={16} color={colors.icon} />
-                                        </View>
-                                    </Pressable>
-                                </View>
-
+                {/* Bottom Navigation Buttons */}
+                <View className="px-5 pb-6" style={{ backgroundColor: colors.white }}>
+                    {currentStep === 1 ? (
+                        // Step 1: Only Next button
+                        <Pressable
+                            className="rounded-full py-3 px-3 flex-row items-center justify-center"
+                            style={{ backgroundColor: colors.Button_Orange }}
+                            onPress={handleNext}
+                        >
+                            <Text style={[t.textSemiBold, { color: colors.white }]} className="flex-1 text-center">
+                                {buttons.next}
+                            </Text>
+                            <View className='w-9 h-9 justify-center items-center bg-white rounded-full'>
+                                <ArrowRightIcon size={16} color={colors.warm_dark} />
+                            </View>
+                        </Pressable>
+                    ) : (
+                        // Step 2: Back and Save buttons, plus View Saved
+                        <View>
+                            <View className="flex-row gap-3 mb-3">
                                 <Pressable
-                                    className="rounded-full py-4 px-3 flex-row items-center justify-center"
+                                    className="flex-1 rounded-full py-4 px-3 flex-row items-center justify-center"
                                     style={{ borderColor: colors.Button_Orange, borderWidth: 2, backgroundColor: colors.white }}
-                                    onPress={handleBackToMenu}
+                                    onPress={handleBack}
                                 >
                                     <Text style={[t.textSemiBold, { color: colors.warm_dark }]}>
-                                        {buttons.backToMenu}
+                                        {buttons.back}
                                     </Text>
                                 </Pressable>
+                                <Pressable
+                                    className="flex-1 rounded-full py-3 px-3 flex-row items-center justify-center"
+                                    style={{ backgroundColor: colors.Button_Orange }}
+                                    onPress={handleSave}
+                                >
+                                    <Text style={[t.textSemiBold, { color: colors.white }]} className="flex-1 text-center">
+                                        {buttons.save}
+                                    </Text>
+                                    <View className='w-9 h-9 justify-center items-center bg-white rounded-full'>
+                                        <ArrowRightIcon size={16} color={colors.warm_dark} />
+                                    </View>
+                                </Pressable>
                             </View>
-                        </>
-                    )
-                }
+                            <Pressable
+                                className="rounded-full py-4 px-3 flex-row items-center justify-center"
+                                style={{ borderColor: colors.Button_Orange, borderWidth: 2, backgroundColor: colors.white }}
+                                onPress={handleViewSaved}
+                            >
+                                <Text style={[t.textSemiBold, { color: colors.Button_Orange }]}>
+                                    {buttons.viewSaved}
+                                </Text>
+                            </Pressable>
+                        </View>
+                    )}
+                </View>
             </View>
         </KeyboardAvoidingView>
     );

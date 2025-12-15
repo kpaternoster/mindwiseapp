@@ -1,64 +1,82 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { View, ScrollView, StatusBar, Pressable, Text, KeyboardAvoidingView, Platform, TextInput } from 'react-native';
 import { colors } from '@design/color';
 import { t } from '@design/typography';
 import { useDissolveNavigation } from '@hooks/useDissolveNavigation';
-import { PageHeader, IntroCard } from '../components';
-import { ArrowRightIcon, DownIcon, UpIcon } from '@components/Utils';
+import { PageHeader, ProgressBar } from '../components';
+import { ArrowRightIcon } from '@components/Utils';
 import planYourResponseData from '../data/planYourResponse.json';
 
 export default function PlanYourResponseScreen() {
     const { dissolveTo } = useDissolveNavigation();
-    const { title, intro, sections, buttons } = planYourResponseData;
+    const { title, totalSteps, steps, buttons } = planYourResponseData as any;
 
-    const [expandedSections, setExpandedSections] = useState<{ [key: string]: boolean }>({
-        alignWithValues: true,
-        planYourWords: true,
-        planYourTone: true,
-        desiredOutcome: true,
-        reflectOnPlan: true,
-    });
+    const [currentStep, setCurrentStep] = useState(1);
+    const scrollViewRef = useRef<ScrollView>(null);
+    const stepData = steps.find((s: any) => s.stepNumber === currentStep) || steps[0];
 
-    const [reflections, setReflections] = useState<{ [key: string]: string }>({
-        alignWithValues: '',
+    // State for all inputs across all steps
+    const [inputs, setInputs] = useState<{ [key: string]: string }>({
+        reviewSituation: '',
+        checkValuesAlignment: '',
+        confirmGoalsAlignment: '',
         planYourWords: '',
         planYourTone: '',
         desiredOutcome: '',
-        strengths: '',
-        potentialChallenges: '',
-        adjustments: '',
+        backupPlan: '',
+        finalReflection: '',
     });
 
-    const toggleSection = (sectionId: string) => {
-        setExpandedSections((prev) => ({
+    // Scroll to top when step changes
+    useEffect(() => {
+        if (scrollViewRef.current) {
+            scrollViewRef.current.scrollTo({ y: 0, animated: true });
+        }
+    }, [currentStep]);
+
+    const handleInputChange = (inputId: string, text: string) => {
+        setInputs((prev) => ({
             ...prev,
-            [sectionId]: !prev[sectionId],
+            [inputId]: text,
         }));
     };
 
-    const handleReflectionChange = (sectionId: string, text: string) => {
-        setReflections((prev) => ({
-            ...prev,
-            [sectionId]: text,
-        }));
+    const handleNext = () => {
+        if (currentStep < totalSteps) {
+            setCurrentStep(currentStep + 1);
+        }
     };
 
-    const handleSaveReflection = () => {
-        // TODO: Save reflection to storage/backend
-        const reflectionData = {
-            reflections,
+    const handleBack = () => {
+        if (currentStep > 1) {
+            setCurrentStep(currentStep - 1);
+        }
+    };
+
+    const handleSave = () => {
+        // TODO: Save to storage/backend
+        const allData = {
+            step1: {
+                reviewSituation: inputs.reviewSituation,
+                checkValuesAlignment: inputs.checkValuesAlignment,
+                confirmGoalsAlignment: inputs.confirmGoalsAlignment,
+            },
+            step2: {
+                planYourWords: inputs.planYourWords,
+                planYourTone: inputs.planYourTone,
+                desiredOutcome: inputs.desiredOutcome,
+            },
+            step3: {
+                backupPlan: inputs.backupPlan,
+                finalReflection: inputs.finalReflection,
+            },
         };
-        console.log('Saving Plan Your Response:', reflectionData);
-        // TODO: Navigate to entries screen when created
+        console.log('Saving Plan Your Response:', allData);
+        dissolveTo('Learn_PlanYourResponseEntries');
     };
 
     const handleViewSaved = () => {
-        // TODO: Navigate to Plan Your Response Entries screen when created
-        console.log('View saved entries');
-    };
-
-    const handleBackToMenu = () => {
-        dissolveTo('Learn_InterpersonalGoalsExercises');
+        dissolveTo('Learn_PlanYourResponseEntries');
     };
 
     return (
@@ -71,200 +89,159 @@ export default function PlanYourResponseScreen() {
                 <StatusBar barStyle="dark-content" backgroundColor={colors.white} />
                 <PageHeader title={title} showHomeIcon={true} showLeafIcon={true} />
 
-                {
-                    false && (
-                        <>
-                            <ScrollView
-                                className="flex-1 px-5"
-                                showsVerticalScrollIndicator={false}
-                                contentContainerStyle={{ paddingBottom: 24 }}
+                {/* Progress Bar */}
+                <ProgressBar currentStep={currentStep} totalSteps={totalSteps} />
+
+                <ScrollView
+                    ref={scrollViewRef}
+                    className="flex-1 px-5"
+                    showsVerticalScrollIndicator={false}
+                    contentContainerStyle={{ paddingBottom: 24 }}
+                >
+
+
+                    {/* Sections */}
+                    <View className="">
+                        {stepData.sections.map((section: any) => (
+
+                            <View
+                                className="rounded-2xl mb-4 border"
+                                style={{ backgroundColor: colors.white, borderColor: colors.stoke_gray, borderWidth: 1 }}
+                                key={section.id}
                             >
-                                {/* Intro Card */}
-                                <IntroCard
-                                    title={intro.title}
-                                    text={intro.description}
-                                />
-
-                                {/* Reflection Sections */}
-                                {sections.map((section) => {
-                                    // Sections with subsections (Reflect on Your Plan)
-                                    if (section.subsections) {
-                                        return (
-                                            <View key={section.id} className="mb-4">
-                                                <Pressable
-                                                    className={`flex-row items-center justify-between px-4 py-4 ${expandedSections[section.id] ? 'rounded-t-2xl' : 'rounded-2xl'}`}
-                                                    style={{
-                                                        backgroundColor: colors.orange_50,
-                                                    }}
-                                                    onPress={() => toggleSection(section.id)}
-                                                >
-                                                    <View className="flex-1">
-                                                        <View className="flex-row items-center justify-between mb-1">
-                                                            <Text style={[t.title16SemiBold, { color: colors.Text_Primary }]}>
-                                                                {section.title}
-                                                            </Text>
-                                                            <View className="ml-3">
-                                                                {expandedSections[section.id] ? (
-                                                                    <UpIcon size={12} color={colors.Text_Primary} />
-                                                                ) : (
-                                                                    <DownIcon size={12} color={colors.Text_Primary} />
-                                                                )}
-                                                            </View>
-                                                        </View>
-                                                    </View>
-                                                </Pressable>
-
-                                                {/* Expanded Content with Subsections */}
-                                                {expandedSections[section.id] && (
-                                                    <View
-                                                        className="rounded-b-2xl px-4 py-4"
-                                                        style={{
-                                                            backgroundColor: colors.white,
-                                                            borderColor: colors.stoke_gray,
-                                                            borderWidth: 1,
-                                                            borderTopWidth: 0,
-                                                        }}
-                                                    >
-                                                        {section.subsections.map((subsection: any) => (
-                                                            <View key={subsection.id} className="mb-4">
-                                                                <Text style={[t.textSemiBold, { color: colors.Text_Primary }]} className="mb-2">
-                                                                    {subsection.title}
-                                                                </Text>
-                                                                <TextInput
-                                                                    value={reflections[subsection.id]}
-                                                                    onChangeText={(text) => handleReflectionChange(subsection.id, text)}
-                                                                    placeholder={subsection.placeholder}
-                                                                    placeholderTextColor={colors.text_secondary}
-                                                                    style={[
-                                                                        t.textRegular,
-                                                                        {
-                                                                            color: colors.Text_Primary,
-                                                                            backgroundColor: colors.white,
-                                                                            borderColor: colors.stoke_gray,
-                                                                            borderWidth: 1,
-                                                                            borderRadius: 12,
-                                                                            padding: 12,
-                                                                            minHeight: 100,
-                                                                            textAlignVertical: 'top',
-                                                                        },
-                                                                    ]}
-                                                                    multiline
-                                                                />
-                                                            </View>
-                                                        ))}
-                                                    </View>
-                                                )}
-                                            </View>
-                                        );
-                                    }
-
-                                    // Regular sections without subsections
-                                    return (
-                                        <View key={section.id} className="mb-4">
-                                            <Pressable
-                                                className={`flex-row items-center justify-between px-4 py-4 ${expandedSections[section.id] ? 'rounded-t-2xl' : 'rounded-2xl'}`}
-                                                style={{
-                                                    backgroundColor: colors.orange_50,
-                                                }}
-                                                onPress={() => toggleSection(section.id)}
-                                            >
-                                                <View className="flex-1">
-                                                    <View className="flex-row items-center justify-between mb-1">
-                                                        <Text style={[t.title16SemiBold, { color: colors.Text_Primary }]}>
-                                                            {section.title}
-                                                        </Text>
-                                                        <View className="ml-3">
-                                                            {expandedSections[section.id] ? (
-                                                                <UpIcon size={12} color={colors.Text_Primary} />
-                                                            ) : (
-                                                                <DownIcon size={12} color={colors.Text_Primary} />
-                                                            )}
-                                                        </View>
-                                                    </View>
-                                                </View>
-                                            </Pressable>
-
-                                            {/* Expanded Content */}
-                                            {expandedSections[section.id] && (
-                                                <View
-                                                    className="rounded-b-2xl px-4 py-4"
-                                                    style={{
-                                                        backgroundColor: colors.white,
-                                                        borderColor: colors.stoke_gray,
-                                                        borderWidth: 1,
-                                                        borderTopWidth: 0,
-                                                    }}
-                                                >
-                                                    {/* Text Input */}
-                                                    <TextInput
-                                                        value={reflections[section.id]}
-                                                        onChangeText={(text) => handleReflectionChange(section.id, text)}
-                                                        placeholder={section.placeholder}
-                                                        placeholderTextColor={colors.text_secondary}
-                                                        style={[
-                                                            t.textRegular,
-                                                            {
-                                                                color: colors.Text_Primary,
-                                                                backgroundColor: colors.white,
-                                                                borderColor: colors.stoke_gray,
-                                                                borderWidth: 1,
-                                                                borderRadius: 12,
-                                                                padding: 12,
-                                                                minHeight: 100,
-                                                                textAlignVertical: 'top',
-                                                            },
-                                                        ]}
-                                                        multiline
-                                                    />
-                                                </View>
-                                            )}
-                                        </View>
-                                    );
-                                })}
-                            </ScrollView>
-
-                            {/* Bottom Action Buttons */}
-                            <View className="px-5 pb-4" style={{ backgroundColor: colors.white }}>
-                                <View className="flex-row items-center justify-between gap-2">
-                                    <Pressable
-                                        className="rounded-full py-4 px-3 flex-1 items-center justify-center mb-3"
-                                        style={{ borderColor: colors.Button_Orange, borderWidth: 2, backgroundColor: colors.white }}
-                                        onPress={handleViewSaved}
-                                    >
-                                        <Text style={[t.textSemiBold, { color: colors.warm_dark }]}>
-                                            {buttons.viewSaved}
-                                        </Text>
-                                    </Pressable>
-                                    <Pressable
-                                        className="rounded-full py-3 px-3 flex-1 flex-row items-center justify-center mb-3"
+                                <View className="flex-row items-center mb-2 rounded-t-2xl p-4"
+                                    style={{
+                                        backgroundColor: colors.orange_50,
+                                    }}
+                                >
+                                    <View
+                                        className="w-8 h-8 rounded-full items-center justify-center mr-3"
                                         style={{ backgroundColor: colors.Button_Orange }}
-                                        onPress={handleSaveReflection}
                                     >
-                                        <Text style={[t.textSemiBold, { color: colors.white }]} className="mr-2 flex-1 text-center">
-                                            {buttons.save}
+                                        <Text style={[t.title16SemiBold, { color: colors.white }]}>
+                                            {section.number}
                                         </Text>
-                                        <View className='w-9 h-9 bg-white rounded-full items-center justify-center'>
-                                            <ArrowRightIcon size={16} color={colors.icon} />
-                                        </View>
-                                    </Pressable>
+                                    </View>
+                                    <Text style={[t.title16SemiBold, { color: colors.Text_Primary }]}>
+                                        {section.title}
+                                    </Text>
                                 </View>
 
+                                {/* Description */}
+                                <Text style={[t.textRegular, { color: colors.text_secondary }]} className="mb-3 px-4">
+                                    {section.description}
+                                </Text>
+                                <View className="p-4">
+
+                                    {/* Input Field */}
+                                    <TextInput
+                                        value={inputs[section.id]}
+                                        onChangeText={(text) => handleInputChange(section.id, text)}
+                                        placeholder={section.placeholder}
+                                        placeholderTextColor={colors.text_secondary}
+                                        style={[
+                                            t.textRegular,
+                                            {
+                                                color: colors.Text_Primary,
+                                                backgroundColor: colors.white,
+                                                borderColor: colors.stoke_gray,
+                                                borderWidth: 1,
+                                                borderRadius: 12,
+                                                padding: 12,
+                                                minHeight: 100,
+                                                textAlignVertical: 'top',
+                                            },
+                                        ]}
+                                        multiline
+                                    />
+                                </View>
+                            </View>
+
+
+                        ))}
+                    </View>
+                </ScrollView>
+
+                {/* Bottom Navigation Buttons */}
+                <View className="px-5 pb-6" style={{ backgroundColor: colors.white }}>
+                    {currentStep === 1 ? (
+                        // Step 1: Only Next button
+                        <Pressable
+                            className="rounded-full py-3 px-3 flex-row items-center justify-center"
+                            style={{ backgroundColor: colors.Button_Orange }}
+                            onPress={handleNext}
+                        >
+                            <Text style={[t.textSemiBold, { color: colors.white }]} className="flex-1 text-center">
+                                {buttons.next}
+                            </Text>
+                            <View className='w-9 h-9 justify-center items-center bg-white rounded-full'>
+                                <ArrowRightIcon size={16} color={colors.warm_dark} />
+                            </View>
+                        </Pressable>
+                    ) : currentStep === 2 ? (
+                        // Step 2: Back and Next buttons
+                        <View className="flex-row gap-3">
+                            <Pressable
+                                className="flex-1 rounded-full py-4 px-3 flex-row items-center justify-center"
+                                style={{ borderColor: colors.Button_Orange, borderWidth: 2, backgroundColor: colors.white }}
+                                onPress={handleBack}
+                            >
+                                <Text style={[t.textSemiBold, { color: colors.warm_dark }]}>
+                                    {buttons.back}
+                                </Text>
+                            </Pressable>
+                            <Pressable
+                                className="flex-1 rounded-full py-3 px-3 flex-row items-center justify-center"
+                                style={{ backgroundColor: colors.Button_Orange }}
+                                onPress={handleNext}
+                            >
+                                <Text style={[t.textSemiBold, { color: colors.white }]} className="flex-1 text-center">
+                                    {buttons.next}
+                                </Text>
+                                <View className='w-9 h-9 justify-center items-center bg-white rounded-full'>
+                                    <ArrowRightIcon size={16} color={colors.warm_dark} />
+                                </View>
+                            </Pressable>
+                        </View>
+                    ) : (
+                        // Step 3: Back, Save, and View Saved buttons
+                        <View>
+                            <View className="flex-row gap-3 mb-3">
                                 <Pressable
-                                    className="rounded-full py-4 px-3 flex-row items-center justify-center"
+                                    className="flex-1 rounded-full py-4 px-3 flex-row items-center justify-center"
                                     style={{ borderColor: colors.Button_Orange, borderWidth: 2, backgroundColor: colors.white }}
-                                    onPress={handleBackToMenu}
+                                    onPress={handleBack}
                                 >
                                     <Text style={[t.textSemiBold, { color: colors.warm_dark }]}>
-                                        {buttons.backToMenu}
+                                        {buttons.back}
                                     </Text>
                                 </Pressable>
+                                <Pressable
+                                    className="flex-1 rounded-full py-3 px-3 flex-row items-center justify-center"
+                                    style={{ backgroundColor: colors.Button_Orange }}
+                                    onPress={handleSave}
+                                >
+                                    <Text style={[t.textSemiBold, { color: colors.white }]} className="flex-1 text-center">
+                                        {buttons.save}
+                                    </Text>
+                                    <View className='w-9 h-9 justify-center items-center bg-white rounded-full'>
+                                        <ArrowRightIcon size={16} color={colors.warm_dark} />
+                                    </View>
+                                </Pressable>
                             </View>
-                        </>
-                    )
-                }
-
+                            <Pressable
+                                className="rounded-full py-4 px-3 flex-row items-center justify-center"
+                                style={{ borderColor: colors.Button_Orange, borderWidth: 2, backgroundColor: colors.white }}
+                                onPress={handleViewSaved}
+                            >
+                                <Text style={[t.textSemiBold, { color: colors.Button_Orange }]}>
+                                    {buttons.viewSaved}
+                                </Text>
+                            </Pressable>
+                        </View>
+                    )}
+                </View>
             </View>
         </KeyboardAvoidingView>
     );
 }
-

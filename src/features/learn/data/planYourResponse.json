@@ -1,57 +1,95 @@
 {
   "title": "Plan Your Response",
-  "intro": {
-    "title": "Plan Your Response",
-    "description": "Reflect on whether your goals align with your values, then plan your words, tone, and desired outcome. This preparation helps you communicate effectively while staying true to what matters most to you."
-  },
-  "sections": [
+  "totalSteps": 3,
+  "steps": [
     {
-      "id": "alignWithValues",
-      "title": "Align with Your Values",
-      "placeholder": "How do your goals align with your core values? What values are you honoring by pursuing these goals?"
-    },
-    {
-      "id": "planYourWords",
-      "title": "Plan Your Words",
-      "placeholder": "What specific words or phrases will you use? How will you express your needs clearly and respectfully?"
-    },
-    {
-      "id": "planYourTone",
-      "title": "Plan Your Tone",
-      "placeholder": "What tone will you use? How will you convey respect, assertiveness, and openness?"
-    },
-    {
-      "id": "desiredOutcome",
-      "title": "Desired Outcome",
-      "placeholder": "What is your ideal outcome? What would success look like for this interaction?"
-    },
-    {
-      "id": "reflectOnPlan",
-      "title": "Reflect on Your Plan",
-      "placeholder": "",
-      "subsections": [
+      "stepNumber": 1,
+      "stepBadge": {
+        "number": "1",
+        "text": "Review Your Situation"
+      },
+      "sections": [
         {
-          "id": "strengths",
-          "title": "What are the strengths of your plan?",
-          "placeholder": "What aspects of your planned approach feel strong and aligned with your goals?"
+          "id": "reviewSituation",
+          "number": 1,
+          "title": "Review Your Situation",
+          "description": "Briefly describe the interpersonal situation you're planning to address.",
+          "placeholder": "The situation I'm planning to address is...."
         },
         {
-          "id": "potentialChallenges",
-          "title": "What potential challenges do you anticipate?",
-          "placeholder": "What obstacles or difficulties might you encounter? How will you handle them?"
+          "id": "checkValuesAlignment",
+          "number": 2,
+          "title": "Check Values Alignment",
+          "description": "Do your goals align with your core values? What values are most important to you in this situation?",
+          "placeholder": "My goals align with my values because... The values most important to me here are...."
         },
         {
-          "id": "adjustments",
-          "title": "What adjustments might you need to make?",
-          "placeholder": "Based on your reflection, what changes or improvements would strengthen your plan?"
+          "id": "confirmGoalsAlignment",
+          "number": 3,
+          "title": "Confirm Goals Alignment",
+          "description": "Based on your priorities from the previous exercise, how do your goals work together in this situation?",
+          "placeholder": "My objective, relationship, and self-respect goals work together by..."
+        }
+      ]
+    },
+    {
+      "stepNumber": 2,
+      "stepBadge": {
+        "number": "2",
+        "text": "Plan Your Words"
+      },
+      "sections": [
+        {
+          "id": "planYourWords",
+          "number": 4,
+          "title": "Plan Your Words",
+          "description": "What specific words or phrases will you use? Practice writing out key parts of what you want to say.",
+          "placeholder": "I will say something like: 'I wanted to talk with you about...' or 'I've been thinking about...'"
+        },
+        {
+          "id": "planYourTone",
+          "number": 5,
+          "title": "Plan Your Tone",
+          "description": "How do you want to come across? What tone will best serve your goals?",
+          "placeholder": "I want to sound calm, confident, and respectful. I will avoid sounding..."
+        },
+        {
+          "id": "desiredOutcome",
+          "number": 6,
+          "title": "Desired Outcome",
+          "description": "What would success look like? What's your ideal outcome from this conversation?",
+          "placeholder": "Success would look like... Ideally, after this conversation..."
+        }
+      ]
+    },
+    {
+      "stepNumber": 3,
+      "stepBadge": {
+        "number": "3",
+        "text": "Backup Plan"
+      },
+      "sections": [
+        {
+          "id": "backupPlan",
+          "number": 7,
+          "title": "Backup Plan",
+          "description": "What if things don't go as planned? How will you handle resistance or unexpected responses?",
+          "placeholder": "If they react negatively, I will... If they don't understand, I can..."
+        },
+        {
+          "id": "finalReflection",
+          "number": 8,
+          "title": "Final Reflection",
+          "description": "How do you feel about your plan? What gives you confidence? What concerns do you have?",
+          "placeholder": "I feel confident about... I'm a bit concerned about... Overall, I think this plan will..."
         }
       ]
     }
   ],
   "buttons": {
+    "next": "Next",
+    "back": "Back",
     "save": "Save",
-    "viewSaved": "View Saved",
-    "backToMenu": "Back to Menu"
+    "viewSaved": "View Saved"
   }
 }
-

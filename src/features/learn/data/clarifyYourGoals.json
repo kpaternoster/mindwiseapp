@@ -1,73 +1,91 @@
 {
   "title": "Clarify Your Goals",
-  "intro": {
-    "title": "Identify Your Interpersonal Goals",
-    "description": "Before any interpersonal interaction, it's important to clarify what you want to achieve. Identify your objectives, relationship, and self-respect goals, then rank them by importance for your current situation."
-  },
-  "sections": [
+  "totalSteps": 2,
+  "steps": [
     {
-      "id": "objectiveEffectiveness",
-      "title": "Objective Effectiveness",
-      "placeholder": "What outcome do you want? What specific result or outcome are you hoping to achieve from this interaction?"
-    },
-    {
-      "id": "relationshipEffectiveness",
-      "title": "Relationship Effectiveness",
-      "placeholder": "What do you want for the relationship from this interaction? How do you want this interaction to affect your relationship with the other person?"
-    },
-    {
-      "id": "selfRespect",
-      "title": "Self-Respect",
-      "placeholder": "How do you want to feel about yourself afterward? What do you need to do or say to feel good about yourself and maintain your self-respect?"
-    },
-    {
-      "id": "relationshipMindfulness",
-      "title": "Relationship Mindfulness",
-      "placeholder": "What do you want to stay aware of about the relationship as you talk? What aspects of your relationship do you want to keep in mind during this conversation?"
-    },
-    {
-      "id": "rankGoals",
-      "title": "Rank Your Goals",
-      "placeholder": "",
-      "subsections": [
+      "stepNumber": 1,
+      "sections": [
         {
-          "id": "mostImportant",
-          "title": "Most Important Goal",
-          "placeholder": "Which goal is most important to you in this situation? Explain why this goal matters most to you right now."
+          "id": "describeSituation",
+          "number": 1,
+          "title": "Describe Your Situation",
+          "description": "Think of a current or upcoming interpersonal situation where you need to communicate something important.",
+          "subtitle": "Situation Description",
+          "placeholder": "Describe the situation you're facing..."
         },
         {
-          "id": "secondImportant",
-          "title": "Second Most Important Goal",
-          "placeholder": "Which goal is your second priority? Explain why this goal is your second priority."
-        },
-        {
-          "id": "leastImportant",
-          "title": "Least Important Goal",
-          "placeholder": "Which goal is least important in this situation? Why is this goal less of a priority for you right now?"
+          "id": "identifyThreeGoals",
+          "number": 2,
+          "title": "Identify Your Three Goals",
+          "subsections": [
+            {
+              "id": "objectiveGoal",
+              "title": "Objective Goal",
+              "description": "What do you want to achieve or get from this interaction?",
+              "placeholder": "I want to..."
+            },
+            {
+              "id": "relationshipGoal",
+              "title": "Relationship Goal",
+              "description": "How do you want the other person to feel about you and the relationship?",
+              "placeholder": "I want them to feel..."
+            },
+            {
+              "id": "selfRespectGoal",
+              "title": "Self-Respect Goal",
+              "description": "How do you want to feel about yourself after this interaction?",
+              "placeholder": "I want to feel..."
+            }
+          ]
         }
       ]
     },
     {
-      "id": "reflectOnPriorities",
-      "title": "Reflect on Your Priorities",
-      "placeholder": "",
-      "subsections": [
+      "stepNumber": 2,
+      "sections": [
         {
-          "id": "whyPriorities",
-          "title": "Why These Priorities?",
-          "placeholder": "What factors influenced your ranking? What circumstances, values, or needs led you to prioritize these goals in this way?"
+          "id": "prioritizeGoals",
+          "number": 3,
+          "title": "Prioritize Your Goals",
+          "description": "Rank your three goals in order of importance for this specific situation. Which matters most right now?",
+          "subsections": [
+            {
+              "id": "mostImportant",
+              "title": "Most Important (Priority 1)",
+              "placeholder": "My top priority is..."
+            },
+            {
+              "id": "secondPriority",
+              "title": "Second Priority",
+              "placeholder": "My second priority is..."
+            },
+            {
+              "id": "thirdPriority",
+              "title": "Third Priority",
+              "placeholder": "My third priority is..."
+            }
+          ]
         },
         {
-          "id": "howToCommunicate",
-          "title": "How Will You Communicate?",
-          "placeholder": "Based on your priorities, how will you approach this conversation? Given your most important goal, what approach, tone, or strategy will help you achieve it?"
+          "id": "reflectOnPriorities",
+          "number": 4,
+          "title": "Reflect on Your Priorities",
+          "description": "Why did you prioritize your goals this way? What factors influenced your decision?",
+          "subsections": [
+            {
+              "id": "priorityReasoning",
+              "title": "Priority Reasoning",
+              "placeholder": "I prioritized my goals this way because..."
+            }
+          ]
         }
       ]
     }
   ],
   "buttons": {
+    "next": "Next",
+    "back": "Back",
     "save": "Save",
-    "viewSaved": "View Saved",
-    "backToMenu": "Back to Menu"
+    "viewSaved": "View Saved"
   }
 }
