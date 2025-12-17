@@ -1,44 +1,107 @@
 import React, { useState, useEffect } from 'react';
-import { View, ScrollView, StatusBar, Pressable, Text } from 'react-native';
+import { View, ScrollView, StatusBar, Pressable, Text, ActivityIndicator } from 'react-native';
 import { colors } from '@design/color';
 import { t } from '@design/typography';
 import { useDissolveNavigation } from '@hooks/useDissolveNavigation';
 import { PageHeader } from '../components/PageHeader';
 import { STUNWAVEEntryCard, STUNWAVEEntry } from '../components/STUNWAVEEntryCard';
+import { fetchStunwaveList, deleteStunwave, StunwaveEntry as ApiStunwaveEntry } from '../api/stunwave';
 
 export default function STUNWAVEEntriesScreen() {
     const { dissolveTo } = useDissolveNavigation();
     const [entries, setEntries] = useState<STUNWAVEEntry[]>([]);
+    const [isLoading, setIsLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
+
+    // Transform API entry to component format
+    const transformApiEntry = (apiEntry: ApiStunwaveEntry): STUNWAVEEntry => {
+        return {
+            id: apiEntry.id,
+            date: new Date(apiEntry.time * 1000).toISOString(), // Convert timestamp to ISO string
+            sensations: apiEntry.bodySensations || undefined,
+            thoughts: apiEntry.thoughts || undefined,
+            urges: apiEntry.urges || undefined,
+            emotions: apiEntry.emotions || undefined,
+            waveReflection: apiEntry.surfTheWave || undefined,
+            reflection: apiEntry.reflection || undefined,
+        };
+    };
 
     useEffect(() => {
-        // TODO: Load entries from storage/backend
-        // For now, using mock data
-        const mockEntries: STUNWAVEEntry[] = [
-            {
-                id: '1',
-                date: new Date(2025, 10, 6).toISOString(), // Nov 6, 2025
-                emotions: 'excited',
-                reflection: 'joy',
-                notes: 'lorem ipsum si amet',
-            },
-        ];
-        setEntries(mockEntries);
+        const loadEntries = async () => {
+            try {
+                setIsLoading(true);
+                setError(null);
+                const apiEntries = await fetchStunwaveList();
+                
+                // Transform API entries to component format and sort by date (newest first)
+                const transformedEntries = apiEntries
+                    .map(transformApiEntry)
+                    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+                
+                setEntries(transformedEntries);
+            } catch (err) {
+                console.error('Failed to load stunwave entries:', err);
+                setError('Failed to load entries. Please try again.');
+            } finally {
+                setIsLoading(false);
+            }
+        };
+
+        loadEntries();
     }, []);
 
-    const handleDelete = (id: string) => {
-        // TODO: Implement delete functionality
-        setEntries((prev) => prev.filter((entry) => entry.id !== id));
-        console.log('Delete entry:', id);
+    const handleDelete = async (id: string) => {
+        try {
+            // Optimistically update UI
+            setEntries((prev) => prev.filter((entry) => entry.id !== id));
+            
+            // Delete from API
+            await deleteStunwave(id);
+        } catch (err) {
+            console.error('Failed to delete entry:', err);
+            // Reload entries on error to restore the deleted entry
+            try {
+                const apiEntries = await fetchStunwaveList();
+                const transformedEntries = apiEntries
+                    .map(transformApiEntry)
+                    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+                setEntries(transformedEntries);
+            } catch (reloadErr) {
+                console.error('Failed to reload entries:', reloadErr);
+            }
+            setError('Failed to delete entry. Please try again.');
+        }
     };
 
     const handleNewEntry = () => {
         dissolveTo('Learn_STUNWAVECheckIn');
     };
 
+    if (isLoading) {
+        return (
+            <View className="flex-1 bg-white pt-9" style={{ backgroundColor: colors.white }}>
+                <StatusBar barStyle="dark-content" backgroundColor={colors.white} />
+                <PageHeader title="Saved STUNWAVE Entries" showHomeIcon={true} showLeafIcon={true} />
+                <View className="flex-1 items-center justify-center">
+                    <ActivityIndicator size="large" color={colors.button_orange} />
+                </View>
+            </View>
+        );
+    }
+
     return (
         <View className="flex-1 bg-white pt-9" style={{ backgroundColor: colors.white }}>
             <StatusBar barStyle="dark-content" backgroundColor={colors.white} />
             <PageHeader title="Saved STUNWAVE Entries" showHomeIcon={true} showLeafIcon={true} />
+
+            {error && (
+                <View className="mx-5 mt-2 p-3 rounded-xl" style={{ backgroundColor: colors.orange_50 }}>
+                    <Text style={[t.textRegular, { color: colors.Text_Primary }]}>
+                        {error}
+                    </Text>
+                </View>
+            )}
 
             <ScrollView
                 className="flex-1 px-5"

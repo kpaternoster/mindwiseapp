@@ -1,9 +1,10 @@
-import React, { useMemo } from 'react';
-import { View, Text } from 'react-native';
+import React, { useMemo, useState, useEffect } from 'react';
+import { View, Text, ActivityIndicator } from 'react-native';
 import { Calendar } from 'react-native-calendars';
 import { colors } from '@design/color';
 import { t } from '@design/typography';
 import { SUDSEntry } from './SUDSEntryCard';
+import { fetchSudsCalendar } from '../api/suds';
 
 interface SUDSCalendarProps {
     entries: SUDSEntry[];
@@ -22,10 +23,69 @@ const getSUDSColor = (level: number): string => {
 };
 
 export const SUDSCalendar: React.FC<SUDSCalendarProps> = ({ entries }) => {
-    // Create marked dates from entries
+    const [calendarData, setCalendarData] = useState<(number | null)[]>([]);
+    const [isLoading, setIsLoading] = useState(false);
+    const [currentMonth, setCurrentMonth] = useState<string>('');
+
+    // Extract YYYY-MM from date string (e.g., "2025-08-17" -> "2025-08")
+    const extractMonth = (dateString: string): string => {
+        return dateString.substring(0, 7); // Get first 7 characters (YYYY-MM)
+    };
+
+    // Load calendar data for a specific month
+    const loadCalendarData = async (month: string) => {
+        try {
+            setIsLoading(true);
+            const data = await fetchSudsCalendar(month);
+            setCalendarData(data);
+        } catch (error) {
+            console.error('Error loading calendar data:', error);
+            setCalendarData([]);
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
+    // Handle month change
+    const handleMonthChange = (month: { dateString: string }) => {
+        const monthString = extractMonth(month.dateString);
+        setCurrentMonth(monthString);
+        loadCalendarData(monthString);
+    };
+
+    // Load initial month data
+    useEffect(() => {
+        const today = new Date();
+        const currentMonthString = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}`;
+        setCurrentMonth(currentMonthString);
+        loadCalendarData(currentMonthString);
+    }, []);
+
+    // Create marked dates from API calendar data
     const markedDates = useMemo(() => {
         const marked: any = {};
         
+        if (calendarData.length > 0 && currentMonth) {
+            const [year, month] = currentMonth.split('-').map(Number);
+            const daysInMonth = new Date(year, month, 0).getDate();
+            
+            // Map calendar data array to marked dates
+            calendarData.forEach((level, index) => {
+                if (level !== null && index < daysInMonth) {
+                    const day = index + 1;
+                    const dateString = `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+                    const color = getSUDSColor(level);
+                    
+                    marked[dateString] = {
+                        marked: true,
+                        dotColor: color,
+                        selected: false,
+                    };
+                }
+            });
+        }
+        
+        // Also include entries from props as fallback/override
         entries.forEach((entry) => {
             const date = new Date(entry.date);
             const dateString = date.toISOString().split('T')[0];
@@ -39,10 +99,15 @@ export const SUDSCalendar: React.FC<SUDSCalendarProps> = ({ entries }) => {
         });
         
         return marked;
-    }, [entries]);
+    }, [calendarData, currentMonth, entries]);
 
     return (
         <View>
+            {/* {isLoading && (
+                <View className="items-center justify-center py-4">
+                    <ActivityIndicator size="small" color={colors.button_orange} />
+                </View>
+            )} */}
             {/* Calendar */}
             <Calendar
                 style={{
@@ -74,6 +139,7 @@ export const SUDSCalendar: React.FC<SUDSCalendarProps> = ({ entries }) => {
                 markedDates={markedDates}
                 hideExtraDays={false}
                 firstDay={0} // Sunday
+                onMonthChange={handleMonthChange}
             />
 
             {/* Legend */}

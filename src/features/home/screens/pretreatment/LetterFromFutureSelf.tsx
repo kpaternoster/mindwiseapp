@@ -19,7 +19,7 @@ import { t } from '@design/typography';
 import { ContentCard, ProgressHeader, PageHeader, HighlightBox } from '../../components';
 import { handleScrollProgress } from '../../utils/scrollHelper';
 import { useDissolveNavigation } from '@hooks/useDissolveNavigation';
-import { fetchLetterFromFutureSelf, updateLetterFromFutureSelf } from '../../api';
+import { fetchLetterFromFutureSelf, updateLetterFromFutureSelf } from '../../api/commitment';
 
 
 export default function LetterFromFutureSelfScreen() {

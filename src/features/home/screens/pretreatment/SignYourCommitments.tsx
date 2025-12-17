@@ -11,6 +11,7 @@ import {
     Share,
     Platform,
     StatusBar,
+    ActivityIndicator,
 } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { useNavigation } from '@react-navigation/native';
@@ -24,6 +25,7 @@ import { handleScrollProgress } from '../../utils/scrollHelper';
 import { getCurrentDate, formatDate } from '../../utils/dateHelper';
 import commitmentsData from '../../data/pretreatment/commitments.json';
 import { BulletPoint } from '../../components/BulletPoint';
+import { signCommitment } from '../../api/commitment';
 
 type NavigationProp = NativeStackNavigationProp<HomeStackParams>;
 
@@ -41,6 +43,7 @@ export default function SignYourCommitmentsScreen() {
     const [date, setDate] = useState(getCurrentDate());
     const [selectedDate, setSelectedDate] = useState(new Date());
     const [showDatePicker, setShowDatePicker] = useState(false);
+    const [submitting, setSubmitting] = useState(false);
 
     const handleScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
         handleScrollProgress(event, 3, setCurrentStep);
@@ -94,6 +97,22 @@ export default function SignYourCommitmentsScreen() {
 
     const showDatepicker = () => {
         setShowDatePicker(true);
+    };
+
+    const onSubmit = async () => {
+        if (!canSaveOrShare || submitting) return;
+
+        try {
+            setSubmitting(true);
+            await signCommitment(fullName.trim());
+            // Handle success - you might want to show a success message or navigate
+            console.log('Commitment signed successfully');
+        } catch (error) {
+            console.error('Error signing commitment:', error);
+            // Handle error - you might want to show an error message
+        } finally {
+            setSubmitting(false);
+        }
     };
 
     return (
@@ -374,6 +393,28 @@ export default function SignYourCommitmentsScreen() {
                     <Text style={[t.footnoteRegular, { color: colors.text_secondary }]} className="mb-4">
                         To save or share, please answer all statements and provide your name and date.
                     </Text>
+
+                    <Pressable
+                        className="rounded-full py-4 px-6 flex-row justify-center items-center"
+                        style={{ 
+                            backgroundColor: canSaveOrShare ? colors.button_orange : colors.gray_300,
+                            opacity: canSaveOrShare ? 1 : 0.6,
+                        }}
+                        onPress={onSubmit}
+                        disabled={!canSaveOrShare || submitting}
+                    >
+                        {submitting ? (
+                            <ActivityIndicator size="small" color={colors.white} />
+                        ) : (
+                            <Text
+                                style={[t.title16SemiBold, { color: canSaveOrShare ? colors.white : colors.text_secondary }]}
+                                className="flex-1 text-center"
+                            >
+                                Submit
+                            </Text>
+                        )}
+                    </Pressable>
+
                     <View style={styles.divider} />
                 </View>
 

@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { View, ScrollView, StatusBar, Pressable, Text, KeyboardAvoidingView, Platform } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, ScrollView, StatusBar, Pressable, Text, KeyboardAvoidingView, Platform, ActivityIndicator } from 'react-native';
 import { colors } from '@design/color';
 import { t } from '@design/typography';
 import { useDissolveNavigation } from '@hooks/useDissolveNavigation';
@@ -9,11 +9,15 @@ import { HowToPracticeCard } from '../components/HowToPracticeCard';
 import { FormInput } from '../components/FormInput';
 import { SavedObservationsList } from '../components/SavedObservationsList';
 import { ObservationEntry } from '../components/ObservationCard';
+import { fetchPracticeWithOthers, createPracticeWithOthers, deletePracticeWithOthers, PracticeWithOthersEntry as ApiPracticeEntry } from '../api/emotionwheel';
 
 export default function PracticeWithOthersScreen() {
     const { dissolveTo } = useDissolveNavigation();
     const [viewMode, setViewMode] = useState<'form' | 'saved'>('form');
     const [savedEntries, setSavedEntries] = useState<ObservationEntry[]>([]);
+    const [isLoading, setIsLoading] = useState(true);
+    const [isSaving, setIsSaving] = useState(false);
+    const [error, setError] = useState<string | null>(null);
 
     // Form state
     const [person, setPerson] = useState('');
@@ -22,37 +26,104 @@ export default function PracticeWithOthersScreen() {
     const [theySaid, setTheySaid] = useState('');
     const [reflectionNotes, setReflectionNotes] = useState('');
 
-    const handleSaveEntry = () => {
+    // Transform API entry to component format
+    const transformApiEntry = (apiEntry: ApiPracticeEntry): ObservationEntry => {
+        return {
+            id: apiEntry.id,
+            date: new Date(apiEntry.time * 1000).toISOString(), // Convert timestamp to ISO string
+            person: apiEntry.who,
+            observed: apiEntry.what,
+            guess: apiEntry.guess,
+            theySaid: apiEntry.whatDidTheySay || undefined,
+            notes: apiEntry.notes || undefined,
+        };
+    };
+
+    const loadEntries = async () => {
+        try {
+            setIsLoading(true);
+            setError(null);
+            const apiEntries = await fetchPracticeWithOthers();
+            
+            // Transform and sort by date (newest first)
+            const transformedEntries = apiEntries
+                .map(transformApiEntry)
+                .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+            
+            setSavedEntries(transformedEntries);
+        } catch (err) {
+            console.error('Failed to load practice entries:', err);
+            setError('Failed to load entries. Please try again.');
+        } finally {
+            setIsLoading(false);
+        }
+    };
+    // Load entries from API
+    useEffect(() => {
+        loadEntries();
+    }, []);
+
+    const handleSaveEntry = async () => {
+        // Clear previous errors
+        setError(null);
+        
         if (!person.trim() || !observed.trim() || !emotionGuess.trim()) {
-            // TODO: Show validation error
+            setError('Please fill in all required fields (Who, What, and Your guess).');
             return;
         }
 
-        const newEntry: ObservationEntry = {
-            id: Date.now().toString(),
-            date: new Date().toISOString(),
-            person: person.trim(),
-            observed: observed.trim(),
-            guess: emotionGuess.trim(),
-            theySaid: theySaid.trim() || undefined,
-            notes: reflectionNotes.trim() || undefined,
-        };
+        setIsSaving(true);
+        setError(null);
 
-        setSavedEntries([newEntry, ...savedEntries]);
+        try {
+            // Map form data to API format
+            const entryData = {
+                who: person.trim(),
+                what: observed.trim(),
+                guess: emotionGuess.trim(),
+                whatDidTheySay: theySaid.trim() || '',
+                notes: reflectionNotes.trim() || '',
+            };
 
-        // Reset form
-        setPerson('');
-        setObserved('');
-        setEmotionGuess('');
-        setTheySaid('');
-        setReflectionNotes('');
+            // Save to API
+            await createPracticeWithOthers(entryData);
 
-        // Switch to saved view
-        setViewMode('saved');
+            // Reload entries
+            await loadEntries();
+            
+            // Reset form
+            setPerson('');
+            setObserved('');
+            setEmotionGuess('');
+            setTheySaid('');
+            setReflectionNotes('');
+
+            // Switch to saved view
+            setViewMode('saved');
+        } catch (err) {
+            console.error('Failed to save entry:', err);
+            setError('Failed to save entry. Please try again.');
+        } finally {
+            setIsSaving(false);
+        }
     };
 
-    const handleDeleteEntry = (id: string) => {
+    const handleDeleteEntry = async (id: string) => {
+        // Store previous state for potential revert
+        const previousEntries = savedEntries;
+        
+        // Optimistically update UI
         setSavedEntries(savedEntries.filter(entry => entry.id !== id));
+
+        try {
+            // Delete from API
+            await deletePracticeWithOthers(id);
+        } catch (err) {
+            console.error('Failed to delete entry:', err);
+            // Revert on error
+            setSavedEntries(previousEntries);
+            setError('Failed to delete entry. Please try again.');
+        }
     };
 
     const practiceSteps = [
@@ -71,6 +142,19 @@ export default function PracticeWithOthersScreen() {
                 <StatusBar barStyle="dark-content" backgroundColor={colors.white} />
                 <PageHeader title="Practice with Others" showHomeIcon={true} showLeafIcon={true} />
 
+                {/* {error && (
+                    <View className="mx-5 mt-2 p-3 rounded-xl" style={{ backgroundColor: colors.orange_50 }}>
+                        <Text style={[t.textRegular, { color: colors.Text_Primary }]}>
+                            {error}
+                        </Text>
+                    </View>
+                )} */}
+
+                {isLoading ? (
+                    <View className="flex-1 items-center justify-center">
+                        <ActivityIndicator size="large" color={colors.button_orange} />
+                    </View>
+                ) : (
                 <ScrollView
                     className="flex-1 px-5"
                     showsVerticalScrollIndicator={false}
@@ -150,6 +234,7 @@ export default function PracticeWithOthersScreen() {
                         />
                     )}
                 </ScrollView>
+                )}
 
                 {/* Footer Buttons */}
                 <View className="px-5 pb-6 pt-4" style={{ backgroundColor: colors.white }}>
@@ -161,17 +246,27 @@ export default function PracticeWithOthersScreen() {
                                     borderWidth: 2,
                                     borderColor: colors.button_orange,
                                     backgroundColor: colors.white,
+                                    opacity: isSaving ? 0.6 : 1,
                                 }}
                                 onPress={handleSaveEntry}
+                                disabled={isSaving}
                             >
-                                <Text style={[t.button, { color: colors.Text_Primary }]}>
-                                    Save Entry
-                                </Text>
+                                {isSaving ? (
+                                    <ActivityIndicator size="small" color={colors.button_orange} />
+                                ) : (
+                                    <Text style={[t.button, { color: colors.Text_Primary }]}>
+                                        Save Entry
+                                    </Text>
+                                )}
                             </Pressable>
                             <Pressable
                                 className="flex-1 rounded-full py-4 items-center justify-center"
-                                style={{ backgroundColor: colors.Button_Orange }}
+                                style={{ 
+                                    backgroundColor: isSaving ? colors.text_secondary : colors.Button_Orange,
+                                    opacity: isSaving ? 0.6 : 1,
+                                }}
                                 onPress={() => setViewMode('saved')}
+                                disabled={isSaving}
                             >
                                 <Text style={[t.button, { color: colors.white }]}>
                                     View Saved
@@ -188,7 +283,10 @@ export default function PracticeWithOthersScreen() {
                                         borderColor: colors.button_orange,
                                         backgroundColor: colors.white,
                                     }}
-                                    onPress={() => setViewMode('form')}
+                                    onPress={() => {
+                                        setError(null);
+                                        setViewMode('form');
+                                    }}
                                 >
                                     <Text style={[t.button, { color: colors.Text_Primary }]}>
                                         New Entry

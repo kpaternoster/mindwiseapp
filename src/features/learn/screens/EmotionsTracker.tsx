@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, ScrollView, StatusBar, Pressable, Text } from 'react-native';
+import { View, ScrollView, StatusBar, Pressable, Text, ActivityIndicator } from 'react-native';
 import { colors } from '@design/color';
 import { t } from '@design/typography';
 import { useDissolveNavigation } from '@hooks/useDissolveNavigation';
@@ -11,6 +11,8 @@ import { EmotionHistoryList } from '../components/EmotionHistoryList';
 import { TodayEmotionStatusModal } from '../components/TodayEmotionStatusModal';
 import { ArrowRightIcon } from '@components/Utils';
 import emotionsWheelData from '../data/emotionsWheelData.json';
+import { fetchEmotionsTracking, updateEmotionsTracking, EmotionTrackingEntry, EmotionTrackingDay } from '../api/emotionwheel';
+import { formatDateToISO } from '@features/home/utils';
 
 interface EmotionEntry {
     date: string;
@@ -31,6 +33,9 @@ export default function EmotionsTrackerScreen() {
     const [hasLoggedToday, setHasLoggedToday] = useState(false);
     const [todayEntry, setTodayEntry] = useState<{ primary: string; secondary: string; intensity: number } | null>(null);
     const [historyEntries, setHistoryEntries] = useState<EmotionEntry[]>([]);
+    const [isLoading, setIsLoading] = useState(true);
+    const [isSaving, setIsSaving] = useState(false);
+    const [error, setError] = useState<string | null>(null);
 
     // Get all primary emotion names
     const primaryEmotionNames = primaryEmotions.map(em => em.name);
@@ -51,32 +56,82 @@ export default function EmotionsTrackerScreen() {
         }
     }, [selectedPrimaryEmotion]);
 
-    // Generate history entries (last 7 days)
+    
+
+    // Load today's emotion data and history
     useEffect(() => {
-        const generateHistoryEntries = () => {
-            const entries: EmotionEntry[] = [];
-            const dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-            const today = new Date();
-            today.setHours(0, 0, 0, 0); // Reset time to start of day
+        const loadEmotionsData = async () => {
+            try {
+                setIsLoading(true);
+                setError(null);
 
-            // Generate entries for the last 7 days (including today)
-            for (let i = 6; i >= 0; i--) {
-                const date = new Date(today);
-                date.setDate(date.getDate() - i);
-                const dayIndex = date.getDay();
-                const dayName = dayNames[dayIndex];
-                const dateNumber = date.getDate();
+                const today = new Date();
+                const dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+                const todayDateStr = formatDateToISO(today)
+                today.setHours(0, 0, 0, 0);
 
-                // Mock data: Only show entries for the last 2 days (yesterday and today)
-                if (i === 1 || i === 0) {
+                // Fetch latest 7 days data (API returns array of 7 entries, one for each of the last 7 days)
+                const weekData = await fetchEmotionsTracking(todayDateStr);
+                
+                // The last entry in the array is today's entry
+                const todayEntryData = weekData[weekData.length - 1] || null;
+
+                // Check if user has logged today
+                if (todayEntryData) {
+                    setTodayEntry({
+                        primary: todayEntryData.primary,
+                        secondary: todayEntryData.secondary,
+                        intensity: todayEntryData.intensity,
+                    });
+                    setHasLoggedToday(true);
+                    setSelectedPrimaryEmotion(todayEntryData.primary);
+                    setSelectedSecondaryEmotion(todayEntryData.secondary);
+                    setIntensity(todayEntryData.intensity);
+                } else {
+                    setHasLoggedToday(false);
+                }
+
+                // Generate history entries from the 7 days data
+                // weekData array contains entries for the last 7 days (oldest to newest)
+                const entries: EmotionEntry[] = [];
+                
+                // Generate dates for the last 7 days (oldest to newest)
+                for (let i = 6; i >= 0; i--) {
+                    const date = new Date(today);
+                    date.setDate(date.getDate() - i);
+                    const dayIndex = date.getDay();
+                    const dayName = dayNames[dayIndex];
+                    const dateNumber = date.getDate();
+
+                    // Map weekData index: weekData[0] is 6 days ago, weekData[6] is today
+                    // So weekData[6 - i] corresponds to the date we're processing
+                    const dataIndex = 6 - i;
+                    const entryData = weekData[dataIndex] || null;
+
                     entries.push({
                         date: dateNumber.toString(),
                         day: dayName,
-                        primaryEmotion: 'Love',
-                        secondaryEmotion: 'Adoration',
-                        intensity: i === 0 ? 8 : 6,
+                        primaryEmotion: entryData?.primary || null,
+                        secondaryEmotion: entryData?.secondary || null,
+                        intensity: entryData?.intensity || null,
                     });
-                } else {
+                }
+
+                setHistoryEntries(entries);
+            } catch (err) {
+                console.error('Failed to load emotions tracking data:', err);
+                setError('Failed to load emotions data. Please try again.');
+                // Initialize with empty entries on error
+                const entries: EmotionEntry[] = [];
+                const dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+                const today = new Date();
+                today.setHours(0, 0, 0, 0);
+                for (let i = 6; i >= 0; i--) {
+                    const date = new Date(today);
+                    date.setDate(date.getDate() - i);
+                    const dayIndex = date.getDay();
+                    const dayName = dayNames[dayIndex];
+                    const dateNumber = date.getDate();
                     entries.push({
                         date: dateNumber.toString(),
                         day: dayName,
@@ -85,21 +140,38 @@ export default function EmotionsTrackerScreen() {
                         intensity: null,
                     });
                 }
+                setHistoryEntries(entries);
+            } finally {
+                setIsLoading(false);
             }
-
-            return entries;
         };
 
-        setHistoryEntries(generateHistoryEntries());
-
-        // Check if user has logged today (mock - in real app, check from storage)
-        // For demo, set to false initially
-        setHasLoggedToday(false);
+        loadEmotionsData();
     }, []);
 
-    const handleSaveEmotions = () => {
-        if (selectedPrimaryEmotion && selectedSecondaryEmotion) {
-            // Save to storage (mock)
+    const handleSaveEmotions = async () => {
+        if (!selectedPrimaryEmotion || !selectedSecondaryEmotion) {
+            return;
+        }
+
+        setIsSaving(true);
+        setError(null);
+
+        try {
+            const today = new Date();
+            const todayDateStr = formatDateToISO(today);
+
+            // Prepare entry data
+            const entryData: EmotionTrackingEntry = {
+                primary: selectedPrimaryEmotion,
+                secondary: selectedSecondaryEmotion,
+                intensity: intensity,
+            };
+
+            // Save to API
+            await updateEmotionsTracking(todayDateStr, entryData);
+
+            // Update local state
             const entry = {
                 primary: selectedPrimaryEmotion,
                 secondary: selectedSecondaryEmotion,
@@ -109,19 +181,23 @@ export default function EmotionsTrackerScreen() {
             setHasLoggedToday(true);
 
             // Update history
-            const today = new Date();
             const dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
             const dayName = dayNames[today.getDay()];
 
             const newHistoryEntries = [...historyEntries];
             newHistoryEntries[newHistoryEntries.length - 1] = {
-                date: today.toISOString().split('T')[0],
-                day: `${dayName} ${today.getDate()}`,
+                date: today.getDate().toString(),
+                day: dayName,
                 primaryEmotion: selectedPrimaryEmotion,
                 secondaryEmotion: selectedSecondaryEmotion,
                 intensity: intensity,
             };
             setHistoryEntries(newHistoryEntries);
+        } catch (err) {
+            console.error('Failed to save emotions:', err);
+            setError('Failed to save emotions. Please try again.');
+        } finally {
+            setIsSaving(false);
         }
     };
 
@@ -143,6 +219,20 @@ export default function EmotionsTrackerScreen() {
             <StatusBar barStyle="dark-content" backgroundColor={colors.white} />
             <PageHeader title="Emotions Tracker" showHomeIcon={true} showLeafIcon={true} />
 
+            {error && (
+                <View className="mx-5 mt-2 p-3 rounded-xl" style={{ backgroundColor: colors.orange_50 }}>
+                    <Text style={[t.textRegular, { color: colors.Text_Primary }]}>
+                        {error}
+                    </Text>
+                </View>
+            )}
+
+            {isLoading ? (
+                <View className="flex-1 items-center justify-center">
+                    <ActivityIndicator size="large" color={colors.button_orange} />
+                </View>
+            ) : (
+                <>
             <View className="px-5">
                 {/* Tab Switcher */}
                 <TabSwitcher
@@ -199,16 +289,25 @@ export default function EmotionsTrackerScreen() {
                         {/* Save Button */}
                         <Pressable
                             className="rounded-full py-4 px-3 flex-row items-center justify-center mb-20 mt-10"
-                            style={{ backgroundColor: colors.Button_Orange }}
+                            style={{ 
+                                backgroundColor: isSaving ? colors.text_secondary : colors.Button_Orange,
+                                opacity: isSaving ? 0.6 : 1,
+                            }}
                             onPress={handleSaveEmotions}
-                            disabled={!selectedPrimaryEmotion || !selectedSecondaryEmotion}
+                            disabled={!selectedPrimaryEmotion || !selectedSecondaryEmotion || isSaving}
                         >
-                            <Text style={[t.button, { color: colors.white }]} className="flex-1 text-center">
-                                Save Today's Emotions
-                            </Text>
-                            <View className="w-9 h-9 justify-center items-center bg-white rounded-full">
-                                <ArrowRightIcon size={16} color={colors.icon} />
-                            </View>
+                            {isSaving ? (
+                                <ActivityIndicator size="small" color={colors.white} />
+                            ) : (
+                                <>
+                                    <Text style={[t.button, { color: colors.white }]} className="flex-1 text-center">
+                                        Save Today's Emotions
+                                    </Text>
+                                    <View className="w-9 h-9 justify-center items-center bg-white rounded-full">
+                                        <ArrowRightIcon size={16} color={colors.icon} />
+                                    </View>
+                                </>
+                            )}
                         </Pressable>
                     </View>
                 )}
@@ -217,6 +316,8 @@ export default function EmotionsTrackerScreen() {
                     <EmotionHistoryList entries={historyEntries} />
                 )}
             </ScrollView>
+                </>
+            )}
 
             {/* Already Logged Modal */}
             {hasLoggedToday && todayEntry && (

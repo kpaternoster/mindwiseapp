@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { View, ScrollView, StatusBar, Pressable, Text, KeyboardAvoidingView, Platform } from 'react-native';
+import { View, ScrollView, StatusBar, Pressable, Text, KeyboardAvoidingView, Platform, ActivityIndicator } from 'react-native';
 import { colors } from '@design/color';
 import { t } from '@design/typography';
 import { useDissolveNavigation } from '@hooks/useDissolveNavigation';
@@ -18,6 +18,7 @@ import { ArrowRightIcon } from '@components/Utils';
 import nameYourEmotionsData from '../data/nameYourEmotions.json';
 import emotionsWheelData from '../data/emotionsWheelData.json';
 import nameYourEmotionsStepsData from '../data/nameYourEmotionsSteps.json';
+import { createEmotionsWheelReflection } from '../api/emotionwheel';
 
 export default function NameYourEmotionsScreen() {
     const { dissolveTo } = useDissolveNavigation();
@@ -36,6 +37,8 @@ export default function NameYourEmotionsScreen() {
     const [pendingEmotion, setPendingEmotion] = useState<string | null>(null);
     const [reflectionText, setReflectionText] = useState('');
     const [showReflectionSavedModal, setShowReflectionSavedModal] = useState(false);
+    const [isSaving, setIsSaving] = useState(false);
+    const [error, setError] = useState<string | null>(null);
 
     // Scroll to top when step changes
     useEffect(() => {
@@ -85,10 +88,32 @@ export default function NameYourEmotionsScreen() {
         }
     };
 
-    const handleSaveReflection = () => {
-        // TODO: Save reflection to backend/storage
-        console.log('Reflection saved:', reflectionText);
-        setShowReflectionSavedModal(true);
+    const handleSaveReflection = async () => {
+        // Clear previous errors
+        setError(null);
+        setIsSaving(true);
+
+        try {
+            // Map form data to API format
+            const reflectionData = {
+                body: formData[1] || '', // Body sensations
+                thoughts: formData[2] || '', // Thoughts
+                urges: formData[3] || '', // Urges
+                guess: userInitialGuess || '', // User's initial guess
+                actual: selectedEmotion || '', // Selected/actual emotion
+            };
+
+            await createEmotionsWheelReflection(reflectionData);
+            
+            // Show success modal after successful save
+            setShowReflectionSavedModal(true);
+        } catch (err) {
+            console.error('Failed to save reflection:', err);
+            setError('Failed to save reflection. Please try again.');
+            // Don't show modal on error
+        } finally {
+            setIsSaving(false);
+        }
     };
 
     const handleStartOver = () => {
@@ -129,6 +154,14 @@ export default function NameYourEmotionsScreen() {
                     stepTitle={currentStepData.title}
                     stepSubtitle={currentStepData.subtitle}
                 />
+
+                {error && (
+                    <View className="mx-5 mt-2 p-3 rounded-xl" style={{ backgroundColor: colors.orange_50 }}>
+                        <Text style={[t.textRegular, { color: colors.Text_Primary }]}>
+                            {error}
+                        </Text>
+                    </View>
+                )}
 
                 <ScrollView
                     ref={scrollViewRef}
@@ -266,15 +299,25 @@ export default function NameYourEmotionsScreen() {
                         <View className='flex-col'>
                             <Pressable
                                 className="rounded-full py-4 px-3 flex-row items-center justify-center mb-4"
-                                style={{ backgroundColor: colors.Button_Orange }}
+                                style={{ 
+                                    backgroundColor: isSaving ? colors.text_secondary : colors.Button_Orange,
+                                    opacity: isSaving ? 0.6 : 1,
+                                }}
                                 onPress={handleContinue}
+                                disabled={isSaving}
                             >
-                                <Text style={[t.button, { color: colors.white }]} className="flex-1 text-center">
-                                    Save My Reflection
-                                </Text>
-                                <View className="w-9 h-9 justify-center items-center bg-white rounded-full">
-                                    <ArrowRightIcon size={16} color={colors.icon} />
-                                </View>
+                                {isSaving ? (
+                                    <ActivityIndicator size="small" color={colors.white} />
+                                ) : (
+                                    <>
+                                        <Text style={[t.button, { color: colors.white }]} className="flex-1 text-center">
+                                            Save My Reflection
+                                        </Text>
+                                        <View className="w-9 h-9 justify-center items-center bg-white rounded-full">
+                                            <ArrowRightIcon size={16} color={colors.icon} />
+                                        </View>
+                                    </>
+                                )}
                             </Pressable>
                             {/* Action Buttons */}
                             <View className="flex-row gap-3 mb-4">

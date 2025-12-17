@@ -83,7 +83,7 @@ export const SUDSSlider: React.FC<SUDSSliderProps> = ({
                         tapToSeek
                         StepMarker={({ stepMarked, currentValue, index }) => {
                             return !stepMarked ?
-                                index < value  ?
+                                index <= value  ?
                                     <View style={{ width: 2, height: 12, backgroundColor: colors.stroke_orange, }} /> :
                                     <View style={{ width: 2, height: 12, backgroundColor: colors.orange_opacity_20, }} />
                                 : null;
@@ -123,7 +123,7 @@ export const SUDSSlider: React.FC<SUDSSliderProps> = ({
             </View>
 
             {/* Description */}
-            <Text style={[t.textRegular, { color: colors.text_secondary }]}>
+            <Text style={[t.captionBold, { color: colors.text_secondary }]}>
                 {SUDS_DESCRIPTIONS[value] || SUDS_DESCRIPTIONS[5]}
             </Text>
         </View>

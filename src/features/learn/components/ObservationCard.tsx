@@ -36,16 +36,16 @@ export const ObservationCard: React.FC<ObservationCardProps> = ({
         <View
             className="rounded-2xl p-4 mb-4"
             style={{
-                backgroundColor: colors.cream_40,
+                backgroundColor: colors.white,
                 borderColor: colors.stoke_gray,
                 borderWidth: 1,
             }}
         >
             {/* Header with Date and Delete */}
             <View className="flex-row items-center justify-between mb-3">
-                <View className="flex-row items-center">
-                    <CalendarBlankIcon size={20} color={colors.button_orange} />
-                    <Text style={[t.textRegular, { color: colors.Text_Primary }]} className="ml-2">
+                <View className="flex-row items-center px-2 py-1 rounded-full" style={{ backgroundColor: colors.orange_opacity_10 }}>
+                    <CalendarBlankIcon size={14} color={colors.button_orange} />
+                    <Text style={[t.footnoteRegular, { color: colors.orange_600 }]} className="ml-2">
                         {formatDate(entry.date)}
                     </Text>
                 </View>
@@ -61,38 +61,37 @@ export const ObservationCard: React.FC<ObservationCardProps> = ({
 
             {/* Observed */}
             <View className="mb-2">
-                <Text style={[t.textRegular, { color: colors.text_secondary }]}>
-                    Observed: <Text style={{ color: colors.Text_Primary }}>{entry.observed}</Text>
+                <Text style={[t.textSemiBold, { color: colors.Text_Primary }]}>
+                    Observed: <Text style={[{ color: colors.text_secondary }, t.textRegular]}>{entry.observed}</Text>
                 </Text>
             </View>
 
             {/* Your Guess */}
             <View className="mb-2">
-                <Text style={[t.textRegular, { color: colors.text_secondary }]}>
-                    Your guess: <Text style={{ color: colors.Text_Primary }}>{entry.guess}</Text>
+                <Text style={[t.textSemiBold, { color: colors.Text_Primary }]}>
+                    Your guess: <Text style={[{ color: colors.text_secondary }, t.textRegular]}>{entry.guess}</Text>
                 </Text>
             </View>
 
             {/* They Said (if available) */}
             {entry.theySaid && (
                 <View className="mb-2">
-                    <Text style={[t.textRegular, { color: colors.text_secondary }]}>
-                        They said: <Text style={{ color: colors.Text_Primary }}>{entry.theySaid}</Text>
+                    <Text style={[t.textSemiBold, { color: colors.Text_Primary }]}>
+                        They said: <Text style={[{ color: colors.text_secondary }, t.textRegular]}>{entry.theySaid}</Text>
                     </Text>
                 </View>
             )}
 
             {/* Notes (if available) */}
             {entry.notes && (
-                <View className="mt-2">
-                    <Text style={[t.textRegular, { color: colors.text_secondary }]} className="mb-1">
+                <View className="mt-2 p-4 rounded-2xl" style={{ backgroundColor: colors.orange_opacity_10 }}>
+                    <Text style={[t.textSemiBold, { color: colors.Text_Primary }]} className="mb-1">
                         Notes:
                     </Text>
                     <View
-                        className="rounded-xl p-3"
-                        style={{ backgroundColor: colors.white }}
+                        className="mt-2"
                     >
-                        <Text style={[t.textRegular, { color: colors.Text_Primary }]}>
+                        <Text style={[{ color: colors.text_secondary }, t.textRegular]}>
                             {entry.notes}
                         </Text>
                     </View>

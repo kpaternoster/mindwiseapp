@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { View, ScrollView, StatusBar, Pressable, Text, KeyboardAvoidingView, Platform } from 'react-native';
+import { View, ScrollView, StatusBar, Pressable, Text, KeyboardAvoidingView, Platform, ActivityIndicator } from 'react-native';
 import { colors } from '@design/color';
 import { t } from '@design/typography';
 import { useDissolveNavigation } from '@hooks/useDissolveNavigation';
@@ -12,54 +12,28 @@ import { SUDSEntryCard, SUDSEntry } from '../components/SUDSEntryCard';
 import { SUDSCalendar } from '../components/SUDSCalendar';
 import { SUDSGraph } from '../components/SUDSGraph';
 import { ArrowRightIcon, BackIcon, LeafIcon } from '@components/Utils';
+import { fetchSudsCheckin, updateSudsCheckin, SudsCheckin, fetchSudsList, SudsCheckinListItem } from '../api/suds';
+import { formatDateToISO, getCurrentDate } from '@features/home/utils';
 
-// Generate mock data for the last 7 days
-const generateMockData = (): SUDSEntry[] => {
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-    
-    const mockEntries: SUDSEntry[] = [];
-    const mockData = [
-        { sudsLevel: 7, body: 'Tension in shoulders', thoughts: 'Feeling overwhelmed', urges: 'Want to avoid', triggers: 'Work deadline' },
-        { sudsLevel: 5, body: 'Slight headache', thoughts: 'Worried about meeting', urges: 'Need to rest', triggers: 'Busy schedule' },
-        { sudsLevel: 8, body: 'Racing heart', thoughts: 'Anxious about presentation', urges: 'Want to escape', triggers: 'Public speaking' },
-        { sudsLevel: 6, body: 'Tight chest', thoughts: 'Feeling stressed', urges: 'Need to breathe', triggers: 'Family conflict' },
-        { sudsLevel: 9, body: 'Severe tension', thoughts: 'Completely overwhelmed', urges: 'Want to hide', triggers: 'Multiple stressors' },
-        { sudsLevel: 3, body: 'Mild discomfort', thoughts: 'Slightly worried', urges: 'Want to relax', triggers: 'Minor issue' },
-        { sudsLevel: 7, body: 'Muscle tension', thoughts: 'Feeling anxious', urges: 'Need to calm down', triggers: 'Uncertain situation' },
-    ];
-    
-    // Generate entries for the last 7 days
-    for (let i = 6; i >= 0; i--) {
-        const date = new Date(today);
-        date.setDate(date.getDate() - i);
-        const data = mockData[6 - i];
-        
-        mockEntries.push({
-            id: `mock-${date.toISOString()}`,
-            date: date.toISOString(),
-            sudsLevel: data.sudsLevel,
-            body: data.body,
-            thoughts: data.thoughts,
-            urges: data.urges,
-            triggers: data.triggers,
-        });
-    }
-    
-    return mockEntries;
+
+// Helper function to get today's date in YYYY-MM-DD format
+const getTodayDateString = (): string => {
+    return formatDateToISO(new Date());
 };
 
 export default function SUDSCheckInScreen() {
     const { dissolveTo } = useDissolveNavigation();
     const [activeTab, setActiveTab] = useState<'checkin' | 'list' | 'calendar' | 'graph'>('checkin');
-    const [savedEntries, setSavedEntries] = useState<SUDSEntry[]>(generateMockData());
+    const [savedEntries, setSavedEntries] = useState<SUDSEntry[]>([]);
 
     // Form state
-    const [sudsLevel, setSudsLevel] = useState(5);
+    const [sudsLevel, setSudsLevel] = useState(0);
     const [body, setBody] = useState('');
     const [thoughts, setThoughts] = useState('');
     const [urges, setUrges] = useState('');
     const [triggers, setTriggers] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
+    const [currentEditingDate, setCurrentEditingDate] = useState<string>(formatDateToISO(new Date()));
 
     const scrollViewRef = useRef<ScrollView>(null);
 
@@ -67,38 +41,171 @@ export default function SUDSCheckInScreen() {
         scrollViewRef.current?.scrollTo({ y: 0, animated: true });
     }, [activeTab]);
 
-    const handleClearForm = () => {
-        setSudsLevel(5);
-        setBody('');
-        setThoughts('');
-        setUrges('');
-        setTriggers('');
+    // Load data when component mounts or when switching tabs
+    useEffect(() => {
+        if (activeTab === 'checkin' && currentEditingDate == formatDateToISO(new Date())) {
+            loadTodayCheckin();
+        } else if (activeTab === 'list' || activeTab === 'calendar' || activeTab === 'graph') {
+            loadSudsList();
+        }
+    }, [activeTab]);
+
+    // Map API response to component state
+    const mapApiToComponentState = (data: SudsCheckin) => {
+        if (data) {
+            console.log('data', data);
+            setSudsLevel(data.distress??0);
+            setBody(data.bodySensations);
+            setThoughts(data.thoughts);
+            setUrges(data.urges);
+            setTriggers(data.triggers);
+        }
     };
 
-    const handleSaveEntry = () => {
-        const newEntry: SUDSEntry = {
-            id: Date.now().toString(),
-            date: new Date().toISOString(),
-            sudsLevel,
-            body: body.trim(),
+    // Map component state to API format
+    const mapComponentStateToApi = (): SudsCheckin => {
+        return {
+            distress: sudsLevel,
+            bodySensations: body.trim(),
             thoughts: thoughts.trim(),
             urges: urges.trim(),
             triggers: triggers.trim(),
         };
-
-        setSavedEntries([newEntry, ...savedEntries]);
-        handleClearForm();
-        setActiveTab('list');
     };
 
-    const handleEditEntry = (entry: SUDSEntry) => {
-        setSudsLevel(entry.sudsLevel);
-        setBody(entry.body);
-        setThoughts(entry.thoughts);
-        setUrges(entry.urges);
-        setTriggers(entry.triggers);
-        setActiveTab('checkin');
-        // TODO: Handle editing existing entry (update instead of create new)
+    // Map API data to SUDSEntry format
+    const mapApiToEntry = (date: string, data: SudsCheckin): SUDSEntry => {
+        return {
+            id: date,
+            date: new Date(date).toISOString(),
+            sudsLevel: data.distress,
+            body: data.bodySensations,
+            thoughts: data.thoughts,
+            urges: data.urges,
+            triggers: data.triggers,
+        };
+    };
+
+    // Map API list item to SUDSEntry format
+    const mapListItemToEntry = (item: SudsCheckinListItem): SUDSEntry => {
+        return {
+            id: item.date,
+            date: new Date(item.date).toISOString(),
+            sudsLevel: item.distress,
+            body: item.bodySensations,
+            thoughts: item.thoughts,
+            urges: item.urges,
+            triggers: item.triggers,
+        };
+    };
+
+    // Load today's check-in from API
+    const loadTodayCheckin = async () => {
+        try {
+            setIsLoading(true);
+            const todayDate = getTodayDateString();
+            const data = await fetchSudsCheckin(todayDate);
+            mapApiToComponentState(data);
+            setCurrentEditingDate(todayDate);
+        } catch (error) {
+            console.error('Error fetching today\'s SUDS check-in:', error);
+            // If no check-in exists for today, start with empty form
+            setCurrentEditingDate(getTodayDateString());
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
+    // Load SUDS list from API
+    const loadSudsList = async () => {
+        try {
+            setIsLoading(true);
+            const listData = await fetchSudsList();
+            const entries = listData.map(mapListItemToEntry);
+            setSavedEntries(entries);
+        } catch (error) {
+            console.error('Error fetching SUDS list:', error);
+            // Keep existing entries if API fails
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
+    const handleClearForm = () => {
+        setSudsLevel(0);
+        setBody('');
+        setThoughts('');
+        setUrges('');
+        setTriggers('');
+        setCurrentEditingDate(getTodayDateString());
+    };
+
+    const handleSaveEntry = async () => {
+        try {
+            setIsLoading(true);
+            const dateToSave = currentEditingDate || getTodayDateString();
+            const checkinData = mapComponentStateToApi();
+
+            // Save to API
+            await updateSudsCheckin(dateToSave, checkinData);
+            
+            handleClearForm();
+            setActiveTab('list');
+            // The useEffect will trigger loadSudsList when switching to list tab
+        } catch (error) {
+            console.error('Error saving SUDS check-in:', error);
+            // Still update local state even if API fails
+            const todayDate = getTodayDateString();
+            const newEntry: SUDSEntry = {
+                id: Date.now().toString(),
+                date: new Date().toISOString(),
+                sudsLevel,
+                body: body.trim(),
+                thoughts: thoughts.trim(),
+                urges: urges.trim(),
+                triggers: triggers.trim(),
+            };
+            setSavedEntries([newEntry, ...savedEntries]);
+            handleClearForm();
+            setActiveTab('list');
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
+    const handleEditEntry = async (entry: SUDSEntry) => {
+        try {
+            setIsLoading(true);
+            const entryDate = formatDateToISO(new Date(entry.date));
+            // Load the entry data from API to ensure we have the latest
+            try {
+                const data = await fetchSudsCheckin(entryDate);
+                mapApiToComponentState(data);
+            } catch (error) {
+                // If API fails, use the entry data we have
+                console.error('Error fetching entry for edit:', error);
+                setSudsLevel(entry.sudsLevel);
+                setBody(entry.body);
+                setThoughts(entry.thoughts);
+                setUrges(entry.urges);
+                setTriggers(entry.triggers);
+            }
+
+            setCurrentEditingDate(entryDate);
+            setActiveTab('checkin');
+        } catch (error) {
+            console.error('Error loading entry for edit:', error);
+            // Fallback to local entry data
+            setSudsLevel(entry.sudsLevel);
+            setBody(entry.body);
+            setThoughts(entry.thoughts);
+            setUrges(entry.urges);
+            setTriggers(entry.triggers);
+            setCurrentEditingDate(formatDateToISO(new Date(entry.date)));
+            setActiveTab('checkin');
+        } finally {
+            setIsLoading(false);
+        }
     };
 
     return (
@@ -121,7 +228,12 @@ export default function SUDSCheckInScreen() {
                             { label: 'Graph', value: 'graph' },
                         ]}
                         activeTab={activeTab}
-                        onTabChange={(value) => setActiveTab(value as 'checkin' | 'list' | 'calendar' | 'graph')}
+                        onTabChange={(value) => {
+                            setActiveTab(value as 'checkin' | 'list' | 'calendar' | 'graph');
+                            if (value === 'checkin') {
+                                setCurrentEditingDate(formatDateToISO(new Date()));
+                            }
+                        }}
                     />
                 </View>
 
@@ -132,65 +244,75 @@ export default function SUDSCheckInScreen() {
                 >
                     {activeTab === 'checkin' && (
                         <>
-                            {/* Step Header */}
-                            <StepHeader
-                                currentStep={1}
-                                totalSteps={4}
-                                stepTitle="What are you experiencing?"
-                                stepSubtitle="Take a moment to notice what's happening in your body, mind, and urges."
-                            />
+                            {isLoading ? (
+                                <View className="items-center justify-center py-20">
+                                    <ActivityIndicator size="large" color={colors.button_orange} />
+                                </View>
+                            ) : (
+                                <>
+                                    {/* Step Header */}
+                                    <StepHeader
+                                        currentStep={1}
+                                        totalSteps={4}
+                                        stepTitle="What are you experiencing?"
+                                        stepSubtitle="Take a moment to notice what's happening in your body, mind, and urges."
+                                    />
 
-                            <View className="px-5">
-                                {/* SUDS Slider */}
-                                <SUDSSlider
-                                    value={sudsLevel}
-                                    onValueChange={setSudsLevel}
-                                />
+                                    <View className="px-5">
+                                        {/* SUDS Slider */}
+                                        <SUDSSlider
+                                            value={sudsLevel}
+                                            onValueChange={setSudsLevel}
+                                        />
 
-                                {/* Body Sensations */}
-                                <NumberedInputSection
-                                    number={2}
-                                    title="Body Sensations"
-                                    placeholder="What do you notice in your body? (Tension, pain, temperature, etc)"
-                                    value={body}
-                                    onChangeText={setBody}
-                                />
+                                        {/* Body Sensations */}
+                                        <NumberedInputSection
+                                            number={2}
+                                            title="Body Sensations"
+                                            placeholder="What do you notice in your body? (Tension, pain, temperature, etc)"
+                                            value={body}
+                                            onChangeText={setBody}
+                                        />
 
-                                {/* Thoughts */}
-                                <NumberedInputSection
-                                    number={3}
-                                    title="Thoughts"
-                                    placeholder="What thoughts are going through your mind?"
-                                    value={thoughts}
-                                    onChangeText={setThoughts}
-                                />
+                                        {/* Thoughts */}
+                                        <NumberedInputSection
+                                            number={3}
+                                            title="Thoughts"
+                                            placeholder="What thoughts are going through your mind?"
+                                            value={thoughts}
+                                            onChangeText={setThoughts}
+                                        />
 
-                                {/* Urges */}
-                                <NumberedInputSection
-                                    number={4}
-                                    title="Urges"
-                                    placeholder="What do you feel like doing? (avoiding, yelling, hiding, etc)"
-                                    value={urges}
-                                    onChangeText={setUrges}
-                                />
+                                        {/* Urges */}
+                                        <NumberedInputSection
+                                            number={4}
+                                            title="Urges"
+                                            placeholder="What do you feel like doing? (avoiding, yelling, hiding, etc)"
+                                            value={urges}
+                                            onChangeText={setUrges}
+                                        />
 
-                                {/* Triggers */}
-                                <NumberedInputSection
-                                    number={5}
-                                    title="Triggers"
-                                    placeholder="What happened or what situations led to these feeling?"
-                                    value={triggers}
-                                    onChangeText={setTriggers}
-                                />
-                            </View>
-
-
+                                        {/* Triggers */}
+                                        <NumberedInputSection
+                                            number={5}
+                                            title="Triggers"
+                                            placeholder="What happened or what situations led to these feeling?"
+                                            value={triggers}
+                                            onChangeText={setTriggers}
+                                        />
+                                    </View>
+                                </>
+                            )}
                         </>
                     )}
 
                     {activeTab === 'list' && (
                         <View className="px-5">
-                            {savedEntries.length === 0 ? (
+                            {isLoading ? (
+                                <View className="items-center justify-center py-20">
+                                    <ActivityIndicator size="large" color={colors.button_orange} />
+                                </View>
+                            ) : savedEntries.length === 0 ? (
                                 <View className="items-center justify-center py-12">
                                     <Text style={[t.textRegular, { color: colors.text_secondary }]}>
                                         No entries saved yet
@@ -210,13 +332,25 @@ export default function SUDSCheckInScreen() {
 
                     {activeTab === 'calendar' && (
                         <View className="px-5">
-                            <SUDSCalendar entries={savedEntries} />
+                            {isLoading ? (
+                                <View className="items-center justify-center py-20">
+                                    <ActivityIndicator size="large" color={colors.button_orange} />
+                                </View>
+                            ) : (
+                                <SUDSCalendar entries={savedEntries} />
+                            )}
                         </View>
                     )}
 
                     {activeTab === 'graph' && (
                         <View className="px-5">
-                            <SUDSGraph entries={savedEntries} />
+                            {isLoading ? (
+                                <View className="items-center justify-center py-20">
+                                    <ActivityIndicator size="large" color={colors.button_orange} />
+                                </View>
+                            ) : (
+                                <SUDSGraph entries={savedEntries} />
+                            )}
                         </View>
                     )}
                 </ScrollView>

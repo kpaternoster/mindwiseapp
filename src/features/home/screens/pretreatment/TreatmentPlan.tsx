@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
     View,
     Text,
@@ -7,6 +7,8 @@ import {
     StyleSheet,
     StatusBar,
     ActivityIndicator,
+    NativeSyntheticEvent,
+    NativeScrollEvent,
 } from 'react-native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { HomeStackParams } from '@app/navigation/types';
@@ -16,7 +18,7 @@ import { ArrowRightIcon, BackIcon, LeafIcon} from '@components/Utils';
 import { PageHeader } from '../../components';
 import treatmentPlanData from '../../data/pretreatment/treatmentPlan.json';
 import { useDissolveNavigation } from '@hooks/useDissolveNavigation';
-import { fetchTreatmentPlan, TreatmentPlan } from '../../api/treatment';
+import { fetchTreatmentPlan, TreatmentPlan, fetchPreTreatmentState, updatePreTreatmentState, PreTreatmentState } from '../../api/treatment';
 
 type NavigationProp = NativeStackNavigationProp<HomeStackParams>;
 
@@ -34,6 +36,9 @@ export default function TreatmentPlanScreen() {
     const { dissolveTo } = useDissolveNavigation();
     const [treatmentTargets, setTreatmentTargets] = useState<TreatmentTarget[]>([]);
     const [isLoading, setIsLoading] = useState(false);
+    const [preTreatmentState, setPreTreatmentState] = useState<PreTreatmentState | null>(null);
+    const [hasUpdatedSteps, setHasUpdatedSteps] = useState(false);
+    const scrollViewRef = useRef<ScrollView>(null);
 
     const [expandedSections, setExpandedSections] = useState<{
         [key: string]: {
@@ -86,7 +91,17 @@ export default function TreatmentPlanScreen() {
             }
         };
 
+        const loadPreTreatmentState = async () => {
+            try {
+                const state = await fetchPreTreatmentState();
+                setPreTreatmentState(state);
+            } catch (error) {
+                console.error('Error loading pre-treatment state:', error);
+            }
+        };
+
         loadTreatmentPlan();
+        loadPreTreatmentState();
     }, []);
 
     const toggleSection = (targetId: string, section: 'goals' | 'priorities' | 'skills') => {
@@ -97,6 +112,35 @@ export default function TreatmentPlanScreen() {
                 [section]: !prev[targetId]?.[section],
             },
         }));
+    };
+
+    const handleScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
+        const { layoutMeasurement, contentOffset, contentSize } = event.nativeEvent;
+        const paddingToBottom = 20;
+        const isCloseToBottom = layoutMeasurement.height + contentOffset.y >= contentSize.height - paddingToBottom;
+
+        if (isCloseToBottom && !hasUpdatedSteps && preTreatmentState) {
+            setHasUpdatedSteps(true);
+            updateStepsCompleted();
+        }
+    };
+
+    const updateStepsCompleted = async () => {
+        if (!preTreatmentState) return;
+
+        try {
+            const newStepsCompleted = Math.min(preTreatmentState.stepsCompleted + 1, 4);
+            const updatedState: PreTreatmentState = {
+                ...preTreatmentState,
+                stepsCompleted: newStepsCompleted,
+            };
+            
+            await updatePreTreatmentState(updatedState);
+            setPreTreatmentState(updatedState);
+        } catch (error) {
+            console.error('Error updating steps completed:', error);
+            setHasUpdatedSteps(false); // Reset flag to allow retry
+        }
     };
 
     return (
@@ -113,9 +157,12 @@ export default function TreatmentPlanScreen() {
                 </View>
             ) : (
                 <ScrollView
-                    className="flex-1 px-6 mb-10"
+                    ref={scrollViewRef}
+                    className="flex-1 px-6"
                     showsVerticalScrollIndicator={false}
                     contentContainerStyle={styles.scrollContent}
+                    onScroll={handleScroll}
+                    scrollEventThrottle={16}
                 >
                 {/* Introduction */}
                 <View className="flex-row items-start mb-6">
@@ -305,7 +352,7 @@ export default function TreatmentPlanScreen() {
 
                 {/* Ready to Begin Section */}
                 <View
-                    className="rounded-2xl p-4 mb-6"
+                    className="rounded-2xl p-4"
                     style={{ backgroundColor: colors.orange_50 }}
                 >
                     <View className="flex-row items-center mb-3">

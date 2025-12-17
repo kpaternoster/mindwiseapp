@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { View, ScrollView, StatusBar, Pressable, Text, TextInput, KeyboardAvoidingView, Platform } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, ScrollView, StatusBar, Pressable, Text, TextInput, KeyboardAvoidingView, Platform, ActivityIndicator } from 'react-native';
 import { colors } from '@design/color';
 import { t } from '@design/typography';
 import { useDissolveNavigation } from '@hooks/useDissolveNavigation';
@@ -8,6 +8,7 @@ import { CollapsibleInputWithTags } from '../components/CollapsibleInputWithTags
 import { WaveTimer } from '../components/WaveTimer';
 import { UpIcon, DownIcon } from '@components/Utils';
 import stunwaveCheckInData from '../data/stunwaveCheckIn.json';
+import { createStunwave } from '../api/stunwave';
 
 export default function STUNWAVECheckInScreen() {
     const { dissolveTo } = useDissolveNavigation();
@@ -31,6 +32,10 @@ export default function STUNWAVECheckInScreen() {
         reflection: '',
     });
 
+    const [isSaving, setIsSaving] = useState(false);
+    const [error, setError] = useState<string | null>(null);
+    const [successMessage, setSuccessMessage] = useState<string | null>(null);
+
     const toggleSection = (sectionId: string) => {
         setExpandedSections((prev) => ({
             ...prev,
@@ -43,6 +48,10 @@ export default function STUNWAVECheckInScreen() {
             ...prev,
             [sectionId]: text,
         }));
+        // Clear error message when user starts typing
+        if (error) {
+            setError(null);
+        }
     };
 
     const handleClearForm = () => {
@@ -54,16 +63,58 @@ export default function STUNWAVECheckInScreen() {
             waveReflection: '',
             reflection: '',
         });
+        // Clear messages when clearing form
+        setError(null);
+        setSuccessMessage(null);
     };
 
-    const handleSaveEntry = () => {
-        // TODO: Save entry to storage/backend
-        console.log('Saving STUNWAVE entry:', formData);
+    const handleSaveEntry = async () => {
+        // Clear previous messages
+        setError(null);
+        setSuccessMessage(null);
+
+        // Validate required fields (at least one field should be filled)
+        const hasData = Object.values(formData).some(value => value.trim().length > 0);
+        if (!hasData) {
+            setError('Please fill in at least one field before saving.');
+            return;
+        }
+
+        setIsSaving(true);
+
+        try {
+            // Map form data to API format
+            const entryData = {
+                bodySensations: formData.sensations || '',
+                thoughts: formData.thoughts || '',
+                urges: formData.urges || '',
+                emotions: formData.emotions || '',
+                surfTheWave: formData.waveReflection || '',
+                reflection: formData.reflection || '',
+            };
+
+            await createStunwave(entryData);
+            
+            // Success - clear form and show message
+            setSuccessMessage('Entry saved successfully!');
+            handleClearForm();
+            
+            // Clear success message after 3 seconds
+            setTimeout(() => {
+                setSuccessMessage(null);
+            }, 3000);
+        } catch (err) {
+            console.error('Failed to save STUNWAVE entry:', err);
+            setError('Failed to save entry. Please try again.');
+        } finally {
+            setIsSaving(false);
+        }
     };
 
     const handleViewSaved = () => {
         dissolveTo('Learn_STUNWAVEEntries');
     };
+
 
     return (
         <KeyboardAvoidingView
@@ -74,6 +125,22 @@ export default function STUNWAVECheckInScreen() {
             <View className="flex-1 bg-white pt-9" style={{ backgroundColor: colors.white }}>
                 <StatusBar barStyle="dark-content" backgroundColor={colors.white} />
                 <PageHeader title={title} showHomeIcon={true} showLeafIcon={true} />
+
+                {/* Success/Error Messages */}
+                {/* {successMessage && (
+                    <View className="mx-5 mt-2 p-3 rounded-xl" style={{ backgroundColor: colors.orange_50 }}>
+                        <Text style={[t.textRegular, { color: colors.Text_Primary }]}>
+                            {successMessage}
+                        </Text>
+                    </View>
+                )} */}
+                {/* {error && (
+                    <View className="mx-5 mt-2 p-3 rounded-xl" style={{ backgroundColor: colors.orange_50 }}>
+                        <Text style={[t.textRegular, { color: colors.Text_Primary }]}>
+                            {error}
+                        </Text>
+                    </View>
+                )} */}
 
                 <ScrollView
                     className="flex-1 px-5"
@@ -259,12 +326,20 @@ export default function STUNWAVECheckInScreen() {
                         </Pressable>
                         <Pressable
                             className="flex-1 rounded-full py-4 items-center justify-center"
-                            style={{ backgroundColor: colors.Button_Orange }}
+                            style={{ 
+                                backgroundColor: isSaving ? colors.text_secondary : colors.Button_Orange,
+                                opacity: isSaving ? 0.6 : 1,
+                            }}
                             onPress={handleSaveEntry}
+                            disabled={isSaving}
                         >
-                            <Text style={[t.button, { color: colors.white }]}>
-                                Save Entry
-                            </Text>
+                            {isSaving ? (
+                                <ActivityIndicator size="small" color={colors.white} />
+                            ) : (
+                                <Text style={[t.button, { color: colors.white }]}>
+                                    Save Entry
+                                </Text>
+                            )}
                         </Pressable>
                     </View>
                     <Pressable

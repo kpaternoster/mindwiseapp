@@ -1,73 +1,103 @@
 [
   {
-    "id": "deep-breathing",
+    "id": "deepBreathing",
     "title": "Deep Breathing",
     "description": "Slow, controlled breathing to calm the nervous system"
   },
   {
-    "id": "here-now",
+    "id": "hereAndNow",
     "title": "Here & Now",
     "description": "Use Mindful Observation to focus on the moment"
   },
   {
-    "id": "self-care-please",
+    "id": "selfCare",
     "title": "Self-Care (PLEASE)",
     "description": "Ensure you are taking care of yourself"
   },
   {
-    "id": "positive-self-talk",
+    "id": "positiveSelfTalk",
     "title": "Positive Self-Talk",
     "description": "Kind, encouraging words to yourself"
   },
   {
-    "id": "stop-skill",
+    "id": "stop",
     "title": "STOP Skill",
     "description": "Stop, Take a breath, Observe, Proceed mindfully"
   },
   {
-    "id": "distraction-activities",
+    "id": "distractionActivities",
     "title": "Distraction Activities",
     "description": "Engage in activities that shift your focus"
   },
   {
-    "id": "problem-solving",
+    "id": "problemSolving",
     "title": "Problem Solving",
     "description": "Use problem solving to address any challenges with clarity and intention"
   },
   {
-    "id": "self-soothing",
+    "id": "selfSoothing",
     "title": "Self-Soothing",
-    "description": "Kind, encouraging words to yourself"
+    "description": "Use your senses to comfort yourself"
   },
   {
-    "id": "tipp-skills",
+    "id": "tipp",
     "title": "TIPP Skills",
     "description": "Temperature, Intense exercise, Paced breathing, Paired muscle relaxation"
   },
   {
-    "id": "radical-acceptance",
+    "id": "radicalAcceptance",
     "title": "Radical Acceptance",
     "description": "Accept reality without fighting it"
   },
   {
-    "id": "different-action",
+    "id": "differentAction",
     "title": "Different Action",
     "description": "Act opposite to your emotional urges"
   },
   {
-    "id": "grounding-techniques",
+    "id": "groundingTechniques",
     "title": "Grounding Techniques",
     "description": "5-4-3-2-1 technique to stay present"
   },
   {
-    "id": "crisis-support",
+    "id": "crisisSupport",
     "title": "Crisis Support",
     "description": "Open the 'Crisis Support' page to reach out for help"
   },
   {
-    "id": "crisis-survival",
+    "id": "crisisSurvival",
     "title": "Crisis Survival",
     "description": "Use your favorite distress tolerance skills like TIPP or Different Action"
+  },
+  {
+    "id": "halfSmile",
+    "title": "Half Smile",
+    "description": "Relax facial muscles to promote calm"
+  },
+  {
+    "id": "willingHands",
+    "title": "Willing Hands",
+    "description": "Open posture to embrace acceptance"
+  },
+  {
+    "id": "dearMan",
+    "title": "DEAR MAN",
+    "description": "Assertive communication technique"
+  },
+  {
+    "id": "give",
+    "title": "GIVE",
+    "description": "Gentle, Interested, Validate, Easy manner"
+  },
+  {
+    "id": "checkTheFacts",
+    "title": "Check the Facts",
+    "description": "Examine if emotions fit the facts"
+  },
+  {
+    "id": "wiseMind",
+    "title": "Wise Mind",
+    "description": "Balance emotion and reason"
   }
 ]
 

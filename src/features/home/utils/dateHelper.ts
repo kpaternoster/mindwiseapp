@@ -4,7 +4,7 @@
  */
 export const getCurrentDate = (): string => {
     const today = new Date();
-    const day = today.getDate();
+    const day = today.getUTCDate();
     const month = today.toLocaleString('en-US', { month: 'short' });
     const year = today.getFullYear();
     return `${day} ${month} ${year}`;
@@ -16,7 +16,7 @@ export const getCurrentDate = (): string => {
 export const formatDateToISO = (date: Date): string => {
     const year = date.getFullYear();
     const month = String(date.getMonth() + 1).padStart(2, '0');
-    const day = String(date.getDate()).padStart(2, '0');
+    const day = String(date.getUTCDate()).padStart(2, '0');
     return `${year}-${month}-${day}`;
 };
 
@@ -26,7 +26,7 @@ export const formatDateToISO = (date: Date): string => {
  * @returns Formatted date string
  */
 export const formatDate = (date: Date): string => {
-    const day = date.getDate();
+    const day = date.getUTCDate();
     const month = date.toLocaleString('en-US', { month: 'short' });
     const year = date.getFullYear();
     return `${day} ${month} ${year}`;
@@ -52,14 +52,14 @@ export const generateWeekDates = (): WeekDate[] => {
     // Start from 3 days before today
     for (let i = -3; i <= 3; i++) {
         const date = new Date(today);
-        date.setDate(today.getDate() + i);
+        date.setDate(today.getUTCDate() + i);
         
         const dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
         const dayName = dayNames[date.getDay()];
         
         dates.push({
             day: dayName,
-            date: date.getDate(),
+            date: date.getUTCDate(),
             fullDate: date,
             isSelected: i === 0, // Today is selected
         });

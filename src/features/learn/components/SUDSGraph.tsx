@@ -12,7 +12,7 @@ const screenWidth = Dimensions.get('window').width;
 const chartWidth = screenWidth - 80; // Account for padding
 const barWidth = Math.min((chartWidth / 7) - 8, 30); // 7 days with spacing
 const chartHeight = 240;
-const maxLevel = 12;
+const maxLevel = 10;
 
 const getSUDSColor = (level: number): string => {
     if (level >= 1 && level <= 3) {
