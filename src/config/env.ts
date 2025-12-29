@@ -43,6 +43,10 @@ export const API_ENDPOINTS = {
   PRACTICE_WITH_OTHERS_BY_ID: (id: string) => `${BASE_API_URL}/practice-with-others/${id}`,
   PROBLEM_SOLVING: `${BASE_API_URL}/problem-solving`,
   PROBLEM_SOLVING_BY_ID: (id: string) => `${BASE_API_URL}/problem-solving/${id}`,
+  DIALECTICAL_REFRAMING: `${BASE_API_URL}/dialectical-reframing`,
+  DIALECTICAL_REFRAMING_BY_ID: (id: string) => `${BASE_API_URL}/dialectical-reframing/${id}`,
+  EXPLORING_PERSPECTIVES: `${BASE_API_URL}/exploring-perspectives`,
+  EXPLORING_PERSPECTIVES_BY_ID: (id: string) => `${BASE_API_URL}/exploring-perspectives/${id}`,
   GRACE: `${BASE_API_URL}/grace`,
   SIGN_COMMITMENT: `${BASE_API_URL}/sign-commitment`,
 } as const;

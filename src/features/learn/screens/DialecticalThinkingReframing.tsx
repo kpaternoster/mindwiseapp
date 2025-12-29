@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, ScrollView, StatusBar, Pressable, Text, TextInput, KeyboardAvoidingView, Platform } from 'react-native';
+import { View, ScrollView, StatusBar, Pressable, Text, TextInput, KeyboardAvoidingView, Platform, ActivityIndicator } from 'react-native';
 import { colors } from '@design/color';
 import { t } from '@design/typography';
 import { useDissolveNavigation } from '@hooks/useDissolveNavigation';
@@ -7,6 +7,7 @@ import { PageHeader } from '../components/PageHeader';
 import { ProgressBar } from '../components/ProgressBar';
 import { ArrowRightIcon } from '@components/Utils';
 import dialecticalThinkingReframingData from '../data/dialecticalThinkingReframing.json';
+import { createDialecticalReframingEntry } from '../api/dialecticalThinking';
 
 export default function DialecticalThinkingReframingScreen() {
     const { dissolveTo } = useDissolveNavigation();
@@ -23,6 +24,11 @@ export default function DialecticalThinkingReframingScreen() {
     const [situation, setSituation] = useState('');
     const [reframe, setReframe] = useState('');
 
+    // API states
+    const [isSaving, setIsSaving] = useState(false);
+    const [error, setError] = useState<string | null>(null);
+    const [successMessage, setSuccessMessage] = useState<string | null>(null);
+
     const handleContinue = () => {
         if (currentStep === 1) {
             // Move to step 2
@@ -37,20 +43,66 @@ export default function DialecticalThinkingReframingScreen() {
         }
     };
 
-    const handleSaveEntry = () => {
-        // TODO: Save all data to storage/backend
-        const allData = {
-            step1: {
-                butStatement,
-                andStatement,
-            },
-            step2: {
-                situation,
-                reframe,
-            },
-        };
-        console.log('Saving all reframing data:', allData);
-        // TODO: Show success message or navigate
+    const handleSaveEntry = async () => {
+        // Clear previous messages
+        setError(null);
+        setSuccessMessage(null);
+
+        // Validate required fields
+        if (!butStatement.trim()) {
+            setError('Please enter a "BUT" statement.');
+            return;
+        }
+
+        if (!andStatement.trim()) {
+            setError('Please enter an "AND" statement.');
+            return;
+        }
+
+        if (!situation.trim()) {
+            setError('Please describe the stuck situation.');
+            return;
+        }
+
+        if (!reframe.trim()) {
+            setError('Please provide a reframe.');
+            return;
+        }
+
+        setIsSaving(true);
+
+        try {
+            // Map form data to API format
+            const entryData = {
+                title: null, // Title is optional, not collected in the form
+                but: butStatement.trim(),
+                and: andStatement.trim(),
+                stuckSituation: situation.trim(),
+                reframe: reframe.trim(),
+            };
+
+            // Save to API
+            await createDialecticalReframingEntry(entryData);
+
+            // Show success message
+            setSuccessMessage('Entry saved successfully!');
+
+            // Clear form after successful save
+            setButStatement('');
+            setAndStatement('');
+            setSituation('');
+            setReframe('');
+
+            // Clear success message after 3 seconds
+            setTimeout(() => {
+                setSuccessMessage(null);
+            }, 3000);
+        } catch (err) {
+            console.error('Failed to save dialectical reframing entry:', err);
+            setError('Failed to save entry. Please try again.');
+        } finally {
+            setIsSaving(false);
+        }
     };
 
     const handleViewSaved = () => {
@@ -153,6 +205,24 @@ export default function DialecticalThinkingReframingScreen() {
                             </View>
                         ))}
                     </View>
+
+                    {/* Error Message */}
+                    {error && (
+                        <View className="mx-5 mb-4 p-4 rounded-xl" style={{ backgroundColor: colors.red_50 }}>
+                            <Text style={[t.textRegular, { color: colors.red_light }]}>
+                                {error}
+                            </Text>
+                        </View>
+                    )}
+
+                    {/* Success Message */}
+                    {successMessage && (
+                        <View className="mx-5 mb-4 p-4 rounded-xl" style={{ backgroundColor: colors.green_50 }}>
+                            <Text style={[t.textRegular, { color: colors.green_500 }]}>
+                                {successMessage}
+                            </Text>
+                        </View>
+                    )}
                 </ScrollView>
 
                 {/* Bottom Action Buttons */}
@@ -198,15 +268,22 @@ export default function DialecticalThinkingReframingScreen() {
 
                                 <Pressable
                                     className="flex-1 rounded-full py-4 px-3 flex-row items-center justify-center"
-                                    style={{ backgroundColor: colors.Button_Orange }}
+                                    style={{ backgroundColor: colors.Button_Orange, opacity: isSaving ? 0.6 : 1 }}
                                     onPress={handleSaveEntry}
+                                    disabled={isSaving}
                                 >
-                                    <Text style={[t.textSemiBold, { color: colors.white }]} className="mr-2 flex-1 text-center">
-                                        {stepData.buttons.saveEntry}
-                                    </Text>
-                                    <View className="w-9 h-9 bg-white rounded-full items-center justify-center">
-                                        <ArrowRightIcon size={16} color={colors.Text_Primary} />
-                                    </View>
+                                    {isSaving ? (
+                                        <ActivityIndicator size="small" color={colors.white} />
+                                    ) : (
+                                        <>
+                                            <Text style={[t.textSemiBold, { color: colors.white }]} className="mr-2 flex-1 text-center">
+                                                {stepData.buttons.saveEntry}
+                                            </Text>
+                                            <View className="w-9 h-9 bg-white rounded-full items-center justify-center">
+                                                <ArrowRightIcon size={16} color={colors.Text_Primary} />
+                                            </View>
+                                        </>
+                                    )}
                                 </Pressable>
                             </View>
 

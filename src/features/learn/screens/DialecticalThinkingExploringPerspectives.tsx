@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, ScrollView, StatusBar, Pressable, Text, TextInput, KeyboardAvoidingView, Platform } from 'react-native';
+import { View, ScrollView, StatusBar, Pressable, Text, TextInput, KeyboardAvoidingView, Platform, ActivityIndicator } from 'react-native';
 import { colors } from '@design/color';
 import { t } from '@design/typography';
 import { useDissolveNavigation } from '@hooks/useDissolveNavigation';
@@ -8,6 +8,7 @@ import { ProgressBar } from '../components/ProgressBar';
 import { TagButton } from '../components/TagButton';
 import { ArrowRightIcon } from '@components/Utils';
 import dialecticalThinkingExploringPerspectivesData from '../data/dialecticalThinkingExploringPerspectives.json';
+import { createExploringPerspectivesEntry } from '../api/dialecticalThinking';
 
 export default function DialecticalThinkingExploringPerspectivesScreen() {
     const { dissolveTo } = useDissolveNavigation();
@@ -30,6 +31,11 @@ export default function DialecticalThinkingExploringPerspectivesScreen() {
     const [opposite, setOpposite] = useState('');
     const [bothTruths, setBothTruths] = useState('');
 
+    // API states
+    const [isSaving, setIsSaving] = useState(false);
+    const [error, setError] = useState<string | null>(null);
+    const [successMessage, setSuccessMessage] = useState<string | null>(null);
+
     const handleContinue = () => {
         if (currentStep < totalSteps) {
             setCurrentStep(currentStep + 1);
@@ -42,45 +48,83 @@ export default function DialecticalThinkingExploringPerspectivesScreen() {
         }
     };
 
-    const handleSaveEntry = () => {
-        // TODO: Save all data to storage/backend
-        const allData = {
-            step1: {
-                conflict,
-                perspective,
-                selectedTag,
-            },
-            step2: {
-                alternative1,
-                alternative2,
-            },
-            step3: {
-                belief,
-                opposite,
-                bothTruths,
-            },
-        };
-        console.log('Saving all exploring perspectives data:', allData);
-        
-        // Format alternative views (combine alternative1 and alternative2)
-        const alternativeViews = [alternative1, alternative2].filter(v => v.trim()).join(' | ');
-        
-        // Create entry object
-        const entry = {
-            id: Date.now().toString(),
-            date: new Date().toISOString(),
-            title: conflict || selectedTag || 'Untitled Entry',
-            conflict: conflict || '',
-            perspective: perspective || '',
-            alternativeViews: alternativeViews || undefined,
-            belief: belief || undefined,
-            opposite: opposite || undefined,
-            synthesis: bothTruths || undefined,
-        };
-        
-        // TODO: Save to storage/backend
-        console.log('Entry to save:', entry);
-        // TODO: Show success message or navigate
+    const handleSaveEntry = async () => {
+        // Clear previous messages
+        setError(null);
+        setSuccessMessage(null);
+
+        // Validate required fields
+        if (!conflict.trim()) {
+            setError('Please describe the conflict.');
+            return;
+        }
+
+        if (!perspective.trim()) {
+            setError('Please describe your perspective.');
+            return;
+        }
+
+        if (!alternative1.trim() && !alternative2.trim()) {
+            setError('Please provide at least one alternative perspective.');
+            return;
+        }
+
+        if (!belief.trim()) {
+            setError('Please describe your personal belief.');
+            return;
+        }
+
+        if (!opposite.trim()) {
+            setError('Please describe the opposite side\'s perspective.');
+            return;
+        }
+
+        if (!bothTruths.trim()) {
+            setError('Please provide a synthesis of both truths.');
+            return;
+        }
+
+        setIsSaving(true);
+
+        try {
+            // Map form data to API format
+            const entryData = {
+                title: conflict.trim() || selectedTag || null, // Use conflict or selectedTag as title
+                conflict: conflict.trim(),
+                perspective: perspective.trim(),
+                alternative1: alternative1.trim() || '',
+                alternative2: alternative2.trim() || '',
+                personalBelief: belief.trim(),
+                oppositeSide: opposite.trim(),
+                truths: bothTruths.trim(),
+            };
+
+            // Save to API
+            await createExploringPerspectivesEntry(entryData);
+
+            // Show success message
+            setSuccessMessage('Entry saved successfully!');
+
+            // Clear form after successful save
+            setConflict('');
+            setPerspective('');
+            setSelectedTag('');
+            setAlternative1('');
+            setAlternative2('');
+            setBelief('');
+            setOpposite('');
+            setBothTruths('');
+
+            // Clear success message after 3 seconds
+            setTimeout(() => {
+                setSuccessMessage(null);
+            }, 3000);
+        } catch (err) {
+            console.error('Failed to save exploring perspectives entry:', err);
+            setError('Failed to save entry. Please try again.');
+        } finally {
+            setIsSaving(false);
+        }
     };
 
     const handleViewSaved = () => {
@@ -197,7 +241,7 @@ export default function DialecticalThinkingExploringPerspectivesScreen() {
                                                 key={tag}
                                                 label={tag}
                                                 isSelected={selectedTag === tag}
-                                                onPress={() => setSelectedTag(tag)}
+                                                onPress={() => {setSelectedTag(tag); setInputValue(input.id, tag);}}
                                             />
                                         ))}
                                     </View>
@@ -206,6 +250,24 @@ export default function DialecticalThinkingExploringPerspectivesScreen() {
                             </View>
                         ))}
                     </View>
+
+                    {/* Error Message */}
+                    {error && (
+                        <View className="mx-5 mb-4 p-4 rounded-xl" style={{ backgroundColor: colors.red_50 }}>
+                            <Text style={[t.textRegular, { color: colors.red_light }]}>
+                                {error}
+                            </Text>
+                        </View>
+                    )}
+
+                    {/* Success Message */}
+                    {successMessage && (
+                        <View className="mx-5 mb-4 p-4 rounded-xl" style={{ backgroundColor: colors.green_50 }}>
+                            <Text style={[t.textRegular, { color: colors.green_500 }]}>
+                                {successMessage}
+                            </Text>
+                        </View>
+                    )}
                 </ScrollView>
 
                 {/* Bottom Action Buttons */}
@@ -289,15 +351,22 @@ export default function DialecticalThinkingExploringPerspectivesScreen() {
 
                                 <Pressable
                                     className="flex-1 rounded-full py-4 px-3 flex-row items-center justify-center"
-                                    style={{ backgroundColor: colors.Button_Orange }}
+                                    style={{ backgroundColor: colors.Button_Orange, opacity: isSaving ? 0.6 : 1 }}
                                     onPress={handleSaveEntry}
+                                    disabled={isSaving}
                                 >
-                                    <Text style={[t.textSemiBold, { color: colors.white }]} className="mr-2 flex-1 text-center">
-                                        {stepData.buttons.saveEntry}
-                                    </Text>
-                                    <View className="w-9 h-9 bg-white rounded-full items-center justify-center">
-                                        <ArrowRightIcon size={16} color={colors.icon} />
-                                    </View>
+                                    {isSaving ? (
+                                        <ActivityIndicator size="small" color={colors.white} />
+                                    ) : (
+                                        <>
+                                            <Text style={[t.textSemiBold, { color: colors.white }]} className="mr-2 flex-1 text-center">
+                                                {stepData.buttons.saveEntry}
+                                            </Text>
+                                            <View className="w-9 h-9 bg-white rounded-full items-center justify-center">
+                                                <ArrowRightIcon size={16} color={colors.icon} />
+                                            </View>
+                                        </>
+                                    )}
                                 </Pressable>
                             </View>
 
