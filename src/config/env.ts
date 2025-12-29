@@ -41,6 +41,8 @@ export const API_ENDPOINTS = {
   EMOTIONS_TRACKING: (date: string) => `${BASE_API_URL}/emotions-tracking/${date}`,
   PRACTICE_WITH_OTHERS: `${BASE_API_URL}/practice-with-others`,
   PRACTICE_WITH_OTHERS_BY_ID: (id: string) => `${BASE_API_URL}/practice-with-others/${id}`,
+  PROBLEM_SOLVING: `${BASE_API_URL}/problem-solving`,
+  PROBLEM_SOLVING_BY_ID: (id: string) => `${BASE_API_URL}/problem-solving/${id}`,
   GRACE: `${BASE_API_URL}/grace`,
   SIGN_COMMITMENT: `${BASE_API_URL}/sign-commitment`,
 } as const;

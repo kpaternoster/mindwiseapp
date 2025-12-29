@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, ScrollView, StatusBar, Pressable, Text, TextInput, KeyboardAvoidingView, Platform } from 'react-native';
+import { View, ScrollView, StatusBar, Pressable, Text, TextInput, KeyboardAvoidingView, Platform, ActivityIndicator } from 'react-native';
 import { colors } from '@design/color';
 import { t } from '@design/typography';
 import { useDissolveNavigation } from '@hooks/useDissolveNavigation';
@@ -8,6 +8,7 @@ import { IntroCard } from '../components/IntroCard';
 import { TagButton } from '../components/TagButton';
 import { UpIcon, DownIcon, CloseIcon, ArrowRightIcon } from '@components/Utils';
 import problemSolvingExerciseData from '../data/problemSolvingExercise.json';
+import { createProblemSolvingEntry } from '../api/problemsolving';
 
 export default function ProblemSolvingExerciseScreen() {
     const { dissolveTo } = useDissolveNavigation();
@@ -40,9 +41,15 @@ export default function ProblemSolvingExerciseScreen() {
     // Execute
     const [implementation, setImplementation] = useState('');
     const [specificSteps, setSpecificSteps] = useState('');
+    const [selectedSpecificSteps, setSelectedSpecificSteps] = useState<string[]>([]);
 
     // Reflection
     const [reflection, setReflection] = useState('');
+
+    // API states
+    const [isSaving, setIsSaving] = useState(false);
+    const [error, setError] = useState<string | null>(null);
+    const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
     const toggleSection = (sectionId: string) => {
         setExpandedSections((prev) => ({
@@ -54,6 +61,20 @@ export default function ProblemSolvingExerciseScreen() {
     const handleProblemOptionPress = (option: string) => {
         setSelectedProblemOption(option);
         setProblem(option);
+    };
+
+    const handleSpecificStepsChange = (text: string) => {
+        // Toggle: if already selected, remove it; otherwise add it
+        if (selectedSpecificSteps.includes(text)) {
+            const newSpecificSteps = selectedSpecificSteps.filter(step => step !== text);
+            setSelectedSpecificSteps(newSpecificSteps);
+            setSpecificSteps(newSpecificSteps.join(', '));
+        } else {
+            // Only add if not already in the array (ensures uniqueness)
+            const newSpecificSteps = [...selectedSpecificSteps, text];
+            setSelectedSpecificSteps(newSpecificSteps);
+            setSpecificSteps(newSpecificSteps.join(', '));
+        }
     };
 
     const handleOptionChange = (index: number, text: string) => {
@@ -93,21 +114,58 @@ export default function ProblemSolvingExerciseScreen() {
         setCons([...cons, '']);
     };
 
-    const handleSaveEntry = () => {
-        // TODO: Save all data to storage/backend
-        const allData = {
-            problem,
-            options: options.filter(o => o.trim() !== ''),
-            pros: pros.filter(p => p.trim() !== ''),
-            cons: cons.filter(c => c.trim() !== ''),
-            chosenSolution,
-            whyBestChoice,
-            implementation,
-            specificSteps,
-            reflection,
-        };
-        console.log('Saving Problem Solving data:', allData);
-        // TODO: Show success message or navigate
+    const handleSaveEntry = async () => {
+        // Clear previous messages
+        setError(null);
+        setSuccessMessage(null);
+
+        // Validate required fields
+        if (!problem.trim()) {
+            setError('Please state the problem.');
+            return;
+        }
+
+        const filteredOptions = options.filter(o => o.trim() !== '');
+        if (filteredOptions.length === 0) {
+            setError('Please add at least one option.');
+            return;
+        }
+
+        setIsSaving(true);
+
+        try {
+            // Map form data to API format
+            const entryData = {
+                problem: problem.trim(),
+                options: filteredOptions,
+                pros: pros.filter(p => p.trim() !== ''),
+                cons: cons.filter(c => c.trim() !== ''),
+                choice: chosenSolution.trim(),
+                bestChoice: chosenSolution.trim(), // Set bestChoice same as choice
+                implementation: implementation.trim() || '',
+                whyBestChoice: whyBestChoice.trim() || '',
+                reflection: reflection.trim() || '',
+            };
+
+            // Save to API
+            await createProblemSolvingEntry(entryData);
+
+            // Show success message
+            setSuccessMessage('Entry saved successfully!');
+
+            // Clear form after successful save
+            handleClearForm();
+
+            // Clear success message after 3 seconds
+            setTimeout(() => {
+                setSuccessMessage(null);
+            }, 3000);
+        } catch (err) {
+            console.error('Failed to save problem solving entry:', err);
+            setError('Failed to save entry. Please try again.');
+        } finally {
+            setIsSaving(false);
+        }
     };
 
     const handleClearForm = () => {
@@ -120,7 +178,10 @@ export default function ProblemSolvingExerciseScreen() {
         setWhyBestChoice('');
         setImplementation('');
         setSpecificSteps('');
+        setSelectedSpecificSteps([]);
         setReflection('');
+        setError(null);
+        setSuccessMessage(null);
     };
 
     const handleViewSaved = () => {
@@ -155,7 +216,7 @@ export default function ProblemSolvingExerciseScreen() {
                 >
                     {/* Intro Card */}
                     <IntroCard
-                        title={intro.title}
+                        title={'About Problem Solving'}
                         text={intro.description}
                     />
 
@@ -199,31 +260,17 @@ export default function ProblemSolvingExerciseScreen() {
                                     </Text>
                                     
                                     {/* Example */}
-                                    <View className="mb-4 p-3 rounded-xl" style={{ backgroundColor: colors.orange_50 }}>
+                                    {/* <View className="mb-4 p-3 rounded-xl" style={{ backgroundColor: colors.orange_50 }}>
                                         <Text style={[t.textRegular, { color: colors.text_secondary }]}>
                                             {stateProblemSection.example}
                                         </Text>
-                                    </View>
-
-                                    {/* Problem Options */}
-                                    {stateProblemSection.problemOptions && (
-                                        <View className="flex-row flex-wrap mb-4">
-                                            {stateProblemSection.problemOptions.map((option) => (
-                                                <TagButton
-                                                    key={option}
-                                                    label={option}
-                                                    isSelected={selectedProblemOption === option}
-                                                    onPress={() => handleProblemOptionPress(option)}
-                                                />
-                                            ))}
-                                        </View>
-                                    )}
+                                    </View> */}
 
                                     {/* Problem Input */}
                                     <TextInput
                                         value={problem}
                                         onChangeText={setProblem}
-                                        placeholder="Describe your problem clearly..."
+                                        placeholder={stateProblemSection.example}
                                         placeholderTextColor={colors.text_secondary}
                                         style={[
                                             t.textRegular,
@@ -240,6 +287,22 @@ export default function ProblemSolvingExerciseScreen() {
                                         ]}
                                         multiline
                                     />
+
+                                    {/* Problem Options */}
+                                    {stateProblemSection.problemOptions && (
+                                        <View className="flex-row flex-wrap mt-4 mb-4">
+                                            {stateProblemSection.problemOptions.map((option) => (
+                                                <TagButton
+                                                    key={option}
+                                                    label={option}
+                                                    isSelected={selectedProblemOption === option}
+                                                    onPress={() => handleProblemOptionPress(option)}
+                                                />
+                                            ))}
+                                        </View>
+                                    )}
+
+                                    
                                 </View>
                             )}
                         </View>
@@ -624,8 +687,8 @@ export default function ProblemSolvingExerciseScreen() {
                                                 <TagButton
                                                     key={tag}
                                                     label={tag}
-                                                    isSelected={false}
-                                                    onPress={() => {}}
+                                                    isSelected={selectedSpecificSteps.includes(tag)}
+                                                    onPress={() => handleSpecificStepsChange(tag)}
                                                 />
                                             ))}
                                         </View>
@@ -697,6 +760,24 @@ export default function ProblemSolvingExerciseScreen() {
                             )}
                         </View>
                     )}
+
+                    {/* Error Message */}
+                    {error && (
+                        <View className="mx-5 mb-4 p-4 rounded-xl" style={{ backgroundColor: colors.red_50 }}>
+                            <Text style={[t.textRegular, { color: colors.red_light }]}>
+                                {error}
+                            </Text>
+                        </View>
+                    )}
+
+                    {/* Success Message */}
+                    {successMessage && (
+                        <View className="mx-5 mb-4 p-4 rounded-xl" style={{ backgroundColor: colors.green_50 }}>
+                            <Text style={[t.textRegular, { color: colors.green_500 }]}>
+                                {successMessage}
+                            </Text>
+                        </View>
+                    )}
                 </ScrollView>
 
                 {/* Bottom Action Buttons */}
@@ -715,15 +796,22 @@ export default function ProblemSolvingExerciseScreen() {
 
                         <Pressable
                             className="flex-1 rounded-full py-4 px-3 flex-row items-center justify-center"
-                            style={{ backgroundColor: colors.Button_Orange }}
+                            style={{ backgroundColor: colors.Button_Orange, opacity: isSaving ? 0.6 : 1 }}
                             onPress={handleSaveEntry}
+                            disabled={isSaving}
                         >
-                            <Text style={[t.textSemiBold, { color: colors.white }]} className="mr-2 flex-1 text-center">
-                                {buttons.saveEntry}
-                            </Text>
-                            <View className="w-9 h-9 bg-white rounded-full items-center justify-center">
-                                <ArrowRightIcon size={16} color={colors.icon} />
-                            </View>
+                            {isSaving ? (
+                                <ActivityIndicator size="small" color={colors.white} />
+                            ) : (
+                                <>
+                                    <Text style={[t.textSemiBold, { color: colors.white }]} className="mr-2 flex-1 text-center">
+                                        {buttons.saveEntry}
+                                    </Text>
+                                    <View className="w-9 h-9 bg-white rounded-full items-center justify-center">
+                                        <ArrowRightIcon size={16} color={colors.icon} />
+                                    </View>
+                                </>
+                            )}
                         </Pressable>
                     </View>
 

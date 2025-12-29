@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, ScrollView, StatusBar, Text } from 'react-native';
+import { View, ScrollView, StatusBar, Text, ActivityIndicator } from 'react-native';
 import { colors } from '@design/color';
 import { t } from '@design/typography';
 import { useDissolveNavigation } from '@hooks/useDissolveNavigation';
@@ -8,6 +8,10 @@ import { CalendarBlankIcon } from '@components/Utils';
 import { ProblemSolvingEntry } from '../components/ProblemSolvingEntryCard';
 import { useRoute, RouteProp } from '@react-navigation/native';
 import { HomeStackParams } from '@app/navigation/types';
+import { 
+    fetchProblemSolvingEntries, 
+    ProblemSolvingEntry as ApiProblemSolvingEntry 
+} from '../api/problemsolving';
 
 type ProblemSolvingEntryDetailRouteProp = RouteProp<HomeStackParams, 'Learn_ProblemSolvingEntryDetail'>;
 
@@ -15,27 +19,59 @@ export default function ProblemSolvingEntryDetailScreen() {
     const route = useRoute<ProblemSolvingEntryDetailRouteProp>();
     const { dissolveTo } = useDissolveNavigation();
     const [entry, setEntry] = useState<ProblemSolvingEntry | null>(null);
+    const [isLoading, setIsLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
+    const entryId = route?.params?.entryId;
+
+    // Transform API entry to component format
+    const transformApiEntry = (apiEntry: ApiProblemSolvingEntry): ProblemSolvingEntry => {
+        return {
+            id: apiEntry.id,
+            date: new Date(apiEntry.time * 1000).toISOString(), // Convert timestamp to ISO string
+            problem: apiEntry.problem,
+            options: apiEntry.options,
+            chosenSolution: apiEntry.choice || undefined,
+            implementation: apiEntry.implementation || undefined,
+            specificSteps: undefined, // Not in API response
+            reflection: apiEntry.reflection || undefined,
+        };
+    };
 
     useEffect(() => {
-        // TODO: Load entry from storage/backend using route.params.entryId
-        // For now, using mock data
-        const mockEntry: ProblemSolvingEntry = {
-            id: route?.params?.entryId || '1',
-            date: new Date(2025, 10, 8, 16, 25).toISOString(), // Nov 8, 2025, 04:25 PM
-            problem: "I feel overwhelmed because I have three deadlines this week.",
-            options: [
-                "Lorem ipsum si amet",
-                "Lorem ipsum si amet",
-                "Lorem ipsum si amet",
-                "Lorem ipsum si amet",
-            ],
-            chosenSolution: "Lorem ipsum si amet",
-            implementation: "Lorem ipsum si amet",
-            specificSteps: "Lorem ipsum si amet",
-            reflection: "Lorem ipsum si amet",
+        const loadEntry = async () => {
+            if (!entryId) {
+                setError('Entry ID is missing');
+                setIsLoading(false);
+                return;
+            }
+
+            try {
+                setIsLoading(true);
+                setError(null);
+                
+                // Fetch all entries and find the one with matching ID
+                const apiEntries = await fetchProblemSolvingEntries();
+                const foundEntry = apiEntries.find(e => e.id === entryId);
+                
+                if (!foundEntry) {
+                    setError('Entry not found');
+                    setIsLoading(false);
+                    return;
+                }
+                
+                // Transform API entry to component format
+                const transformedEntry = transformApiEntry(foundEntry);
+                setEntry(transformedEntry);
+            } catch (err) {
+                console.error('Failed to load problem solving entry:', err);
+                setError('Failed to load entry. Please try again.');
+            } finally {
+                setIsLoading(false);
+            }
         };
-        setEntry(mockEntry);
-    }, [route?.params?.entryId]);
+
+        loadEntry();
+    }, [entryId]);
 
     const formatDate = (dateString: string) => {
         const date = new Date(dateString);
@@ -51,14 +87,26 @@ export default function ProblemSolvingEntryDetailScreen() {
         return `${month} ${day}, ${year}, ${displayHours}:${displayMinutes} ${ampm}`;
     };
 
-    if (!entry) {
+    if (isLoading) {
         return (
             <View className="flex-1 pt-9" style={{ backgroundColor: colors.white }}>
                 <StatusBar barStyle="dark-content" backgroundColor={colors.white} />
                 <PageHeader title="Saved Entries" showHomeIcon={true} showLeafIcon={true} />
                 <View className="flex-1 items-center justify-center">
-                    <Text style={[t.textRegular, { color: colors.text_secondary }]}>
-                        Loading...
+                    <ActivityIndicator size="large" color={colors.button_orange} />
+                </View>
+            </View>
+        );
+    }
+
+    if (error || !entry) {
+        return (
+            <View className="flex-1 pt-9" style={{ backgroundColor: colors.white }}>
+                <StatusBar barStyle="dark-content" backgroundColor={colors.white} />
+                <PageHeader title="Saved Entries" showHomeIcon={true} showLeafIcon={true} />
+                <View className="flex-1 items-center justify-center px-5">
+                    <Text style={[t.textRegular, { color: colors.red_light, textAlign: 'center' }]}>
+                        {error || 'Entry not found'}
                     </Text>
                 </View>
             </View>
