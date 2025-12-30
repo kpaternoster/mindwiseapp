@@ -1,48 +1,93 @@
-import React, { useState } from 'react';
-import { View, ScrollView, StatusBar, Text, Pressable } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, ScrollView, StatusBar, Text, Pressable, ActivityIndicator } from 'react-native';
 import { colors } from '@design/color';
 import { t } from '@design/typography';
 import { useDissolveNavigation } from '@hooks/useDissolveNavigation';
 import { PageHeader } from '../components';
 import WillingHandsEntryCard from '../components/WillingHandsEntryCard';
+import { 
+    fetchWillingHandsEntries, 
+    deleteWillingHandsEntry, 
+    WillingHandsEntry as ApiWillingHandsEntry 
+} from '../api/willingHands';
 
-// Mock data - replace with actual data from storage/backend
-const mockEntries = [
-    {
-        id: '1',
-        date: '2025-11-06',
-        time: '2025-11-06T16:24:00',
-        title: 'Willing Hands Practice',
-        preview: 'Where did you notice tension in you...',
-    },
-    {
-        id: '2',
-        date: '2025-11-05',
-        time: '2025-11-05T14:30:00',
-        title: 'Willing Hands Practice',
-        preview: 'Where did you notice tension in you...',
-    },
-    {
-        id: '3',
-        date: '2025-11-04',
-        time: '2025-11-04T10:15:00',
-        title: 'Willing Hands Practice',
-        preview: 'Where did you notice tension in you...',
-    },
-];
+interface WillingHandsEntryCardData {
+    id: string;
+    date: string;
+    time?: string;
+    title: string;
+    preview?: string;
+}
 
 export default function WillingHandsEntriesScreen() {
     const { dissolveTo } = useDissolveNavigation();
-    const [entries, setEntries] = useState(mockEntries);
+    const [entries, setEntries] = useState<WillingHandsEntryCardData[]>([]);
+    const [isLoading, setIsLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
+
+    // Transform API entry to component format
+    const transformApiEntry = (apiEntry: ApiWillingHandsEntry): WillingHandsEntryCardData => {
+        const date = new Date(apiEntry.time * 1000);
+        const dateString = date.toISOString().split('T')[0]; // Extract date part (YYYY-MM-DD)
+        const timeString = date.toISOString(); // Full ISO string for time
+        
+        // Create preview from tension or reflection
+        const preview = apiEntry.tension || apiEntry.reflection || '';
+        
+        return {
+            id: apiEntry.id,
+            date: dateString,
+            time: timeString,
+            title: 'Willing Hands Practice',
+            preview: preview,
+        };
+    };
+
+    const loadEntries = async () => {
+        try {
+            setIsLoading(true);
+            setError(null);
+            const apiEntries = await fetchWillingHandsEntries();
+            
+            // Transform API entries to component format and sort by date (newest first)
+            const transformedEntries = apiEntries
+                .map(transformApiEntry)
+                .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+            
+            setEntries(transformedEntries);
+        } catch (err) {
+            console.error('Failed to load willing hands entries:', err);
+            setError('Failed to load entries. Please try again.');
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
+    useEffect(() => {
+        loadEntries();
+    }, []);
 
     const handleView = (entryId: string) => {
         dissolveTo('Learn_WillingHandsEntryDetail', { entryId });
     };
 
-    const handleDelete = (entryId: string) => {
-        // TODO: Show confirmation dialog and delete from storage/backend
-        setEntries(entries.filter(entry => entry.id !== entryId));
-        console.log('Delete entry:', entryId);
+    const handleDelete = async (entryId: string) => {
+        try {
+            // Optimistically update UI
+            setEntries((prev) => prev.filter((entry) => entry.id !== entryId));
+            
+            // Delete from API
+            await deleteWillingHandsEntry(entryId);
+        } catch (err) {
+            console.error('Failed to delete entry:', err);
+            // Reload entries on error to restore the deleted entry
+            try {
+                await loadEntries();
+            } catch (reloadErr) {
+                console.error('Failed to reload entries:', reloadErr);
+            }
+            setError('Failed to delete entry. Please try again.');
+        }
     };
 
     const handleNewEntry = () => {
@@ -63,7 +108,19 @@ export default function WillingHandsEntriesScreen() {
                 showsVerticalScrollIndicator={false}
                 contentContainerStyle={{ paddingBottom: 24 }}
             >
-                {entries.length === 0 ? (
+                {error && (
+                    <View className="mb-4 p-4 rounded-xl" style={{ backgroundColor: colors.red_50 }}>
+                        <Text style={[t.textRegular, { color: colors.red_light }]}>
+                            {error}
+                        </Text>
+                    </View>
+                )}
+
+                {isLoading ? (
+                    <View className="items-center justify-center py-20">
+                        <ActivityIndicator size="large" color={colors.Button_Orange} />
+                    </View>
+                ) : entries.length === 0 ? (
                     <View className="items-center justify-center py-20">
                         <Text style={[t.textRegular, { color: colors.text_secondary }]}>
                             No saved practices yet

@@ -20,4 +20,5 @@ export * from './selfTalk';
 export * from './selfValidation';
 export * from './selfDiscovery';
 export * from './differentAction';
+export * from './willingHands';
 

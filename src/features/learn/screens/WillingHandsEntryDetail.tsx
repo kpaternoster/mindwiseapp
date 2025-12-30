@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, ScrollView, StatusBar, Text, Pressable } from 'react-native';
+import { View, ScrollView, StatusBar, Text, Pressable, ActivityIndicator } from 'react-native';
 import { colors } from '@design/color';
 import { t } from '@design/typography';
 import { useDissolveNavigation } from '@hooks/useDissolveNavigation';
@@ -7,6 +7,11 @@ import { useRoute, RouteProp } from '@react-navigation/native';
 import { HomeStackParams } from '@app/navigation/types';
 import { PageHeader } from '../components';
 import { CalendarBlankIcon } from '@components/Utils';
+import { 
+    fetchWillingHandsEntries, 
+    deleteWillingHandsEntry, 
+    WillingHandsEntry as ApiWillingHandsEntry 
+} from '../api/willingHands';
 
 interface WillingHandsEntry {
     id: string;
@@ -27,21 +32,52 @@ export default function WillingHandsEntryDetailScreen() {
     const { entryId } = route.params;
 
     const [entry, setEntry] = useState<WillingHandsEntry | null>(null);
+    const [isLoading, setIsLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
+
+    // Transform API entry to component format
+    const transformApiEntry = (apiEntry: ApiWillingHandsEntry): WillingHandsEntry => {
+        const date = new Date(apiEntry.time * 1000);
+        const dateString = date.toISOString().split('T')[0]; // Extract date part (YYYY-MM-DD)
+        const timeString = date.toISOString(); // Full ISO string for time
+        
+        return {
+            id: apiEntry.id,
+            date: dateString,
+            time: timeString,
+            bodyTension: apiEntry.tension,
+            tensionRelease: apiEntry.tensionRelease,
+            stressfulSituation: apiEntry.situation,
+            acceptanceIntention: apiEntry.intention,
+            reflection: apiEntry.reflection,
+        };
+    };
+
+    const loadEntry = async () => {
+        try {
+            setIsLoading(true);
+            setError(null);
+            const apiEntries = await fetchWillingHandsEntries();
+            
+            // Find the entry with matching ID
+            const apiEntry = apiEntries.find(e => e.id === entryId);
+            
+            if (apiEntry) {
+                const transformedEntry = transformApiEntry(apiEntry);
+                setEntry(transformedEntry);
+            } else {
+                setError('Entry not found.');
+            }
+        } catch (err) {
+            console.error('Failed to load willing hands entry:', err);
+            setError('Failed to load entry. Please try again.');
+        } finally {
+            setIsLoading(false);
+        }
+    };
 
     useEffect(() => {
-        // TODO: Load entry from storage/backend using entryId
-        // For now, using mock data
-        const mockEntry: WillingHandsEntry = {
-            id: entryId,
-            date: '2025-11-17',
-            time: '2025-11-17T18:35:00',
-            bodyTension: 'Where did you notice tension in your body?',
-            tensionRelease: 'lorem ipusm',
-            stressfulSituation: 'lorem ipusm',
-            acceptanceIntention: 'lorem ipusm',
-            reflection: 'lorem ipusm',
-        };
-        setEntry(mockEntry);
+        loadEntry();
     }, [entryId]);
 
     const formatDate = (dateString: string, timeString?: string) => {
@@ -67,25 +103,45 @@ export default function WillingHandsEntryDetailScreen() {
         });
     };
 
-    const handleDelete = () => {
-        // TODO: Show confirmation dialog and delete from storage/backend
-        // Then navigate back to entries screen
-        console.log('Delete entry:', entryId);
-        dissolveTo('Learn_WillingHandsEntries');
+    const handleDelete = async () => {
+        try {
+            await deleteWillingHandsEntry(entryId);
+            // Navigate back to entries screen after successful delete
+            dissolveTo('Learn_WillingHandsEntries');
+        } catch (err) {
+            console.error('Failed to delete entry:', err);
+            setError('Failed to delete entry. Please try again.');
+        }
     };
 
-    if (!entry) {
+    if (isLoading) {
         return (
             <View className="flex-1 bg-white pt-9" style={{ backgroundColor: colors.white }}>
                 <StatusBar barStyle="dark-content" backgroundColor={colors.white} />
                 <PageHeader title="Entry Details" showHomeIcon={true} showLeafIcon={true} />
                 <View className="flex-1 items-center justify-center">
-                    <Text style={[t.textRegular, { color: colors.text_secondary }]}>
-                        Loading...
+                    <ActivityIndicator size="large" color={colors.Button_Orange} />
+                </View>
+            </View>
+        );
+    }
+
+    if (error && !entry) {
+        return (
+            <View className="flex-1 bg-white pt-9" style={{ backgroundColor: colors.white }}>
+                <StatusBar barStyle="dark-content" backgroundColor={colors.white} />
+                <PageHeader title="Entry Details" showHomeIcon={true} showLeafIcon={true} />
+                <View className="flex-1 items-center justify-center px-5">
+                    <Text style={[t.textRegular, { color: colors.red_light }]}>
+                        {error}
                     </Text>
                 </View>
             </View>
         );
+    }
+
+    if (!entry) {
+        return null;
     }
 
     return (
@@ -98,6 +154,14 @@ export default function WillingHandsEntryDetailScreen() {
                 showsVerticalScrollIndicator={false}
                 contentContainerStyle={{ paddingBottom: 24 }}
             >
+                {error && (
+                    <View className="mb-4 p-4 rounded-xl" style={{ backgroundColor: colors.red_50 }}>
+                        <Text style={[t.textRegular, { color: colors.red_light }]}>
+                            {error}
+                        </Text>
+                    </View>
+                )}
+
                 {/* Date Badge */}
                 <View className="flex-row items-center mb-4">
                     <View

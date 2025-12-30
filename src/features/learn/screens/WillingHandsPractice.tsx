@@ -1,11 +1,12 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { View, ScrollView, StatusBar, Pressable, Text, TextInput, KeyboardAvoidingView, Platform } from 'react-native';
+import { View, ScrollView, StatusBar, Pressable, Text, TextInput, KeyboardAvoidingView, Platform, ActivityIndicator } from 'react-native';
 import { colors } from '@design/color';
 import { t } from '@design/typography';
 import { useDissolveNavigation } from '@hooks/useDissolveNavigation';
 import { PageHeader } from '../components';
 import { UpIcon, DownIcon, ResetIcon, PauseIcon, PlayIcon, AudioIcon, HandIcon } from '@components/Utils';
 import willingHandsPracticeData from '../data/willingHandsPractice.json';
+import { createWillingHandsEntry } from '../api/willingHands';
 
 interface TimerState {
     isRunning: boolean;
@@ -164,6 +165,7 @@ export default function WillingHandsPracticeScreen() {
 
     // Body Scan
     const [bodyScanTension, setBodyScanTension] = useState('');
+    const [tensionRelease, setTensionRelease] = useState('');
 
     // Set Intention
     const [situation, setSituation] = useState('');
@@ -172,6 +174,11 @@ export default function WillingHandsPracticeScreen() {
     // Reflection & Integration
     const [reflection, setReflection] = useState('');
 
+    // API states
+    const [isSaving, setIsSaving] = useState(false);
+    const [error, setError] = useState<string | null>(null);
+    const [successMessage, setSuccessMessage] = useState<string | null>(null);
+
     const toggleSection = (sectionId: string) => {
         setExpandedSections((prev) => ({
             ...prev,
@@ -179,16 +186,42 @@ export default function WillingHandsPracticeScreen() {
         }));
     };
 
-    const handleSave = () => {
-        // TODO: Save all data to storage/backend
-        const allData = {
-            bodyScanTension,
-            situation,
-            intention,
-            reflection,
-        };
-        console.log('Saving Willing Hands Practice data:', allData);
-        // TODO: Show success message or navigate
+    const handleSave = async () => {
+        // Clear previous messages
+        setError(null);
+        setSuccessMessage(null);
+
+        setIsSaving(true);
+
+        try {
+            // Map form data to API format
+            const entryData = {
+                tension: bodyScanTension.trim(),
+                tensionRelease: tensionRelease.trim() || bodyScanTension.trim(), // Use bodyScanTension as fallback if tensionRelease is empty
+                situation: situation.trim(),
+                intention: intention.trim(),
+                reflection: reflection.trim(),
+            };
+
+            // Save to API
+            await createWillingHandsEntry(entryData);
+
+            // Show success message
+            setSuccessMessage('Entry saved successfully!');
+
+            // Clear form after successful save
+            handleClearForm();
+
+            // Clear success message after 3 seconds
+            setTimeout(() => {
+                setSuccessMessage(null);
+            }, 3000);
+        } catch (err) {
+            console.error('Failed to save willing hands entry:', err);
+            setError('Failed to save entry. Please try again.');
+        } finally {
+            setIsSaving(false);
+        }
     };
 
     const handleView = () => {
@@ -197,9 +230,12 @@ export default function WillingHandsPracticeScreen() {
 
     const handleClearForm = () => {
         setBodyScanTension('');
+        setTensionRelease('');
         setSituation('');
         setIntention('');
         setReflection('');
+        setError(null);
+        setSuccessMessage(null);
     };
 
     const handleBackToMenu = () => {
@@ -375,6 +411,31 @@ export default function WillingHandsPracticeScreen() {
                                         value={bodyScanTension}
                                         onChangeText={setBodyScanTension}
                                         placeholder={bodyScanSection.placeholder}
+                                        placeholderTextColor={colors.text_secondary}
+                                        style={[
+                                            t.textRegular,
+                                            {
+                                                color: colors.Text_Primary,
+                                                backgroundColor: colors.white,
+                                                borderColor: colors.stoke_gray,
+                                                borderWidth: 1,
+                                                borderRadius: 12,
+                                                padding: 12,
+                                                minHeight: 90,
+                                                marginBottom: 16,
+                                                textAlignVertical: 'top',
+                                            },
+                                        ]}
+                                        multiline
+                                    />
+
+                                    <Text style={[t.textSemiBold, { color: colors.Text_Primary }]} className="mb-3">
+                                        How did you release the tension?
+                                    </Text>
+                                    <TextInput
+                                        value={tensionRelease}
+                                        onChangeText={setTensionRelease}
+                                        placeholder="Describe how you released the tension..."
                                         placeholderTextColor={colors.text_secondary}
                                         style={[
                                             t.textRegular,
@@ -602,6 +663,24 @@ export default function WillingHandsPracticeScreen() {
                         </View>
                     )}
 
+                    {/* Error Message */}
+                    {error && (
+                        <View className="mb-4 p-4 rounded-xl" style={{ backgroundColor: colors.red_50 }}>
+                            <Text style={[t.textRegular, { color: colors.red_light }]}>
+                                {error}
+                            </Text>
+                        </View>
+                    )}
+
+                    {/* Success Message */}
+                    {successMessage && (
+                        <View className="mb-4 p-4 rounded-xl" style={{ backgroundColor: colors.green_50 }}>
+                            <Text style={[t.textRegular, { color: colors.green_500 }]}>
+                                {successMessage}
+                            </Text>
+                        </View>
+                    )}
+
                     {/* View, Save, Clear Form, Back to menu Buttons */}
                     <View className="flex-row gap-3 mb-3">
                         <Pressable
@@ -616,12 +695,17 @@ export default function WillingHandsPracticeScreen() {
 
                         <Pressable
                             className="flex-1 rounded-full py-3 px-3 items-center justify-center"
-                            style={{ backgroundColor: colors.Button_Orange }}
+                            style={{ backgroundColor: colors.Button_Orange, opacity: isSaving ? 0.6 : 1 }}
                             onPress={handleSave}
+                            disabled={isSaving}
                         >
-                            <Text style={[t.textSemiBold, { color: colors.white }]}>
-                                {buttons.save}
-                            </Text>
+                            {isSaving ? (
+                                <ActivityIndicator size="small" color={colors.white} />
+                            ) : (
+                                <Text style={[t.textSemiBold, { color: colors.white }]}>
+                                    {buttons.save}
+                                </Text>
+                            )}
                         </Pressable>
                     </View>
                     <Pressable

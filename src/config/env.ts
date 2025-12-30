@@ -95,6 +95,8 @@ export const API_ENDPOINTS = {
   ORIGINS_BY_ID: (id: string) => `${BASE_API_URL}/origins/${id}`,
   IDENTIFY_EMOTIONAL_URGES: `${BASE_API_URL}/identify-emotional-urges`,
   IDENTIFY_EMOTIONAL_URGES_BY_ID: (id: string) => `${BASE_API_URL}/identify-emotional-urges/${id}`,
+  WILLING_HANDS: `${BASE_API_URL}/willing-hands`,
+  WILLING_HANDS_BY_ID: (id: string) => `${BASE_API_URL}/willing-hands/${id}`,
   GRACE: `${BASE_API_URL}/grace`,
   SIGN_COMMITMENT: `${BASE_API_URL}/sign-commitment`,
 } as const;
