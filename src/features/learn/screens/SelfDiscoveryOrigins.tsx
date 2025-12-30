@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
-import { View, ScrollView, StatusBar, Pressable, Text, KeyboardAvoidingView, Platform, TextInput } from 'react-native';
+import { View, ScrollView, StatusBar, Pressable, Text, KeyboardAvoidingView, Platform, TextInput, ActivityIndicator } from 'react-native';
 import { colors } from '@design/color';
 import { t } from '@design/typography';
 import { useDissolveNavigation } from '@hooks/useDissolveNavigation';
 import { PageHeader, IntroCard } from '../components';
 import { ArrowRightIcon, DownIcon, UpIcon } from '@components/Utils';
 import selfDiscoveryOriginsData from '../data/selfDiscoveryOrigins.json';
+import { createOriginsEntry } from '../api/selfDiscovery';
 
 interface UnhelpfulStory {
     id: number;
@@ -39,6 +40,11 @@ export default function SelfDiscoveryOriginsScreen() {
 
     const [compassion, setCompassion] = useState('');
 
+    // API states
+    const [isSaving, setIsSaving] = useState(false);
+    const [error, setError] = useState<string | null>(null);
+    const [successMessage, setSuccessMessage] = useState<string | null>(null);
+
     const toggleSection = (sectionId: string) => {
         setExpandedSections((prev) => ({
             ...prev,
@@ -68,15 +74,68 @@ export default function SelfDiscoveryOriginsScreen() {
         setOriginStoryPairs([...originStoryPairs, { id: newId, story: '', origin: '' }]);
     };
 
-    const handleSave = () => {
-        // TODO: Save to storage/backend
-        const data = {
-            unhelpfulStories,
-            originStoryPairs,
-            compassion,
-        };
-        console.log('Saving Origins:', data);
-        dissolveTo('Learn_SelfDiscoveryOriginEntries');
+    const handleSave = async () => {
+        // Clear previous messages
+        setError(null);
+        setSuccessMessage(null);
+
+        setIsSaving(true);
+
+        try {
+            // Convert unhelpfulStories from object array to string array (filter out empty ones)
+            const storiesArray = unhelpfulStories
+                .map(s => s.story.trim())
+                .filter(s => s.length > 0);
+
+            // Convert originStoryPairs from component format (with id) to API format (without id)
+            // Filter out pairs where both story and origin are empty
+            const originStoryPairsArray = originStoryPairs
+                .map(p => ({
+                    story: p.story.trim(),
+                    origin: p.origin.trim(),
+                }))
+                .filter(p => p.story.length > 0 || p.origin.length > 0);
+
+            // Map form data to API format
+            const entryData = {
+                stories: storiesArray,
+                originStoryPairs: originStoryPairsArray,
+                compassion: compassion.trim(),
+            };
+
+            // Save to API
+            await createOriginsEntry(entryData);
+
+            // Show success message
+            setSuccessMessage('Entry saved successfully!');
+
+            // Clear form after successful save
+            handleClearForm();
+
+            // Clear success message after 3 seconds
+            setTimeout(() => {
+                setSuccessMessage(null);
+            }, 3000);
+        } catch (err) {
+            console.error('Failed to save origins entry:', err);
+            setError('Failed to save entry. Please try again.');
+        } finally {
+            setIsSaving(false);
+        }
+    };
+
+    const handleClearForm = () => {
+        setUnhelpfulStories([
+            { id: 1, story: '' },
+            { id: 2, story: '' },
+            { id: 3, story: '' },
+        ]);
+        setOriginStoryPairs([
+            { id: 1, story: '', origin: '' },
+        ]);
+        setCompassion('');
+        setError(null);
+        setSuccessMessage(null);
     };
 
     const handleView = () => {
@@ -340,6 +399,24 @@ export default function SelfDiscoveryOriginsScreen() {
 
                         return null;
                     })}
+
+                    {/* Error Message */}
+                    {error && (
+                        <View className="mb-4 p-4 rounded-xl" style={{ backgroundColor: colors.red_50 }}>
+                            <Text style={[t.textRegular, { color: colors.red_light }]}>
+                                {error}
+                            </Text>
+                        </View>
+                    )}
+
+                    {/* Success Message */}
+                    {successMessage && (
+                        <View className="mb-4 p-4 rounded-xl" style={{ backgroundColor: colors.green_50 }}>
+                            <Text style={[t.textRegular, { color: colors.green_500 }]}>
+                                {successMessage}
+                            </Text>
+                        </View>
+                    )}
                 </ScrollView>
 
                 {/* Bottom Action Buttons */}
@@ -357,13 +434,17 @@ export default function SelfDiscoveryOriginsScreen() {
 
                         <Pressable
                             className="flex-1 rounded-full py-4 px-3 flex-row items-center justify-center"
-                            style={{ backgroundColor: colors.Button_Orange }}
+                            style={{ backgroundColor: colors.Button_Orange, opacity: isSaving ? 0.6 : 1 }}
                             onPress={handleSave}
+                            disabled={isSaving}
                         >
-                            <Text style={[t.textSemiBold, { color: colors.white }]} className="mr-2 flex-1 text-center">
-                                {buttons.save}
-                            </Text>
-                            
+                            {isSaving ? (
+                                <ActivityIndicator size="small" color={colors.white} />
+                            ) : (
+                                <Text style={[t.textSemiBold, { color: colors.white }]} className="mr-2 flex-1 text-center">
+                                    {buttons.save}
+                                </Text>
+                            )}
                         </Pressable>
                     </View>
                 </View>

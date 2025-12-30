@@ -17,4 +17,6 @@ export * from './fast';
 export * from './dearman';
 export * from './lovingKindness';
 export * from './selfTalk';
+export * from './selfValidation';
+export * from './selfDiscovery';
 

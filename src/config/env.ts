@@ -89,6 +89,10 @@ export const API_ENDPOINTS = {
   REFRAME_NEGATIVE_SELF_TALK_BY_ID: (id: string) => `${BASE_API_URL}/reframe-negative-self-talk/${id}`,
   SELF_TALK_TOOLKIT: `${BASE_API_URL}/self-talk-toolkit`,
   SELF_TALK_TOOLKIT_BY_ID: (id: string) => `${BASE_API_URL}/self-talk-toolkit/${id}`,
+  SELF_VALIDATION_PRACTICE: `${BASE_API_URL}/self-validation-practice`,
+  SELF_VALIDATION_PRACTICE_BY_ID: (id: string) => `${BASE_API_URL}/self-validation-practice/${id}`,
+  ORIGINS: `${BASE_API_URL}/origins`,
+  ORIGINS_BY_ID: (id: string) => `${BASE_API_URL}/origins/${id}`,
   GRACE: `${BASE_API_URL}/grace`,
   SIGN_COMMITMENT: `${BASE_API_URL}/sign-commitment`,
 } as const;

@@ -1,56 +1,101 @@
-import React, { useState } from 'react';
-import { View, ScrollView, StatusBar, Text } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, ScrollView, StatusBar, Text, ActivityIndicator } from 'react-native';
 import { colors } from '@design/color';
 import { t } from '@design/typography';
 import { useDissolveNavigation } from '@hooks/useDissolveNavigation';
 import { PageHeader, SelfValidationPracticeEntryCard, SelfValidationPracticeEntry } from '../components';
-
-// Mock data - TODO: Replace with actual data from storage/backend
-const mockEntries: SelfValidationPracticeEntry[] = [
-    {
-        id: '1',
-        date: '2025-11-06',
-        time: '04:25 PM',
-        acknowledge: 'I\'m noticing that I\'m feeling shame and self-hatred right now.',
-        acceptEmotion: 'This is how I feel right now.',
-        understandEmotion: 'Of course, I\'m feeling this way - I grew up believing I had to be perfect.',
-        offerCompassion: 'I deserve kindness, especially from myself.',
-    },
-    {
-        id: '2',
-        date: '2025-11-06',
-        time: '04:25 PM',
-        acknowledge: 'I\'m noticing feelings of anxiety and tightness in my chest.',
-        acceptEmotion: 'I have experienced strong emotions before. This won\'t hurt me.',
-        understandEmotion: 'My feelings are valid responses to real experiences.',
-        offerCompassion: 'I\'m doing the best I can with what I have.',
-    },
-    {
-        id: '3',
-        date: '2025-11-06',
-        time: '04:25 PM',
-        acknowledge: 'I\'m noticing sadness and a heavy feeling in my stomach.',
-        acceptEmotion: 'This is how I feel right now, and that\'s okay.',
-        understandEmotion: 'Anyone with my experiences might feel similar.',
-        offerCompassion: 'I deserve compassion and understanding.',
-    },
-];
+import { 
+    fetchSelfValidationPracticeEntries, 
+    deleteSelfValidationPracticeEntry, 
+    SelfValidationPracticeEntry as ApiSelfValidationPracticeEntry 
+} from '../api/selfValidation';
 
 export default function SelfValidationPracticeEntriesScreen() {
     const { dissolveTo } = useDissolveNavigation();
-    const [entries, setEntries] = useState(mockEntries);
+    const [entries, setEntries] = useState<SelfValidationPracticeEntry[]>([]);
+    const [isLoading, setIsLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
+
+    // Transform API entry to component format
+    const transformApiEntry = (apiEntry: ApiSelfValidationPracticeEntry): SelfValidationPracticeEntry => {
+        const date = new Date(apiEntry.time * 1000);
+        const dateString = date.toISOString().split('T')[0]; // Extract date part (YYYY-MM-DD)
+        const timeString = date.toLocaleTimeString('en-US', { 
+            hour: '2-digit', 
+            minute: '2-digit',
+            hour12: true 
+        });
+        
+        return {
+            id: apiEntry.id,
+            date: dateString,
+            time: timeString,
+            acknowledge: apiEntry.acknowledge,
+            acceptEmotion: apiEntry.acceptEmotion,
+            understandEmotion: apiEntry.understandEmotion,
+            offerCompassion: apiEntry.respond, // API uses 'respond', component uses 'offerCompassion'
+        };
+    };
+
+    const loadEntries = async () => {
+        try {
+            setIsLoading(true);
+            setError(null);
+            const apiEntries = await fetchSelfValidationPracticeEntries();
+            
+            // Transform API entries to component format and sort by date (newest first)
+            const transformedEntries = apiEntries
+                .map(transformApiEntry)
+                .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+            
+            setEntries(transformedEntries);
+        } catch (err) {
+            console.error('Failed to load self validation practice entries:', err);
+            setError('Failed to load entries. Please try again.');
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
+    useEffect(() => {
+        loadEntries();
+    }, []);
 
     const handleView = (entryId: string) => {
         // TODO: Navigate to Self-Validation Practice Entry Detail screen when created
         console.log('View entry:', entryId);
     };
 
-    const handleDelete = (entryId: string) => {
-        // TODO: Show confirmation dialog
-        // TODO: Delete from storage/backend
-        setEntries((prev) => prev.filter((entry) => entry.id !== entryId));
-        console.log('Delete entry:', entryId);
+    const handleDelete = async (id: string) => {
+        try {
+            // Optimistically update UI
+            setEntries((prev) => prev.filter((entry) => entry.id !== id));
+            
+            // Delete from API
+            await deleteSelfValidationPracticeEntry(id);
+        } catch (err) {
+            console.error('Failed to delete entry:', err);
+            // Reload entries on error to restore the deleted entry
+            try {
+                await loadEntries();
+            } catch (reloadErr) {
+                console.error('Failed to reload entries:', reloadErr);
+            }
+            setError('Failed to delete entry. Please try again.');
+        }
     };
+
+    if (isLoading) {
+        return (
+            <View className="flex-1 pt-9" style={{ backgroundColor: colors.white }}>
+                <StatusBar barStyle="dark-content" backgroundColor={colors.white} />
+                <PageHeader title="Saved Entries" showHomeIcon={true} showLeafIcon={true} />
+                <View className="flex-1 items-center justify-center">
+                    <ActivityIndicator size="large" color={colors.Button_Orange} />
+                </View>
+            </View>
+        );
+    }
 
     return (
         <View className="flex-1 bg-white pt-9" style={{ backgroundColor: colors.white }}>
@@ -62,6 +107,14 @@ export default function SelfValidationPracticeEntriesScreen() {
                 showsVerticalScrollIndicator={false}
                 contentContainerStyle={{ paddingBottom: 24 }}
             >
+                {error && (
+                    <View className="mb-4 p-4 rounded-xl" style={{ backgroundColor: colors.red_50 }}>
+                        <Text style={[t.textRegular, { color: colors.red_light }]}>
+                            {error}
+                        </Text>
+                    </View>
+                )}
+
                 {entries.length === 0 ? (
                     <View className="items-center justify-center py-12">
                         <Text style={[t.textRegular, { color: colors.text_secondary }]}>
