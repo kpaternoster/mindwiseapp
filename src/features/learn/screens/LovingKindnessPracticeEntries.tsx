@@ -1,63 +1,101 @@
-import React, { useState } from 'react';
-import { View, ScrollView, StatusBar, Pressable, Text } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, ScrollView, StatusBar, Text, ActivityIndicator } from 'react-native';
 import { colors } from '@design/color';
 import { t } from '@design/typography';
 import { useDissolveNavigation } from '@hooks/useDissolveNavigation';
 import { PageHeader, LovingKindnessPracticeEntryCard } from '../components';
-
-// Mock data - TODO: Replace with actual data from storage/backend
-const mockEntries = [
-    {
-        id: '1',
-        date: '2025-11-06',
-        time: '04:25 PM',
-        yourselfReflection: 'I felt a sense of warmth and peace when sending loving kindness to myself.',
-        lovedOneReflection: 'I chose my mother and felt deep gratitude for her presence in my life.',
-        neutralPersonReflection: 'I practiced with the barista at my local coffee shop.',
-        difficultPersonReflection: 'This was challenging, but I noticed my resistance softening slightly.',
-        overallReflection: 'Overall, this practice helped me feel more connected to myself and others. I noticed how my feelings changed throughout the practice, starting with some resistance but ending with more openness.',
-    },
-    {
-        id: '2',
-        date: '2025-11-05',
-        time: '02:15 PM',
-        yourselfReflection: 'I found it easier to be kind to myself today.',
-        lovedOneReflection: 'I sent wishes to my best friend.',
-        overallReflection: 'A gentle practice that left me feeling lighter.',
-    },
-    {
-        id: '3',
-        date: '2025-11-04',
-        time: '10:30 AM',
-        yourselfReflection: 'Starting with self-compassion felt grounding.',
-        lovedOneReflection: 'I thought of my partner and felt warmth.',
-        neutralPersonReflection: 'I practiced with a coworker I don\'t know well.',
-        overallReflection: 'The practice helped me shift my perspective toward connection.',
-    },
-];
+import { 
+    fetchLovingKindnessEntries, 
+    deleteLovingKindnessEntry, 
+    LovingKindnessEntry as ApiLovingKindnessEntry 
+} from '../api/lovingKindness';
 
 export default function LovingKindnessPracticeEntriesScreen() {
     const { dissolveTo } = useDissolveNavigation();
-    const [entries, setEntries] = useState(mockEntries);
+    const [entries, setEntries] = useState<any[]>([]);
+    const [isLoading, setIsLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
+
+    // Transform API entry to component format
+    const transformApiEntry = (apiEntry: ApiLovingKindnessEntry) => {
+        const date = new Date(apiEntry.time * 1000);
+        const dateString = date.toISOString().split('T')[0]; // Extract date part (YYYY-MM-DD)
+        const timeString = date.toLocaleTimeString('en-US', { 
+            hour: '2-digit', 
+            minute: '2-digit',
+            hour12: true 
+        });
+        
+        return {
+            id: apiEntry.id,
+            date: dateString,
+            time: timeString,
+            yourselfReflection: apiEntry.yourself,
+            lovedOneReflection: apiEntry.lovedOne,
+            neutralPersonReflection: apiEntry.neutral,
+            difficultPersonReflection: apiEntry.difficult,
+            overallReflection: apiEntry.overallReflection,
+        };
+    };
+
+    const loadEntries = async () => {
+        try {
+            setIsLoading(true);
+            setError(null);
+            const apiEntries = await fetchLovingKindnessEntries();
+            
+            // Transform API entries to component format and sort by date (newest first)
+            const transformedEntries = apiEntries
+                .map(transformApiEntry)
+                .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+            
+            setEntries(transformedEntries);
+        } catch (err) {
+            console.error('Failed to load loving kindness entries:', err);
+            setError('Failed to load entries. Please try again.');
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
+    useEffect(() => {
+        loadEntries();
+    }, []);
 
     const handleView = (entryId: string) => {
         dissolveTo('Learn_LovingKindnessPracticeEntryDetail', { entryId });
     };
 
-    const handleDelete = (entryId: string) => {
-        // TODO: Show confirmation dialog
-        // TODO: Delete from storage/backend
-        setEntries((prev) => prev.filter((entry) => entry.id !== entryId));
-        console.log('Delete entry:', entryId);
+    const handleDelete = async (id: string) => {
+        try {
+            // Optimistically update UI
+            setEntries((prev) => prev.filter((entry) => entry.id !== id));
+            
+            // Delete from API
+            await deleteLovingKindnessEntry(id);
+        } catch (err) {
+            console.error('Failed to delete entry:', err);
+            // Reload entries on error to restore the deleted entry
+            try {
+                await loadEntries();
+            } catch (reloadErr) {
+                console.error('Failed to reload entries:', reloadErr);
+            }
+            setError('Failed to delete entry. Please try again.');
+        }
     };
 
-    const handleNewEntry = () => {
-        dissolveTo('Learn_LovingKindnessPractice');
-    };
-
-    const handleBackToMenu = () => {
-        dissolveTo('Learn_LovingKindnessExercises');
-    };
+    if (isLoading) {
+        return (
+            <View className="flex-1 pt-9" style={{ backgroundColor: colors.white }}>
+                <StatusBar barStyle="dark-content" backgroundColor={colors.white} />
+                <PageHeader title="Saved Entries" showHomeIcon={true} showLeafIcon={true} />
+                <View className="flex-1 items-center justify-center">
+                    <ActivityIndicator size="large" color={colors.Button_Orange} />
+                </View>
+            </View>
+        );
+    }
 
     return (
         <View className="flex-1 bg-white pt-9" style={{ backgroundColor: colors.white }}>
@@ -69,6 +107,14 @@ export default function LovingKindnessPracticeEntriesScreen() {
                 showsVerticalScrollIndicator={false}
                 contentContainerStyle={{ paddingBottom: 24 }}
             >
+                {error && (
+                    <View className="mb-4 p-4 rounded-xl" style={{ backgroundColor: colors.red_50 }}>
+                        <Text style={[t.textRegular, { color: colors.red_light }]}>
+                            {error}
+                        </Text>
+                    </View>
+                )}
+
                 {entries.length === 0 ? (
                     <View className="items-center justify-center py-12">
                         <Text style={[t.textRegular, { color: colors.text_secondary }]}>
@@ -86,28 +132,6 @@ export default function LovingKindnessPracticeEntriesScreen() {
                     ))
                 )}
 
-                {/* Action Buttons */}
-                {/* <View className="flex-row gap-3 mb-3">
-                    <Pressable
-                        className="flex-1 rounded-full py-3 px-3 items-center justify-center"
-                        style={{ backgroundColor: colors.Button_Orange }}
-                        onPress={handleNewEntry}
-                    >
-                        <Text style={[t.textSemiBold, { color: colors.white }]}>
-                            New Entry
-                        </Text>
-                    </Pressable>
-
-                    <Pressable
-                        className="flex-1 rounded-full py-3 px-3 items-center justify-center"
-                        style={{ borderColor: colors.Button_Orange, borderWidth: 2, backgroundColor: colors.white }}
-                        onPress={handleBackToMenu}
-                    >
-                        <Text style={[t.textSemiBold, { color: colors.warm_dark }]}>
-                            Back to Menu
-                        </Text>
-                    </Pressable>
-                </View> */}
             </ScrollView>
         </View>
     );

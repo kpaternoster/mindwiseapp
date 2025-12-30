@@ -15,4 +15,5 @@ export * from './interpersonalGoals';
 export * from './give';
 export * from './fast';
 export * from './dearman';
+export * from './lovingKindness';
 

@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { View, ScrollView, StatusBar, Pressable, Text } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, ScrollView, StatusBar, Pressable, Text, ActivityIndicator } from 'react-native';
 import { colors } from '@design/color';
 import { t } from '@design/typography';
 import { useDissolveNavigation } from '@hooks/useDissolveNavigation';
@@ -7,18 +7,22 @@ import { useRoute, RouteProp } from '@react-navigation/native';
 import { HomeStackParams } from '@app/navigation/types';
 import { PageHeader } from '../components';
 import { CalendarBlankIcon } from '@components/Utils';
+import { 
+    fetchLovingKindnessEntries, 
+    deleteLovingKindnessEntry, 
+    LovingKindnessEntry as ApiLovingKindnessEntry 
+} from '../api/lovingKindness';
 
-// Mock data - TODO: Replace with actual data from storage/backend
-const mockEntry = {
-    id: '1',
-    date: '2025-11-17',
-    time: '06:35 PM',
-    yourselfReflection: 'lorem ipsum',
-    lovedOneReflection: 'lorem ipsum',
-    neutralPersonReflection: 'lorem ipsum',
-    difficultPersonReflection: 'lorem ipsum',
-    overallReflection: 'lorem ipsum',
-};
+interface LovingKindnessPracticeEntry {
+    id: string;
+    date: string;
+    time?: string;
+    yourselfReflection?: string;
+    lovedOneReflection?: string;
+    neutralPersonReflection?: string;
+    difficultPersonReflection?: string;
+    overallReflection?: string;
+}
 
 type LovingKindnessPracticeEntryDetailRouteProp = RouteProp<HomeStackParams, 'Learn_LovingKindnessPracticeEntryDetail'>;
 
@@ -27,8 +31,66 @@ export default function LovingKindnessPracticeEntryDetailScreen() {
     const route = useRoute<LovingKindnessPracticeEntryDetailRouteProp>();
     const { entryId } = route.params;
 
-    // TODO: Fetch entry from storage/backend using entryId
-    const [entry] = useState(mockEntry);
+    const [entry, setEntry] = useState<LovingKindnessPracticeEntry | null>(null);
+    const [isLoading, setIsLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
+
+    // Transform API entry to component format
+    const transformApiEntry = (apiEntry: ApiLovingKindnessEntry): LovingKindnessPracticeEntry => {
+        const date = new Date(apiEntry.time * 1000);
+        const dateString = date.toISOString().split('T')[0]; // Extract date part (YYYY-MM-DD)
+        const timeString = date.toLocaleTimeString('en-US', { 
+            hour: '2-digit', 
+            minute: '2-digit',
+            hour12: true 
+        });
+        
+        return {
+            id: apiEntry.id,
+            date: dateString,
+            time: timeString,
+            yourselfReflection: apiEntry.yourself,
+            lovedOneReflection: apiEntry.lovedOne,
+            neutralPersonReflection: apiEntry.neutral,
+            difficultPersonReflection: apiEntry.difficult,
+            overallReflection: apiEntry.overallReflection,
+        };
+    };
+
+    useEffect(() => {
+        const loadEntry = async () => {
+            if (!entryId) {
+                setError('Entry ID is missing');
+                setIsLoading(false);
+                return;
+            }
+
+            try {
+                setIsLoading(true);
+                setError(null);
+                
+                // Fetch all entries and find the one with matching ID
+                const apiEntries = await fetchLovingKindnessEntries();
+                const foundEntry = apiEntries.find(e => e.id === entryId);
+                
+                if (!foundEntry) {
+                    setError('Entry not found');
+                    setIsLoading(false);
+                    return;
+                }
+
+                const transformedEntry = transformApiEntry(foundEntry);
+                setEntry(transformedEntry);
+            } catch (err) {
+                console.error('Failed to load loving kindness entry:', err);
+                setError('Failed to load entry. Please try again.');
+            } finally {
+                setIsLoading(false);
+            }
+        };
+
+        loadEntry();
+    }, [entryId]);
 
     const formatDate = (dateString: string, timeString?: string) => {
         const date = new Date(dateString);
@@ -41,13 +103,48 @@ export default function LovingKindnessPracticeEntryDetailScreen() {
         return formattedDate;
     };
 
-    const handleDelete = () => {
-        // TODO: Show confirmation dialog
-        // TODO: Delete from storage/backend
-        console.log('Delete entry:', entryId);
-        // Navigate back after deletion
-        dissolveTo('Learn_LovingKindnessPracticeEntries');
+    const handleDelete = async () => {
+        if (!entryId) return;
+
+        try {
+            await deleteLovingKindnessEntry(entryId);
+            // Navigate back after successful deletion
+            dissolveTo('Learn_LovingKindnessPracticeEntries');
+        } catch (err) {
+            console.error('Failed to delete entry:', err);
+            setError('Failed to delete entry. Please try again.');
+        }
     };
+
+    if (isLoading) {
+        return (
+            <View className="flex-1 pt-9" style={{ backgroundColor: colors.white }}>
+                <StatusBar barStyle="dark-content" backgroundColor={colors.white} />
+                <PageHeader title="Loving Kindness Entry" showHomeIcon={true} showLeafIcon={true} />
+                <View className="flex-1 items-center justify-center">
+                    <ActivityIndicator size="large" color={colors.Button_Orange} />
+                </View>
+            </View>
+        );
+    }
+
+    if (error && !entry) {
+        return (
+            <View className="flex-1 pt-9" style={{ backgroundColor: colors.white }}>
+                <StatusBar barStyle="dark-content" backgroundColor={colors.white} />
+                <PageHeader title="Loving Kindness Entry" showHomeIcon={true} showLeafIcon={true} />
+                <View className="flex-1 items-center justify-center px-5">
+                    <Text style={[t.textRegular, { color: colors.red_light }]} className="text-center">
+                        {error}
+                    </Text>
+                </View>
+            </View>
+        );
+    }
+
+    if (!entry) {
+        return null;
+    }
 
     return (
         <View className="flex-1 bg-white pt-9" style={{ backgroundColor: colors.white }}>
@@ -59,6 +156,13 @@ export default function LovingKindnessPracticeEntryDetailScreen() {
                 showsVerticalScrollIndicator={false}
                 contentContainerStyle={{ paddingBottom: 24 }}
             >
+                {error && (
+                    <View className="mb-4 p-4 rounded-xl" style={{ backgroundColor: colors.red_50 }}>
+                        <Text style={[t.textRegular, { color: colors.red_light }]}>
+                            {error}
+                        </Text>
+                    </View>
+                )}
                 {/* Date Badge */}
                 <View
                     className="flex-row items-center px-3 py-1.5 rounded-lg mb-4 self-start"

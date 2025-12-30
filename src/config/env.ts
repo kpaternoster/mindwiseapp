@@ -83,6 +83,8 @@ export const API_ENDPOINTS = {
   FAST_PLAN_BY_ID: (id: string) => `${BASE_API_URL}/fast-plan/${id}`,
   DEAR_MAN: `${BASE_API_URL}/dear-man`,
   DEAR_MAN_BY_ID: (id: string) => `${BASE_API_URL}/dear-man/${id}`,
+  LOVING_KINDNESS: `${BASE_API_URL}/loving-kindness`,
+  LOVING_KINDNESS_BY_ID: (id: string) => `${BASE_API_URL}/loving-kindness/${id}`,
   GRACE: `${BASE_API_URL}/grace`,
   SIGN_COMMITMENT: `${BASE_API_URL}/sign-commitment`,
 } as const;
