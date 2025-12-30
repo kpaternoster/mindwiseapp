@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, ScrollView, StatusBar, Pressable, Text, KeyboardAvoidingView, Platform, TextInput } from 'react-native';
+import { View, ScrollView, StatusBar, Pressable, Text, KeyboardAvoidingView, Platform, TextInput, ActivityIndicator } from 'react-native';
 import { colors } from '@design/color';
 import { t } from '@design/typography';
 import { useDissolveNavigation } from '@hooks/useDissolveNavigation';
@@ -8,6 +8,7 @@ import { IntroCard } from '../components/IntroCard';
 import { PLEASEReflectionSection } from '../components/PLEASEReflectionSection';
 import { ArrowRightIcon, DownIcon, UpIcon } from '@components/Utils';
 import selfCarePleaseReflectionData from '../data/selfCarePleaseReflection.json';
+import { createSelfCareReflectionEntry } from '../api/selfcarereflection';
 
 export default function SelfCarePleaseReflectionScreen() {
     const { dissolveTo } = useDissolveNavigation();
@@ -28,10 +29,16 @@ export default function SelfCarePleaseReflectionScreen() {
         balanceSleep: '',
         balancedEating: '',
         avoidSubstances: '',
+        adequateSleep: '',
         regularExercise: '',
         overallInsights: '',
         revisedPlan: '',
     });
+
+    // API states
+    const [isSaving, setIsSaving] = useState(false);
+    const [error, setError] = useState<string | null>(null);
+    const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
     const toggleSection = (sectionId: string) => {
         setExpandedSections((prev) => ({
@@ -47,17 +54,58 @@ export default function SelfCarePleaseReflectionScreen() {
         }));
     };
 
-    const handleSaveReflection = () => {
-        // TODO: Save reflection to storage/backend
-        const reflectionData = {
-            reflections,
-        };
-        console.log('Saving Self-Care Reflection:', reflectionData);
-        // TODO: Show success message or navigate
+    const handleSaveReflection = async () => {
+        // Clear previous messages
+        setError(null);
+        setSuccessMessage(null);
+
+        setIsSaving(true);
+
+        try {
+            // Map form data to API format
+            const entryData = {
+                physicalIllness: reflections.physicalIllness.trim() || '',
+                sleep: reflections.balanceSleep.trim() || '',
+                eating: reflections.balancedEating.trim() || '',
+                substances: reflections.avoidSubstances.trim() || '',
+                adequateSleep: reflections.adequateSleep.trim() || '',
+                exercise: reflections.regularExercise.trim() || '',
+                insights: reflections.overallInsights.trim() || '',
+                plan: reflections.revisedPlan.trim() || '',
+            };
+
+            // Save to API
+            await createSelfCareReflectionEntry(entryData);
+
+            // Show success message
+            setSuccessMessage('Reflection saved successfully!');
+
+            // Clear form after successful save (optional - you may want to keep the data)
+            // setReflections({
+            //     physicalIllness: '',
+            //     balanceSleep: '',
+            //     balancedEating: '',
+            //     avoidSubstances: '',
+            //     adequateSleep: '',
+            //     regularExercise: '',
+            //     overallInsights: '',
+            //     revisedPlan: '',
+            // });
+
+            // Clear success message after 3 seconds
+            setTimeout(() => {
+                setSuccessMessage(null);
+            }, 3000);
+        } catch (err) {
+            console.error('Failed to save self-care reflection:', err);
+            setError('Failed to save reflection. Please try again.');
+        } finally {
+            setIsSaving(false);
+        }
     };
 
     const handleViewSaved = () => {
-        dissolveTo('Learn_SelfCarePleaseEntries');
+        dissolveTo('Learn_SelfCarePleaseReflectionEntries');
     };
 
     const handleBackToMenu = () => {
@@ -170,21 +218,46 @@ export default function SelfCarePleaseReflectionScreen() {
                             )}
                         </View>
                     ))}
+
+                    {/* Error Message */}
+                    {error && (
+                        <View className="mx-5 mb-4 p-4 rounded-xl" style={{ backgroundColor: colors.red_50 }}>
+                            <Text style={[t.textRegular, { color: colors.red_light }]}>
+                                {error}
+                            </Text>
+                        </View>
+                    )}
+
+                    {/* Success Message */}
+                    {successMessage && (
+                        <View className="mx-5 mb-4 p-4 rounded-xl" style={{ backgroundColor: colors.green_50 }}>
+                            <Text style={[t.textRegular, { color: colors.green_500 }]}>
+                                {successMessage}
+                            </Text>
+                        </View>
+                    )}
                 </ScrollView>
 
                 {/* Bottom Action Buttons */}
                 <View className="px-5 pb-4" style={{ backgroundColor: colors.white }}>
                     <Pressable
                         className="rounded-full py-4 px-3 flex-row items-center justify-center mb-3"
-                        style={{ backgroundColor: colors.Button_Orange }}
+                        style={{ backgroundColor: colors.Button_Orange, opacity: isSaving ? 0.6 : 1 }}
                         onPress={handleSaveReflection}
+                        disabled={isSaving}
                     >
-                        <Text style={[t.textSemiBold, { color: colors.white }]} className="mr-2 flex-1 text-center">
-                            {buttons.saveReflection}
-                        </Text>
-                        <View className='w-9 h-9 bg-white rounded-full items-center justify-center'>
-                            <ArrowRightIcon size={16} color={colors.icon} />
-                        </View>
+                        {isSaving ? (
+                            <ActivityIndicator size="small" color={colors.white} />
+                        ) : (
+                            <>
+                                <Text style={[t.textSemiBold, { color: colors.white }]} className="mr-2 flex-1 text-center">
+                                    {buttons.saveReflection}
+                                </Text>
+                                <View className='w-9 h-9 bg-white rounded-full items-center justify-center'>
+                                    <ArrowRightIcon size={16} color={colors.icon} />
+                                </View>
+                            </>
+                        )}
                     </Pressable>
 
                     <Pressable

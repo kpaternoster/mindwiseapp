@@ -6,24 +6,24 @@ import { useDissolveNavigation } from '@hooks/useDissolveNavigation';
 import { PageHeader } from '../components/PageHeader';
 import { SelfCarePleaseEntryCard, SelfCarePleaseEntry } from '../components/SelfCarePleaseEntryCard';
 import { 
-    fetchPleaseEntries, 
-    deletePleaseEntry, 
-    PleaseEntry as ApiPleaseEntry 
-} from '../api/selfcareplease';
+    fetchSelfCareReflectionEntries, 
+    deleteSelfCareReflectionEntry, 
+    SelfCareReflectionEntry as ApiSelfCareReflectionEntry 
+} from '../api/selfcarereflection';
 
-export default function SelfCarePleaseEntriesScreen() {
+export default function SelfCarePleaseReflectionEntriesScreen() {
     const { dissolveTo } = useDissolveNavigation();
     const [entries, setEntries] = useState<SelfCarePleaseEntry[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
 
     // Transform API entry to component format
-    const transformApiEntry = (apiEntry: ApiPleaseEntry): SelfCarePleaseEntry => {
+    const transformApiEntry = (apiEntry: ApiSelfCareReflectionEntry): SelfCarePleaseEntry => {
         return {
             id: apiEntry.id,
             date: new Date(apiEntry.time * 1000).toISOString(), // Convert timestamp to ISO string
-            type: 'plan', // All entries from API are plans
-            title: 'Self-Care Plan',
+            type: 'reflection', // All entries from API are reflections
+            title: 'Self-Care Reflection',
         };
     };
 
@@ -31,7 +31,7 @@ export default function SelfCarePleaseEntriesScreen() {
         try {
             setIsLoading(true);
             setError(null);
-            const apiEntries = await fetchPleaseEntries();
+            const apiEntries = await fetchSelfCareReflectionEntries();
             
             // Transform API entries to component format and sort by date (newest first)
             const transformedEntries = apiEntries
@@ -40,7 +40,7 @@ export default function SelfCarePleaseEntriesScreen() {
             
             setEntries(transformedEntries);
         } catch (err) {
-            console.error('Failed to load PLEASE entries:', err);
+            console.error('Failed to load self-care reflection entries:', err);
             setError('Failed to load entries. Please try again.');
         } finally {
             setIsLoading(false);
@@ -54,10 +54,7 @@ export default function SelfCarePleaseEntriesScreen() {
     const handleView = (id: string) => {
         // TODO: Navigate to view entry detail screen
         const entry = entries.find(e => e.id === id);
-        if (entry?.type === 'plan') {
-            // Navigate to plan view
-            console.log('View plan:', id);
-        } else if (entry?.type === 'reflection') {
+        if (entry?.type === 'reflection') {
             // Navigate to reflection view
             console.log('View reflection:', id);
         }
@@ -69,7 +66,7 @@ export default function SelfCarePleaseEntriesScreen() {
             setEntries((prev) => prev.filter((entry) => entry.id !== id));
             
             // Delete from API
-            await deletePleaseEntry(id);
+            await deleteSelfCareReflectionEntry(id);
         } catch (err) {
             console.error('Failed to delete entry:', err);
             // Reload entries on error to restore the deleted entry
@@ -83,15 +80,14 @@ export default function SelfCarePleaseEntriesScreen() {
     };
 
     const handleNewEntry = () => {
-        // TODO: Navigate to appropriate screen based on entry type
-        dissolveTo('Learn_SelfCarePleaseExercises');
+        dissolveTo('Learn_SelfCarePleaseReflection');
     };
 
     if (isLoading) {
         return (
             <View className="flex-1 pt-9" style={{ backgroundColor: colors.white }}>
                 <StatusBar barStyle="dark-content" backgroundColor={colors.white} />
-                <PageHeader title="Saved" showHomeIcon={true} showLeafIcon={true} />
+                <PageHeader title="Saved Reflections" showHomeIcon={true} showLeafIcon={true} />
                 <View className="flex-1 items-center justify-center">
                     <ActivityIndicator size="large" color={colors.button_orange} />
                 </View>
@@ -102,7 +98,7 @@ export default function SelfCarePleaseEntriesScreen() {
     return (
         <View className="flex-1 bg-white pt-9" style={{ backgroundColor: colors.white }}>
             <StatusBar barStyle="dark-content" backgroundColor={colors.white} />
-            <PageHeader title="Saved" showHomeIcon={true} showLeafIcon={true} />
+            <PageHeader title="Saved Reflections" showHomeIcon={true} showLeafIcon={true} />
 
             {error && (
                 <View className="mx-5 mt-2 p-3 rounded-xl" style={{ backgroundColor: colors.red_50 }}>
@@ -120,7 +116,7 @@ export default function SelfCarePleaseEntriesScreen() {
                 {entries.length === 0 ? (
                     <View className="items-center justify-center py-12">
                         <Text style={[t.textRegular, { color: colors.text_secondary }]}>
-                            No entries saved yet
+                            No reflections saved yet
                         </Text>
                     </View>
                 ) : (
@@ -146,7 +142,7 @@ export default function SelfCarePleaseEntriesScreen() {
                     onPress={handleNewEntry}
                 >
                     <Text style={[t.button, { color: colors.white }]}>
-                        New Entry
+                        New Reflection
                     </Text>
                 </Pressable>
             </View> */}

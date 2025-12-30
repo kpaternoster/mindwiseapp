@@ -88,6 +88,7 @@ export type HomeStackParams = {
   Learn_SelfCarePleasePlan: undefined;
   Learn_SelfCarePleaseEntries: undefined;
   Learn_SelfCarePleaseReflection: undefined;
+  Learn_SelfCarePleaseReflectionEntries: undefined;
   Learn_DialecticalThinking: undefined;
   Learn_DialecticalThinkingExercises: undefined;
   Learn_DialecticalThinkingReframing: undefined;

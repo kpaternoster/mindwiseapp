@@ -32,6 +32,7 @@ import SelfCarePleaseExercisesScreen from '@features/learn/screens/SelfCarePleas
 import SelfCarePleasePlanScreen from '@features/learn/screens/SelfCarePleasePlan';
 import SelfCarePleaseEntriesScreen from '@features/learn/screens/SelfCarePleaseEntries';
 import SelfCarePleaseReflectionScreen from '@features/learn/screens/SelfCarePleaseReflection';
+import SelfCarePleaseReflectionEntriesScreen from '@features/learn/screens/SelfCarePleaseReflectionEntries';
 import DialecticalThinkingScreen from '@features/learn/screens/DialecticalThinking';
 import DialecticalThinkingExercisesScreen from '@features/learn/screens/DialecticalThinkingExercises';
 import DialecticalThinkingReframingScreen from '@features/learn/screens/DialecticalThinkingReframing';
@@ -265,6 +266,7 @@ export default function HomeNavigator() {
             <Stack.Screen name="Learn_SelfCarePleasePlan" component={SelfCarePleasePlanScreen} />
             <Stack.Screen name="Learn_SelfCarePleaseEntries" component={SelfCarePleaseEntriesScreen} />
             <Stack.Screen name="Learn_SelfCarePleaseReflection" component={SelfCarePleaseReflectionScreen} />
+            <Stack.Screen name="Learn_SelfCarePleaseReflectionEntries" component={SelfCarePleaseReflectionEntriesScreen} />
             <Stack.Screen name="Learn_DialecticalThinking" component={DialecticalThinkingScreen} />
             <Stack.Screen name="Learn_DialecticalThinkingExercises" component={DialecticalThinkingExercisesScreen} />
             <Stack.Screen name="Learn_DialecticalThinkingReframing" component={DialecticalThinkingReframingScreen} />

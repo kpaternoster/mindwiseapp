@@ -21,6 +21,7 @@ export default function RegulateEmotionsScreen() {
                 break;
             case "Self-Care (PLEASE)":
                 dissolveTo('Learn_SelfCarePlease');
+                break;
             case "Dialectical Thinking":
                 dissolveTo('Learn_DialecticalThinking');
                 break;

@@ -3,4 +3,6 @@ export * from './stunwave';
 export * from './emotionwheel';
 export * from './problemsolving';
 export * from './dialecticalThinking';
+export * from './selfcareplease';
+export * from './selfcarereflection';
 

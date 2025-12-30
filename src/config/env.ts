@@ -47,6 +47,10 @@ export const API_ENDPOINTS = {
   DIALECTICAL_REFRAMING_BY_ID: (id: string) => `${BASE_API_URL}/dialectical-reframing/${id}`,
   EXPLORING_PERSPECTIVES: `${BASE_API_URL}/exploring-perspectives`,
   EXPLORING_PERSPECTIVES_BY_ID: (id: string) => `${BASE_API_URL}/exploring-perspectives/${id}`,
+  PLEASE: `${BASE_API_URL}/please`,
+  PLEASE_BY_ID: (id: string) => `${BASE_API_URL}/please/${id}`,
+  SELF_CARE_REFLECTION: `${BASE_API_URL}/self-care-reflection`,
+  SELF_CARE_REFLECTION_BY_ID: (id: string) => `${BASE_API_URL}/self-care-reflection/${id}`,
   GRACE: `${BASE_API_URL}/grace`,
   SIGN_COMMITMENT: `${BASE_API_URL}/sign-commitment`,
 } as const;
