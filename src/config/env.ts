@@ -113,6 +113,10 @@ export const API_ENDPOINTS = {
   IDENTIFY_TRIGGERS_BY_ID: (id: string) => `${BASE_API_URL}/identify-triggers/${id}`,
   CREATE_PERSONALIZED_TOOLKIT: `${BASE_API_URL}/create-personalized-toolkit`,
   CREATE_PERSONALIZED_TOOLKIT_BY_ID: (id: string) => `${BASE_API_URL}/create-personalized-toolkit/${id}`,
+  FIVE_SENSES: `${BASE_API_URL}/five-senses`,
+  FIVE_SENSES_BY_ID: (id: string) => `${BASE_API_URL}/five-senses/${id}`,
+  REFLECTION_JOURNAL: `${BASE_API_URL}/reflection-journal`,
+  REFLECTION_JOURNAL_BY_ID: (id: string) => `${BASE_API_URL}/reflection-journal/${id}`,
   GRACE: `${BASE_API_URL}/grace`,
   SIGN_COMMITMENT: `${BASE_API_URL}/sign-commitment`,
 } as const;

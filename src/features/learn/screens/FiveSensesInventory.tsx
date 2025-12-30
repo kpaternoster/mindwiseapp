@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
-import { View, ScrollView, StatusBar, Pressable, Text, TextInput, KeyboardAvoidingView, Platform } from 'react-native';
+import { View, ScrollView, StatusBar, Pressable, Text, TextInput, KeyboardAvoidingView, Platform, ActivityIndicator } from 'react-native';
 import { colors } from '@design/color';
 import { t } from '@design/typography';
 import { useDissolveNavigation } from '@hooks/useDissolveNavigation';
 import { PageHeader, IntroCard } from '../components';
 import { CloseIcon } from '@components/Utils';
 import fiveSensesInventoryData from '../data/fiveSensesInventory.json';
+import { createFiveSensesEntry } from '../api/selfSoothing';
 
 interface Entry {
     id: number;
@@ -41,10 +42,77 @@ export default function FiveSensesInventoryScreen() {
         ));
     };
 
-    const handleSave = () => {
-        // TODO: Save all entries to storage/backend
-        console.log('Saving Five Senses Inventory entries:', entries);
-        dissolveTo('Learn_FiveSensesInventoryEntries');
+    // API states
+    const [isSaving, setIsSaving] = useState(false);
+    const [error, setError] = useState<string | null>(null);
+    const [successMessage, setSuccessMessage] = useState<string | null>(null);
+
+    const handleSave = async () => {
+        // Clear previous messages
+        setError(null);
+        setSuccessMessage(null);
+
+        // Filter out empty entries (where all senses are empty)
+        const validEntries = entries.filter(
+            entry => entry.sight.trim().length > 0 || 
+                     entry.sound.trim().length > 0 || 
+                     entry.smell.trim().length > 0 || 
+                     entry.taste.trim().length > 0 || 
+                     entry.touch.trim().length > 0
+        );
+
+        if (validEntries.length === 0) {
+            setError('Please add at least one entry with at least one sense filled in.');
+            return;
+        }
+
+        setIsSaving(true);
+
+        try {
+            // Save each entry as a separate API entry
+            const savePromises = validEntries.map(entry => {
+                // Only save if at least one sense has content
+                if (entry.sight.trim().length > 0 || 
+                    entry.sound.trim().length > 0 || 
+                    entry.smell.trim().length > 0 || 
+                    entry.taste.trim().length > 0 || 
+                    entry.touch.trim().length > 0) {
+                    return createFiveSensesEntry({
+                        sight: entry.sight.trim() || '',
+                        sound: entry.sound.trim() || '',
+                        smell: entry.smell.trim() || '',
+                        taste: entry.taste.trim() || '',
+                        touch: entry.touch.trim() || '',
+                    });
+                }
+                return Promise.resolve(null);
+            });
+
+            // Wait for all entries to be saved
+            await Promise.all(savePromises.filter(p => p !== null));
+
+            // Show success message
+            setSuccessMessage('Entries saved successfully!');
+
+            // Clear form after successful save
+            handleClearForm();
+
+            // Clear success message after 3 seconds
+            setTimeout(() => {
+                setSuccessMessage(null);
+            }, 3000);
+        } catch (err) {
+            console.error('Failed to save five senses inventory entries:', err);
+            setError('Failed to save entries. Please try again.');
+        } finally {
+            setIsSaving(false);
+        }
+    };
+
+    const handleClearForm = () => {
+        setEntries([{ id: 1, sight: '', sound: '', smell: '', taste: '', touch: '' }]);
+        setError(null);
+        setSuccessMessage(null);
     };
 
     const handleView = () => {
@@ -68,6 +136,24 @@ export default function FiveSensesInventoryScreen() {
                 >
                     {/* Intro Card */}
                     <IntroCard text={introText} />
+
+                    {/* Error Message */}
+                    {error && (
+                        <View className="bg-red-50 rounded-xl p-4 mb-4" style={{ borderColor: colors.red_light, borderWidth: 1 }}>
+                            <Text style={[t.textRegular, { color: colors.red_light }]}>
+                                {error}
+                            </Text>
+                        </View>
+                    )}
+
+                    {/* Success Message */}
+                    {successMessage && (
+                        <View className="bg-green-50 rounded-xl p-4 mb-4" style={{ borderColor: colors.green_500, borderWidth: 1 }}>
+                            <Text style={[t.textRegular, { color: colors.green_500 }]}>
+                                {successMessage}
+                            </Text>
+                        </View>
+                    )}
 
                     {/* Entry Cards */}
                     {entries.map((entry, index) => (
@@ -153,12 +239,17 @@ export default function FiveSensesInventoryScreen() {
 
                         <Pressable
                             className="flex-1 rounded-full py-4 px-3 flex-row items-center justify-center"
-                            style={{ backgroundColor: colors.Button_Orange }}
+                            style={{ backgroundColor: colors.Button_Orange, opacity: isSaving ? 0.6 : 1 }}
                             onPress={handleSave}
+                            disabled={isSaving}
                         >
-                            <Text style={[t.textSemiBold, { color: colors.white }]}>
-                                {buttons.save}
-                            </Text>
+                            {isSaving ? (
+                                <ActivityIndicator size="small" color={colors.white} />
+                            ) : (
+                                <Text style={[t.textSemiBold, { color: colors.white }]}>
+                                    {buttons.save}
+                                </Text>
+                            )}
                         </Pressable>
                     </View>
                 </View>
