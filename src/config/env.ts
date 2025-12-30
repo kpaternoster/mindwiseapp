@@ -53,6 +53,10 @@ export const API_ENDPOINTS = {
   SELF_CARE_REFLECTION_BY_ID: (id: string) => `${BASE_API_URL}/self-care-reflection/${id}`,
   CHECK_THE_FACTS: `${BASE_API_URL}/check-the-facts`,
   CHECK_THE_FACTS_BY_ID: (id: string) => `${BASE_API_URL}/check-the-facts/${id}`,
+  RECOGNIZING_DIALECTICAL_DILEMMAS: `${BASE_API_URL}/recognizing-dialectical-dilemmas`,
+  RECOGNIZING_DIALECTICAL_DILEMMAS_BY_ID: (id: string) => `${BASE_API_URL}/recognizing-dialectical-dilemmas/${id}`,
+  ACCEPTANCE_AND_CHANGE: `${BASE_API_URL}/acceptance-and-change`,
+  ACCEPTANCE_AND_CHANGE_BY_ID: (id: string) => `${BASE_API_URL}/acceptance-and-change/${id}`,
   GRACE: `${BASE_API_URL}/grace`,
   SIGN_COMMITMENT: `${BASE_API_URL}/sign-commitment`,
 } as const;

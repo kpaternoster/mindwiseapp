@@ -6,4 +6,5 @@ export * from './dialecticalThinking';
 export * from './selfcareplease';
 export * from './selfcarereflection';
 export * from './checkTheFacts';
+export * from './middlePath';
 

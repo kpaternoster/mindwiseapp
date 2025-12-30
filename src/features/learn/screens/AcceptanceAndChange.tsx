@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import { View, ScrollView, StatusBar, Pressable, Text, TextInput, KeyboardAvoidingView, Platform } from 'react-native';
+import { View, ScrollView, StatusBar, Pressable, Text, TextInput, KeyboardAvoidingView, Platform, ActivityIndicator } from 'react-native';
 import { colors } from '@design/color';
 import { t } from '@design/typography';
 import { useDissolveNavigation } from '@hooks/useDissolveNavigation';
 import { PageHeader } from '../components';
 import acceptanceAndChangeData from '../data/acceptanceAndChange.json';
+import { createAcceptanceAndChangeEntry } from '../api/middlePath';
 
 export default function AcceptanceAndChangeScreen() {
     const { dissolveTo } = useDissolveNavigation();
@@ -18,18 +19,59 @@ export default function AcceptanceAndChangeScreen() {
     const [actionableStepsChange, setActionableStepsChange] = useState('');
     const [reflection, setReflection] = useState('');
 
-    const handleSave = () => {
-        // TODO: Save all data to storage/backend
-        const allData = {
-            describeSituation,
-            partsNeedAcceptance,
-            partsCanChange,
-            actionableStepsAcceptance,
-            actionableStepsChange,
-            reflection,
-        };
-        console.log('Saving Acceptance & Change data:', allData);
-        // TODO: Show success message or navigate
+    // API states
+    const [isSaving, setIsSaving] = useState(false);
+    const [error, setError] = useState<string | null>(null);
+    const [successMessage, setSuccessMessage] = useState<string | null>(null);
+
+    const handleSave = async () => {
+        // Clear previous messages
+        setError(null);
+        setSuccessMessage(null);
+
+        setIsSaving(true);
+
+        try {
+            // Map form data to API format
+            const entryData = {
+                situation: describeSituation.trim(),
+                partsThatNeedAcceptance: partsNeedAcceptance.trim(),
+                partsToChange: partsCanChange.trim(),
+                acceptanceSteps: actionableStepsAcceptance.trim(),
+                changeSteps: actionableStepsChange.trim(),
+                reflection: reflection.trim(),
+            };
+
+            // Save to API
+            await createAcceptanceAndChangeEntry(entryData);
+
+            // Show success message
+            setSuccessMessage('Entry saved successfully!');
+
+            // Clear form after successful save
+            handleClearForm();
+
+            // Clear success message after 3 seconds
+            setTimeout(() => {
+                setSuccessMessage(null);
+            }, 3000);
+        } catch (err) {
+            console.error('Failed to save acceptance and change entry:', err);
+            setError('Failed to save entry. Please try again.');
+        } finally {
+            setIsSaving(false);
+        }
+    };
+
+    const handleClearForm = () => {
+        setDescribeSituation('');
+        setPartsNeedAcceptance('');
+        setPartsCanChange('');
+        setActionableStepsAcceptance('');
+        setActionableStepsChange('');
+        setReflection('');
+        setError(null);
+        setSuccessMessage(null);
     };
 
     const handleView = () => {
@@ -144,6 +186,24 @@ export default function AcceptanceAndChangeScreen() {
                         );
                     })}
 
+                    {/* Error Message */}
+                    {error && (
+                        <View className="mb-4 p-4 rounded-xl" style={{ backgroundColor: colors.red_50 }}>
+                            <Text style={[t.textRegular, { color: colors.red_light }]}>
+                                {error}
+                            </Text>
+                        </View>
+                    )}
+
+                    {/* Success Message */}
+                    {successMessage && (
+                        <View className="mb-4 p-4 rounded-xl" style={{ backgroundColor: colors.green_50 }}>
+                            <Text style={[t.textRegular, { color: colors.green_500 }]}>
+                                {successMessage}
+                            </Text>
+                        </View>
+                    )}
+
                     {/* View, Save, Back to menu Buttons */}
                     <View className="flex-row gap-3 mb-3">
                         <Pressable
@@ -158,16 +218,30 @@ export default function AcceptanceAndChangeScreen() {
 
                         <Pressable
                             className="flex-1 rounded-full py-3 px-3 items-center justify-center"
-                            style={{ backgroundColor: colors.Button_Orange }}
+                            style={{ backgroundColor: colors.Button_Orange, opacity: isSaving ? 0.6 : 1 }}
                             onPress={handleSave}
+                            disabled={isSaving}
                         >
-                            <Text style={[t.textSemiBold, { color: colors.white }]}>
-                                {buttons.save}
-                            </Text>
+                            {isSaving ? (
+                                <ActivityIndicator size="small" color={colors.white} />
+                            ) : (
+                                <Text style={[t.textSemiBold, { color: colors.white }]}>
+                                    {buttons.save}
+                                </Text>
+                            )}
                         </Pressable>
                     </View>
                     <Pressable
                         className="flex-1 rounded-full py-3 px-3 items-center justify-center"
+                        style={{ borderColor: colors.Button_Orange, borderWidth: 2, backgroundColor: colors.white }}
+                        onPress={handleClearForm}
+                    >
+                        <Text style={[t.textSemiBold, { color: colors.warm_dark }]}>
+                            Clear Form
+                        </Text>
+                    </Pressable>
+                    <Pressable
+                        className="flex-1 rounded-full py-3 px-3 items-center justify-center mt-3"
                         style={{ borderColor: colors.Button_Orange, borderWidth: 2, backgroundColor: colors.white }}
                         onPress={handleBackToMenu}
                     >
