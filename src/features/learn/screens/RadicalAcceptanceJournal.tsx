@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
-import { View, ScrollView, StatusBar, Pressable, Text, TextInput, KeyboardAvoidingView, Platform } from 'react-native';
+import { View, ScrollView, StatusBar, Pressable, Text, TextInput, KeyboardAvoidingView, Platform, ActivityIndicator } from 'react-native';
 import { colors } from '@design/color';
 import { t } from '@design/typography';
 import { useDissolveNavigation } from '@hooks/useDissolveNavigation';
 import { PageHeader, IntroCard } from '../components';
 import { CloseIcon } from '@components/Utils';
 import radicalAcceptanceJournalData from '../data/radicalAcceptanceJournal.json';
+import { createAcceptanceJournalEntry } from '../api/radicalAcceptance';
 
 interface Entry {
     id: number;
@@ -22,6 +23,11 @@ export default function RadicalAcceptanceJournalScreen() {
     const [entries, setEntries] = useState<Entry[]>([
         { id: 1, situation: '', facts: '', emotions: '', copingStatement: '' }
     ]);
+
+    // API states
+    const [isSaving, setIsSaving] = useState(false);
+    const [error, setError] = useState<string | null>(null);
+    const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
     const handleAddEntry = () => {
         const newId = entries.length > 0 ? Math.max(...entries.map(e => e.id)) + 1 : 1;
@@ -40,10 +46,63 @@ export default function RadicalAcceptanceJournalScreen() {
         ));
     };
 
-    const handleSave = () => {
-        // TODO: Save all entries to storage/backend
-        console.log('Saving Acceptance Journal entries:', entries);
-        dissolveTo('Learn_RadicalAcceptanceJournalEntries');
+    const handleSave = async () => {
+        // Clear previous messages
+        setError(null);
+        setSuccessMessage(null);
+
+        // Filter out empty entries (where both situation and copingStatement are empty)
+        const validEntries = entries.filter(
+            entry => entry.situation.trim().length > 0 || entry.copingStatement.trim().length > 0
+        );
+
+        if (validEntries.length === 0) {
+            setError('Please add at least one entry with a situation or coping statement.');
+            return;
+        }
+
+        setIsSaving(true);
+
+        try {
+            // Save each entry as a separate API entry
+            const savePromises = validEntries.map(entry => {
+                // Only save if both fields have content
+                if (entry.situation.trim().length > 0 && entry.copingStatement.trim().length > 0) {
+                    return createAcceptanceJournalEntry({
+                        situation: entry.situation.trim(),
+                        copingStatement: entry.copingStatement.trim(),
+                    });
+                }
+                return Promise.resolve(null);
+            });
+
+            // Wait for all entries to be saved
+            await Promise.all(savePromises.filter(p => p !== null));
+
+            // Show success message
+            setSuccessMessage('Entries saved successfully!');
+
+            // Clear form after successful save
+            handleClearForm();
+
+            // Clear success message after 3 seconds
+            setTimeout(() => {
+                setSuccessMessage(null);
+            }, 3000);
+        } catch (err) {
+            console.error('Failed to save acceptance journal entries:', err);
+            setError('Failed to save entries. Please try again.');
+        } finally {
+            setIsSaving(false);
+        }
+    };
+
+    const handleClearForm = () => {
+        setEntries([
+            { id: 1, situation: '', facts: '', emotions: '', copingStatement: '' }
+        ]);
+        setError(null);
+        setSuccessMessage(null);
     };
 
     const handleView = () => {
@@ -199,6 +258,24 @@ export default function RadicalAcceptanceJournalScreen() {
                             </View>
                         </View>
                     ))}
+
+                    {/* Error Message */}
+                    {error && (
+                        <View className="mb-4 p-4 rounded-xl" style={{ backgroundColor: colors.red_50 }}>
+                            <Text style={[t.textRegular, { color: colors.red_light }]}>
+                                {error}
+                            </Text>
+                        </View>
+                    )}
+
+                    {/* Success Message */}
+                    {successMessage && (
+                        <View className="mb-4 p-4 rounded-xl" style={{ backgroundColor: colors.green_50 }}>
+                            <Text style={[t.textRegular, { color: colors.green_500 }]}>
+                                {successMessage}
+                            </Text>
+                        </View>
+                    )}
                 </ScrollView>
 
                 {/* Bottom Action Buttons */}
@@ -228,12 +305,17 @@ export default function RadicalAcceptanceJournalScreen() {
 
                         <Pressable
                             className="flex-1 rounded-full py-4 px-3 flex-row items-center justify-center"
-                            style={{ backgroundColor: colors.Button_Orange }}
+                            style={{ backgroundColor: colors.Button_Orange, opacity: isSaving ? 0.6 : 1 }}
                             onPress={handleSave}
+                            disabled={isSaving}
                         >
-                            <Text style={[t.textSemiBold, { color: colors.white }]}>
-                                {buttons.save}
-                            </Text>
+                            {isSaving ? (
+                                <ActivityIndicator size="small" color={colors.white} />
+                            ) : (
+                                <Text style={[t.textSemiBold, { color: colors.white }]}>
+                                    {buttons.save}
+                                </Text>
+                            )}
                         </Pressable>
                     </View>
                 </View>

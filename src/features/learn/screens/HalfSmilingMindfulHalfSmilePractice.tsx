@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { View, ScrollView, StatusBar, Pressable, Text, TextInput, KeyboardAvoidingView, Platform } from 'react-native';
+import { View, ScrollView, StatusBar, Pressable, Text, TextInput, KeyboardAvoidingView, Platform, ActivityIndicator } from 'react-native';
 import { colors } from '@design/color';
 import { t } from '@design/typography';
 import { useDissolveNavigation } from '@hooks/useDissolveNavigation';
@@ -7,6 +7,7 @@ import { PageHeader } from '../components';
 import { PlayIcon, PauseIcon, ResetIcon } from '@components/Utils';
 import Svg, { Circle } from 'react-native-svg';
 import halfSmilingMindfulHalfSmilePracticeData from '../data/halfSmilingMindfulHalfSmilePractice.json';
+import { createMindfulHalfSmilePracticeEntry } from '../api/halfSmiling';
 
 const TIMER_SIZE = 200;
 const STROKE_WIDTH = 24;
@@ -25,6 +26,11 @@ export default function HalfSmilingMindfulHalfSmilePracticeScreen() {
         reflection: '',
     });
     const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+
+    // API states
+    const [isSaving, setIsSaving] = useState(false);
+    const [error, setError] = useState<string | null>(null);
+    const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
     useEffect(() => {
         if (isRunning && timeRemaining > 0) {
@@ -77,11 +83,52 @@ export default function HalfSmilingMindfulHalfSmilePracticeScreen() {
         setInputValues((prev) => ({ ...prev, [id]: value }));
     };
 
-    const handleSave = () => {
-        // TODO: Save inputs to storage/backend
-        const timerStatus = isComplete ? 'completed' : (isRunning ? 'paused' : 'notStarted');
-        console.log('Saving practice:', inputValues, 'Timer status:', timerStatus);
-        dissolveTo('Learn_HalfSmilingEntries', { initialTab: 'practice' });
+    const handleSave = async () => {
+        // Clear previous messages
+        setError(null);
+        setSuccessMessage(null);
+
+        setIsSaving(true);
+
+        try {
+            // Map form data to API format
+            const entryData = {
+                calmingVisualization: inputValues.visualization.trim(),
+                bodyResponse: inputValues.bodyResponse.trim(),
+                reflection: inputValues.reflection.trim(),
+            };
+
+            // Save to API
+            await createMindfulHalfSmilePracticeEntry(entryData);
+
+            // Show success message
+            setSuccessMessage('Entry saved successfully!');
+
+            // Clear form after successful save
+            handleClearForm();
+
+            // Clear success message after 3 seconds
+            setTimeout(() => {
+                setSuccessMessage(null);
+            }, 3000);
+        } catch (err) {
+            console.error('Failed to save mindful half smile practice entry:', err);
+            setError('Failed to save entry. Please try again.');
+        } finally {
+            setIsSaving(false);
+        }
+    };
+
+    const handleClearForm = () => {
+        setInputValues({
+            visualization: '',
+            bodyResponse: '',
+            reflection: '',
+        });
+        setTimeRemaining(timerDuration);
+        setIsRunning(false);
+        setError(null);
+        setSuccessMessage(null);
     };
 
     const handleView = () => {
@@ -259,6 +306,24 @@ export default function HalfSmilingMindfulHalfSmilePracticeScreen() {
                             />
                         </View>
                     ))}
+
+                    {/* Error Message */}
+                    {error && (
+                        <View className="mb-4 p-4 rounded-xl" style={{ backgroundColor: colors.red_50 }}>
+                            <Text style={[t.textRegular, { color: colors.red_light }]}>
+                                {error}
+                            </Text>
+                        </View>
+                    )}
+
+                    {/* Success Message */}
+                    {successMessage && (
+                        <View className="mb-4 p-4 rounded-xl" style={{ backgroundColor: colors.green_50 }}>
+                            <Text style={[t.textRegular, { color: colors.green_500 }]}>
+                                {successMessage}
+                            </Text>
+                        </View>
+                    )}
                 </ScrollView>
 
                 {/* Bottom Action Buttons */}
@@ -276,12 +341,17 @@ export default function HalfSmilingMindfulHalfSmilePracticeScreen() {
 
                         <Pressable
                             className="flex-1 rounded-full py-4 px-3 flex-row items-center justify-center"
-                            style={{ backgroundColor: colors.Button_Orange }}
+                            style={{ backgroundColor: colors.Button_Orange, opacity: isSaving ? 0.6 : 1 }}
                             onPress={handleSave}
+                            disabled={isSaving}
                         >
-                            <Text style={[t.textSemiBold, { color: colors.white }]}>
-                                {buttons.save}
-                            </Text>
+                            {isSaving ? (
+                                <ActivityIndicator size="small" color={colors.white} />
+                            ) : (
+                                <Text style={[t.textSemiBold, { color: colors.white }]}>
+                                    {buttons.save}
+                                </Text>
+                            )}
                         </Pressable>
                     </View>
                 </View>

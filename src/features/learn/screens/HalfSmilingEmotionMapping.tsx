@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import { View, ScrollView, StatusBar, Pressable, Text, TextInput, KeyboardAvoidingView, Platform } from 'react-native';
+import { View, ScrollView, StatusBar, Pressable, Text, TextInput, KeyboardAvoidingView, Platform, ActivityIndicator } from 'react-native';
 import { colors } from '@design/color';
 import { t } from '@design/typography';
 import { useDissolveNavigation } from '@hooks/useDissolveNavigation';
 import { PageHeader, IntroCard } from '../components';
 import halfSmilingEmotionMappingData from '../data/halfSmilingEmotionMapping.json';
+import { createEmotionMappingEntry } from '../api/halfSmiling';
 
 export default function HalfSmilingEmotionMappingScreen() {
     const { dissolveTo } = useDissolveNavigation();
@@ -17,14 +18,62 @@ export default function HalfSmilingEmotionMappingScreen() {
         }, {} as Record<string, string>)
     );
 
+    // API states
+    const [isSaving, setIsSaving] = useState(false);
+    const [error, setError] = useState<string | null>(null);
+    const [successMessage, setSuccessMessage] = useState<string | null>(null);
+
     const handleInputChange = (id: string, value: string) => {
         setInputs((prev) => ({ ...prev, [id]: value }));
     };
 
-    const handleSave = () => {
-        // TODO: Save inputs to storage/backend
-        console.log('Saving emotion mapping:', inputs);
-        dissolveTo('Learn_HalfSmilingEntries', { initialTab: 'emotionMapping' });
+    const handleSave = async () => {
+        // Clear previous messages
+        setError(null);
+        setSuccessMessage(null);
+
+        setIsSaving(true);
+
+        try {
+            // Map form data to API format (assuming section IDs match API fields)
+            const entryData = {
+                situation: inputs.situation?.trim() || '',
+                emotions: inputs.emotions?.trim() || '',
+                bodyResponse: inputs.bodyResponse?.trim() || '',
+                howHalfSmileCouldHelp: inputs.howHalfSmileCouldHelp?.trim() || '',
+                futurePlan: inputs.futurePlan?.trim() || '',
+            };
+
+            // Save to API
+            await createEmotionMappingEntry(entryData);
+
+            // Show success message
+            setSuccessMessage('Entry saved successfully!');
+
+            // Clear form after successful save
+            handleClearForm();
+
+            // Clear success message after 3 seconds
+            setTimeout(() => {
+                setSuccessMessage(null);
+            }, 3000);
+        } catch (err) {
+            console.error('Failed to save emotion mapping entry:', err);
+            setError('Failed to save entry. Please try again.');
+        } finally {
+            setIsSaving(false);
+        }
+    };
+
+    const handleClearForm = () => {
+        setInputs(
+            sections.reduce((acc, section) => {
+                acc[section.id] = '';
+                return acc;
+            }, {} as Record<string, string>)
+        );
+        setError(null);
+        setSuccessMessage(null);
     };
 
     const handleView = () => {
@@ -87,6 +136,24 @@ export default function HalfSmilingEmotionMappingScreen() {
                             />
                         </View>
                     ))}
+
+                    {/* Error Message */}
+                    {error && (
+                        <View className="mb-4 p-4 rounded-xl" style={{ backgroundColor: colors.red_50 }}>
+                            <Text style={[t.textRegular, { color: colors.red_light }]}>
+                                {error}
+                            </Text>
+                        </View>
+                    )}
+
+                    {/* Success Message */}
+                    {successMessage && (
+                        <View className="mb-4 p-4 rounded-xl" style={{ backgroundColor: colors.green_50 }}>
+                            <Text style={[t.textRegular, { color: colors.green_500 }]}>
+                                {successMessage}
+                            </Text>
+                        </View>
+                    )}
                 </ScrollView>
 
                 {/* Bottom Action Buttons */}
@@ -104,12 +171,17 @@ export default function HalfSmilingEmotionMappingScreen() {
 
                         <Pressable
                             className="flex-1 rounded-full py-4 px-3 flex-row items-center justify-center"
-                            style={{ backgroundColor: colors.Button_Orange }}
+                            style={{ backgroundColor: colors.Button_Orange, opacity: isSaving ? 0.6 : 1 }}
                             onPress={handleSave}
+                            disabled={isSaving}
                         >
-                            <Text style={[t.textSemiBold, { color: colors.white }]}>
-                                {buttons.save}
-                            </Text>
+                            {isSaving ? (
+                                <ActivityIndicator size="small" color={colors.white} />
+                            ) : (
+                                <Text style={[t.textSemiBold, { color: colors.white }]}>
+                                    {buttons.save}
+                                </Text>
+                            )}
                         </Pressable>
                     </View>
                 </View>

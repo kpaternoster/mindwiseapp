@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import { View, ScrollView, StatusBar, Pressable, Text, TextInput, KeyboardAvoidingView, Platform } from 'react-native';
+import { View, ScrollView, StatusBar, Pressable, Text, TextInput, KeyboardAvoidingView, Platform, ActivityIndicator } from 'react-native';
 import { colors } from '@design/color';
 import { t } from '@design/typography';
 import { useDissolveNavigation } from '@hooks/useDissolveNavigation';
 import { PageHeader, IntroCard } from '../components';
 import halfSmilingAnchorPromptData from '../data/halfSmilingAnchorPrompt.json';
+import { createAnchorPromptsEntry } from '../api/halfSmiling';
 
 export default function HalfSmilingAnchorPromptScreen() {
     const { dissolveTo } = useDissolveNavigation();
@@ -54,14 +55,63 @@ export default function HalfSmilingAnchorPromptScreen() {
 
     const [reflectionText, setReflectionText] = useState('');
 
-    const handleSave = () => {
-        // TODO: Save prompts and reflection to storage/backend
-        console.log('Saving Anchor Prompts:', {
-            selectedPrompts: Array.from(selectedPrompts),
-            customPrompts: customPrompts.filter((p) => p.trim() !== ''),
-            reflection: reflectionText,
-        });
-        dissolveTo('Learn_HalfSmilingEntries', { initialTab: 'anchorPrompts' });
+    // API states
+    const [isSaving, setIsSaving] = useState(false);
+    const [error, setError] = useState<string | null>(null);
+    const [successMessage, setSuccessMessage] = useState<string | null>(null);
+
+    const handleSave = async () => {
+        // Clear previous messages
+        setError(null);
+        setSuccessMessage(null);
+
+        // Combine selected and custom prompts
+        const allPrompts = [
+            ...Array.from(selectedPrompts),
+            ...customPrompts.filter((p) => p.trim() !== ''),
+        ];
+
+        if (allPrompts.length === 0) {
+            setError('Please select or create at least one prompt.');
+            return;
+        }
+
+        setIsSaving(true);
+
+        try {
+            // Map form data to API format
+            const entryData = {
+                prompts: allPrompts,
+                reflection: reflectionText.trim(),
+            };
+
+            // Save to API
+            await createAnchorPromptsEntry(entryData);
+
+            // Show success message
+            setSuccessMessage('Entry saved successfully!');
+
+            // Clear form after successful save
+            handleClearForm();
+
+            // Clear success message after 3 seconds
+            setTimeout(() => {
+                setSuccessMessage(null);
+            }, 3000);
+        } catch (err) {
+            console.error('Failed to save anchor prompts entry:', err);
+            setError('Failed to save entry. Please try again.');
+        } finally {
+            setIsSaving(false);
+        }
+    };
+
+    const handleClearForm = () => {
+        setSelectedPrompts(new Set());
+        setCustomPrompts(['']);
+        setReflectionText('');
+        setError(null);
+        setSuccessMessage(null);
     };
 
     const handleView = () => {
@@ -259,6 +309,24 @@ export default function HalfSmilingAnchorPromptScreen() {
                             multiline
                         />
                     </View>
+
+                    {/* Error Message */}
+                    {error && (
+                        <View className="mb-4 p-4 rounded-xl" style={{ backgroundColor: colors.red_50 }}>
+                            <Text style={[t.textRegular, { color: colors.red_light }]}>
+                                {error}
+                            </Text>
+                        </View>
+                    )}
+
+                    {/* Success Message */}
+                    {successMessage && (
+                        <View className="mb-4 p-4 rounded-xl" style={{ backgroundColor: colors.green_50 }}>
+                            <Text style={[t.textRegular, { color: colors.green_500 }]}>
+                                {successMessage}
+                            </Text>
+                        </View>
+                    )}
                 </ScrollView>
 
                 {/* Bottom Action Buttons */}
@@ -276,12 +344,17 @@ export default function HalfSmilingAnchorPromptScreen() {
 
                         <Pressable
                             className="flex-1 rounded-full py-4 px-3 flex-row items-center justify-center"
-                            style={{ backgroundColor: colors.Button_Orange }}
+                            style={{ backgroundColor: colors.Button_Orange, opacity: isSaving ? 0.6 : 1 }}
                             onPress={handleSave}
+                            disabled={isSaving}
                         >
-                            <Text style={[t.textSemiBold, { color: colors.white }]}>
-                                {buttons.save}
-                            </Text>
+                            {isSaving ? (
+                                <ActivityIndicator size="small" color={colors.white} />
+                            ) : (
+                                <Text style={[t.textSemiBold, { color: colors.white }]}>
+                                    {buttons.save}
+                                </Text>
+                            )}
                         </Pressable>
                     </View>
                 </View>
