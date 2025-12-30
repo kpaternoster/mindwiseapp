@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
-import { View, ScrollView, StatusBar, Pressable, Text, KeyboardAvoidingView, Platform, TextInput } from 'react-native';
+import { View, ScrollView, StatusBar, Pressable, Text, KeyboardAvoidingView, Platform, TextInput, ActivityIndicator } from 'react-native';
 import { colors } from '@design/color';
 import { t } from '@design/typography';
 import { useDissolveNavigation } from '@hooks/useDissolveNavigation';
 import { PageHeader, IntroCard } from '../components';
 import { ArrowRightIcon, DownIcon, UpIcon } from '@components/Utils';
 import selfReflectionData from '../data/selfReflection.json';
+import { createSelfReflectionEntry } from '../api/validatingOthers';
 
 export default function SelfReflectionScreen() {
     const { dissolveTo } = useDissolveNavigation();
@@ -26,6 +27,11 @@ export default function SelfReflectionScreen() {
         howValidateOthers: '',
     });
 
+    // API states
+    const [isSaving, setIsSaving] = useState(false);
+    const [error, setError] = useState<string | null>(null);
+    const [successMessage, setSuccessMessage] = useState<string | null>(null);
+
     const toggleSection = (sectionId: string) => {
         setExpandedSections((prev) => ({
             ...prev,
@@ -40,13 +46,52 @@ export default function SelfReflectionScreen() {
         }));
     };
 
-    const handleSaveReflection = () => {
-        // TODO: Save reflection to storage/backend
-        const reflectionData = {
-            reflections,
-        };
-        console.log('Saving Self-Reflection:', reflectionData);
-        dissolveTo('Learn_SelfReflectionEntries');
+    const handleSaveReflection = async () => {
+        // Clear previous messages
+        setError(null);
+        setSuccessMessage(null);
+
+        setIsSaving(true);
+
+        try {
+            // Map form data to API format
+            const entryData = {
+                unheardOrInvalidatedTime: reflections.describeTime.trim(),
+                emotions: reflections.whatEmotions.trim(),
+                response: reflections.whatResponse.trim(),
+                reflection: reflections.howValidateOthers.trim(),
+            };
+
+            // Save to API
+            await createSelfReflectionEntry(entryData);
+
+            // Show success message
+            setSuccessMessage('Entry saved successfully!');
+
+            // Clear form after successful save
+            handleClearForm();
+
+            // Clear success message after 3 seconds
+            setTimeout(() => {
+                setSuccessMessage(null);
+            }, 3000);
+        } catch (err) {
+            console.error('Failed to save self reflection entry:', err);
+            setError('Failed to save entry. Please try again.');
+        } finally {
+            setIsSaving(false);
+        }
+    };
+
+    const handleClearForm = () => {
+        setReflections({
+            describeTime: '',
+            whatEmotions: '',
+            whatResponse: '',
+            howValidateOthers: '',
+        });
+        setError(null);
+        setSuccessMessage(null);
     };
 
     const handleViewSaved = () => {
@@ -179,6 +224,24 @@ export default function SelfReflectionScreen() {
 
                         return null;
                     })}
+
+                    {/* Error Message */}
+                    {error && (
+                        <View className="mb-4 p-4 rounded-xl" style={{ backgroundColor: colors.red_50 }}>
+                            <Text style={[t.textRegular, { color: colors.red_light }]}>
+                                {error}
+                            </Text>
+                        </View>
+                    )}
+
+                    {/* Success Message */}
+                    {successMessage && (
+                        <View className="mb-4 p-4 rounded-xl" style={{ backgroundColor: colors.green_50 }}>
+                            <Text style={[t.textRegular, { color: colors.green_500 }]}>
+                                {successMessage}
+                            </Text>
+                        </View>
+                    )}
                 </ScrollView>
 
                 {/* Bottom Action Buttons */}
@@ -195,15 +258,22 @@ export default function SelfReflectionScreen() {
                         </Pressable>
                         <Pressable
                             className="rounded-full py-3 px-3 flex-1 flex-row items-center justify-center mb-3"
-                            style={{ backgroundColor: colors.Button_Orange }}
+                            style={{ backgroundColor: colors.Button_Orange, opacity: isSaving ? 0.6 : 1 }}
                             onPress={handleSaveReflection}
+                            disabled={isSaving}
                         >
-                            <Text style={[t.textSemiBold, { color: colors.white }]} className="mr-2 flex-1 text-center">
-                                {buttons.save}
-                            </Text>
-                            <View className='w-9 h-9 bg-white rounded-full items-center justify-center'>
-                                <ArrowRightIcon size={16} color={colors.icon} />
-                            </View>
+                            {isSaving ? (
+                                <ActivityIndicator size="small" color={colors.white} />
+                            ) : (
+                                <>
+                                    <Text style={[t.textSemiBold, { color: colors.white }]} className="mr-2 flex-1 text-center">
+                                        {buttons.save}
+                                    </Text>
+                                    <View className='w-9 h-9 bg-white rounded-full items-center justify-center'>
+                                        <ArrowRightIcon size={16} color={colors.icon} />
+                                    </View>
+                                </>
+                            )}
                         </Pressable>
                     </View>
 

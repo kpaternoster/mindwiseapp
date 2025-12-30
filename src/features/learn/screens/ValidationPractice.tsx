@@ -1,11 +1,12 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { View, ScrollView, StatusBar, Pressable, Text, TextInput, KeyboardAvoidingView, Platform } from 'react-native';
+import { View, ScrollView, StatusBar, Pressable, Text, TextInput, KeyboardAvoidingView, Platform, ActivityIndicator } from 'react-native';
 import { colors } from '@design/color';
 import { t } from '@design/typography';
 import { useDissolveNavigation } from '@hooks/useDissolveNavigation';
 import { PageHeader, ProgressBar } from '../components';
 import { ArrowRightIcon } from '@components/Utils';
 import validationPracticeData from '../data/validationPractice.json';
+import { createValidationPracticeEntry } from '../api/validatingOthers';
 
 export default function ValidationPracticeScreen() {
     const { dissolveTo } = useDissolveNavigation();
@@ -14,6 +15,11 @@ export default function ValidationPracticeScreen() {
 
     const [currentStep, setCurrentStep] = useState(1);
     const stepData = steps.find(s => s.stepNumber === currentStep) || steps[0];
+
+    // API states
+    const [isSaving, setIsSaving] = useState(false);
+    const [error, setError] = useState<string | null>(null);
+    const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
     // Scroll to top when step changes
     useEffect(() => {
@@ -64,13 +70,89 @@ export default function ValidationPracticeScreen() {
         }
     };
 
-    const handleSaveEntry = () => {
-        // TODO: Save all data to storage/backend
-        const allData = {
-            inputs,
-        };
-        console.log('Saving Validation Practice data:', allData);
-        // TODO: Navigate to entries screen when created
+    const handleSaveEntry = async () => {
+        // Clear previous messages
+        setError(null);
+        setSuccessMessage(null);
+
+        setIsSaving(true);
+
+        try {
+            // Map form data to API format
+            const entryData = {
+                recentConversation: inputs.describeConversation.trim(),
+                challenges: inputs.specificChallenges.trim(),
+                engagementTechniques: inputs.engagementTechniques.trim(),
+                topic: inputs.practiceTopic.trim(),
+                speakerFeelings: inputs.asSpeaker.trim(),
+                listenerFeelings: inputs.asListener.trim(),
+                learnings: inputs.keyLearnings.trim(),
+                areas: inputs.areasToImprove.trim(),
+                practice: inputs.practiceThisWeek.trim(),
+                emotionalSituation: inputs.emotionalSituation.trim(),
+                emotions: inputs.emotionsIdentified.trim(),
+                validatingResponse: inputs.validatingResponse.trim(),
+                advice: inputs.supportOrAdvice.trim(),
+                dismissivePhrase1: inputs.dismissivePhrase1.trim(),
+                validatingResponse1: inputs.reframe1.trim(),
+                dismissivePhrase2: inputs.dismissivePhrase2.trim(),
+                validatingResponse2: inputs.reframe2.trim(),
+                dismissivePhrase3: inputs.dismissivePhrase3.trim(),
+                validatingResponse3: inputs.reframe3.trim(),
+                practiceScenario: inputs.practiceScenario.trim(),
+                validationApproach: inputs.validationApproach.trim(),
+                reflection: inputs.impactOnRelationships.trim(),
+            };
+
+            // Save to API
+            await createValidationPracticeEntry(entryData);
+
+            // Clear form after successful save
+            handleClearForm();
+
+           
+        } catch (err) {
+            console.error('Failed to save validation practice entry:', err);
+            setError('Failed to save entry. Please try again.');
+        } finally {
+            setIsSaving(false);
+        }
+    };
+
+    const handleClearForm = () => {
+        setInputs({
+            // Step 1
+            describeConversation: '',
+            specificChallenges: '',
+            engagementTechniques: '',
+            // Step 2
+            practiceTopic: '',
+            asSpeaker: '',
+            asListener: '',
+            // Step 3
+            keyLearnings: '',
+            areasToImprove: '',
+            practiceThisWeek: '',
+            // Step 4
+            emotionalSituation: '',
+            emotionsIdentified: '',
+            validatingResponse: '',
+            supportOrAdvice: '',
+            // Step 5
+            dismissivePhrase1: '',
+            reframe1: '',
+            dismissivePhrase2: '',
+            reframe2: '',
+            dismissivePhrase3: '',
+            reframe3: '',
+            // Step 6
+            practiceScenario: '',
+            validationApproach: '',
+            impactOnRelationships: '',
+        });
+        setError(null);
+        setSuccessMessage(null);
+        // setCurrentStep(1);
     };
 
     const handleViewSaved = () => {
@@ -174,6 +256,24 @@ export default function ValidationPracticeScreen() {
                             </View>
                         ))}
                     </View>
+
+                    {/* Error Message */}
+                    {error && (
+                        <View className="mb-4 p-4 rounded-xl" style={{ backgroundColor: colors.red_50 }}>
+                            <Text style={[t.textRegular, { color: colors.red_light }]}>
+                                {error}
+                            </Text>
+                        </View>
+                    )}
+
+                    {/* Success Message */}
+                    {successMessage && (
+                        <View className="mb-4 p-4 rounded-xl" style={{ backgroundColor: colors.green_50 }}>
+                            <Text style={[t.textRegular, { color: colors.green_500 }]}>
+                                {successMessage}
+                            </Text>
+                        </View>
+                    )}
                 </ScrollView>
 
                 {/* Bottom Action Buttons */}
@@ -219,15 +319,22 @@ export default function ValidationPracticeScreen() {
 
                                 <Pressable
                                     className="flex-1 rounded-full py-3 px-3 flex-row items-center justify-center"
-                                    style={{ backgroundColor: colors.Button_Orange }}
+                                    style={{ backgroundColor: colors.Button_Orange, opacity: isSaving ? 0.6 : 1 }}
                                     onPress={handleSaveEntry}
+                                    disabled={isSaving}
                                 >
-                                    <Text style={[t.textSemiBold, { color: colors.white }]} className="mr-2 flex-1 text-center">
-                                        {stepData.buttons.save}
-                                    </Text>
-                                    <View className="w-9 h-9 bg-white rounded-full items-center justify-center">
-                                        <ArrowRightIcon size={16} color={colors.icon} />
-                                    </View>
+                                    {isSaving ? (
+                                        <ActivityIndicator size="small" color={colors.white} />
+                                    ) : (
+                                        <>
+                                            <Text style={[t.textSemiBold, { color: colors.white }]} className="mr-2 flex-1 text-center">
+                                                {stepData.buttons.save}
+                                            </Text>
+                                            <View className="w-9 h-9 bg-white rounded-full items-center justify-center">
+                                                <ArrowRightIcon size={16} color={colors.icon} />
+                                            </View>
+                                        </>
+                                    )}
                                 </Pressable>
                             </View>
 
