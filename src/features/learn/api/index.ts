@@ -12,4 +12,5 @@ export * from './wiseMind';
 export * from './validatingOthers';
 export * from './think';
 export * from './interpersonalGoals';
+export * from './give';
 

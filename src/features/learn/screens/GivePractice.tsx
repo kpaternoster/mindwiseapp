@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
-import { View, ScrollView, StatusBar, Pressable, Text, KeyboardAvoidingView, Platform, TextInput } from 'react-native';
+import { View, ScrollView, StatusBar, Pressable, Text, KeyboardAvoidingView, Platform, TextInput, ActivityIndicator } from 'react-native';
 import { colors } from '@design/color';
 import { t } from '@design/typography';
 import { useDissolveNavigation } from '@hooks/useDissolveNavigation';
 import { PageHeader, IntroCard } from '../components';
 import { ArrowRightIcon, DownIcon, UpIcon } from '@components/Utils';
 import givePracticeData from '../data/givePractice.json';
+import { createGivePracticeEntry } from '../api/give';
 
 export default function GivePracticeScreen() {
     const { dissolveTo } = useDissolveNavigation();
@@ -53,6 +54,11 @@ export default function GivePracticeScreen() {
         }));
     };
 
+    // API states
+    const [isSaving, setIsSaving] = useState(false);
+    const [error, setError] = useState<string | null>(null);
+    const [successMessage, setSuccessMessage] = useState<string | null>(null);
+
     const handleInputChange = (inputId: string, text: string) => {
         setInputs((prev) => ({
             ...prev,
@@ -60,13 +66,72 @@ export default function GivePracticeScreen() {
         }));
     };
 
-    const handleSaveReflection = () => {
-        // TODO: Save reflection to storage/backend
-        const practiceData = {
-            inputs,
-        };
-        console.log('Saving GIVE Practice:', practiceData);
-        dissolveTo('Learn_GivePracticeEntries');
+    const handleSaveReflection = async () => {
+        // Clear previous messages
+        setError(null);
+        setSuccessMessage(null);
+
+        setIsSaving(true);
+
+        try {
+            // Map form data to API format
+            const entryData = {
+                validation1: inputs.validation1What.trim(),
+                validation1Response: inputs.validation1Response.trim(),
+                validation2: inputs.validation2What.trim(),
+                validation2Response: inputs.validation2Response.trim(),
+                validation3: inputs.validation3What.trim(),
+                validation3Response: inputs.validation3Response.trim(),
+                who: inputs.whoReachOut.trim(),
+                checkInMessage: inputs.giveMessage.trim(),
+                checkInResponse: inputs.checkInResponse.trim(),
+                connection: inputs.connectionResponses.trim(),
+                challenges: inputs.challenges.trim(),
+                elements: inputs.naturalHardest.trim(),
+                differentNextTime: inputs.doDifferently.trim(),
+                continuedPractice: inputs.continuePracticing.trim(),
+            };
+
+            // Save to API
+            await createGivePracticeEntry(entryData);
+
+            // Show success message
+            setSuccessMessage('Entry saved successfully!');
+
+            // Clear form after successful save
+            handleClearForm();
+
+            // Clear success message after 3 seconds
+            setTimeout(() => {
+                setSuccessMessage(null);
+            }, 3000);
+        } catch (err) {
+            console.error('Failed to save GIVE practice entry:', err);
+            setError('Failed to save entry. Please try again.');
+        } finally {
+            setIsSaving(false);
+        }
+    };
+
+    const handleClearForm = () => {
+        setInputs({
+            validation1What: '',
+            validation1Response: '',
+            validation2What: '',
+            validation2Response: '',
+            validation3What: '',
+            validation3Response: '',
+            whoReachOut: '',
+            giveMessage: '',
+            checkInResponse: '',
+            connectionResponses: '',
+            challenges: '',
+            naturalHardest: '',
+            doDifferently: '',
+            continuePracticing: '',
+        });
+        setError(null);
+        setSuccessMessage(null);
     };
 
     const handleViewSaved = () => {
@@ -403,6 +468,24 @@ export default function GivePracticeScreen() {
 
                         return null;
                     })}
+
+                    {/* Error Message */}
+                    {error && (
+                        <View className="mb-4 p-4 rounded-xl" style={{ backgroundColor: colors.red_50 }}>
+                            <Text style={[t.textRegular, { color: colors.red_light }]}>
+                                {error}
+                            </Text>
+                        </View>
+                    )}
+
+                    {/* Success Message */}
+                    {successMessage && (
+                        <View className="mb-4 p-4 rounded-xl" style={{ backgroundColor: colors.green_50 }}>
+                            <Text style={[t.textRegular, { color: colors.green_500 }]}>
+                                {successMessage}
+                            </Text>
+                        </View>
+                    )}
                 </ScrollView>
 
                 {/* Bottom Action Buttons */}
@@ -419,15 +502,22 @@ export default function GivePracticeScreen() {
                         </Pressable>
                         <Pressable
                             className="rounded-full py-3 px-3 flex-1 flex-row items-center justify-center mb-3"
-                            style={{ backgroundColor: colors.Button_Orange }}
+                            style={{ backgroundColor: colors.Button_Orange, opacity: isSaving ? 0.6 : 1 }}
                             onPress={handleSaveReflection}
+                            disabled={isSaving}
                         >
-                            <Text style={[t.textSemiBold, { color: colors.white }]} className="mr-2 flex-1 text-center">
-                                {buttons.save}
-                            </Text>
-                            <View className='w-9 h-9 bg-white rounded-full items-center justify-center'>
-                                <ArrowRightIcon size={16} color={colors.icon} />
-                            </View>
+                            {isSaving ? (
+                                <ActivityIndicator size="small" color={colors.white} />
+                            ) : (
+                                <>
+                                    <Text style={[t.textSemiBold, { color: colors.white }]} className="mr-2 flex-1 text-center">
+                                        {buttons.save}
+                                    </Text>
+                                    <View className='w-9 h-9 bg-white rounded-full items-center justify-center'>
+                                        <ArrowRightIcon size={16} color={colors.icon} />
+                                    </View>
+                                </>
+                            )}
                         </Pressable>
                     </View>
 

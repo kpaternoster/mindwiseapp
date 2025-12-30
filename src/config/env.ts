@@ -73,6 +73,10 @@ export const API_ENDPOINTS = {
   CLARIFY_YOUR_GOALS_BY_ID: (id: string) => `${BASE_API_URL}/clarify-your-goals/${id}`,
   PLAN_YOUR_RESPONSE: `${BASE_API_URL}/plan-your-response`,
   PLAN_YOUR_RESPONSE_BY_ID: (id: string) => `${BASE_API_URL}/plan-your-response/${id}`,
+  GIVE_REFRAMING: `${BASE_API_URL}/give-reframing`,
+  GIVE_REFRAMING_BY_ID: (id: string) => `${BASE_API_URL}/give-reframing/${id}`,
+  GIVE_PRACTICE: `${BASE_API_URL}/give-practice`,
+  GIVE_PRACTICE_BY_ID: (id: string) => `${BASE_API_URL}/give-practice/${id}`,
   GRACE: `${BASE_API_URL}/grace`,
   SIGN_COMMITMENT: `${BASE_API_URL}/sign-commitment`,
 } as const;

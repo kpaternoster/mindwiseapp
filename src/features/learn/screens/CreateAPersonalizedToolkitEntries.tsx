@@ -56,7 +56,7 @@ export default function CreateAPersonalizedToolkitEntriesScreen() {
                 {entries.length === 0 ? (
                     <View className="items-center justify-center py-12">
                         <Text style={[t.textRegular, { color: colors.text_secondary }]}>
-                            No entries yet. Start your first practice!
+                            No entries yet.
                         </Text>
                     </View>
                 ) : (
