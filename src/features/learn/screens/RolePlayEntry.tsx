@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, ScrollView, StatusBar, Text, Pressable } from 'react-native';
+import { View, ScrollView, StatusBar, Text, Pressable, ActivityIndicator } from 'react-native';
 import { colors } from '@design/color';
 import { t } from '@design/typography';
 import { useDissolveNavigation } from '@hooks/useDissolveNavigation';
@@ -7,6 +7,7 @@ import { useRoute, RouteProp } from '@react-navigation/native';
 import { HomeStackParams } from '@app/navigation/types';
 import { PageHeader } from '../components';
 import { RolePlayEntry as RolePlayEntryType } from '../components/RolePlayEntryCard';
+import { fetchRolePlayEntries, deleteRolePlayEntry } from '../api/stop';
 
 type RolePlayEntryRouteProp = RouteProp<HomeStackParams, 'Learn_RolePlayEntry'>;
 
@@ -16,19 +17,48 @@ export default function RolePlayEntryScreen() {
     const { entryId } = route.params;
 
     const [entry, setEntry] = useState<RolePlayEntryType | null>(null);
+    const [isLoading, setIsLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
+
+    const loadEntry = async () => {
+        setIsLoading(true);
+        setError(null);
+
+        try {
+            const apiEntries = await fetchRolePlayEntries();
+            const apiEntry = apiEntries.find(e => e.id === entryId);
+
+            if (!apiEntry) {
+                setError('Entry not found.');
+                return;
+            }
+
+            const date = new Date(apiEntry.time * 1000);
+            const dateStr = date.toISOString().split('T')[0];
+            const timeStr = date.toLocaleTimeString('en-US', { 
+                hour: 'numeric', 
+                minute: '2-digit',
+                hour12: true 
+            });
+
+            setEntry({
+                id: apiEntry.id,
+                date: dateStr,
+                time: timeStr,
+                rolePlayPartner: apiEntry.who,
+                scenarioContext: apiEntry.scenario,
+                learningsReflections: apiEntry.reflection,
+            });
+        } catch (err) {
+            console.error('Failed to load role-play entry:', err);
+            setError('Failed to load entry. Please try again.');
+        } finally {
+            setIsLoading(false);
+        }
+    };
 
     useEffect(() => {
-        // TODO: Load entry from storage/backend using entryId
-        // For now, using mock data
-        const mockEntry: RolePlayEntryType = {
-            id: entryId,
-            date: '2025-11-17',
-            time: '04:25 PM',
-            rolePlayPartner: '',
-            scenarioContext: '',
-            learningsReflections: '',
-        };
-        setEntry(mockEntry);
+        loadEntry();
     }, [entryId]);
 
     const formatDate = (dateString: string) => {
@@ -40,22 +70,40 @@ export default function RolePlayEntryScreen() {
         });
     };
 
-    const handleDelete = () => {
-        // TODO: Show confirmation dialog and delete from storage/backend
-        // Then navigate back to entries screen
-        console.log('Delete entry:', entryId);
-        dissolveTo('Learn_StopDrillEntries', { initialTab: 'rolePlay' });
+    const handleDelete = async () => {
+        try {
+            await deleteRolePlayEntry(entryId);
+            dissolveTo('Learn_StopDrillEntries', { initialTab: 'rolePlay' });
+        } catch (err) {
+            console.error('Failed to delete entry:', err);
+            setError('Failed to delete entry. Please try again.');
+        }
     };
 
-    if (!entry) {
+    if (isLoading || !entry) {
         return (
             <View className="flex-1 bg-white pt-9" style={{ backgroundColor: colors.white }}>
                 <StatusBar barStyle="dark-content" backgroundColor={colors.white} />
                 <PageHeader title="Role-Play Entry" showHomeIcon={true} showLeafIcon={true} />
                 <View className="flex-1 items-center justify-center">
-                    <Text style={[t.textRegular, { color: colors.text_secondary }]}>
-                        Loading...
-                    </Text>
+                    {error ? (
+                        <>
+                            <Text style={[t.textRegular, { color: colors.red_light }]} className="mb-4">
+                                {error}
+                            </Text>
+                            <Pressable
+                                className="rounded-full py-3 px-6"
+                                style={{ backgroundColor: colors.Button_Orange }}
+                                onPress={loadEntry}
+                            >
+                                <Text style={[t.textSemiBold, { color: colors.white }]}>
+                                    Retry
+                                </Text>
+                            </Pressable>
+                        </>
+                    ) : (
+                        <ActivityIndicator size="large" color={colors.Button_Orange} />
+                    )}
                 </View>
             </View>
         );

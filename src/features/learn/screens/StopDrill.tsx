@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import { View, ScrollView, StatusBar, Pressable, Text, TextInput, KeyboardAvoidingView, Platform } from 'react-native';
+import { View, ScrollView, StatusBar, Pressable, Text, TextInput, KeyboardAvoidingView, Platform, ActivityIndicator } from 'react-native';
 import { colors } from '@design/color';
 import { t } from '@design/typography';
 import { useDissolveNavigation } from '@hooks/useDissolveNavigation';
 import { PageHeader, IntroCard } from '../components';
 import stopDrillData from '../data/stopDrill.json';
+import { createStopDrillEntry } from '../api/stop';
 
 export default function StopDrillScreen() {
     const { dissolveTo } = useDissolveNavigation();
@@ -24,10 +25,53 @@ export default function StopDrillScreen() {
         }));
     };
 
-    const handleSave = () => {
-        // TODO: Save all plans to storage/backend
-        console.log('Saving STOP Drill plans:', plans);
-        dissolveTo('Learn_StopDrillEntries', { initialTab: 'stopDrill' });
+    // API states
+    const [isSaving, setIsSaving] = useState(false);
+    const [error, setError] = useState<string | null>(null);
+    const [successMessage, setSuccessMessage] = useState<string | null>(null);
+
+    const handleSave = async () => {
+        // Clear previous messages
+        setError(null);
+        setSuccessMessage(null);
+
+        setIsSaving(true);
+
+        try {
+            await createStopDrillEntry({
+                stopPlan: plans.stop.trim() || '',
+                takeAStepBackPlan: plans.takeStepBack.trim() || '',
+                observePlan: plans.observe.trim() || '',
+                proceedMindfullyPlan: plans.proceedMindfully.trim() || '',
+            });
+
+            // Show success message
+            setSuccessMessage('STOP Drill plan saved successfully!');
+
+            // Clear form after successful save
+            handleClearForm();
+
+            // Clear success message after 3 seconds
+            setTimeout(() => {
+                setSuccessMessage(null);
+            }, 3000);
+        } catch (err) {
+            console.error('Failed to save STOP Drill plan:', err);
+            setError('Failed to save plan. Please try again.');
+        } finally {
+            setIsSaving(false);
+        }
+    };
+
+    const handleClearForm = () => {
+        setPlans({
+            stop: '',
+            takeStepBack: '',
+            observe: '',
+            proceedMindfully: '',
+        });
+        setError(null);
+        setSuccessMessage(null);
     };
 
     const handleView = () => {
@@ -51,6 +95,24 @@ export default function StopDrillScreen() {
                 >
                     {/* Intro Card */}
                     <IntroCard text={introText} />
+
+                    {/* Error Message */}
+                    {error && (
+                        <View className="bg-red-50 rounded-xl p-4 mb-4" style={{ borderColor: colors.red_light, borderWidth: 1 }}>
+                            <Text style={[t.textRegular, { color: colors.red_light }]}>
+                                {error}
+                            </Text>
+                        </View>
+                    )}
+
+                    {/* Success Message */}
+                    {successMessage && (
+                        <View className="bg-green-50 rounded-xl p-4 mb-4" style={{ borderColor: colors.green_500, borderWidth: 1 }}>
+                            <Text style={[t.textRegular, { color: colors.green_500 }]}>
+                                {successMessage}
+                            </Text>
+                        </View>
+                    )}
 
                     {/* STOP Steps */}
                     {steps.map((step) => (
@@ -127,12 +189,17 @@ export default function StopDrillScreen() {
 
                         <Pressable
                             className="flex-1 rounded-full py-4 px-3 flex-row items-center justify-center"
-                            style={{ backgroundColor: colors.Button_Orange }}
+                            style={{ backgroundColor: colors.Button_Orange, opacity: isSaving ? 0.6 : 1 }}
                             onPress={handleSave}
+                            disabled={isSaving}
                         >
-                            <Text style={[t.textSemiBold, { color: colors.white }]}>
-                                {buttons.save}
-                            </Text>
+                            {isSaving ? (
+                                <ActivityIndicator size="small" color={colors.white} />
+                            ) : (
+                                <Text style={[t.textSemiBold, { color: colors.white }]}>
+                                    {buttons.save}
+                                </Text>
+                            )}
                         </Pressable>
                     </View>
                 </View>

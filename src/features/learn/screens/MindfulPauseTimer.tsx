@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { View, ScrollView, StatusBar, Pressable, Text, TextInput, KeyboardAvoidingView, Platform } from 'react-native';
+import { View, ScrollView, StatusBar, Pressable, Text, TextInput, KeyboardAvoidingView, Platform, ActivityIndicator } from 'react-native';
 import { colors } from '@design/color';
 import { t } from '@design/typography';
 import { useDissolveNavigation } from '@hooks/useDissolveNavigation';
@@ -7,6 +7,7 @@ import { PageHeader } from '../components';
 import { PlayIcon, PauseIcon, ResetIcon } from '@components/Utils';
 import Svg, { Circle } from 'react-native-svg';
 import mindfulPauseTimerData from '../data/mindfulPauseTimer.json';
+import { createMindfulPauseTimerEntry } from '../api/stop';
 
 const TIMER_SIZE = 200;
 const STROKE_WIDTH = 24;
@@ -69,12 +70,48 @@ export default function MindfulPauseTimerScreen() {
         setTimeRemaining(timerDuration);
     };
 
-    const handleSave = () => {
-        // TODO: Save reflection to storage/backend
-        // Include timerStatus: isComplete ? 'completed' : (isRunning ? 'paused' : 'notStarted')
-        const timerStatus = isComplete ? 'completed' : (isRunning ? 'paused' : 'notStarted');
-        console.log('Saving reflection:', reflectionText, 'Timer status:', timerStatus);
-        dissolveTo('Learn_StopDrillEntries', { initialTab: 'mindfulPause' });
+    // API states
+    const [isSaving, setIsSaving] = useState(false);
+    const [error, setError] = useState<string | null>(null);
+    const [successMessage, setSuccessMessage] = useState<string | null>(null);
+
+    const handleSave = async () => {
+        // Clear previous messages
+        setError(null);
+        setSuccessMessage(null);
+
+        const completed = isComplete;
+
+        setIsSaving(true);
+
+        try {
+            await createMindfulPauseTimerEntry({
+                completed,
+                reflection: reflectionText.trim() || '',
+            });
+
+            // Show success message
+            setSuccessMessage('Mindful pause entry saved successfully!');
+
+            // Clear form after successful save
+            handleClearForm();
+
+            // Clear success message after 3 seconds
+            setTimeout(() => {
+                setSuccessMessage(null);
+            }, 3000);
+        } catch (err) {
+            console.error('Failed to save mindful pause timer entry:', err);
+            setError('Failed to save entry. Please try again.');
+        } finally {
+            setIsSaving(false);
+        }
+    };
+
+    const handleClearForm = () => {
+        setReflectionText('');
+        setError(null);
+        setSuccessMessage(null);
     };
 
     const handleViewEntry = () => {
@@ -100,6 +137,24 @@ export default function MindfulPauseTimerScreen() {
                     showsVerticalScrollIndicator={false}
                     contentContainerStyle={{ paddingBottom: 120 }}
                 >
+                    {/* Error Message */}
+                    {error && (
+                        <View className="bg-red-50 rounded-xl p-4 mb-4" style={{ borderColor: colors.red_light, borderWidth: 1 }}>
+                            <Text style={[t.textRegular, { color: colors.red_light }]}>
+                                {error}
+                            </Text>
+                        </View>
+                    )}
+
+                    {/* Success Message */}
+                    {successMessage && (
+                        <View className="bg-green-50 rounded-xl p-4 mb-4" style={{ borderColor: colors.green_500, borderWidth: 1 }}>
+                            <Text style={[t.textRegular, { color: colors.green_500 }]}>
+                                {successMessage}
+                            </Text>
+                        </View>
+                    )}
+
                     {/* How to Practice Card */}
                     <View
                         className="bg-white rounded-2xl p-4 mb-4"
@@ -268,12 +323,17 @@ export default function MindfulPauseTimerScreen() {
 
                         <Pressable
                             className="flex-1 rounded-full py-4 px-3 flex-row items-center justify-center"
-                            style={{ backgroundColor: colors.Button_Orange }}
+                            style={{ backgroundColor: colors.Button_Orange, opacity: isSaving ? 0.6 : 1 }}
                             onPress={handleSave}
+                            disabled={isSaving}
                         >
-                            <Text style={[t.textSemiBold, { color: colors.white }]}>
-                                {buttons.save}
-                            </Text>
+                            {isSaving ? (
+                                <ActivityIndicator size="small" color={colors.white} />
+                            ) : (
+                                <Text style={[t.textSemiBold, { color: colors.white }]}>
+                                    {buttons.save}
+                                </Text>
+                            )}
                         </Pressable>
                     </View>
                 </View>
