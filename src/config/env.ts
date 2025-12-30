@@ -93,6 +93,8 @@ export const API_ENDPOINTS = {
   SELF_VALIDATION_PRACTICE_BY_ID: (id: string) => `${BASE_API_URL}/self-validation-practice/${id}`,
   ORIGINS: `${BASE_API_URL}/origins`,
   ORIGINS_BY_ID: (id: string) => `${BASE_API_URL}/origins/${id}`,
+  IDENTIFY_EMOTIONAL_URGES: `${BASE_API_URL}/identify-emotional-urges`,
+  IDENTIFY_EMOTIONAL_URGES_BY_ID: (id: string) => `${BASE_API_URL}/identify-emotional-urges/${id}`,
   GRACE: `${BASE_API_URL}/grace`,
   SIGN_COMMITMENT: `${BASE_API_URL}/sign-commitment`,
 } as const;

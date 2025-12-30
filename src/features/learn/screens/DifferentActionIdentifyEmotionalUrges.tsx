@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
-import { View, ScrollView, StatusBar, Pressable, Text, TextInput, KeyboardAvoidingView, Platform } from 'react-native';
+import { View, ScrollView, StatusBar, Pressable, Text, TextInput, KeyboardAvoidingView, Platform, ActivityIndicator } from 'react-native';
 import { colors } from '@design/color';
 import { t } from '@design/typography';
 import { useDissolveNavigation } from '@hooks/useDissolveNavigation';
 import { PageHeader, IntroCard } from '../components';
 import { CloseIcon } from '@components/Utils';
 import differentActionIdentifyEmotionalUrgesData from '../data/differentActionIdentifyEmotionalUrges.json';
+import { createIdentifyEmotionalUrgesEntry } from '../api/differentAction';
 
 interface UrgePair {
     id: number;
@@ -52,10 +53,68 @@ export default function DifferentActionIdentifyEmotionalUrgesScreen() {
         handleAddUrgePair();
     };
 
-    const handleSave = () => {
-        // TODO: Save all urge pairs to storage/backend
-        console.log('Saving Identify Emotional Urges entries:', urgePairs);
-        dissolveTo('Learn_DifferentActionIdentifyEmotionalUrgesEntries');
+    // API states
+    const [isSaving, setIsSaving] = useState(false);
+    const [error, setError] = useState<string | null>(null);
+    const [successMessage, setSuccessMessage] = useState<string | null>(null);
+
+    const handleSave = async () => {
+        // Clear previous messages
+        setError(null);
+        setSuccessMessage(null);
+
+        // Filter out empty urge pairs
+        const validUrgePairs = urgePairs.filter(
+            pair => pair.urge.trim().length > 0 || pair.oppositeAction.trim().length > 0
+        );
+
+        if (validUrgePairs.length === 0) {
+            setError('Please add at least one urge and opposite action pair.');
+            return;
+        }
+
+        setIsSaving(true);
+
+        try {
+            // Save each urge pair as a separate entry
+            const savePromises = validUrgePairs.map(pair => {
+                // Only save if both fields have content
+                if (pair.urge.trim().length > 0 && pair.oppositeAction.trim().length > 0) {
+                    return createIdentifyEmotionalUrgesEntry({
+                        urges: pair.urge.trim(),
+                        oppositeAction: pair.oppositeAction.trim(),
+                    });
+                }
+                return Promise.resolve(null);
+            });
+
+            // Wait for all entries to be saved
+            await Promise.all(savePromises.filter(p => p !== null));
+
+            // Show success message
+            setSuccessMessage('Entries saved successfully!');
+
+            // Clear form after successful save
+            handleClearForm();
+
+            // Clear success message after 3 seconds
+            setTimeout(() => {
+                setSuccessMessage(null);
+            }, 3000);
+        } catch (err) {
+            console.error('Failed to save identify emotional urges entries:', err);
+            setError('Failed to save entries. Please try again.');
+        } finally {
+            setIsSaving(false);
+        }
+    };
+
+    const handleClearForm = () => {
+        setUrgePairs([
+            { id: 1, urge: '', oppositeAction: '' }
+        ]);
+        setError(null);
+        setSuccessMessage(null);
     };
 
     const handleView = () => {
@@ -183,6 +242,24 @@ export default function DifferentActionIdentifyEmotionalUrgesScreen() {
                             </Pressable> */}
                         </View>
                     </View>
+
+                    {/* Error Message */}
+                    {error && (
+                        <View className="mb-4 p-4 rounded-xl" style={{ backgroundColor: colors.red_50 }}>
+                            <Text style={[t.textRegular, { color: colors.red_light }]}>
+                                {error}
+                            </Text>
+                        </View>
+                    )}
+
+                    {/* Success Message */}
+                    {successMessage && (
+                        <View className="mb-4 p-4 rounded-xl" style={{ backgroundColor: colors.green_50 }}>
+                            <Text style={[t.textRegular, { color: colors.green_500 }]}>
+                                {successMessage}
+                            </Text>
+                        </View>
+                    )}
                 </ScrollView>
 
                 {/* Bottom Action Buttons */}
@@ -200,12 +277,17 @@ export default function DifferentActionIdentifyEmotionalUrgesScreen() {
 
                         <Pressable
                             className="flex-1 rounded-full py-4 px-3 flex-row items-center justify-center"
-                            style={{ backgroundColor: colors.Button_Orange }}
+                            style={{ backgroundColor: colors.Button_Orange, opacity: isSaving ? 0.6 : 1 }}
                             onPress={handleSave}
+                            disabled={isSaving}
                         >
-                            <Text style={[t.textSemiBold, { color: colors.white }]}>
-                                {buttons.save}
-                            </Text>
+                            {isSaving ? (
+                                <ActivityIndicator size="small" color={colors.white} />
+                            ) : (
+                                <Text style={[t.textSemiBold, { color: colors.white }]}>
+                                    {buttons.save}
+                                </Text>
+                            )}
                         </Pressable>
                     </View>
                 </View>

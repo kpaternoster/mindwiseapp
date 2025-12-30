@@ -1,10 +1,11 @@
-import React, { useState, useRef } from 'react';
-import { View, ScrollView, StatusBar, Pressable, Text, PanResponder, Animated } from 'react-native';
+import React, { useState, useRef, useEffect } from 'react';
+import { View, ScrollView, StatusBar, Pressable, Text, PanResponder, Animated, ActivityIndicator } from 'react-native';
 import { colors } from '@design/color';
 import { t } from '@design/typography';
 import { useDissolveNavigation } from '@hooks/useDissolveNavigation';
 import { PageHeader, IntroCard } from '../components';
 import differentActionFlashCardPromptsData from '../data/differentActionFlashCardPrompts.json';
+import { fetchIdentifyEmotionalUrgesEntries, IdentifyEmotionalUrgesEntry as ApiIdentifyEmotionalUrgesEntry } from '../api/differentAction';
 
 interface FlashCard {
     id: string;
@@ -14,43 +15,57 @@ interface FlashCard {
 
 type ViewMode = 'stack' | 'list';
 
-// Mock data - TODO: Replace with actual data from storage/backend
-const mockFlashCards: FlashCard[] = [
-    {
-        id: '1',
-        urge: 'Withdraw / Isolate',
-        action: 'Text one supportive friend or step outside for fresh air for 2 minutes.',
-    },
-    {
-        id: '2',
-        urge: 'Withdraw / Isolate',
-        action: 'Text one supportive friend or step outside for fresh air for 2 minutes.',
-    },
-    {
-        id: '3',
-        urge: 'Withdraw / Isolate',
-        action: 'Text one supportive friend or step outside for fresh air for 2 minutes.',
-    },
-    {
-        id: '4',
-        urge: 'Withdraw / Isolate',
-        action: 'Text one supportive friend or step outside for fresh air for 2 minutes.',
-    },
-    {
-        id: '5',
-        urge: 'Withdraw / Isolate',
-        action: 'Text one supportive friend or step outside for fresh air for 2 minutes.',
-    },
-];
-
 export default function DifferentActionFlashCardPromptsScreen() {
     const { dissolveTo } = useDissolveNavigation();
     const { title, introText, buttons } = differentActionFlashCardPromptsData;
     const [viewMode, setViewMode] = useState<ViewMode>('stack');
     const [flippedCards, setFlippedCards] = useState<Set<string>>(new Set());
-    const [cardOrder, setCardOrder] = useState<number[]>(mockFlashCards.map((_, index) => index));
+    const [flashCards, setFlashCards] = useState<FlashCard[]>([]);
+    const [cardOrder, setCardOrder] = useState<number[]>([]);
+    const [isLoading, setIsLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
     const dragY = useRef(new Animated.Value(0)).current;
     const isDragging = useRef(false);
+
+    // Transform API entry to FlashCard format
+    const transformApiEntry = (apiEntry: ApiIdentifyEmotionalUrgesEntry): FlashCard => {
+        return {
+            id: apiEntry.id,
+            urge: apiEntry.urges,
+            action: apiEntry.oppositeAction,
+        };
+    };
+
+    const loadFlashCards = async () => {
+        try {
+            setIsLoading(true);
+            setError(null);
+            const apiEntries = await fetchIdentifyEmotionalUrgesEntries();
+            
+            // Transform API entries to FlashCard format
+            const transformedCards = apiEntries.map(transformApiEntry);
+            
+            setFlashCards(transformedCards);
+            // Initialize card order
+            setCardOrder(transformedCards.map((_, index) => index));
+        } catch (err) {
+            console.error('Failed to load flash cards:', err);
+            setError('Failed to load flash cards. Please try again.');
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
+    useEffect(() => {
+        loadFlashCards();
+    }, []);
+
+    // Update card order when flashCards change
+    useEffect(() => {
+        if (flashCards.length > 0) {
+            setCardOrder(flashCards.map((_, index) => index));
+        }
+    }, [flashCards]);
 
     const handleToggleView = () => {
         setViewMode(viewMode === 'stack' ? 'list' : 'stack');
@@ -82,7 +97,7 @@ export default function DifferentActionFlashCardPromptsScreen() {
         });
         // Reset flipped state for the moved card
         const topCardIndex = cardOrder[0];
-        const topCardId = mockFlashCards[topCardIndex]?.id;
+        const topCardId = flashCards[topCardIndex]?.id;
         if (topCardId) {
             setFlippedCards((prev) => {
                 const newSet = new Set(prev);
@@ -146,7 +161,7 @@ export default function DifferentActionFlashCardPromptsScreen() {
                 {...panResponder.panHandlers}
             >
                 {visibleCardIndices.map((cardIndex, index) => {
-                    const card = mockFlashCards[cardIndex];
+                    const card = flashCards[cardIndex];
                     const isFlipped = flippedCards.has(card.id);
                     const isTopCard = index === 0;
                     const zIndex = visibleCardIndices.length - index;
@@ -213,7 +228,7 @@ export default function DifferentActionFlashCardPromptsScreen() {
     const renderListView = () => {
         return (
             <View>
-                {mockFlashCards.map((card) => {
+                {flashCards.map((card) => {
                     const isFlipped = flippedCards.has(card.id);
                     return (
                         <Pressable
@@ -267,8 +282,30 @@ export default function DifferentActionFlashCardPromptsScreen() {
                 {/* Intro Card */}
                 <IntroCard text={introText} />
 
-                {/* Flash Cards */}
-                {viewMode === 'stack' ? renderStackView() : renderListView()}
+                {/* Error Message */}
+                {error && (
+                    <View className="mb-4 p-4 rounded-xl" style={{ backgroundColor: colors.red_50 }}>
+                        <Text style={[t.textRegular, { color: colors.red_light }]}>
+                            {error}
+                        </Text>
+                    </View>
+                )}
+
+                {/* Loading State */}
+                {isLoading ? (
+                    <View className="items-center justify-center py-12">
+                        <ActivityIndicator size="large" color={colors.Button_Orange} />
+                    </View>
+                ) : flashCards.length === 0 ? (
+                    <View className="items-center justify-center py-12">
+                        <Text style={[t.textRegular, { color: colors.text_secondary }]}>
+                            No flash cards yet. Create some entries in "Identify Emotional Urges" to see them here.
+                        </Text>
+                    </View>
+                ) : (
+                    /* Flash Cards */
+                    viewMode === 'stack' ? renderStackView() : renderListView()
+                )}
             </ScrollView>
 
             {/* Bottom Toggle Button */}
