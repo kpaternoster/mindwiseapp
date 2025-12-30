@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import { View, ScrollView, StatusBar, Text, TextInput, KeyboardAvoidingView, Platform, Pressable } from 'react-native';
+import { View, ScrollView, StatusBar, Text, TextInput, KeyboardAvoidingView, Platform, Pressable, ActivityIndicator } from 'react-native';
 import { colors } from '@design/color';
 import { t } from '@design/typography';
 import { useDissolveNavigation } from '@hooks/useDissolveNavigation';
 import { PageHeader } from '../components';
 import wiseMindPastDecisionsData from '../data/wiseMindPastDecisions.json';
+import { createPastDecisionEntry } from '../api/wiseMind';
 
 export default function WiseMindPastDecisionsScreen() {
     const { dissolveTo } = useDissolveNavigation();
@@ -16,16 +17,55 @@ export default function WiseMindPastDecisionsScreen() {
     const [wiseMindPerspective, setWiseMindPerspective] = useState('');
     const [insightsLearning, setInsightsLearning] = useState('');
 
-    const handleSave = () => {
-        // TODO: Save all data to storage/backend
-        const allData = {
-            situation,
-            mindStateAnalysis,
-            wiseMindPerspective,
-            insightsLearning,
-        };
-        console.log('Saving Past Decisions data:', allData);
-        // TODO: Show success message or navigate
+    // API states
+    const [isSaving, setIsSaving] = useState(false);
+    const [error, setError] = useState<string | null>(null);
+    const [successMessage, setSuccessMessage] = useState<string | null>(null);
+
+    const handleSave = async () => {
+        // Clear previous messages
+        setError(null);
+        setSuccessMessage(null);
+
+        setIsSaving(true);
+
+        try {
+            // Map form data to API format
+            const entryData = {
+                situation: situation.trim(),
+                mindState: mindStateAnalysis.trim(),
+                wiseMindPerspective: wiseMindPerspective.trim(),
+                insights: insightsLearning.trim(),
+            };
+
+            // Save to API
+            await createPastDecisionEntry(entryData);
+
+            // Show success message
+            setSuccessMessage('Entry saved successfully!');
+
+            // Clear form after successful save
+            handleClearForm();
+
+            // Clear success message after 3 seconds
+            setTimeout(() => {
+                setSuccessMessage(null);
+            }, 3000);
+        } catch (err) {
+            console.error('Failed to save past decision entry:', err);
+            setError('Failed to save entry. Please try again.');
+        } finally {
+            setIsSaving(false);
+        }
+    };
+
+    const handleClearForm = () => {
+        setSituation('');
+        setMindStateAnalysis('');
+        setWiseMindPerspective('');
+        setInsightsLearning('');
+        setError(null);
+        setSuccessMessage(null);
     };
 
     const handleView = () => {
@@ -215,6 +255,23 @@ export default function WiseMindPastDecisionsScreen() {
                             />
                         </View>
                     )}
+                    {/* Error Message */}
+                    {error && (
+                        <View className="mb-4 p-4 rounded-xl" style={{ backgroundColor: colors.red_50 }}>
+                            <Text style={[t.textRegular, { color: colors.red_light }]}>
+                                {error}
+                            </Text>
+                        </View>
+                    )}
+
+                    {/* Success Message */}
+                    {successMessage && (
+                        <View className="mb-4 p-4 rounded-xl" style={{ backgroundColor: colors.green_50 }}>
+                            <Text style={[t.textRegular, { color: colors.green_500 }]}>
+                                {successMessage}
+                            </Text>
+                        </View>
+                    )}
                 </ScrollView>
 
                 {/* Footer Buttons */}
@@ -232,14 +289,29 @@ export default function WiseMindPastDecisionsScreen() {
 
                         <Pressable
                             className="flex-1 rounded-full py-3 px-3 items-center justify-center"
-                            style={{ backgroundColor: colors.Button_Orange }}
+                            style={{ backgroundColor: colors.Button_Orange, opacity: isSaving ? 0.6 : 1 }}
                             onPress={handleSave}
+                            disabled={isSaving}
                         >
-                            <Text style={[t.textSemiBold, { color: colors.white }]}>
-                                {buttons.save}
-                            </Text>
+                            {isSaving ? (
+                                <ActivityIndicator size="small" color={colors.white} />
+                            ) : (
+                                <Text style={[t.textSemiBold, { color: colors.white }]}>
+                                    {buttons.save}
+                                </Text>
+                            )}
                         </Pressable>
                     </View>
+
+                    <Pressable
+                        className="rounded-full py-3 px-3 items-center justify-center mb-3"
+                        style={{ borderColor: colors.Button_Orange, borderWidth: 2, backgroundColor: colors.white }}
+                        onPress={handleClearForm}
+                    >
+                        <Text style={[t.textSemiBold, { color: colors.warm_dark }]}>
+                            Clear Form
+                        </Text>
+                    </Pressable>
 
                     <Pressable
                         className="rounded-full py-3 px-3 items-center justify-center"

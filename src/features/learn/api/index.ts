@@ -8,4 +8,5 @@ export * from './selfcarereflection';
 export * from './checkTheFacts';
 export * from './middlePath';
 export * from './hereAndNow';
+export * from './wiseMind';
 

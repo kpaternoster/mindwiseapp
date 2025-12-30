@@ -19,7 +19,7 @@
       "timerMinutes": 5,
       "visualizationOptions": [
         {
-          "id": "spiralStaircase",
+          "id": "staircase",
           "label": "Spiral Staircase",
           "icon": "spiral"
         },

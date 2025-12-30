@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, ScrollView, StatusBar, Text, Pressable } from 'react-native';
+import { View, ScrollView, StatusBar, Text, Pressable, ActivityIndicator } from 'react-native';
 import { colors } from '@design/color';
 import { t } from '@design/typography';
 import { useDissolveNavigation } from '@hooks/useDissolveNavigation';
@@ -7,6 +7,11 @@ import { useRoute, RouteProp } from '@react-navigation/native';
 import { HomeStackParams } from '@app/navigation/types';
 import { PageHeader } from '../components';
 import { CalendarBlankIcon } from '@components/Utils';
+import { 
+    fetchWiseMindEntries, 
+    deleteWiseMindEntry, 
+    WiseMindEntry as ApiWiseMindEntry 
+} from '../api/wiseMind';
 
 interface WiseMindPracticeEntry {
     id: string;
@@ -30,24 +35,73 @@ export default function WiseMindPracticeEntryDetailScreen() {
     const { entryId } = route.params;
 
     const [entry, setEntry] = useState<WiseMindPracticeEntry | null>(null);
+    const [isLoading, setIsLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
+
+    // Transform API entry to component format
+    const transformApiEntry = (apiEntry: ApiWiseMindEntry): WiseMindPracticeEntry => {
+        const date = new Date(apiEntry.time * 1000);
+        const timeString = date.toISOString();
+        
+        // Map visualization value back to component format
+        const mapVisualization = (vis: string): string => {
+            if (vis === 'staircase') {
+                return 'spiralStaircase';
+            } else if (vis === 'calmLake') {
+                return 'calmLake';
+            }
+            return vis;
+        };
+        
+        return {
+            id: apiEntry.id,
+            date: date.toISOString().split('T')[0], // Extract date part (YYYY-MM-DD)
+            time: timeString, // Full ISO string for time formatting
+            breathingInsights: apiEntry.breathing || undefined,
+            selectedVisualization: mapVisualization(apiEntry.visualization) || undefined,
+            visualizationGuidance: apiEntry.guidance || undefined,
+            currentSituation: apiEntry.currentSituation || undefined,
+            emotionMind: apiEntry.emotionMind || undefined,
+            reasonableMind: apiEntry.reasonableMind || undefined,
+            wiseMind: apiEntry.wiseMind || undefined,
+            pastExperience: apiEntry.pastExperience || undefined,
+        };
+    };
 
     useEffect(() => {
-        // TODO: Load entry from storage/backend using entryId
-        // For now, using mock data
-        const mockEntry: WiseMindPracticeEntry = {
-            id: entryId,
-            date: '2025-11-06',
-            time: '2025-11-06T16:25:00',
-            breathingInsights: 'What insights arose during your breathing practice?',
-            selectedVisualization: 'spiralStaircase',
-            visualizationGuidance: 'What guidance did you receive?',
-            currentSituation: '1 Current Situation',
-            emotionMind: 'Emotion Mind',
-            reasonableMind: 'Reasonable Mind',
-            wiseMind: 'Wise Mind',
-            pastExperience: 'past experience',
+        const loadEntry = async () => {
+            if (!entryId) {
+                setError('Entry ID is missing');
+                setIsLoading(false);
+                return;
+            }
+
+            try {
+                setIsLoading(true);
+                setError(null);
+                
+                // Fetch all entries and find the one with matching ID
+                const apiEntries = await fetchWiseMindEntries();
+                const foundEntry = apiEntries.find(e => e.id === entryId);
+                
+                if (!foundEntry) {
+                    setError('Entry not found');
+                    setIsLoading(false);
+                    return;
+                }
+                
+                // Transform API entry to component format
+                const transformedEntry = transformApiEntry(foundEntry);
+                setEntry(transformedEntry);
+            } catch (err) {
+                console.error('Failed to load wise mind entry:', err);
+                setError('Failed to load entry. Please try again.');
+            } finally {
+                setIsLoading(false);
+            }
         };
-        setEntry(mockEntry);
+
+        loadEntry();
     }, [entryId]);
 
     const formatDate = (dateString: string, timeString?: string) => {
@@ -79,20 +133,43 @@ export default function WiseMindPracticeEntryDetailScreen() {
         return '';
     };
 
-    const handleDelete = () => {
-        // TODO: Show confirmation dialog and delete from storage/backend
-        // Then navigate back to entries screen
-        console.log('Delete entry:', entryId);
+    const handleDelete = async () => {
+        if (!entryId) {
+            return;
+        }
+
+        try {
+            // Delete from API
+            await deleteWiseMindEntry(entryId);
+            
+            // Navigate back to entries screen
+            dissolveTo('Learn_WiseMindPracticeEntries');
+        } catch (err) {
+            console.error('Failed to delete entry:', err);
+            setError('Failed to delete entry. Please try again.');
+        }
     };
 
-    if (!entry) {
+    if (isLoading) {
         return (
             <View className="flex-1 bg-white pt-9" style={{ backgroundColor: colors.white }}>
                 <StatusBar barStyle="dark-content" backgroundColor={colors.white} />
                 <PageHeader title="Entry Details" showHomeIcon={true} showLeafIcon={true} />
                 <View className="flex-1 items-center justify-center">
-                    <Text style={[t.textRegular, { color: colors.text_secondary }]}>
-                        Loading...
+                    <ActivityIndicator size="large" color={colors.button_orange} />
+                </View>
+            </View>
+        );
+    }
+
+    if (error || !entry) {
+        return (
+            <View className="flex-1 bg-white pt-9" style={{ backgroundColor: colors.white }}>
+                <StatusBar barStyle="dark-content" backgroundColor={colors.white} />
+                <PageHeader title="Entry Details" showHomeIcon={true} showLeafIcon={true} />
+                <View className="flex-1 items-center justify-center px-5">
+                    <Text style={[t.textRegular, { color: colors.red_light, textAlign: 'center' }]}>
+                        {error || 'Entry not found'}
                     </Text>
                 </View>
             </View>
