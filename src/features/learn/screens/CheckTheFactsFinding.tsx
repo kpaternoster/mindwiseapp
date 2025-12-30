@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, ScrollView, StatusBar, Pressable, Text, TextInput, KeyboardAvoidingView, Platform } from 'react-native';
+import { View, ScrollView, StatusBar, Pressable, Text, TextInput, KeyboardAvoidingView, Platform, ActivityIndicator } from 'react-native';
 import { colors } from '@design/color';
 import { t } from '@design/typography';
 import { useDissolveNavigation } from '@hooks/useDissolveNavigation';
@@ -7,6 +7,7 @@ import { PageHeader } from '../components/PageHeader';
 import { CollapsibleInputWithTags } from '../components/CollapsibleInputWithTags';
 import { TrophyIcon } from '@components/Utils';
 import checkTheFactsFindingData from '../data/checkTheFactsFinding.json';
+import { createCheckTheFactsEntry } from '../api/checkTheFacts';
 
 export default function CheckTheFactsFindingScreen() {
     const { dissolveTo } = useDissolveNavigation();
@@ -28,6 +29,11 @@ export default function CheckTheFactsFindingScreen() {
     });
 
     const [selectedTags, setSelectedTags] = useState<{ [key: string]: string | null }>({});
+
+    // API states
+    const [isSaving, setIsSaving] = useState(false);
+    const [error, setError] = useState<string | null>(null);
+    const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
     const toggleSection = (sectionId: string) => {
         setExpandedSections((prev) => ({
@@ -75,11 +81,72 @@ export default function CheckTheFactsFindingScreen() {
             emotionFactsCheck: '',
         });
         setSelectedTags({});
+        setError(null);
+        setSuccessMessage(null);
     };
 
-    const handleSaveEntry = () => {
-        // TODO: Save entry to storage/backend
-        console.log('Saving Fact Finding entry:', formData);
+    const handleSaveEntry = async () => {
+        // Clear previous messages
+        setError(null);
+        setSuccessMessage(null);
+
+        // Validate required fields
+        // if (!formData.describeSituation.trim()) {
+        //     setError('Please describe the situation.');
+        //     return;
+        // }
+
+        // if (!formData.facts.trim()) {
+        //     setError('Please list the observable facts.');
+        //     return;
+        // }
+
+        // if (!formData.assumptions.trim()) {
+        //     setError('Please describe your assumptions.');
+        //     return;
+        // }
+
+        // if (!formData.alternativeExplanations.trim()) {
+        //     setError('Please provide alternative explanations.');
+        //     return;
+        // }
+
+        // if (!formData.emotionFactsCheck.trim()) {
+        //     setError('Please complete the emotion and facts check.');
+        //     return;
+        // }
+
+        setIsSaving(true);
+
+        try {
+            // Map form data to API format
+            const entryData = {
+                describe: formData.describeSituation.trim(),
+                facts: formData.facts.trim(),
+                assumptions: formData.assumptions.trim(),
+                alternativeExplanations: formData.alternativeExplanations.trim(),
+                emotionAndFactsCheck: formData.emotionFactsCheck.trim(),
+            };
+
+            // Save to API
+            await createCheckTheFactsEntry(entryData);
+
+            // Show success message
+            setSuccessMessage('Entry saved successfully!');
+
+            // Clear form after successful save
+            handleClearForm();
+
+            // Clear success message after 3 seconds
+            setTimeout(() => {
+                setSuccessMessage(null);
+            }, 3000);
+        } catch (err) {
+            console.error('Failed to save check the facts entry:', err);
+            setError('Failed to save entry. Please try again.');
+        } finally {
+            setIsSaving(false);
+        }
     };
 
     const handleViewSaved = () => {
@@ -164,6 +231,24 @@ export default function CheckTheFactsFindingScreen() {
                             {greatWork.content}
                         </Text>
                     </View>
+
+                    {/* Error Message */}
+                    {error && (
+                        <View className="mx-5 mb-4 p-4 rounded-xl" style={{ backgroundColor: colors.red_50 }}>
+                            <Text style={[t.textRegular, { color: colors.red_light }]}>
+                                {error}
+                            </Text>
+                        </View>
+                    )}
+
+                    {/* Success Message */}
+                    {successMessage && (
+                        <View className="mx-5 mb-4 p-4 rounded-xl" style={{ backgroundColor: colors.green_50 }}>
+                            <Text style={[t.textRegular, { color: colors.green_500 }]}>
+                                {successMessage}
+                            </Text>
+                        </View>
+                    )}
                 </ScrollView>
 
                 {/* Footer Buttons */}
@@ -184,12 +269,17 @@ export default function CheckTheFactsFindingScreen() {
                         </Pressable>
                         <Pressable
                             className="flex-1 rounded-full py-4 items-center justify-center"
-                            style={{ backgroundColor: colors.Button_Orange }}
+                            style={{ backgroundColor: colors.Button_Orange, opacity: isSaving ? 0.6 : 1 }}
                             onPress={handleSaveEntry}
+                            disabled={isSaving}
                         >
-                            <Text style={[t.button, { color: colors.white }]}>
-                                Save Entry
-                            </Text>
+                            {isSaving ? (
+                                <ActivityIndicator size="small" color={colors.white} />
+                            ) : (
+                                <Text style={[t.button, { color: colors.white }]}>
+                                    Save Entry
+                                </Text>
+                            )}
                         </Pressable>
                     </View>
                     <Pressable

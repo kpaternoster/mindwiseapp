@@ -5,4 +5,5 @@ export * from './problemsolving';
 export * from './dialecticalThinking';
 export * from './selfcareplease';
 export * from './selfcarereflection';
+export * from './checkTheFacts';
 

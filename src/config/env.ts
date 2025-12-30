@@ -51,6 +51,8 @@ export const API_ENDPOINTS = {
   PLEASE_BY_ID: (id: string) => `${BASE_API_URL}/please/${id}`,
   SELF_CARE_REFLECTION: `${BASE_API_URL}/self-care-reflection`,
   SELF_CARE_REFLECTION_BY_ID: (id: string) => `${BASE_API_URL}/self-care-reflection/${id}`,
+  CHECK_THE_FACTS: `${BASE_API_URL}/check-the-facts`,
+  CHECK_THE_FACTS_BY_ID: (id: string) => `${BASE_API_URL}/check-the-facts/${id}`,
   GRACE: `${BASE_API_URL}/grace`,
   SIGN_COMMITMENT: `${BASE_API_URL}/sign-commitment`,
 } as const;
