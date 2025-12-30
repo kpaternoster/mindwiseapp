@@ -23,4 +23,5 @@ export * from './differentAction';
 export * from './willingHands';
 export * from './halfSmiling';
 export * from './radicalAcceptance';
+export * from './improve';
 

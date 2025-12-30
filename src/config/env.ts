@@ -109,6 +109,10 @@ export const API_ENDPOINTS = {
   ACCEPTANCE_JOURNAL_BY_ID: (id: string) => `${BASE_API_URL}/acceptance-journal/${id}`,
   COPING_STATEMENTS_LIST: `${BASE_API_URL}/coping-statements-list`,
   COPING_STATEMENTS_LIST_BY_ID: (id: string) => `${BASE_API_URL}/coping-statements-list/${id}`,
+  IDENTIFY_TRIGGERS: `${BASE_API_URL}/identify-triggers`,
+  IDENTIFY_TRIGGERS_BY_ID: (id: string) => `${BASE_API_URL}/identify-triggers/${id}`,
+  CREATE_PERSONALIZED_TOOLKIT: `${BASE_API_URL}/create-personalized-toolkit`,
+  CREATE_PERSONALIZED_TOOLKIT_BY_ID: (id: string) => `${BASE_API_URL}/create-personalized-toolkit/${id}`,
   GRACE: `${BASE_API_URL}/grace`,
   SIGN_COMMITMENT: `${BASE_API_URL}/sign-commitment`,
 } as const;
