@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
-import { View, ScrollView, StatusBar, Pressable, Text, TextInput, KeyboardAvoidingView, Platform } from 'react-native';
+import { View, ScrollView, StatusBar, Pressable, Text, TextInput, KeyboardAvoidingView, Platform, ActivityIndicator } from 'react-native';
 import { colors } from '@design/color';
 import { t } from '@design/typography';
 import { useDissolveNavigation } from '@hooks/useDissolveNavigation';
 import { PageHeader, ProgressBar } from '../components';
 import { ArrowRightIcon } from '@components/Utils';
 import fastStartSmallData from '../data/fastStartSmall.json';
+import { createStartSmallEntry } from '../api/fast';
 
 export default function FastStartSmallScreen() {
     const { dissolveTo } = useDissolveNavigation();
@@ -34,33 +35,70 @@ export default function FastStartSmallScreen() {
         }
     };
 
+    // API states
+    const [isSaving, setIsSaving] = useState(false);
+    const [error, setError] = useState<string | null>(null);
+    const [successMessage, setSuccessMessage] = useState<string | null>(null);
+
     const handleBack = () => {
         if (currentStep > 1) {
             setCurrentStep(currentStep - 1);
         }
     };
 
-    const handleSaveEntry = () => {
-        // TODO: Save all data to storage/backend
-        const allData = {
-            step1: {
-                smallRequest,
-                outcome,
-                reflection,
-            },
-            step2: {
-                biggerSituation,
-                practiceOutLoud,
-                biggerChallengeOutcome,
-            },
-            step3: {
-                learnedAboutFast,
-                nextSteps,
-            },
-        };
-        console.log('Saving Fast Start Small data:', allData);
-        // TODO: Navigate to entries screen or show success message
-        dissolveTo('Learn_FastStartSmallEntries');
+    const handleSaveEntry = async () => {
+        // Clear previous messages
+        setError(null);
+        setSuccessMessage(null);
+
+        setIsSaving(true);
+
+        try {
+            // Map form data to API format
+            const entryData = {
+                smallRequest: smallRequest.trim(),
+                smallOutcome: outcome.trim(),
+                smallReflection: reflection.trim(),
+                biggerSituation: biggerSituation.trim(),
+                practice: practiceOutLoud.trim(),
+                biggerReflection: biggerChallengeOutcome.trim(),
+                overallReflection: learnedAboutFast.trim(),
+                nextSteps: nextSteps.trim(),
+            };
+
+            // Save to API
+            await createStartSmallEntry(entryData);
+
+            // Show success message
+            setSuccessMessage('Entry saved successfully!');
+
+            // Clear form after successful save
+            handleClearForm();
+
+            // Clear success message after 3 seconds
+            setTimeout(() => {
+                setSuccessMessage(null);
+            }, 3000);
+        } catch (err) {
+            console.error('Failed to save start small entry:', err);
+            setError('Failed to save entry. Please try again.');
+        } finally {
+            setIsSaving(false);
+        }
+    };
+
+    const handleClearForm = () => {
+        setSmallRequest('');
+        setOutcome('');
+        setReflection('');
+        setBiggerSituation('');
+        setPracticeOutLoud('');
+        setBiggerChallengeOutcome('');
+        setLearnedAboutFast('');
+        setNextSteps('');
+        setError(null);
+        setSuccessMessage(null);
+        // setCurrentStep(1);
     };
 
     const handleViewSaved = () => {
@@ -178,6 +216,24 @@ export default function FastStartSmallScreen() {
                             </View>
                         ))}
                     </View>
+
+                    {/* Error Message */}
+                    {error && (
+                        <View className="mb-4 p-4 rounded-xl" style={{ backgroundColor: colors.red_50 }}>
+                            <Text style={[t.textRegular, { color: colors.red_light }]}>
+                                {error}
+                            </Text>
+                        </View>
+                    )}
+
+                    {/* Success Message */}
+                    {successMessage && (
+                        <View className="mb-4 p-4 rounded-xl" style={{ backgroundColor: colors.green_50 }}>
+                            <Text style={[t.textRegular, { color: colors.green_500 }]}>
+                                {successMessage}
+                            </Text>
+                        </View>
+                    )}
                 </ScrollView>
 
                 {/* Bottom Action Buttons */}
@@ -261,15 +317,22 @@ export default function FastStartSmallScreen() {
 
                                 <Pressable
                                     className="flex-1 rounded-full py-4 px-3 flex-row items-center justify-center"
-                                    style={{ backgroundColor: colors.Button_Orange }}
+                                    style={{ backgroundColor: colors.Button_Orange, opacity: isSaving ? 0.6 : 1 }}
                                     onPress={handleSaveEntry}
+                                    disabled={isSaving}
                                 >
-                                    <Text style={[t.textSemiBold, { color: colors.white }]} className="mr-2 flex-1 text-center">
-                                        {stepData.buttons.save}
-                                    </Text>
-                                    <View className="w-9 h-9 bg-white rounded-full items-center justify-center">
-                                        <ArrowRightIcon size={16} color={colors.icon} />
-                                    </View>
+                                    {isSaving ? (
+                                        <ActivityIndicator size="small" color={colors.white} />
+                                    ) : (
+                                        <>
+                                            <Text style={[t.textSemiBold, { color: colors.white }]} className="mr-2 flex-1 text-center">
+                                                {stepData.buttons.save}
+                                            </Text>
+                                            <View className="w-9 h-9 bg-white rounded-full items-center justify-center">
+                                                <ArrowRightIcon size={16} color={colors.icon} />
+                                            </View>
+                                        </>
+                                    )}
                                 </Pressable>
                             </View>
 

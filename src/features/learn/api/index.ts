@@ -13,4 +13,6 @@ export * from './validatingOthers';
 export * from './think';
 export * from './interpersonalGoals';
 export * from './give';
+export * from './fast';
+export * from './dearman';
 

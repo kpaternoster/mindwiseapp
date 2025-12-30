@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
-import { View, ScrollView, StatusBar, Pressable, Text, TextInput, KeyboardAvoidingView, Platform } from 'react-native';
+import { View, ScrollView, StatusBar, Pressable, Text, TextInput, KeyboardAvoidingView, Platform, ActivityIndicator } from 'react-native';
 import { colors } from '@design/color';
 import { t } from '@design/typography';
 import { useDissolveNavigation } from '@hooks/useDissolveNavigation';
 import { PageHeader } from '../components';
 import { ArrowRightIcon } from '@components/Utils';
 import fastPlanData from '../data/fastPlan.json';
+import { createFastPlanEntry } from '../api/fast';
 
 export default function FastPlanScreen() {
     const { dissolveTo } = useDissolveNavigation();
@@ -21,21 +22,50 @@ export default function FastPlanScreen() {
     const [confidence, setConfidence] = useState('');
     const [notes, setNotes] = useState('');
 
-    const handleSaveEntry = () => {
-        // TODO: Save all data to storage/backend
-        const allData = {
-            situation,
-            request,
-            fair,
-            apologies,
-            stickToValues,
-            truthful,
-            confidence,
-            notes,
-        };
-        console.log('Saving FAST Plan data:', allData);
-        // TODO: Navigate to entries screen or show success message
-        dissolveTo('Learn_FastPlanEntries');
+    // API states
+    const [isSaving, setIsSaving] = useState(false);
+    const [error, setError] = useState<string | null>(null);
+    const [successMessage, setSuccessMessage] = useState<string | null>(null);
+
+    const handleSaveEntry = async () => {
+        // Clear previous messages
+        setError(null);
+        setSuccessMessage(null);
+
+        setIsSaving(true);
+
+        try {
+            // Map form data to API format
+            const entryData = {
+                situation: situation.trim(),
+                request: request.trim(),
+                fair: fair.trim(),
+                apologies: apologies.trim(),
+                stickToValues: stickToValues.trim(),
+                truthful: truthful.trim(),
+                confidence: confidence.trim(),
+                notes: notes.trim(),
+            };
+
+            // Save to API
+            await createFastPlanEntry(entryData);
+
+            // Show success message
+            setSuccessMessage('Entry saved successfully!');
+
+            // Clear form after successful save
+            handleClearForm();
+
+            // Clear success message after 3 seconds
+            setTimeout(() => {
+                setSuccessMessage(null);
+            }, 3000);
+        } catch (err) {
+            console.error('Failed to save fast plan entry:', err);
+            setError('Failed to save entry. Please try again.');
+        } finally {
+            setIsSaving(false);
+        }
     };
 
     const handleViewSaved = () => {
@@ -51,6 +81,8 @@ export default function FastPlanScreen() {
         setTruthful('');
         setConfidence('');
         setNotes('');
+        setError(null);
+        setSuccessMessage(null);
     };
 
     const handleBackToMenu = () => {
@@ -232,6 +264,24 @@ export default function FastPlanScreen() {
                             ))}
                         </View>
                     )}
+
+                    {/* Error Message */}
+                    {error && (
+                        <View className="mb-4 p-4 rounded-xl" style={{ backgroundColor: colors.red_50 }}>
+                            <Text style={[t.textRegular, { color: colors.red_light }]}>
+                                {error}
+                            </Text>
+                        </View>
+                    )}
+
+                    {/* Success Message */}
+                    {successMessage && (
+                        <View className="mb-4 p-4 rounded-xl" style={{ backgroundColor: colors.green_50 }}>
+                            <Text style={[t.textRegular, { color: colors.green_500 }]}>
+                                {successMessage}
+                            </Text>
+                        </View>
+                    )}
                 </ScrollView>
 
                 {/* Bottom Action Buttons */}
@@ -250,12 +300,17 @@ export default function FastPlanScreen() {
 
                         <Pressable
                             className="flex-1 rounded-full py-3 px-3 flex-row items-center justify-center"
-                            style={{ backgroundColor: colors.Button_Orange }}
+                            style={{ backgroundColor: colors.Button_Orange, opacity: isSaving ? 0.6 : 1 }}
                             onPress={handleSaveEntry}
+                            disabled={isSaving}
                         >
-                            <Text style={[t.textSemiBold, { color: colors.white }]} className="mr-2 flex-1 text-center">
-                                {buttons.save}
-                            </Text>
+                            {isSaving ? (
+                                <ActivityIndicator size="small" color={colors.white} />
+                            ) : (
+                                <Text style={[t.textSemiBold, { color: colors.white }]} className="mr-2 flex-1 text-center">
+                                    {buttons.save}
+                                </Text>
+                            )}
                         </Pressable>
                     </View>
 

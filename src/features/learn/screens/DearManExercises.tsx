@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
-import { View, ScrollView, StatusBar, Pressable, Text, TextInput, KeyboardAvoidingView, Platform } from 'react-native';
+import { View, ScrollView, StatusBar, Pressable, Text, TextInput, KeyboardAvoidingView, Platform, ActivityIndicator } from 'react-native';
 import { colors } from '@design/color';
 import { t } from '@design/typography';
 import { useDissolveNavigation } from '@hooks/useDissolveNavigation';
 import { PageHeader } from '../components';
 import { UpIcon, DownIcon, ArrowRightIcon, HeartIcon } from '@components/Utils';
 import dearManExercisesData from '../data/dearManExercises.json';
+import { createDearManEntry } from '../api/dearman';
 
 export default function DearManExercisesScreen() {
     const { dissolveTo } = useDissolveNavigation();
@@ -18,6 +19,11 @@ export default function DearManExercisesScreen() {
     const [script, setScript] = useState('');
     const [reflection, setReflection] = useState('');
 
+    // API states
+    const [isSaving, setIsSaving] = useState(false);
+    const [error, setError] = useState<string | null>(null);
+    const [successMessage, setSuccessMessage] = useState<string | null>(null);
+
     const toggleSection = (sectionId: string) => {
         setExpandedSections((prev) => ({
             ...prev,
@@ -25,14 +31,46 @@ export default function DearManExercisesScreen() {
         }));
     };
 
-    const handleSaveEntry = () => {
-        // TODO: Save all data to storage/backend
-        const allData = {
-            script,
-            reflection,
-        };
-        
-        dissolveTo('Learn_DearManEntries');
+    const handleSaveEntry = async () => {
+        // Clear previous messages
+        setError(null);
+        setSuccessMessage(null);
+
+        setIsSaving(true);
+
+        try {
+            // Map form data to API format
+            const entryData = {
+                script: script.trim(),
+                reflection: reflection.trim(),
+            };
+
+            // Save to API
+            await createDearManEntry(entryData);
+
+            // Show success message
+            setSuccessMessage('Entry saved successfully!');
+
+            // Clear form after successful save
+            handleClearForm();
+
+            // Clear success message after 3 seconds
+            setTimeout(() => {
+                setSuccessMessage(null);
+            }, 3000);
+        } catch (err) {
+            console.error('Failed to save DEAR MAN entry:', err);
+            setError('Failed to save entry. Please try again.');
+        } finally {
+            setIsSaving(false);
+        }
+    };
+
+    const handleClearForm = () => {
+        setScript('');
+        setReflection('');
+        setError(null);
+        setSuccessMessage(null);
     };
 
     const handleViewSaved = () => {
@@ -177,6 +215,24 @@ export default function DearManExercisesScreen() {
                                         multiline
                                     />
 
+                                    {/* Error Message */}
+                                    {error && (
+                                        <View className="mt-4 mb-2 p-4 rounded-xl" style={{ backgroundColor: colors.red_50 }}>
+                                            <Text style={[t.textRegular, { color: colors.red_light }]}>
+                                                {error}
+                                            </Text>
+                                        </View>
+                                    )}
+
+                                    {/* Success Message */}
+                                    {successMessage && (
+                                        <View className="mt-4 mb-2 p-4 rounded-xl" style={{ backgroundColor: colors.green_50 }}>
+                                            <Text style={[t.textRegular, { color: colors.green_500 }]}>
+                                                {successMessage}
+                                            </Text>
+                                        </View>
+                                    )}
+
                                     {/* Action Buttons */}
                                     <View className="flex-row gap-3 mt-4">
                                         <Pressable
@@ -191,12 +247,17 @@ export default function DearManExercisesScreen() {
 
                                         <Pressable
                                             className="flex-1 rounded-full py-3 px-3 flex-row items-center justify-center"
-                                            style={{ backgroundColor: colors.Button_Orange }}
+                                            style={{ backgroundColor: colors.Button_Orange, opacity: isSaving ? 0.6 : 1 }}
                                             onPress={handleSaveEntry}
+                                            disabled={isSaving}
                                         >
-                                            <Text style={[t.textSemiBold, { color: colors.white }]} className="mr-2 flex-1 text-center">
-                                                {buttons.saveEntry}
-                                            </Text>
+                                            {isSaving ? (
+                                                <ActivityIndicator size="small" color={colors.white} />
+                                            ) : (
+                                                <Text style={[t.textSemiBold, { color: colors.white }]} className="mr-2 flex-1 text-center">
+                                                    {buttons.saveEntry}
+                                                </Text>
+                                            )}
                                         </Pressable>
                                     </View>
                                 </View>

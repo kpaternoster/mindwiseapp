@@ -77,6 +77,12 @@ export const API_ENDPOINTS = {
   GIVE_REFRAMING_BY_ID: (id: string) => `${BASE_API_URL}/give-reframing/${id}`,
   GIVE_PRACTICE: `${BASE_API_URL}/give-practice`,
   GIVE_PRACTICE_BY_ID: (id: string) => `${BASE_API_URL}/give-practice/${id}`,
+  START_SMALL: `${BASE_API_URL}/start-small`,
+  START_SMALL_BY_ID: (id: string) => `${BASE_API_URL}/start-small/${id}`,
+  FAST_PLAN: `${BASE_API_URL}/fast-plan`,
+  FAST_PLAN_BY_ID: (id: string) => `${BASE_API_URL}/fast-plan/${id}`,
+  DEAR_MAN: `${BASE_API_URL}/dear-man`,
+  DEAR_MAN_BY_ID: (id: string) => `${BASE_API_URL}/dear-man/${id}`,
   GRACE: `${BASE_API_URL}/grace`,
   SIGN_COMMITMENT: `${BASE_API_URL}/sign-commitment`,
 } as const;
