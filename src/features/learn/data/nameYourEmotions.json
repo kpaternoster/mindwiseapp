@@ -10,10 +10,10 @@
       "title": "What does your body feel like?",
       "placeholder": "Describe any physical sensations you notice...",
       "tags": [
-        "Racing heart, sweating",
-        "Heavy feeling, low energy",
-        "Tension in jaw, heat",
-        "Light feeling, warmth"
+        "Racing heart, sweating ",
+        "Heavy feeling, low energy ",
+        "Tension in jaw, heat ",
+        "Light feeling, warmth "
       ]
     },
     {
@@ -21,10 +21,10 @@
       "title": "What thoughts are you having?",
       "placeholder": "What's going through your mind...",
       "tags": [
-        "Something bad will happen",
-        "Someone is wrong",
-        "Things won't get better",
-        "Things are good"
+        "Something bad will happen ",
+        "Someone is wrong ",
+        "Things won't get better ",
+        "Things are good "
       ]
     },
     {
@@ -32,10 +32,10 @@
       "title": "What urges do you have?",
       "placeholder": "Escape, avoid, freeze...",
       "tags": [
-        "Escape, avoid, freeze",
-        "Attack, argue, defend",
-        "Withdraw, isolate, cry",
-        "Share, celebrate, connect"
+        "Escape, avoid, freeze ",
+        "Attack, argue, defend ",
+        "Withdraw, isolate, cry ",
+        "Share, celebrate, connect "
       ]
     },
     {

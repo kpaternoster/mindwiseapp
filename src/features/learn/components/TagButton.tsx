@@ -24,7 +24,8 @@ export const TagButton: React.FC<TagButtonProps> = ({
                     ? (isEmotion ? colors.orange : colors.orange_50)
                     : colors.white,
                 borderWidth: 1,
-                borderColor: colors.orange_400
+                borderColor: colors.orange_400,
+                alignSelf: 'flex-start',
             }}
             onPress={onPress}
         >

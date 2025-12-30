@@ -218,7 +218,68 @@ export default function SUDSCopingPlanScreen() {
 
     const handleLearnMore = (skillId: string) => {
         // TODO: Navigate to skill detail page
-        console.log('Learn more about skill:', skillId);
+        switch (skillId) {
+            case 'deepBreathing':
+                dissolveTo('Learn_WillingHands');
+                break;
+            case 'hereAndNow':
+                dissolveTo('Learn_HereAndNow');
+                break;
+            case 'selfCare':
+                dissolveTo('Learn_SelfCarePlease');
+                break;
+            case 'positiveSelfTalk':
+                dissolveTo('Learn_PositiveSelfTalk');
+                break;
+            case 'stop':
+                dissolveTo('Learn_STOP');
+                break;
+            case 'distractionActivities':
+                dissolveTo('Learn_BuildDistressTolerance');
+                break;
+            case 'problemSolving':
+                dissolveTo('Learn_ProblemSolving');
+                break;
+            case 'selfSoothing':
+                dissolveTo('Learn_SelfSoothing');
+                break;
+            case 'tipp':
+                dissolveTo('Learn_TIPP');
+                break;
+            case 'radicalAcceptance':
+                dissolveTo('Learn_RadicalAcceptance');
+                break;
+            case 'differentAction':
+                dissolveTo('Learn_DifferentAction');
+                break;
+            case 'groundingTechniques':
+                // dissolveTo('Learn_GroundingTechniques');
+                break;
+            case 'crisisSupport':
+                dissolveTo('Plan_Crisis');
+                break;
+            case 'halfSmile':
+                dissolveTo('Learn_HalfSmiling');
+                break;
+            case 'willingHands':
+                dissolveTo('Learn_WillingHands');
+                break;
+            case 'dearMan':
+                dissolveTo('Learn_DearMan');
+                break;
+            case 'give':
+                dissolveTo('Learn_Give');
+                break;
+            case 'checkTheFacts':
+                dissolveTo('Learn_CheckTheFacts');
+                break;
+            case 'wiseMind':
+                dissolveTo('Learn_WiseMind');
+                break;
+            default:
+                console.log('Learn more about skill:', skillId);
+                break;
+        }
     };
 
     if (isLoading) {
