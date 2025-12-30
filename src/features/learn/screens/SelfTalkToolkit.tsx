@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
-import { View, ScrollView, StatusBar, Pressable, Text, KeyboardAvoidingView, Platform, TextInput } from 'react-native';
+import { View, ScrollView, StatusBar, Pressable, Text, KeyboardAvoidingView, Platform, TextInput, ActivityIndicator } from 'react-native';
 import { colors } from '@design/color';
 import { t } from '@design/typography';
 import { useDissolveNavigation } from '@hooks/useDissolveNavigation';
 import { PageHeader } from '../components';
 import { ArrowRightIcon, DownIcon, UpIcon } from '@components/Utils';
 import selfTalkToolkitData from '../data/selfTalkToolkit.json';
+import { createSelfTalkToolkitEntry } from '../api/selfTalk';
 
 export default function SelfTalkToolkitScreen() {
     const { dissolveTo } = useDissolveNavigation();
@@ -36,6 +37,11 @@ export default function SelfTalkToolkitScreen() {
         }));
     };
 
+    // API states
+    const [isSaving, setIsSaving] = useState(false);
+    const [error, setError] = useState<string | null>(null);
+    const [successMessage, setSuccessMessage] = useState<string | null>(null);
+
     const handleInputChange = (sectionId: string, text: string) => {
         setInputs((prev) => ({
             ...prev,
@@ -43,10 +49,56 @@ export default function SelfTalkToolkitScreen() {
         }));
     };
 
-    const handleSave = () => {
-        // TODO: Save to storage/backend
-        console.log('Saving Self-Talk Toolkit:', inputs);
-        dissolveTo('Learn_SelfTalkToolkitEntries');
+    const handleSave = async () => {
+        // Clear previous messages
+        setError(null);
+        setSuccessMessage(null);
+
+        setIsSaving(true);
+
+        try {
+            // Map form data to API format
+            const entryData = {
+                accomplishments: inputs.listAccomplishments.trim(),
+                encouragingPhrases: inputs.createEncouragingPhrases.trim(),
+                kindMessages: inputs.saveKindMessages.trim(),
+                goodMemories: inputs.collectGoodMemories.trim(),
+                dailyPractice: inputs.chooseDailyPractice.trim(),
+                practiceMethod: inputs.practiceMethod.trim(),
+            };
+
+            // Save to API
+            await createSelfTalkToolkitEntry(entryData);
+
+            // Show success message
+            setSuccessMessage('Entry saved successfully!');
+
+            // Clear form after successful save
+            handleClearForm();
+
+            // Clear success message after 3 seconds
+            setTimeout(() => {
+                setSuccessMessage(null);
+            }, 3000);
+        } catch (err) {
+            console.error('Failed to save self talk toolkit entry:', err);
+            setError('Failed to save entry. Please try again.');
+        } finally {
+            setIsSaving(false);
+        }
+    };
+
+    const handleClearForm = () => {
+        setInputs({
+            listAccomplishments: '',
+            createEncouragingPhrases: '',
+            saveKindMessages: '',
+            collectGoodMemories: '',
+            chooseDailyPractice: '',
+            practiceMethod: '',
+        });
+        setError(null);
+        setSuccessMessage(null);
     };
 
     const handleView = () => {
@@ -131,6 +183,24 @@ export default function SelfTalkToolkitScreen() {
                             )}
                         </View>
                     ))}
+
+                    {/* Error Message */}
+                    {error && (
+                        <View className="mb-4 p-4 rounded-xl" style={{ backgroundColor: colors.red_50 }}>
+                            <Text style={[t.textRegular, { color: colors.red_light }]}>
+                                {error}
+                            </Text>
+                        </View>
+                    )}
+
+                    {/* Success Message */}
+                    {successMessage && (
+                        <View className="mb-4 p-4 rounded-xl" style={{ backgroundColor: colors.green_50 }}>
+                            <Text style={[t.textRegular, { color: colors.green_500 }]}>
+                                {successMessage}
+                            </Text>
+                        </View>
+                    )}
                 </ScrollView>
 
                 {/* Bottom Action Buttons */}
@@ -148,13 +218,17 @@ export default function SelfTalkToolkitScreen() {
 
                         <Pressable
                             className="flex-1 rounded-full py-4 px-3 flex-row items-center justify-center"
-                            style={{ backgroundColor: colors.Button_Orange }}
+                            style={{ backgroundColor: colors.Button_Orange, opacity: isSaving ? 0.6 : 1 }}
                             onPress={handleSave}
+                            disabled={isSaving}
                         >
-                            <Text style={[t.textSemiBold, { color: colors.white }]} className="mr-2 flex-1 text-center">
-                                {buttons.save}
-                            </Text>
-                            
+                            {isSaving ? (
+                                <ActivityIndicator size="small" color={colors.white} />
+                            ) : (
+                                <Text style={[t.textSemiBold, { color: colors.white }]} className="mr-2 flex-1 text-center">
+                                    {buttons.save}
+                                </Text>
+                            )}
                         </Pressable>
                     </View>
                 </View>

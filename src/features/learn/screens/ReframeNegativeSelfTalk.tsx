@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
-import { View, ScrollView, StatusBar, Pressable, Text, KeyboardAvoidingView, Platform, TextInput } from 'react-native';
+import { View, ScrollView, StatusBar, Pressable, Text, KeyboardAvoidingView, Platform, TextInput, ActivityIndicator } from 'react-native';
 import { colors } from '@design/color';
 import { t } from '@design/typography';
 import { useDissolveNavigation } from '@hooks/useDissolveNavigation';
 import { PageHeader } from '../components';
 import { ArrowRightIcon, DownIcon, UpIcon } from '@components/Utils';
 import reframeNegativeSelfTalkData from '../data/reframeNegativeSelfTalk.json';
+import { createReframeNegativeSelfTalkEntry } from '../api/selfTalk';
 
 interface NegativeThought {
     id: number;
@@ -33,6 +34,11 @@ export default function ReframeNegativeSelfTalkScreen() {
     const [friendsPerspective, setFriendsPerspective] = useState('');
     const [balancedThought, setBalancedThought] = useState('');
 
+    // API states
+    const [isSaving, setIsSaving] = useState(false);
+    const [error, setError] = useState<string | null>(null);
+    const [successMessage, setSuccessMessage] = useState<string | null>(null);
+
     const toggleSection = (sectionId: string) => {
         setExpandedSections((prev) => ({
             ...prev,
@@ -51,17 +57,57 @@ export default function ReframeNegativeSelfTalkScreen() {
         setNegativeThoughts([...negativeThoughts, { id: newId, thought: '' }]);
     };
 
-    const handleSave = () => {
-        // TODO: Save to storage/backend
-        const data = {
-            negativeThoughts,
-            evidenceFor,
-            evidenceAgainst,
-            friendsPerspective,
-            balancedThought,
-        };
-        console.log('Saving Reframe Negative Self-Talk:', data);
-        dissolveTo('Learn_ReframeNegativeSelfTalkEntries');
+    const handleSave = async () => {
+        // Clear previous messages
+        setError(null);
+        setSuccessMessage(null);
+
+        setIsSaving(true);
+
+        try {
+            // Convert negativeThoughts array of objects to array of strings (filter out empty ones)
+            const negativeThoughtsArray = negativeThoughts
+                .map(t => t.thought.trim())
+                .filter(t => t.length > 0);
+
+            // Map form data to API format
+            const entryData = {
+                negativeThoughts: negativeThoughtsArray,
+                evidenceFor: evidenceFor.trim(),
+                evidenceAgainst: evidenceAgainst.trim(),
+                friendsPerspective: friendsPerspective.trim(),
+                balancedThought: balancedThought.trim(),
+            };
+
+            // Save to API
+            await createReframeNegativeSelfTalkEntry(entryData);
+
+            // Show success message
+            setSuccessMessage('Entry saved successfully!');
+
+            // Clear form after successful save
+            handleClearForm();
+
+            // Clear success message after 3 seconds
+            setTimeout(() => {
+                setSuccessMessage(null);
+            }, 3000);
+        } catch (err) {
+            console.error('Failed to save reframe negative self talk entry:', err);
+            setError('Failed to save entry. Please try again.');
+        } finally {
+            setIsSaving(false);
+        }
+    };
+
+    const handleClearForm = () => {
+        setNegativeThoughts([{ id: 1, thought: '' }]);
+        setEvidenceFor('');
+        setEvidenceAgainst('');
+        setFriendsPerspective('');
+        setBalancedThought('');
+        setError(null);
+        setSuccessMessage(null);
     };
 
     const handleView = () => {
@@ -244,6 +290,24 @@ export default function ReframeNegativeSelfTalkScreen() {
                             </View>
                         );
                     })}
+
+                    {/* Error Message */}
+                    {error && (
+                        <View className="mb-4 p-4 rounded-xl" style={{ backgroundColor: colors.red_50 }}>
+                            <Text style={[t.textRegular, { color: colors.red_light }]}>
+                                {error}
+                            </Text>
+                        </View>
+                    )}
+
+                    {/* Success Message */}
+                    {successMessage && (
+                        <View className="mb-4 p-4 rounded-xl" style={{ backgroundColor: colors.green_50 }}>
+                            <Text style={[t.textRegular, { color: colors.green_500 }]}>
+                                {successMessage}
+                            </Text>
+                        </View>
+                    )}
                 </ScrollView>
 
                 {/* Bottom Action Buttons */}
@@ -261,13 +325,17 @@ export default function ReframeNegativeSelfTalkScreen() {
 
                         <Pressable
                             className="flex-1 rounded-full py-4 px-3 flex-row items-center justify-center"
-                            style={{ backgroundColor: colors.Button_Orange }}
+                            style={{ backgroundColor: colors.Button_Orange, opacity: isSaving ? 0.6 : 1 }}
                             onPress={handleSave}
+                            disabled={isSaving}
                         >
-                            <Text style={[t.textSemiBold, { color: colors.white }]} className="mr-2 flex-1 text-center">
-                                {buttons.save}
-                            </Text>
-                            
+                            {isSaving ? (
+                                <ActivityIndicator size="small" color={colors.white} />
+                            ) : (
+                                <Text style={[t.textSemiBold, { color: colors.white }]} className="mr-2 flex-1 text-center">
+                                    {buttons.save}
+                                </Text>
+                            )}
                         </Pressable>
                     </View>
                 </View>
