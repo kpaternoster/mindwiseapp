@@ -67,6 +67,8 @@ export const API_ENDPOINTS = {
   SELF_REFLECTION_BY_ID: (id: string) => `${BASE_API_URL}/self-reflection/${id}`,
   VALIDATION_PRACTICE: `${BASE_API_URL}/validation-practice`,
   VALIDATION_PRACTICE_BY_ID: (id: string) => `${BASE_API_URL}/validation-practice/${id}`,
+  THINK: `${BASE_API_URL}/think`,
+  THINK_BY_ID: (id: string) => `${BASE_API_URL}/think/${id}`,
   GRACE: `${BASE_API_URL}/grace`,
   SIGN_COMMITMENT: `${BASE_API_URL}/sign-commitment`,
 } as const;

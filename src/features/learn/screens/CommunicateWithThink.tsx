@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
-import { View, ScrollView, StatusBar, Pressable, Text, KeyboardAvoidingView, Platform, TextInput } from 'react-native';
+import { View, ScrollView, StatusBar, Pressable, Text, KeyboardAvoidingView, Platform, TextInput, ActivityIndicator } from 'react-native';
 import { colors } from '@design/color';
 import { t } from '@design/typography';
 import { useDissolveNavigation } from '@hooks/useDissolveNavigation';
 import { PageHeader, IntroCard } from '../components';
 import { ArrowRightIcon, DownIcon, UpIcon } from '@components/Utils';
 import communicateWithThinkData from '../data/communicateWithThink.json';
+import { createThinkEntry } from '../api/think';
 
 export default function CommunicateWithThinkScreen() {
     const { dissolveTo } = useDissolveNavigation();
@@ -45,6 +46,11 @@ export default function CommunicateWithThinkScreen() {
         }));
     };
 
+    // API states
+    const [isSaving, setIsSaving] = useState(false);
+    const [error, setError] = useState<string | null>(null);
+    const [successMessage, setSuccessMessage] = useState<string | null>(null);
+
     const handleInputChange = (inputId: string, text: string) => {
         setInputs((prev) => ({
             ...prev,
@@ -52,13 +58,59 @@ export default function CommunicateWithThinkScreen() {
         }));
     };
 
-    const handleSaveReflection = () => {
-        // TODO: Save reflection to storage/backend
-        const practiceData = {
-            inputs,
-        };
-        console.log('Saving Communicate with THINK:', practiceData);
-        dissolveTo('Learn_ThinkEntries');
+    const handleSaveReflection = async () => {
+        // Clear previous messages
+        setError(null);
+        setSuccessMessage(null);
+
+        setIsSaving(true);
+
+        try {
+            // Map form data to API format
+            const entryData = {
+                who: inputs.chooseSomeone.trim(),
+                positiveQualities: inputs.listPositiveQualities.trim(),
+                interaction: inputs.whatConversation.trim(),
+                application: inputs.howApplyThink.trim(),
+                whatHappened: inputs.howDidItGo.trim(),
+                response: inputs.howDidTheyRespond.trim(),
+                connection: inputs.whatDidYouNotice.trim(),
+                reflection: inputs.whatDidYouLearn.trim(),
+            };
+
+            // Save to API
+            await createThinkEntry(entryData);
+
+            // Show success message
+            setSuccessMessage('Entry saved successfully!');
+
+            // Clear form after successful save
+            handleClearForm();
+
+            // Clear success message after 3 seconds
+            setTimeout(() => {
+                setSuccessMessage(null);
+            }, 3000);
+        } catch (err) {
+            console.error('Failed to save think entry:', err);
+            setError('Failed to save entry. Please try again.');
+        } finally {
+            setIsSaving(false);
+        }
+    };
+
+    const handleClearForm = () => {
+        const initial: { [key: string]: string } = {};
+        communicateWithThinkData.sections.forEach((section: any) => {
+            if (section.subsections) {
+                section.subsections.forEach((subsection: any) => {
+                    initial[subsection.id] = '';
+                });
+            }
+        });
+        setInputs(initial);
+        setError(null);
+        setSuccessMessage(null);
     };
 
     const handleViewSaved = () => {
@@ -191,6 +243,24 @@ export default function CommunicateWithThinkScreen() {
 
                         return null;
                     })}
+
+                    {/* Error Message */}
+                    {error && (
+                        <View className="mb-4 p-4 rounded-xl" style={{ backgroundColor: colors.red_50 }}>
+                            <Text style={[t.textRegular, { color: colors.red_light }]}>
+                                {error}
+                            </Text>
+                        </View>
+                    )}
+
+                    {/* Success Message */}
+                    {successMessage && (
+                        <View className="mb-4 p-4 rounded-xl" style={{ backgroundColor: colors.green_50 }}>
+                            <Text style={[t.textRegular, { color: colors.green_500 }]}>
+                                {successMessage}
+                            </Text>
+                        </View>
+                    )}
                 </ScrollView>
 
                 {/* Bottom Action Buttons */}
@@ -207,15 +277,22 @@ export default function CommunicateWithThinkScreen() {
                         </Pressable>
                         <Pressable
                             className="rounded-full py-3 px-3 flex-1 flex-row items-center justify-center mb-3"
-                            style={{ backgroundColor: colors.Button_Orange }}
+                            style={{ backgroundColor: colors.Button_Orange, opacity: isSaving ? 0.6 : 1 }}
                             onPress={handleSaveReflection}
+                            disabled={isSaving}
                         >
-                            <Text style={[t.textSemiBold, { color: colors.white }]} className="mr-2 flex-1 text-center">
-                                {buttons.save}
-                            </Text>
-                            <View className='w-9 h-9 bg-white rounded-full items-center justify-center'>
-                                <ArrowRightIcon size={16} color={colors.icon} />
-                            </View>
+                            {isSaving ? (
+                                <ActivityIndicator size="small" color={colors.white} />
+                            ) : (
+                                <>
+                                    <Text style={[t.textSemiBold, { color: colors.white }]} className="mr-2 flex-1 text-center">
+                                        {buttons.save}
+                                    </Text>
+                                    <View className='w-9 h-9 bg-white rounded-full items-center justify-center'>
+                                        <ArrowRightIcon size={16} color={colors.icon} />
+                                    </View>
+                                </>
+                            )}
                         </Pressable>
                     </View>
 

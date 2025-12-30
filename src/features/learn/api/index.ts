@@ -10,4 +10,5 @@ export * from './middlePath';
 export * from './hereAndNow';
 export * from './wiseMind';
 export * from './validatingOthers';
+export * from './think';
 
