@@ -1,54 +1,124 @@
-import React, { useState } from 'react';
-import { View, ScrollView, StatusBar, Text } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, ScrollView, StatusBar, Text, ActivityIndicator } from 'react-native';
 import { colors } from '@design/color';
 import { t } from '@design/typography';
 import { useDissolveNavigation } from '@hooks/useDissolveNavigation';
 import { PageHeader, ClarifyYourGoalsEntryCard, ClarifyYourGoalsEntry } from '../components';
-
-// Mock data - TODO: Replace with actual data from storage/backend
-const mockEntries: ClarifyYourGoalsEntry[] = [
-    {
-        id: '1',
-        date: '2025-11-06',
-        time: '04:25 PM',
-        describeSituation: 'I need to have a conversation with ...',
-        objectiveGoal: 'I want to establish a fair cleaning schedule.',
-        relationshipGoal: 'I want them to feel respected and heard.',
-        selfRespectGoal: 'I want to feel confident and assertive.',
-        mostImportant: 'My top priority is maintaining our friendship while addressing the issue.',
-        secondPriority: 'My second priority is getting a fair cleaning schedule.',
-        thirdPriority: 'My third priority is feeling good about how I handled the conversation.',
-        priorityReasoning: 'I prioritized my goals this way because our friendship matters most to me.',
-    },
-    
-];
+import { 
+    fetchClarifyYourGoalsEntries, 
+    deleteClarifyYourGoalsEntry, 
+    ClarifyYourGoalsEntry as ApiClarifyYourGoalsEntry 
+} from '../api/interpersonalGoals';
 
 export default function ClarifyYourGoalsEntriesScreen() {
     const { dissolveTo } = useDissolveNavigation();
-    const [entries, setEntries] = useState(mockEntries);
+    const [entries, setEntries] = useState<ClarifyYourGoalsEntry[]>([]);
+    const [isLoading, setIsLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
+
+    // Transform API entry to component format
+    const transformApiEntry = (apiEntry: ApiClarifyYourGoalsEntry): ClarifyYourGoalsEntry => {
+        const date = new Date(apiEntry.time * 1000);
+        const dateString = date.toISOString().split('T')[0]; // Extract date part (YYYY-MM-DD)
+        const timeString = date.toLocaleTimeString('en-US', { 
+            hour: '2-digit', 
+            minute: '2-digit',
+            hour12: true 
+        });
+        
+        return {
+            id: apiEntry.id,
+            date: dateString,
+            time: timeString,
+            describeSituation: apiEntry.situation,
+            objectiveGoal: apiEntry.objectiveGoal,
+            relationshipGoal: apiEntry.relationshipGoal,
+            selfRespectGoal: apiEntry.selfRespectGoal,
+            mostImportant: apiEntry.goal1,
+            secondPriority: apiEntry.goal2,
+            thirdPriority: apiEntry.goal3,
+            priorityReasoning: apiEntry.priorityReasoning,
+        };
+    };
+
+    const loadEntries = async () => {
+        try {
+            setIsLoading(true);
+            setError(null);
+            const apiEntries = await fetchClarifyYourGoalsEntries();
+            
+            // Transform API entries to component format and sort by date (newest first)
+            const transformedEntries = apiEntries
+                .map(transformApiEntry)
+                .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+            
+            setEntries(transformedEntries);
+        } catch (err) {
+            console.error('Failed to load clarify your goals entries:', err);
+            setError('Failed to load entries. Please try again.');
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
+    useEffect(() => {
+        loadEntries();
+    }, []);
 
     const handleView = (entryId: string) => {
         // TODO: Navigate to Clarify Your Goals Entry Detail screen when created
         console.log('View entry:', entryId);
     };
 
-    const handleDelete = (entryId: string) => {
-        // TODO: Show confirmation dialog
-        // TODO: Delete from storage/backend
-        setEntries((prev) => prev.filter((entry) => entry.id !== entryId));
-        console.log('Delete entry:', entryId);
+    const handleDelete = async (id: string) => {
+        try {
+            // Optimistically update UI
+            setEntries((prev) => prev.filter((entry) => entry.id !== id));
+            
+            // Delete from API
+            await deleteClarifyYourGoalsEntry(id);
+        } catch (err) {
+            console.error('Failed to delete entry:', err);
+            // Reload entries on error to restore the deleted entry
+            try {
+                await loadEntries();
+            } catch (reloadErr) {
+                console.error('Failed to reload entries:', reloadErr);
+            }
+            setError('Failed to delete entry. Please try again.');
+        }
     };
+
+    if (isLoading) {
+        return (
+            <View className="flex-1 pt-9" style={{ backgroundColor: colors.white }}>
+                <StatusBar barStyle="dark-content" backgroundColor={colors.white} />
+                <PageHeader title="Saved Entries" showHomeIcon={true} showLeafIcon={true} />
+                <View className="flex-1 items-center justify-center">
+                    <ActivityIndicator size="large" color={colors.Button_Orange} />
+                </View>
+            </View>
+        );
+    }
 
     return (
         <View className="flex-1 bg-white pt-9" style={{ backgroundColor: colors.white }}>
             <StatusBar barStyle="dark-content" backgroundColor={colors.white} />
-            <PageHeader title="Saved Plans" showHomeIcon={true} showLeafIcon={true} />
+            <PageHeader title="Saved Entries" showHomeIcon={true} showLeafIcon={true} />
 
             <ScrollView
                 className="flex-1 px-5"
                 showsVerticalScrollIndicator={false}
                 contentContainerStyle={{ paddingBottom: 24 }}
             >
+                {error && (
+                    <View className="mb-4 p-4 rounded-xl" style={{ backgroundColor: colors.red_50 }}>
+                        <Text style={[t.textRegular, { color: colors.red_light }]}>
+                            {error}
+                        </Text>
+                    </View>
+                )}
+
                 {entries.length === 0 ? (
                     <View className="items-center justify-center py-12">
                         <Text style={[t.textRegular, { color: colors.text_secondary }]}>

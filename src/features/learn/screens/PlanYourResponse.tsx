@@ -1,11 +1,12 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { View, ScrollView, StatusBar, Pressable, Text, KeyboardAvoidingView, Platform, TextInput } from 'react-native';
+import { View, ScrollView, StatusBar, Pressable, Text, KeyboardAvoidingView, Platform, TextInput, ActivityIndicator } from 'react-native';
 import { colors } from '@design/color';
 import { t } from '@design/typography';
 import { useDissolveNavigation } from '@hooks/useDissolveNavigation';
 import { PageHeader, ProgressBar } from '../components';
 import { ArrowRightIcon } from '@components/Utils';
 import planYourResponseData from '../data/planYourResponse.json';
+import { createPlanYourResponseEntry } from '../api/interpersonalGoals';
 
 export default function PlanYourResponseScreen() {
     const { dissolveTo } = useDissolveNavigation();
@@ -47,32 +48,72 @@ export default function PlanYourResponseScreen() {
         }
     };
 
+    // API states
+    const [isSaving, setIsSaving] = useState(false);
+    const [error, setError] = useState<string | null>(null);
+    const [successMessage, setSuccessMessage] = useState<string | null>(null);
+
     const handleBack = () => {
         if (currentStep > 1) {
             setCurrentStep(currentStep - 1);
         }
     };
 
-    const handleSave = () => {
-        // TODO: Save to storage/backend
-        const allData = {
-            step1: {
-                reviewSituation: inputs.reviewSituation,
-                checkValuesAlignment: inputs.checkValuesAlignment,
-                confirmGoalsAlignment: inputs.confirmGoalsAlignment,
-            },
-            step2: {
-                planYourWords: inputs.planYourWords,
-                planYourTone: inputs.planYourTone,
-                desiredOutcome: inputs.desiredOutcome,
-            },
-            step3: {
-                backupPlan: inputs.backupPlan,
-                finalReflection: inputs.finalReflection,
-            },
-        };
-        console.log('Saving Plan Your Response:', allData);
-        dissolveTo('Learn_PlanYourResponseEntries');
+    const handleSave = async () => {
+        // Clear previous messages
+        setError(null);
+        setSuccessMessage(null);
+
+        setIsSaving(true);
+
+        try {
+            // Map form data to API format
+            const entryData = {
+                situation: inputs.reviewSituation.trim(),
+                valuesAlignment: inputs.checkValuesAlignment.trim(),
+                goalsAlignment: inputs.confirmGoalsAlignment.trim(),
+                wordsPlan: inputs.planYourWords.trim(),
+                tonePlan: inputs.planYourTone.trim(),
+                desiredOutcome: inputs.desiredOutcome.trim(),
+                backupPlan: inputs.backupPlan.trim(),
+                reflection: inputs.finalReflection.trim(),
+            };
+
+            // Save to API
+            await createPlanYourResponseEntry(entryData);
+
+            // Show success message
+            setSuccessMessage('Entry saved successfully!');
+
+            // Clear form after successful save
+            handleClearForm();
+
+            // Clear success message after 3 seconds
+            setTimeout(() => {
+                setSuccessMessage(null);
+            }, 3000);
+        } catch (err) {
+            console.error('Failed to save plan your response entry:', err);
+            setError('Failed to save entry. Please try again.');
+        } finally {
+            setIsSaving(false);
+        }
+    };
+
+    const handleClearForm = () => {
+        setInputs({
+            reviewSituation: '',
+            checkValuesAlignment: '',
+            confirmGoalsAlignment: '',
+            planYourWords: '',
+            planYourTone: '',
+            desiredOutcome: '',
+            backupPlan: '',
+            finalReflection: '',
+        });
+        setError(null);
+        setSuccessMessage(null);
+        // setCurrentStep(1);
     };
 
     const handleViewSaved = () => {
@@ -160,6 +201,24 @@ export default function PlanYourResponseScreen() {
 
                         ))}
                     </View>
+
+                    {/* Error Message */}
+                    {error && (
+                        <View className="mb-4 p-4 rounded-xl" style={{ backgroundColor: colors.red_50 }}>
+                            <Text style={[t.textRegular, { color: colors.red_light }]}>
+                                {error}
+                            </Text>
+                        </View>
+                    )}
+
+                    {/* Success Message */}
+                    {successMessage && (
+                        <View className="mb-4 p-4 rounded-xl" style={{ backgroundColor: colors.green_50 }}>
+                            <Text style={[t.textRegular, { color: colors.green_500 }]}>
+                                {successMessage}
+                            </Text>
+                        </View>
+                    )}
                 </ScrollView>
 
                 {/* Bottom Navigation Buttons */}
@@ -218,15 +277,22 @@ export default function PlanYourResponseScreen() {
                                 </Pressable>
                                 <Pressable
                                     className="flex-1 rounded-full py-3 px-3 flex-row items-center justify-center"
-                                    style={{ backgroundColor: colors.Button_Orange }}
+                                    style={{ backgroundColor: colors.Button_Orange, opacity: isSaving ? 0.6 : 1 }}
                                     onPress={handleSave}
+                                    disabled={isSaving}
                                 >
-                                    <Text style={[t.textSemiBold, { color: colors.white }]} className="flex-1 text-center">
-                                        {buttons.save}
-                                    </Text>
-                                    <View className='w-9 h-9 justify-center items-center bg-white rounded-full'>
-                                        <ArrowRightIcon size={16} color={colors.warm_dark} />
-                                    </View>
+                                    {isSaving ? (
+                                        <ActivityIndicator size="small" color={colors.white} />
+                                    ) : (
+                                        <>
+                                            <Text style={[t.textSemiBold, { color: colors.white }]} className="flex-1 text-center">
+                                                {buttons.save}
+                                            </Text>
+                                            <View className='w-9 h-9 justify-center items-center bg-white rounded-full'>
+                                                <ArrowRightIcon size={16} color={colors.warm_dark} />
+                                            </View>
+                                        </>
+                                    )}
                                 </Pressable>
                             </View>
                             <Pressable

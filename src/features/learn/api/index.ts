@@ -11,4 +11,5 @@ export * from './hereAndNow';
 export * from './wiseMind';
 export * from './validatingOthers';
 export * from './think';
+export * from './interpersonalGoals';
 

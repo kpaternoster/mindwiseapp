@@ -69,6 +69,10 @@ export const API_ENDPOINTS = {
   VALIDATION_PRACTICE_BY_ID: (id: string) => `${BASE_API_URL}/validation-practice/${id}`,
   THINK: `${BASE_API_URL}/think`,
   THINK_BY_ID: (id: string) => `${BASE_API_URL}/think/${id}`,
+  CLARIFY_YOUR_GOALS: `${BASE_API_URL}/clarify-your-goals`,
+  CLARIFY_YOUR_GOALS_BY_ID: (id: string) => `${BASE_API_URL}/clarify-your-goals/${id}`,
+  PLAN_YOUR_RESPONSE: `${BASE_API_URL}/plan-your-response`,
+  PLAN_YOUR_RESPONSE_BY_ID: (id: string) => `${BASE_API_URL}/plan-your-response/${id}`,
   GRACE: `${BASE_API_URL}/grace`,
   SIGN_COMMITMENT: `${BASE_API_URL}/sign-commitment`,
 } as const;

@@ -1,79 +1,124 @@
-import React, { useState } from 'react';
-import { View, ScrollView, StatusBar, Text } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, ScrollView, StatusBar, Text, ActivityIndicator } from 'react-native';
 import { colors } from '@design/color';
 import { t } from '@design/typography';
 import { useDissolveNavigation } from '@hooks/useDissolveNavigation';
 import { PageHeader, PlanYourResponseEntryCard, PlanYourResponseEntry } from '../components';
-
-// Mock data - TODO: Replace with actual data from storage/backend
-const mockEntries: PlanYourResponseEntry[] = [
-    {
-        id: '1',
-        date: '2025-11-06',
-        time: '04:25 PM',
-        reviewSituation: 'I need to have a conversation with my roommate about cleaning responsibilities.',
-        checkValuesAlignment: 'My goals align with my values because I value respect and shared responsibility.',
-        confirmGoalsAlignment: 'My objective, relationship, and self-respect goals work together by maintaining clear communication.',
-        planYourWords: 'I will say something like: "I wanted to talk with you about our cleaning schedule."',
-        planYourTone: 'I want to sound calm, confident, and respectful.',
-        desiredOutcome: 'Success would look like us agreeing on a fair cleaning schedule.',
-        backupPlan: 'If they react negatively, I will stay calm and suggest we revisit the conversation later.',
-        finalReflection: 'I feel confident about my plan and ready to have this conversation.',
-    },
-    {
-        id: '2',
-        date: '2025-11-06',
-        time: '04:25 PM',
-        reviewSituation: 'I need to discuss work-life balance with my manager.',
-        checkValuesAlignment: 'My goals align with my values because I value my well-being and professional growth.',
-        confirmGoalsAlignment: 'My goals work together by advocating for myself while maintaining a good working relationship.',
-        planYourWords: 'I will say something like: "I\'ve been thinking about how to better balance my workload."',
-        planYourTone: 'I want to sound professional, assertive, and collaborative.',
-        desiredOutcome: 'Success would look like my manager understanding my concerns and working with me on solutions.',
-        backupPlan: 'If they don\'t understand, I can provide specific examples of what\'s been challenging.',
-        finalReflection: 'I\'m a bit concerned about how they might react, but overall I think this plan will work.',
-    },
-    {
-        id: '3',
-        date: '2025-11-06',
-        time: '04:25 PM',
-        reviewSituation: 'I want to talk to my friend about feeling left out of group activities.',
-        checkValuesAlignment: 'My goals align with my values because I value friendship and open communication.',
-        confirmGoalsAlignment: 'My goals work together by expressing my feelings while preserving our friendship.',
-        planYourWords: 'I will say something like: "I wanted to talk with you about something that\'s been on my mind."',
-        planYourTone: 'I want to sound vulnerable, honest, and non-accusatory.',
-        desiredOutcome: 'Success would look like my friend understanding my feelings and us finding a way forward together.',
-        backupPlan: 'If they react defensively, I will acknowledge their perspective and focus on understanding.',
-        finalReflection: 'I feel confident about expressing my needs while being respectful of our friendship.',
-    },
-];
+import { 
+    fetchPlanYourResponseEntries, 
+    deletePlanYourResponseEntry, 
+    PlanYourResponseEntry as ApiPlanYourResponseEntry 
+} from '../api/interpersonalGoals';
 
 export default function PlanYourResponseEntriesScreen() {
     const { dissolveTo } = useDissolveNavigation();
-    const [entries, setEntries] = useState(mockEntries);
+    const [entries, setEntries] = useState<PlanYourResponseEntry[]>([]);
+    const [isLoading, setIsLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
+
+    // Transform API entry to component format
+    const transformApiEntry = (apiEntry: ApiPlanYourResponseEntry): PlanYourResponseEntry => {
+        const date = new Date(apiEntry.time * 1000);
+        const dateString = date.toISOString().split('T')[0]; // Extract date part (YYYY-MM-DD)
+        const timeString = date.toLocaleTimeString('en-US', { 
+            hour: '2-digit', 
+            minute: '2-digit',
+            hour12: true 
+        });
+        
+        return {
+            id: apiEntry.id,
+            date: dateString,
+            time: timeString,
+            reviewSituation: apiEntry.situation,
+            checkValuesAlignment: apiEntry.valuesAlignment,
+            confirmGoalsAlignment: apiEntry.goalsAlignment,
+            planYourWords: apiEntry.wordsPlan,
+            planYourTone: apiEntry.tonePlan,
+            desiredOutcome: apiEntry.desiredOutcome,
+            backupPlan: apiEntry.backupPlan,
+            finalReflection: apiEntry.reflection,
+        };
+    };
+
+    const loadEntries = async () => {
+        try {
+            setIsLoading(true);
+            setError(null);
+            const apiEntries = await fetchPlanYourResponseEntries();
+            
+            // Transform API entries to component format and sort by date (newest first)
+            const transformedEntries = apiEntries
+                .map(transformApiEntry)
+                .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+            
+            setEntries(transformedEntries);
+        } catch (err) {
+            console.error('Failed to load plan your response entries:', err);
+            setError('Failed to load entries. Please try again.');
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
+    useEffect(() => {
+        loadEntries();
+    }, []);
 
     const handleView = (entryId: string) => {
         // TODO: Navigate to Plan Your Response Entry Detail screen when created
         console.log('View entry:', entryId);
     };
 
-    const handleDelete = (entryId: string) => {
-        // TODO: Show confirmation dialog
-        // TODO: Delete from storage/backend
-        setEntries((prev) => prev.filter((entry) => entry.id !== entryId));
-        console.log('Delete entry:', entryId);
+    const handleDelete = async (id: string) => {
+        try {
+            // Optimistically update UI
+            setEntries((prev) => prev.filter((entry) => entry.id !== id));
+            
+            // Delete from API
+            await deletePlanYourResponseEntry(id);
+        } catch (err) {
+            console.error('Failed to delete entry:', err);
+            // Reload entries on error to restore the deleted entry
+            try {
+                await loadEntries();
+            } catch (reloadErr) {
+                console.error('Failed to reload entries:', reloadErr);
+            }
+            setError('Failed to delete entry. Please try again.');
+        }
     };
+
+    if (isLoading) {
+        return (
+            <View className="flex-1 pt-9" style={{ backgroundColor: colors.white }}>
+                <StatusBar barStyle="dark-content" backgroundColor={colors.white} />
+                <PageHeader title="Saved Entries" showHomeIcon={true} showLeafIcon={true} />
+                <View className="flex-1 items-center justify-center">
+                    <ActivityIndicator size="large" color={colors.Button_Orange} />
+                </View>
+            </View>
+        );
+    }
 
     return (
         <View className="flex-1 bg-white pt-9" style={{ backgroundColor: colors.white }}>
             <StatusBar barStyle="dark-content" backgroundColor={colors.white} />
-            <PageHeader title="Saved Practice Sessions" showHomeIcon={true} showLeafIcon={true} />
+            <PageHeader title="Saved Entries" showHomeIcon={true} showLeafIcon={true} />
 
             <ScrollView
                 className="flex-1 px-5"
                 showsVerticalScrollIndicator={false}
                 contentContainerStyle={{ paddingBottom: 24 }}
             >
+                {error && (
+                    <View className="mb-4 p-4 rounded-xl" style={{ backgroundColor: colors.red_50 }}>
+                        <Text style={[t.textRegular, { color: colors.red_light }]}>
+                            {error}
+                        </Text>
+                    </View>
+                )}
+
                 {entries.length === 0 ? (
                     <View className="items-center justify-center py-12">
                         <Text style={[t.textRegular, { color: colors.text_secondary }]}>
