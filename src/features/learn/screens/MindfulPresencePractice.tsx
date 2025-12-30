@@ -1,11 +1,12 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { View, ScrollView, StatusBar, Pressable, Text, TextInput, KeyboardAvoidingView, Platform } from 'react-native';
+import { View, ScrollView, StatusBar, Pressable, Text, TextInput, KeyboardAvoidingView, Platform, ActivityIndicator } from 'react-native';
 import { colors } from '@design/color';
 import { t } from '@design/typography';
 import { useDissolveNavigation } from '@hooks/useDissolveNavigation';
 import { PageHeader, IntroCard, TagButton } from '../components';
 import { UpIcon, DownIcon, ArrowRightIcon, CaretRightIcon, MonitorPlayIcon, ResetIcon, AudioPauseIcon, AudioIcon, PauseIcon, PlayIcon } from '@components/Utils';
 import mindfulPresencePracticeData from '../data/mindfulPresencePractice.json';
+import { createHereAndNowEntry } from '../api/hereAndNow';
 
 interface TimerState {
     isRunning: boolean;
@@ -177,6 +178,11 @@ export default function MindfulPresencePracticeScreen() {
     // Reflection
     const [reflectionInput, setReflectionInput] = useState('');
 
+    // API states
+    const [isSaving, setIsSaving] = useState(false);
+    const [error, setError] = useState<string | null>(null);
+    const [successMessage, setSuccessMessage] = useState<string | null>(null);
+
     const toggleSection = (sectionId: string) => {
         setExpandedSections((prev) => ({
             ...prev,
@@ -189,18 +195,56 @@ export default function MindfulPresencePracticeScreen() {
         setCustomObject('');
     };
 
-    const handleSave = () => {
-        // TODO: Save all data to storage/backend
-        const allData = {
-            bodyAwareness: bodyAwarenessInput,
-            selectedObject,
-            customObject,
-            objectObservation: objectObservationInput,
-            thoughtVisualization: thoughtVisualizationInput,
-            reflection: reflectionInput,
-        };
-        console.log('Saving Mindful Presence Practice data:', allData);
-        // TODO: Show success message or navigate
+    const handleSave = async () => {
+        // Clear previous messages
+        setError(null);
+        setSuccessMessage(null);
+
+        setIsSaving(true);
+
+        try {
+            // Determine the object value (use customObject if provided, otherwise selectedObject)
+            const objectValue = customObject.trim() || selectedObject;
+
+            // Map form data to API format
+            const entryData = {
+                body: bodyAwarenessInput.trim(),
+                object: objectValue,
+                observation: objectObservationInput.trim(),
+                thoughts: thoughtVisualizationInput.trim(),
+                reflection: reflectionInput.trim(),
+            };
+
+            // Save to API
+            await createHereAndNowEntry(entryData);
+
+            // Show success message
+            setSuccessMessage('Entry saved successfully!');
+
+            // Clear form after successful save
+            handleClearForm();
+
+            // Clear success message after 3 seconds
+            setTimeout(() => {
+                setSuccessMessage(null);
+            }, 3000);
+        } catch (err) {
+            console.error('Failed to save here and now entry:', err);
+            setError('Failed to save entry. Please try again.');
+        } finally {
+            setIsSaving(false);
+        }
+    };
+
+    const handleClearForm = () => {
+        setBodyAwarenessInput('');
+        setSelectedObject('');
+        setCustomObject('');
+        setObjectObservationInput('');
+        setThoughtVisualizationInput('');
+        setReflectionInput('');
+        setError(null);
+        setSuccessMessage(null);
     };
 
     const handleView = () => {
@@ -531,6 +575,24 @@ export default function MindfulPresencePracticeScreen() {
                                         multiline
                                     />
 
+                                    {/* Error Message */}
+                                    {error && (
+                                        <View className="mb-4 p-4 rounded-xl" style={{ backgroundColor: colors.red_50 }}>
+                                            <Text style={[t.textRegular, { color: colors.red_light }]}>
+                                                {error}
+                                            </Text>
+                                        </View>
+                                    )}
+
+                                    {/* Success Message */}
+                                    {successMessage && (
+                                        <View className="mb-4 p-4 rounded-xl" style={{ backgroundColor: colors.green_50 }}>
+                                            <Text style={[t.textRegular, { color: colors.green_500 }]}>
+                                                {successMessage}
+                                            </Text>
+                                        </View>
+                                    )}
+
                                     {/* View and Save Buttons */}
                                     <View className="flex-row gap-3 mt-4">
                                         <Pressable
@@ -545,12 +607,17 @@ export default function MindfulPresencePracticeScreen() {
 
                                         <Pressable
                                             className="flex-1 rounded-full py-3 px-3 items-center justify-center"
-                                            style={{ backgroundColor: colors.Button_Orange }}
+                                            style={{ backgroundColor: colors.Button_Orange, opacity: isSaving ? 0.6 : 1 }}
                                             onPress={handleSave}
+                                            disabled={isSaving}
                                         >
-                                            <Text style={[t.textSemiBold, { color: colors.white }]}>
-                                                {buttons.save}
-                                            </Text>
+                                            {isSaving ? (
+                                                <ActivityIndicator size="small" color={colors.white} />
+                                            ) : (
+                                                <Text style={[t.textSemiBold, { color: colors.white }]}>
+                                                    {buttons.save}
+                                                </Text>
+                                            )}
                                         </Pressable>
                                     </View>
                                 </View>

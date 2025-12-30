@@ -7,4 +7,5 @@ export * from './selfcareplease';
 export * from './selfcarereflection';
 export * from './checkTheFacts';
 export * from './middlePath';
+export * from './hereAndNow';
 
