@@ -289,7 +289,7 @@ export default function StrengthsResourcesScreen() {
                 </View>
 
                 {/* Main Triggers */}
-                {/* <View
+                <View
                     className="rounded-xl mb-4 border border-gray-200 pb-1"
                 >
                     <Pressable 
@@ -344,7 +344,7 @@ export default function StrengthsResourcesScreen() {
                             </View>
                         </View>
                     )}
-                </View> */}
+                </View>
 
                 {/* Support System */}
                 <View
