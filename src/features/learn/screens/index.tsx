@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, StyleSheet, Image, StatusBar, ScrollView } from "react-native";
+import { View, Text, StyleSheet, Image, StatusBar, ScrollView, ActivityIndicator } from "react-native";
 import { HomePage } from "@components/HomePage";
 import { colors } from "@design/color";
 import { t } from "@design/typography";
@@ -9,6 +9,7 @@ import { SkillCategoryCard } from "../components/SkillCategoryCard";
 import { LearningTipCard } from "../components/LearningTipCard";
 import { images } from "@design/image";
 import skillCategoriesData from "../data/skillCategories.json";
+import { fetchLearningProgress, LearningProgress } from "../api/learning";
 
 interface SkillCategory {
     id: string;
@@ -18,10 +19,24 @@ interface SkillCategory {
     progressPercentage: number;
 }
 
+// Map API broadCategory to category ID
+const mapBroadCategoryToId = (broadCategory: string): string => {
+    const mapping: { [key: string]: string } = {
+        'understand-emotions': '1',
+        'regulate-emotions': '2',
+        'be-mindful': '3',
+        'improve-interpersonal-effectiveness': '4',
+        'build-distress-tolerance': '5',
+        'build-self-love': '6',
+    };
+    return mapping[broadCategory] || '';
+};
+
 export default function Learn() {
     const [categories, setCategories] = useState<SkillCategory[]>([]);
     const [learningTip, setLearningTip] = useState<string>("");
     const [overallProgress, setOverallProgress] = useState(0);
+    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
         // Load data from JSON
@@ -37,14 +52,50 @@ export default function Learn() {
         }
     }, []);
 
-    // Calculate overall progress from all categories
+    // Fetch learning progress from API
     useEffect(() => {
-        if (categories.length > 0) {
-            const totalProgress = categories.reduce((sum, category) => sum + category.progressPercentage, 0);
-            const averageProgress = Math.round(totalProgress / categories.length);
-            setOverallProgress(averageProgress);
-        }
-    }, [categories]);
+        const loadLearningProgress = async () => {
+            try {
+                setIsLoading(true);
+                const progressData: LearningProgress = await fetchLearningProgress();
+                
+                // Update overall progress from API
+                const totalProgressPercentage = Math.round(progressData.totalProgress * 100);
+                setOverallProgress(totalProgressPercentage);
+                
+                // Update categories with progress from API
+                setCategories((prevCategories) => {
+                    return prevCategories.map((category) => {
+                        // Find matching broad category from API
+                        const broadCategory = progressData.broadCategories.find(
+                            (bc) => mapBroadCategoryToId(bc.broadCategory) === category.id
+                        );
+                        
+                        if (broadCategory) {
+                            // Calculate progress percentage
+                            const progressPercentage = broadCategory.numberOfCategories > 0
+                                ? Math.round((broadCategory.numberOfCategoriesCompleted / broadCategory.numberOfCategories) * 100)
+                                : 0;
+                            
+                            return {
+                                ...category,
+                                progressPercentage,
+                            };
+                        }
+                        
+                        return category;
+                    });
+                });
+            } catch (error) {
+                console.error("Error fetching learning progress:", error);
+                // Keep default values if API fails
+            } finally {
+                setIsLoading(false);
+            }
+        };
+
+        loadLearningProgress();
+    }, []);
 
     const { dissolveTo } = useDissolveNavigation();
 
@@ -110,9 +161,13 @@ export default function Learn() {
                         <Text style={[t.title16SemiBold, { color: colors.Text_Primary }]} className='mb-2'>
                             Your Learning Progress
                         </Text>
-                        <Text style={[t.title24SemiBold, { color: colors.orange_500 }]}>
-                            {progressPercentage}%
-                        </Text>
+                        {isLoading ? (
+                            <ActivityIndicator size="small" color={colors.orange_500} />
+                        ) : (
+                            <Text style={[t.title24SemiBold, { color: colors.orange_500 }]}>
+                                {progressPercentage}%
+                            </Text>
+                        )}
                     </View>
 
                     <View className="flex-row justify-between items-center mb-3">

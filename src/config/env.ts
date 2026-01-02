@@ -127,4 +127,6 @@ export const API_ENDPOINTS = {
   ROLE_PLAY_BY_ID: (id: string) => `${BASE_API_URL}/role-play/${id}`,
   GRACE: `${BASE_API_URL}/grace`,
   SIGN_COMMITMENT: `${BASE_API_URL}/sign-commitment`,
+  LEARNING_PROGRESS: `${BASE_API_URL}/learning-progress`,
+  LEARNING_PROGRESS_MARK_COMPLETED: (category: string) => `${BASE_API_URL}/learning-progress/${category}/mark-completed`,
 } as const;

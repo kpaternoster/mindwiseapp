@@ -26,4 +26,5 @@ export * from './radicalAcceptance';
 export * from './improve';
 export * from './selfSoothing';
 export * from './stop';
+export * from './learning';
 
