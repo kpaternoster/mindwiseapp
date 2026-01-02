@@ -278,7 +278,7 @@ const Home = () => {
                         <View style={styles.moduleContent}>
                             <Text style={[t.textSemiBold, styles.moduleTitle]}>Help</Text>
                             <Text style={[t.textRegular, styles.moduleDescription]}>
-                                Chat with Grace, your supportive companion
+                                Chat with Grace, your supportive {" "} companion
                             </Text>
                         </View>
                     </Pressable>

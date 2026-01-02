@@ -57,10 +57,10 @@ function TreatmentAssessmentContent() {
     const checkIfGoalsSelected = () => {
         // Check if any goals are selected
         const hasExpandedCategories = Object.values(expandedCategories).some(val => val);
-        const hasSafetySelected = selectedSafety.length > 0;
+        // const hasSafetySelected = selectedSafety.length > 0;
         const hasOtherGoalsSelected = hasOtherGoals && otherGoalsText.trim() !== '';
 
-        return hasExpandedCategories || hasSafetySelected || hasOtherGoalsSelected;
+        return hasExpandedCategories || hasOtherGoalsSelected;
     };
 
     const handleSeeTreatmentPlan = () => {
@@ -682,7 +682,7 @@ function TreatmentAssessmentContent() {
                         </View>
                     </Pressable>
 
-                    <Pressable
+                    {/* <Pressable
                         className="rounded-full py-4 px-6 items-center"
                         style={{
                             borderWidth: 1,
@@ -694,7 +694,7 @@ function TreatmentAssessmentContent() {
                         <Text style={[t.title16SemiBold, { color: colors.Text_Primary }]}>
                             See Treatment Plan
                         </Text>
-                    </Pressable>
+                    </Pressable> */}
                 </View>
             </ScrollView>
 

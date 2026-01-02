@@ -307,11 +307,9 @@ export default function GuidedChainAnalysisScreen() {
                             </Text>
                             {linksInChain.map((link, index) => (
                                 <View key={index} className="mb-3 flex-row items-start justify-between gap-2">
-                                    <View className="flex-row items-center mb-2">
-                                        <Text style={[t.textSemiBold, { color: colors.Text_Primary }]}>
-                                            #{index + 1}
-                                        </Text>
-                                    </View>
+                                    <Text style={[t.textSemiBold, { color: colors.Text_Primary }]}>
+                                        #{index + 1}
+                                    </Text>
                                     <TextInput
                                         value={link}
                                         onChangeText={(text) => handleLinkInChainChange(index, text)}
@@ -330,6 +328,7 @@ export default function GuidedChainAnalysisScreen() {
                                                 textAlignVertical: 'top',
                                             },
                                         ]}
+                                        className='flex-1'
                                         multiline
                                     />
                                 </View>
@@ -379,6 +378,7 @@ export default function GuidedChainAnalysisScreen() {
                                                 textAlignVertical: 'top',
                                             },
                                         ]}
+                                        className='flex-1'
                                         multiline
                                     />
                                 </View>
